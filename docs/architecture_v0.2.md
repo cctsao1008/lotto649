@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 5 complete (55/55 unit tests on user's Windows host): official 2,183-draw archive shows no reproducible one-step prediction advantage; Phase 6 forecast seal/verify/score research infrastructure implemented, fixture-based Windows validation pending. IID remains the default; no live forecast has been sealed.**
+Status: **Phase 6 seal/verify/score has passed 64/64 tests on the user's Windows host. Phase 6.1 adds a shadow-only bridge for recent official-site API draws; nine new unit tests and live API contract validation are pending. No real future forecast has been sealed or externally time-attested. IID remains the default.**
 
 ## Objective and non-goals
 
@@ -136,3 +136,12 @@ The Phase 4.2 reporting fix ensures a residual rejected on validation has exactl
 **Trust boundary:** Local timestamps and Git commit timestamps are not independent evidence that the seal existed before the draw. A third-party timestamped publication/attestation must be independently checked; the first implementation does not auto-verify this and never reports a prospectively verified status. The existing historical archive ends on 2026-10-30 and must be refreshed before any actual future seal. The program does not guess official draw dates or times.
 
 See [Phase 6 protocol](phase6_shadow_protocol.md), `tests/test_lotto_shadow.py`, and the explicit code/comment English-only convention. Model selection is not driven by historical test performance: IID is the default and other models are shadow comparators only. All forecasts are one-step, not a 1/3/12-month cumulative-hit estimator. `lotto_select.py` remains the final stage.
+
+
+## Phase 6.1: closing the monthly-data publication gap
+
+The official Taiwan Lottery annual-result download page says it updates on the fifth of each month through the **preceding month**. Consequently, a historical archive current to 2026-10-30 cannot automatically supply draws on 2026-11-03 and 2026-11-06 for a prospective forecast in early November. A community-documented, **unsupported internal API** at `api.taiwanlottery.com/TLCAPIWeB/Lottery/Lotto649Result` can supply recent monthly results, but its contract must be validated on the user's host.
+
+**`lotto_live_data.py`** offers `fetch` (preserves exact monthly API JSON) and `build` (strictly merges new validated draws into **separate** `data/shadow/sources/*.npy`, creates SHA-256 provenance manifest, checks old-period conflicts and missing Tuesday/Friday draws, never overwrites the monthly official archive). Financial fields absent from the API are explicitly zero **placeholders**, not authentic sales or prize data, in shadow-only rows. The historical analyzer's official data source remains untouched. See [Phase 6.1 protocol](phase6_recent_data_bridge.md) and `tests/test_lotto_live_data.py`.
+
+The new bridge does not prove an externally authenticated time of seal publication. No live forecast should be sealed until the latest official source, next actual drawing schedule, and independent timestamp method are verified. All added Python source comments and docstrings are English-only. `lotto_select.py` remains last.
