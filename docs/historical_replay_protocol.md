@@ -57,14 +57,16 @@ The key requirement for predictive value is reliable out-of-sample/prospective *
 cd D:\my-github\lotto649
 git pull origin main
 
-# Expected: 95 tests, compared with the 83 previously passed.
+# Expected: 96 tests, compared with the 83 previously passed.
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 
 # 2025 retrospective diagnostic; keep the existing 60/20 Phase 5 boundaries
 .\.venv\Scripts\python.exe .\lotto_replay.py `
     --source data/normalized/lotto649_base.npy `
     --year 2025 `
-    --rank-samples 50000
+    --rank-samples 50000 `
+    --show-model mlp `
+    --show-draws
 ```
 
 Expected output artifacts (not checked into Git):
@@ -107,3 +109,10 @@ The MLP's positive 2025 result did **not** persist across 2023, 2024, and 2026 i
 5. Keep Forecast #001 `d4a131ad6bc503bc7360eb680bab899318a84234` unchanged. The first genuinely future result can only be scored after official publication and external timing checks.
 
 All new code comments, docstrings and console output are English-only. Analysis and discussion with the user remain in Traditional Chinese.
+
+
+## Primary decision metric: exact complete six-number prediction
+
+The user requires **one whole six-number set exactly matching the drawn main six**. All 0–5 overlaps count as **FAIL**. In version 0.1.1, the CLI prints the four models' **exact 6/6 success counts and rates first**, with `--show-model mlp --show-draws` showing each historic full-six guess, actual result, and the literal PASS/FAIL result. Partial overlap and log-score outputs remain secondary diagnostics, never substitutes for exact complete-set prediction success.
+
+Existing `historical_replay_2025.json` already contains `summary_by_model[model].exact_six_matches` and each date's `models[model].exact_six_match`, so its old results can be summarized without retraining. The new reporting format requires one additional test, bringing the expected suite to 96.
