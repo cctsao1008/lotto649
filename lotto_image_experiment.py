@@ -120,7 +120,7 @@ def run_image_experiment(*, source: Path = SOURCE, year: int = 2025,
                          models: tuple[str, ...] = MODEL_NAMES,
                          seed: int = 649, mapping_seed: int = 649,
                          window: int = 5, hidden: int = 16,
-                         epochs: int = 20, patience: int = 5,
+                         epochs: int = 40, patience: int = 6,
                          batch_size: int = 128, lr: float = 0.005,
                          weight_decay: float = 0.02,
                          train_end: int = TRAIN_END,
@@ -281,8 +281,8 @@ def main() -> None:
     parser.add_argument("--mapping-seed", type=int, default=649)
     parser.add_argument("--window", type=int, default=5)
     parser.add_argument("--hidden", type=int, default=16)
-    parser.add_argument("--epochs", type=int, default=20)
-    parser.add_argument("--patience", type=int, default=5)
+    parser.add_argument("--epochs", type=int, default=40)
+    parser.add_argument("--patience", type=int, default=6)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--lr", type=float, default=0.005)
     parser.add_argument("--weight-decay", type=float, default=0.02)
