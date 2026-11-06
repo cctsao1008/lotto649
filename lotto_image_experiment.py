@@ -1,4 +1,4 @@
-"""Phase 7: controlled one-step learning on reversible 7x7 representations.
+"""ARCHIVED Phase 7: former exact-six neural image experiment.\n\nSUPERSEDED: the active image-pattern research entrypoint is\nlotto_pattern_replay.py in Phase 7B. This file remains available for\nhistorical reproducibility only and is not imported by Phase 7B.\n\nOriginal experiment:
 
 Each model returns canonical 49-number logits and is trained with the existing
 exact normalized six-subset likelihood. No output is a wagering recommendation.
@@ -271,6 +271,7 @@ def export_csv(report: dict, path: Path) -> None:
 
 
 def main() -> None:
+    print("[ARCHIVED] Exact-six neural experiment; use lotto_pattern_replay.py for Phase 7B.")
     parser = argparse.ArgumentParser(
         description="Phase 7 historical image-representation six-of-six experiment")
     parser.add_argument("--source", type=Path, default=SOURCE)
