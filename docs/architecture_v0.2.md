@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 4.2 ten-seed controls completed: MLE Echo outperforms legacy AdamW by +0.08862 nats on artificial lag-echo, with no consistent test gain from neural residual; Phase 5 real-history read-only log-score diagnostic implemented, Windows validation pending. No real-draw prediction advantage established.**
+Status: **Phase 5 complete (55/55 unit tests on user's Windows host): official 2,183-draw archive shows no reproducible one-step prediction advantage; Phase 6 forecast seal/verify/score research infrastructure implemented, fixture-based Windows validation pending. IID remains the default; no live forecast has been sealed.**
 
 ## Objective and non-goals
 
@@ -127,3 +127,12 @@ Generated experiment results are written to `data/neural/*.json`, excluded from 
 **`lotto_historical.py`** ingests the structured official `lotto649_base.npy` archive (date, draw ID, main six, special), validates and sorts the six main numbers, excludes special/bonus draws and records source SHA-256. It compares **IID, Static, Small MLP, and a train-only-fitted Lag model** under chronological 60/20/20 split. Model selection is fixed using **validation only**, and all candidates' untouched test-period scores are reported with descriptive moving-block bootstrap intervals and calendar-year breakdown. These are **one-step log-probability diagnostics**, not ticket advice or evidence of shorter full-set waiting time. Earlier historical exploration means the last 20% is not an uncontaminated prospective blind holdout. See [Phase 5 historical protocol](phase5_historical_protocol.md) and `tests/test_lotto_historical.py`.
 
 The Phase 4.2 reporting fix ensures a residual rejected on validation has exactly zero staged-minus-MLE diagnostic difference. All newly added source code comments and docstrings are English-only. `lotto_select.py` remains the final stage.
+
+
+## Phase 6: prospective shadow validation (infrastructure implemented, host validation pending)
+
+**`lotto_shadow.py`** creates a once-only, content-hashed forecast envelope for one specified future draw, storing four full 49-logit conditional distributions (IID, Static, Lag, MLP), official archive SHA-256 and a canonical date/ID/six-main-number history-prefix fingerprint, Git code revision, training settings and explicit future target date / declared pre-draw deadline. The program refuses old data (>7 calendar days by default), future draws in the source, rewritten history, skipped target draws, overwriting existing seals, and attempts to score before the declared deadline. It can compare the exact seal file bytes to a specified Git commit and produces per-model complete-subset log scores after the updated official target draw becomes available.
+
+**Trust boundary:** Local timestamps and Git commit timestamps are not independent evidence that the seal existed before the draw. A third-party timestamped publication/attestation must be independently checked; the first implementation does not auto-verify this and never reports a prospectively verified status. The existing historical archive ends on 2026-10-30 and must be refreshed before any actual future seal. The program does not guess official draw dates or times.
+
+See [Phase 6 protocol](phase6_shadow_protocol.md), `tests/test_lotto_shadow.py`, and the explicit code/comment English-only convention. Model selection is not driven by historical test performance: IID is the default and other models are shadow comparators only. All forecasts are one-step, not a 1/3/12-month cumulative-hit estimator. `lotto_select.py` remains the final stage.
