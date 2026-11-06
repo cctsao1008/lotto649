@@ -95,7 +95,7 @@ class HistoricalTopSixReplayTests(unittest.TestCase):
         self.assertEqual(frac, 0.5)
         self.assertTrue(error > 0)
         self.assertAlmostEqual(
-            1.0 + (TOTAL_SUBSETS - 1) * frac, (TOTAL_SUBSETS + 1) / 2)
+            0.5 + TOTAL_SUBSETS * frac, (TOTAL_SUBSETS + 1) / 2)
 
     def test_clear_best_subset_has_near_top_mc_rank(self):
         w = np.full(49, -100.0)
@@ -109,6 +109,9 @@ class HistoricalTopSixReplayTests(unittest.TestCase):
         self.assertAlmostEqual(
             lag_midrank_exact(beta=2.0, overlap=6),
             0.5 / TOTAL_SUBSETS, places=14)
+        self.assertAlmostEqual(
+            0.5 + TOTAL_SUBSETS * lag_midrank_exact(beta=2.0, overlap=6),
+            1.0, places=12)
         self.assertAlmostEqual(
             lag_midrank_exact(beta=-2.0, overlap=6),
             1.0 - 0.5 / TOTAL_SUBSETS, places=14)
