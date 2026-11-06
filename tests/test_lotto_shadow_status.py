@@ -29,7 +29,7 @@ def write_archive(path: Path, draws: np.ndarray, days: list[date]) -> None:
     ])
     arr = np.zeros(len(draws), dtype=dtype)
     for i, (numbers, day) in enumerate(zip(draws, days)):
-        arr[i]["draw_id"] = 115000041 + i
+        arr[i]["draw_id"] = 115000044 + i
         arr[i]["date"] = int(day.strftime("%Y%m%d"))
         arr[i]["numbers"] = numbers
         arr[i]["special"] = next(x for x in range(1, 50) if x not in numbers)
@@ -154,6 +154,31 @@ class ShadowReadinessTests(unittest.TestCase):
         self.assertEqual(result["manifest"]["api_snapshots"][0]["last_draw_date"],
                          20261110)
         self.assertTrue(result["manifest"]["api_snapshots"][0]["sha256_verified"])
+
+    def test_candidate_must_match_api_draw_numbers(self):
+        self.write_candidate()
+        snapshot = self.root / "raw_mismatch.json"
+        body = {"content": {"lotto649Res": [{
+            "period": "115000104",
+            "lotteryDate": "2026-11-10T00:00:00",
+            "drawNumberSize": [1, 2, 3, 4, 5, 6, 7],
+        }]}}
+        snapshot.write_text(json.dumps(body), encoding="utf-8")
+        record = {
+            "shadow_sha256": hashlib.sha256(self.candidate.read_bytes()).hexdigest(),
+            "original_draws": 60,
+            "staged_draws": 1,
+            "new_total": 61,
+            "last_added": {"date": 20261110, "draw_id": 115000104},
+            "api_snapshots": [{
+                "file": str(snapshot),
+                "sha256": hashlib.sha256(snapshot.read_bytes()).hexdigest(),
+                "records": 1,
+            }],
+        }
+        self.manifest.write_text(json.dumps(record), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "candidate conflicts with raw API"):
+            self.inspect(now=AFTER)
 
     def test_manifest_mismatch_refused(self):
         self.write_candidate()
