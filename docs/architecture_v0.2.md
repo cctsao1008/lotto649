@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0/1 tests passed on Windows; Phase 2 single-seed IID and fixed-bias runs completed by user; Phase 3 multi-seed robustness tools committed, host run pending. No real-draw predictive advantage established.**
+Status: **Phase 0/1/2 tests confirmed; Phase 3 passed 29 tests and completed 10-seed robustness on home PC; Phase 4 synthetic temporal-learning benchmark implemented, awaiting Windows tests/results. No real-draw prediction advantage established.**
 
 ## Objective and non-goals
 
@@ -105,3 +105,8 @@ Generated experiment results are written to `data/neural/*.json`, excluded from 
 ## Phase 3: multi-seed negative and positive controls
 
 **`lotto_robustness.py`** reuses the Phase 2 trainer on independently seeded IID and fixed-bias synthetic datasets. It records *all* test lifts, including negative results; computes per-seed paired MLP vs Static differences; summarizes the distribution across seeds using descriptive bootstrap intervals; and reports a clearly labeled, optimistically biased best-of-two *test* diagnostic to illustrate why choosing models after seeing test outcomes is invalid. Synthetic oracle parameters are never written into the input file presented to the learner. **`tests/test_lotto_robustness.py`** checks statistical summaries, reproducibility and oracle isolation. See [Phase 3 experiment protocol](phase3_robustness_protocol.md) for full Windows commands and interpretation gates. **This is still one-step synthetic prediction, not prospective lottery outcome prediction or ticket selection.**
+
+
+## Phase 4: time-dependent synthetic positive control (implemented; host validation pending)
+
+**`lotto_temporal.py`** introduces exact Markov lag-echo sampling where `P(S_t|S_(t-1))` increases exponentially with the count of repeated numbers. Model sees previously observed draws only, never oracle parameters. On a separate seed range, compare IID, Static, Small MLP and a train-only estimated one-parameter lag model. MLP need not outperform this correctly specified lag baseline; whether it improves on time-independent Static demonstrates whether the neural architecture captures the synthetic temporal dependency. It uses the Phase 2 trainer unchanged and reports all seed-level outcomes. **`tests/test_lotto_temporal.py`** verifies exact overlap law, independence at zero coupling, causal fitting, reproducibility and oracle isolation. See [Phase 4 protocol](phase4_temporal_protocol.md). No 1/3/12-month forecasting and no final selection implementation.
