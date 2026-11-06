@@ -1,0 +1,1554 @@
+========================================================================
+FILE: lotto649_2007.parquet
+ROWS: 104
+TYPE: base
+SOURCE: 96/大樂透_2007.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 104}
+
+field_01   nonempty=   104/104    distinct=1      examples=['大樂透']
+field_02   nonempty=   104/104    distinct=104    examples=['96000001', '96000002', '96000003', '96000004', '96000005']
+field_03   nonempty=   104/104    distinct=104    examples=['2007/01/02', '2007/01/05', '2007/01/09', '2007/01/12', '2007/01/16']
+field_04   nonempty=   104/104    distinct=104    examples=['142307900', '154604350', '160225100', '181952450', '196840750']
+field_05   nonempty=   104/104    distinct=104    examples=['2846158', '3092087', '3204502', '3639049', '3936815']
+field_06   nonempty=   104/104    distinct=104    examples=['78269345', '118929329', '164817501', '208800728', '260180412']
+field_07   nonempty=   104/104    distinct=22     examples=['13', '12', '26', '10', '06']
+field_08   nonempty=   104/104    distinct=30     examples=['21', '19', '28', '16', '26']
+field_09   nonempty=   104/104    distinct=34     examples=['23', '35', '26', '33', '27']
+field_10   nonempty=   104/104    distinct=30     examples=['27', '42', '39', '28', '38']
+field_11   nonempty=   104/104    distinct=31     examples=['31', '44', '43', '45', '36']
+field_12   nonempty=   104/104    distinct=23     examples=['49', '48', '45', '33', '46']
+field_13   nonempty=   104/104    distinct=42     examples=['19', '33', '18', '44', '04']
+field_14   nonempty=     0/104    distinct=0      examples=[]
+field_15   nonempty=     0/104    distinct=0      examples=[]
+field_16   nonempty=     0/104    distinct=0      examples=[]
+field_17   nonempty=     0/104    distinct=0      examples=[]
+field_18   nonempty=     0/104    distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '96000001'
+    field_03: '2007/01/02'
+    field_04: '142307900'
+    field_05: '2846158'
+    field_06: '78269345'
+    field_07: '13'
+    field_08: '21'
+    field_09: '23'
+    field_10: '27'
+    field_11: '31'
+    field_12: '49'
+    field_13: '19'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '大樂透'
+    field_02: '96000002'
+    field_03: '2007/01/05'
+    field_04: '154604350'
+    field_05: '3092087'
+    field_06: '118929329'
+    field_07: '12'
+    field_08: '19'
+    field_09: '23'
+    field_10: '42'
+    field_11: '44'
+    field_12: '48'
+    field_13: '33'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '大樂透'
+    field_02: '96000003'
+    field_03: '2007/01/09'
+    field_04: '160225100'
+    field_05: '3204502'
+    field_06: '164817501'
+    field_07: '26'
+    field_08: '28'
+    field_09: '35'
+    field_10: '39'
+    field_11: '44'
+    field_12: '45'
+    field_13: '18'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_2008.parquet
+ROWS: 105
+TYPE: base
+SOURCE: 97/大樂透_2008.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 105}
+
+field_01   nonempty=   105/105    distinct=1      examples=['大樂透']
+field_02   nonempty=   105/105    distinct=105    examples=['97000001', '97000002', '97000003', '97000004', '97000005']
+field_03   nonempty=   105/105    distinct=105    examples=['2008/01/01', '2008/01/04', '2008/01/08', '2008/01/11', '2008/01/15']
+field_04   nonempty=   105/105    distinct=105    examples=['154936500', '206493950', '184121700', '209608150', '185077350']
+field_05   nonempty=   105/105    distinct=105    examples=['3098730', '4129879', '3682434', '4192163', '3701547']
+field_06   nonempty=   105/105    distinct=105    examples=['85215075', '164806159', '101266935', '155232176', '190733695']
+field_07   nonempty=   105/105    distinct=19     examples=['13', '05', '03', '06', '09']
+field_08   nonempty=   105/105    distinct=29     examples=['18', '13', '07', '08', '04']
+field_09   nonempty=   105/105    distinct=32     examples=['27', '29', '12', '08', '10']
+field_10   nonempty=   105/105    distinct=38     examples=['43', '31', '17', '27', '25']
+field_11   nonempty=   105/105    distinct=31     examples=['47', '39', '28', '37', '32']
+field_12   nonempty=   105/105    distinct=22     examples=['48', '40', '44', '49', '41']
+field_13   nonempty=   105/105    distinct=45     examples=['21', '33', '36', '48', '11']
+field_14   nonempty=     0/105    distinct=0      examples=[]
+field_15   nonempty=     0/105    distinct=0      examples=[]
+field_16   nonempty=     0/105    distinct=0      examples=[]
+field_17   nonempty=     0/105    distinct=0      examples=[]
+field_18   nonempty=     0/105    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2009.parquet
+ROWS: 104
+TYPE: base
+SOURCE: 98/大樂透_2009.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 104}
+
+field_01   nonempty=   104/104    distinct=1      examples=['大樂透']
+field_02   nonempty=   104/104    distinct=104    examples=['98000001', '98000002', '98000003', '98000004', '98000005']
+field_03   nonempty=   104/104    distinct=104    examples=['2009/01/02', '2009/01/06', '2009/01/09', '2009/01/13', '2009/01/16']
+field_04   nonempty=   104/104    distinct=104    examples=['136506600', '158428900', '156838200', '147875550', '167859250']
+field_05   nonempty=   104/104    distinct=104    examples=['2730132', '3168578', '3136764', '2957511', '3357185']
+field_06   nonempty=   104/104    distinct=104    examples=['108020904', '152183416', '86261010', '124136785', '176091855']
+field_07   nonempty=   104/104    distinct=17     examples=['02', '04', '08', '07', '10']
+field_08   nonempty=   104/104    distinct=29     examples=['06', '15', '11', '24', '21']
+field_09   nonempty=   104/104    distinct=32     examples=['23', '20', '27', '18', '25']
+field_10   nonempty=   104/104    distinct=34     examples=['26', '21', '30', '33', '23']
+field_11   nonempty=   104/104    distinct=27     examples=['35', '29', '37', '47', '33']
+field_12   nonempty=   104/104    distinct=23     examples=['38', '33', '45', '48', '40']
+field_13   nonempty=   104/104    distinct=44     examples=['11', '16', '19', '30', '13']
+field_14   nonempty=     0/104    distinct=0      examples=[]
+field_15   nonempty=     0/104    distinct=0      examples=[]
+field_16   nonempty=     0/104    distinct=0      examples=[]
+field_17   nonempty=     0/104    distinct=0      examples=[]
+field_18   nonempty=     0/104    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2010.parquet
+ROWS: 105
+TYPE: base
+SOURCE: 99/大樂透_2010.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 105}
+
+field_01   nonempty=   105/105    distinct=1      examples=['大樂透']
+field_02   nonempty=   105/105    distinct=105    examples=['99000001', '99000002', '99000003', '99000004', '99000005']
+field_03   nonempty=   105/105    distinct=105    examples=['2010/01/01', '2010/01/05', '2010/01/08', '2010/01/12', '2010/01/15']
+field_04   nonempty=   105/105    distinct=105    examples=['145613250', '140110100', '150752550', '154838800', '183236100']
+field_05   nonempty=   105/105    distinct=105    examples=['2912265', '2802202', '3015051', '3096776', '3664722']
+field_06   nonempty=   105/105    distinct=105    examples=['122751784', '142239263', '179864171', '216136440', '274469290']
+field_07   nonempty=   105/105    distinct=22     examples=['02', '11', '01', '04', '13']
+field_08   nonempty=   105/105    distinct=29     examples=['16', '18', '08', '23', '07']
+field_09   nonempty=   105/105    distinct=32     examples=['20', '24', '19', '34', '26']
+field_10   nonempty=   105/105    distinct=31     examples=['22', '32', '21', '36', '41']
+field_11   nonempty=   105/105    distinct=28     examples=['23', '38', '43', '46', '47']
+field_12   nonempty=   105/105    distinct=19     examples=['27', '40', '45', '48', '49']
+field_13   nonempty=   105/105    distinct=45     examples=['46', '47', '30', '18', '03']
+field_14   nonempty=     0/105    distinct=0      examples=[]
+field_15   nonempty=     0/105    distinct=0      examples=[]
+field_16   nonempty=     0/105    distinct=0      examples=[]
+field_17   nonempty=     0/105    distinct=0      examples=[]
+field_18   nonempty=     0/105    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2011.parquet
+ROWS: 104
+TYPE: base
+SOURCE: 100/大樂透_2011.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 104}
+
+field_01   nonempty=   104/104    distinct=1      examples=['大樂透']
+field_02   nonempty=   104/104    distinct=104    examples=['100000001', '100000002', '100000003', '100000004', '100000005']
+field_03   nonempty=   104/104    distinct=104    examples=['2011/01/04', '2011/01/07', '2011/01/11', '2011/01/14', '2011/01/18']
+field_04   nonempty=   104/104    distinct=104    examples=['145916700', '146355650', '128881900', '153902000', '150117700']
+field_05   nonempty=   104/104    distinct=104    examples=['2918334', '2927113', '2577638', '3078040', '3002354']
+field_06   nonempty=   104/104    distinct=104    examples=['191858011', '96000233', '105794321', '146447682', '186619666']
+field_07   nonempty=   104/104    distinct=22     examples=['14', '11', '07', '16', '15']
+field_08   nonempty=   104/104    distinct=32     examples=['19', '13', '10', '17', '38']
+field_09   nonempty=   104/104    distinct=35     examples=['23', '34', '11', '20', '40']
+field_10   nonempty=   104/104    distinct=29     examples=['35', '12', '32', '42', '37']
+field_11   nonempty=   104/104    distinct=28     examples=['37', '47', '14', '39', '46']
+field_12   nonempty=   104/104    distinct=23     examples=['47', '49', '20', '45', '43']
+field_13   nonempty=   104/104    distinct=42     examples=['42', '20', '41', '46', '17']
+field_14   nonempty=     0/104    distinct=0      examples=[]
+field_15   nonempty=     0/104    distinct=0      examples=[]
+field_16   nonempty=     0/104    distinct=0      examples=[]
+field_17   nonempty=     0/104    distinct=0      examples=[]
+field_18   nonempty=     0/104    distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '100000001'
+    field_03: '2011/01/04'
+    field_04: '145916700'
+    field_05: '2918334'
+    field_06: '191858011'
+    field_07: '14'
+    field_08: '19'
+    field_09: '23'
+    field_10: '35'
+    field_11: '37'
+    field_12: '47'
+    field_13: '42'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '大樂透'
+    field_02: '100000002'
+    field_03: '2011/01/07'
+    field_04: '146355650'
+    field_05: '2927113'
+    field_06: '96000233'
+    field_07: '11'
+    field_08: '13'
+    field_09: '34'
+    field_10: '35'
+    field_11: '47'
+    field_12: '49'
+    field_13: '20'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '大樂透'
+    field_02: '100000003'
+    field_03: '2011/01/11'
+    field_04: '128881900'
+    field_05: '2577638'
+    field_06: '105794321'
+    field_07: '07'
+    field_08: '10'
+    field_09: '11'
+    field_10: '12'
+    field_11: '14'
+    field_12: '20'
+    field_13: '41'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_2012.parquet
+ROWS: 104
+TYPE: base
+SOURCE: 101/大樂透_2012.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 104}
+
+field_01   nonempty=   104/104    distinct=1      examples=['大樂透']
+field_02   nonempty=   104/104    distinct=104    examples=['101000001', '101000002', '101000003', '101000004', '101000005']
+field_03   nonempty=   104/104    distinct=104    examples=['2012/01/03', '2012/01/06', '2012/01/10', '2012/01/13', '2012/01/17']
+field_04   nonempty=   104/104    distinct=104    examples=['467073350', '540908850', '156275800', '171340800', '183504400']
+field_05   nonempty=   104/104    distinct=104    examples=['9341467', '10818177', '3125516', '3426816', '3670088']
+field_06   nonempty=   104/104    distinct=104    examples=['670738738', '819369865', '149375562', '99913046', '140363035']
+field_07   nonempty=   104/104    distinct=21     examples=['09', '10', '03', '22', '04']
+field_08   nonempty=   104/104    distinct=31     examples=['19', '14', '21', '36', '10']
+field_09   nonempty=   104/104    distinct=35     examples=['26', '23', '42', '22', '29']
+field_10   nonempty=   104/104    distinct=33     examples=['34', '35', '27', '43', '30']
+field_11   nonempty=   104/104    distinct=29     examples=['38', '41', '45', '46', '42']
+field_12   nonempty=   104/104    distinct=20     examples=['40', '46', '47', '48', '44']
+field_13   nonempty=   104/104    distinct=41     examples=['37', '19', '40', '21', '32']
+field_14   nonempty=     0/104    distinct=0      examples=[]
+field_15   nonempty=     0/104    distinct=0      examples=[]
+field_16   nonempty=     0/104    distinct=0      examples=[]
+field_17   nonempty=     0/104    distinct=0      examples=[]
+field_18   nonempty=     0/104    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2013.parquet
+ROWS: 108
+TYPE: base
+SOURCE: 102/大樂透_2013.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 108}
+
+field_01   nonempty=   108/108    distinct=1      examples=['大樂透']
+field_02   nonempty=   108/108    distinct=108    examples=['102000001', '102000002', '102000003', '102000004', '102000005']
+field_03   nonempty=   108/108    distinct=108    examples=['2013/01/01', '2013/01/04', '2013/01/08', '2013/01/11', '2013/01/15']
+field_04   nonempty=   108/108    distinct=108    examples=['114166550', '129176100', '125268450', '140929600', '140047200']
+field_05   nonempty=   108/108    distinct=108    examples=['2283331', '2583522', '2505369', '2818592', '2800944']
+field_06   nonempty=   108/108    distinct=108    examples=['151651086', '75219669', '98329546', '134797358', '167434144']
+field_07   nonempty=   108/108    distinct=18     examples=['03', '01', '05', '02', '22']
+field_08   nonempty=   108/108    distinct=26     examples=['04', '07', '06', '10', '08']
+field_09   nonempty=   108/108    distinct=32     examples=['22', '24', '14', '32', '30']
+field_10   nonempty=   108/108    distinct=34     examples=['32', '31', '19', '33', '34']
+field_11   nonempty=   108/108    distinct=30     examples=['33', '35', '27', '44', '37']
+field_12   nonempty=   108/108    distinct=23     examples=['49', '47', '33', '48', '46']
+field_13   nonempty=   108/108    distinct=48     examples=['21', '31', '37', '14', '24']
+field_14   nonempty=     0/108    distinct=0      examples=[]
+field_15   nonempty=     0/108    distinct=0      examples=[]
+field_16   nonempty=     0/108    distinct=0      examples=[]
+field_17   nonempty=     0/108    distinct=0      examples=[]
+field_18   nonempty=     0/108    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2014.parquet
+ROWS: 108
+TYPE: base
+SOURCE: 2014/大樂透_2014.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 108}
+
+field_01   nonempty=   108/108    distinct=1      examples=['大樂透']
+field_02   nonempty=   108/108    distinct=108    examples=['103000001', '103000002', '103000003', '103000004', '103000005']
+field_03   nonempty=   108/108    distinct=108    examples=['2014/01/03', '2014/01/07', '2014/01/10', '2014/01/14', '2014/01/17']
+field_04   nonempty=   108/108    distinct=108    examples=['146792850', '132190750', '140617450', '128619400', '141157800']
+field_05   nonempty=   108/108    distinct=108    examples=['2935857', '2643815', '2812349', '2572388', '2823156']
+field_06   nonempty=   108/108    distinct=108    examples=['80736067', '106318850', '149849635', '70740670', '108354326']
+field_07   nonempty=   108/108    distinct=23     examples=['11', '01', '07', '02', '13']
+field_08   nonempty=   108/108    distinct=32     examples=['18', '07', '17', '11', '15']
+field_09   nonempty=   108/108    distinct=32     examples=['20', '21', '19', '22', '05']
+field_10   nonempty=   108/108    distinct=34     examples=['21', '25', '30', '41', '26']
+field_11   nonempty=   108/108    distinct=33     examples=['35', '32', '45', '29', '43']
+field_12   nonempty=   108/108    distinct=21     examples=['37', '36', '49', '44', '45']
+field_13   nonempty=   108/108    distinct=44     examples=['08', '39', '03', '26', '37']
+field_14   nonempty=     0/108    distinct=0      examples=[]
+field_15   nonempty=     0/108    distinct=0      examples=[]
+field_16   nonempty=     0/108    distinct=0      examples=[]
+field_17   nonempty=     0/108    distinct=0      examples=[]
+field_18   nonempty=     0/108    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2015.parquet
+ROWS: 109
+TYPE: base
+SOURCE: 2015/大樂透_2015.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 109}
+
+field_01   nonempty=   109/109    distinct=1      examples=['大樂透']
+field_02   nonempty=   109/109    distinct=109    examples=['104000001', '104000002', '104000003', '104000004', '104000005']
+field_03   nonempty=   109/109    distinct=109    examples=['2015/01/02', '2015/01/06', '2015/01/09', '2015/01/13', '2015/01/16']
+field_04   nonempty=   109/109    distinct=109    examples=['155706550', '189137700', '236369500', '118302200', '114578150']
+field_05   nonempty=   109/109    distinct=109    examples=['3114131', '3782754', '4727390', '2366044', '2291563']
+field_06   nonempty=   109/109    distinct=109    examples=['289411837', '339303949', '408289487', '65066210', '93243863']
+field_07   nonempty=   109/109    distinct=23     examples=['13', '11', '07', '02', '09']
+field_08   nonempty=   109/109    distinct=28     examples=['22', '16', '08', '14', '17']
+field_09   nonempty=   109/109    distinct=33     examples=['23', '29', '18', '16', '28']
+field_10   nonempty=   109/109    distinct=34     examples=['29', '30', '21', '22', '32']
+field_11   nonempty=   109/109    distinct=31     examples=['31', '37', '23', '38', '45']
+field_12   nonempty=   109/109    distinct=23     examples=['48', '43', '24', '46', '47']
+field_13   nonempty=   109/109    distinct=43     examples=['06', '13', '11', '49', '48']
+field_14   nonempty=     0/109    distinct=0      examples=[]
+field_15   nonempty=     0/109    distinct=0      examples=[]
+field_16   nonempty=     0/109    distinct=0      examples=[]
+field_17   nonempty=     0/109    distinct=0      examples=[]
+field_18   nonempty=     0/109    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2016.parquet
+ROWS: 111
+TYPE: base
+SOURCE: 2016/大樂透_2016.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 111}
+
+field_01   nonempty=   111/111    distinct=1      examples=['大樂透']
+field_02   nonempty=   111/111    distinct=111    examples=['105000001', '105000002', '105000003', '105000004', '105000005']
+field_03   nonempty=   111/111    distinct=111    examples=['2016/01/01', '2016/01/05', '2016/01/08', '2016/01/12', '2016/01/15']
+field_04   nonempty=   111/111    distinct=111    examples=['88202800', '89421200', '91812850', '91661100', '89039900']
+field_05   nonempty=   111/111    distinct=111    examples=['1764056', '1788424', '1836257', '1833222', '1780798']
+field_06   nonempty=   111/111    distinct=111    examples=['86412039', '131818567', '51924170', '70018679', '89637376']
+field_07   nonempty=   111/111    distinct=21     examples=['16', '01', '03', '05', '06']
+field_08   nonempty=   111/111    distinct=30     examples=['19', '03', '10', '15', '11']
+field_09   nonempty=   111/111    distinct=32     examples=['24', '07', '13', '18', '16']
+field_10   nonempty=   111/111    distinct=30     examples=['29', '15', '28', '39', '17']
+field_11   nonempty=   111/111    distinct=26     examples=['41', '25', '44', '40', '27']
+field_12   nonempty=   111/111    distinct=20     examples=['43', '33', '48', '44', '42']
+field_13   nonempty=   111/111    distinct=44     examples=['32', '21', '01', '37', '35']
+field_14   nonempty=     0/111    distinct=0      examples=[]
+field_15   nonempty=     0/111    distinct=0      examples=[]
+field_16   nonempty=     0/111    distinct=0      examples=[]
+field_17   nonempty=     0/111    distinct=0      examples=[]
+field_18   nonempty=     0/111    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2017.parquet
+ROWS: 108
+TYPE: base
+SOURCE: 2017/大樂透_2017.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 108}
+
+field_01   nonempty=   108/108    distinct=1      examples=['大樂透']
+field_02   nonempty=   108/108    distinct=108    examples=['106000001', '106000002', '106000003', '106000004', '106000005']
+field_03   nonempty=   108/108    distinct=108    examples=['2017/01/03', '2017/01/06', '2017/01/10', '2017/01/13', '2017/01/17']
+field_04   nonempty=   108/108    distinct=108    examples=['105955200', '114286950', '96044700', '93157400', '96864600']
+field_05   nonempty=   108/108    distinct=108    examples=['2119104', '2285739', '1920894', '1863148', '1937292']
+field_06   nonempty=   108/108    distinct=108    examples=['222109792', '251941902', '54944266', '73016985', '95686599']
+field_07   nonempty=   108/108    distinct=21     examples=['18', '12', '04', '14', '01']
+field_08   nonempty=   108/108    distinct=28     examples=['22', '14', '13', '19', '12']
+field_09   nonempty=   108/108    distinct=35     examples=['41', '32', '14', '21', '17']
+field_10   nonempty=   108/108    distinct=31     examples=['42', '35', '37', '25', '28']
+field_11   nonempty=   108/108    distinct=30     examples=['47', '40', '39', '27', '34']
+field_12   nonempty=   108/108    distinct=22     examples=['49', '43', '46', '38', '40']
+field_13   nonempty=   108/108    distinct=44     examples=['45', '17', '31', '22', '07']
+field_14   nonempty=     0/108    distinct=0      examples=[]
+field_15   nonempty=     0/108    distinct=0      examples=[]
+field_16   nonempty=     0/108    distinct=0      examples=[]
+field_17   nonempty=     0/108    distinct=0      examples=[]
+field_18   nonempty=     0/108    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2018.parquet
+ROWS: 108
+TYPE: base
+SOURCE: 2018/大樂透_201801_201812.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 108}
+
+field_01   nonempty=   108/108    distinct=1      examples=['大樂透']
+field_02   nonempty=   108/108    distinct=108    examples=['107000001', '107000002', '107000003', '107000004', '107000005']
+field_03   nonempty=   108/108    distinct=108    examples=['2018/01/02', '2018/01/05', '2018/01/09', '2018/01/12', '2018/01/16']
+field_04   nonempty=   108/108    distinct=108    examples=['169903800', '94586650', '83949200', '95294600', '99971250']
+field_05   nonempty=   108/108    distinct=108    examples=['3398076', '1891733', '1678984', '1905892', '1999425']
+field_06   nonempty=   108/108    distinct=108    examples=['450504302', '52968524', '69448004', '91733657', '137753420']
+field_07   nonempty=   108/108    distinct=19     examples=['02', '04', '01', '08', '07']
+field_08   nonempty=   108/108    distinct=28     examples=['06', '13', '10', '07', '26']
+field_09   nonempty=   108/108    distinct=30     examples=['12', '17', '22', '14', '29']
+field_10   nonempty=   108/108    distinct=31     examples=['18', '29', '23', '22', '32']
+field_11   nonempty=   108/108    distinct=28     examples=['36', '31', '24', '40', '26']
+field_12   nonempty=   108/108    distinct=19     examples=['46', '44', '37', '45', '39']
+field_13   nonempty=   108/108    distinct=46     examples=['47', '14', '42', '29', '23']
+field_14   nonempty=     0/108    distinct=0      examples=[]
+field_15   nonempty=     0/108    distinct=0      examples=[]
+field_16   nonempty=     0/108    distinct=0      examples=[]
+field_17   nonempty=     0/108    distinct=0      examples=[]
+field_18   nonempty=     0/108    distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '107000001'
+    field_03: '2018/01/02'
+    field_04: '169903800'
+    field_05: '3398076'
+    field_06: '450504302'
+    field_07: '02'
+    field_08: '06'
+    field_09: '12'
+    field_10: '18'
+    field_11: '36'
+    field_12: '46'
+    field_13: '47'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '大樂透'
+    field_02: '107000002'
+    field_03: '2018/01/05'
+    field_04: '94586650'
+    field_05: '1891733'
+    field_06: '52968524'
+    field_07: '04'
+    field_08: '13'
+    field_09: '17'
+    field_10: '29'
+    field_11: '31'
+    field_12: '44'
+    field_13: '14'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '大樂透'
+    field_02: '107000003'
+    field_03: '2018/01/09'
+    field_04: '83949200'
+    field_05: '1678984'
+    field_06: '69448004'
+    field_07: '02'
+    field_08: '10'
+    field_09: '22'
+    field_10: '23'
+    field_11: '24'
+    field_12: '37'
+    field_13: '42'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_2019.parquet
+ROWS: 112
+TYPE: base
+SOURCE: 2019/大樂透_2019.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 112}
+
+field_01   nonempty=   112/112    distinct=1      examples=['大樂透']
+field_02   nonempty=   112/112    distinct=112    examples=['108000001', '108000002', '108000003', '108000004', '108000005']
+field_03   nonempty=   112/112    distinct=112    examples=['2019/01/01', '2019/01/04', '2019/01/08', '2019/01/11', '2019/01/15']
+field_04   nonempty=   112/112    distinct=112    examples=['91627350', '95802100', '99581100', '106519050', '109107550']
+field_05   nonempty=   112/112    distinct=112    examples=['1832547', '1916042', '1991622', '2130381', '2182151']
+field_06   nonempty=   112/112    distinct=112    examples=['112561368', '135747495', '158928531', '187871333', '209734051']
+field_07   nonempty=   112/112    distinct=18     examples=['18', '06', '04', '13', '12']
+field_08   nonempty=   112/112    distinct=28     examples=['23', '07', '19', '20', '05']
+field_09   nonempty=   112/112    distinct=31     examples=['24', '08', '21', '22', '30']
+field_10   nonempty=   112/112    distinct=31     examples=['25', '20', '28', '31', '38']
+field_11   nonempty=   112/112    distinct=26     examples=['39', '47', '34', '40', '42']
+field_12   nonempty=   112/112    distinct=19     examples=['42', '48', '43', '41', '45']
+field_13   nonempty=   112/112    distinct=45     examples=['48', '30', '18', '09', '10']
+field_14   nonempty=     0/112    distinct=0      examples=[]
+field_15   nonempty=     0/112    distinct=0      examples=[]
+field_16   nonempty=     0/112    distinct=0      examples=[]
+field_17   nonempty=     0/112    distinct=0      examples=[]
+field_18   nonempty=     0/112    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2020.parquet
+ROWS: 112
+TYPE: base
+SOURCE: 2020/大樂透_202001_202012.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 112}
+
+field_01   nonempty=   112/112    distinct=1      examples=['大樂透']
+field_02   nonempty=   112/112    distinct=112    examples=['109000001', '109000002', '109000003', '109000004', '109000005']
+field_03   nonempty=   112/112    distinct=112    examples=['2020/01/03', '2020/01/07', '2020/01/10', '2020/01/14', '2020/01/17']
+field_04   nonempty=   112/112    distinct=112    examples=['112729500', '117529800', '121991550', '125272850', '101544800']
+field_05   nonempty=   112/112    distinct=112    examples=['2254590', '2350596', '2439831', '2505457', '2030896']
+field_06   nonempty=   112/112    distinct=112    examples=['217079550', '248835825', '266131509', '290316408', '56865088']
+field_07   nonempty=   112/112    distinct=19     examples=['16', '01', '04', '07', '17']
+field_08   nonempty=   112/112    distinct=32     examples=['18', '05', '07', '20', '09']
+field_09   nonempty=   112/112    distinct=34     examples=['19', '08', '12', '34', '20']
+field_10   nonempty=   112/112    distinct=35     examples=['29', '15', '17', '37', '42']
+field_11   nonempty=   112/112    distinct=29     examples=['30', '16', '33', '38', '44']
+field_12   nonempty=   112/112    distinct=22     examples=['47', '38', '45', '48', '44']
+field_13   nonempty=   112/112    distinct=47     examples=['10', '07', '11', '18', '08']
+field_14   nonempty=     0/112    distinct=0      examples=[]
+field_15   nonempty=     0/112    distinct=0      examples=[]
+field_16   nonempty=     0/112    distinct=0      examples=[]
+field_17   nonempty=     0/112    distinct=0      examples=[]
+field_18   nonempty=     0/112    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2021.parquet
+ROWS: 114
+TYPE: base
+SOURCE: 2021/大樂透_2021.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 114}
+
+field_01   nonempty=   114/114    distinct=1      examples=['大樂透']
+field_02   nonempty=   114/114    distinct=114    examples=['110000001', '110000002', '110000003', '110000004', '110000005']
+field_03   nonempty=   114/114    distinct=114    examples=['2021/01/01', '2021/01/05', '2021/01/08', '2021/01/12', '2021/01/15']
+field_04   nonempty=   114/114    distinct=114    examples=['103412200', '108684300', '103188250', '112253250', '121379850']
+field_05   nonempty=   114/114    distinct=114    examples=['2068244', '2173686', '2063765', '2245065', '2427597']
+field_06   nonempty=   114/114    distinct=114    examples=['166754537', '196698733', '213044660', '242884092', '272542688']
+field_07   nonempty=   114/114    distinct=21     examples=['05', '08', '04', '01', '03']
+field_08   nonempty=   114/114    distinct=31     examples=['37', '13', '18', '10', '04']
+field_09   nonempty=   114/114    distinct=30     examples=['41', '17', '24', '20', '08']
+field_10   nonempty=   114/114    distinct=32     examples=['42', '20', '26', '28', '11']
+field_11   nonempty=   114/114    distinct=28     examples=['46', '43', '37', '42', '41']
+field_12   nonempty=   114/114    distinct=22     examples=['49', '48', '47', '44', '46']
+field_13   nonempty=   114/114    distinct=43     examples=['18', '38', '33', '21', '37']
+field_14   nonempty=     0/114    distinct=0      examples=[]
+field_15   nonempty=     0/114    distinct=0      examples=[]
+field_16   nonempty=     0/114    distinct=0      examples=[]
+field_17   nonempty=     0/114    distinct=0      examples=[]
+field_18   nonempty=     0/114    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2022.parquet
+ROWS: 114
+TYPE: base
+SOURCE: 2022/大樂透_2022.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 114}
+
+field_01   nonempty=   114/114    distinct=1      examples=['大樂透']
+field_02   nonempty=   114/114    distinct=114    examples=['111000001', '111000002', '111000003', '111000004', '111000005']
+field_03   nonempty=   114/114    distinct=114    examples=['2022/01/04', '2022/01/07', '2022/01/11', '2022/01/14', '2022/01/18']
+field_04   nonempty=   114/114    distinct=114    examples=['108721050', '108241850', '116919750', '115802950', '123585650']
+field_05   nonempty=   114/114    distinct=114    examples=['2174421', '2164837', '2338395', '2316059', '2471713']
+field_06   nonempty=   114/114    distinct=114    examples=['220915175', '242152133', '270493316', '292057967', '322912516']
+field_07   nonempty=   114/114    distinct=23     examples=['03', '06', '10', '05', '19']
+field_08   nonempty=   114/114    distinct=28     examples=['04', '09', '11', '13', '22']
+field_09   nonempty=   114/114    distinct=30     examples=['07', '15', '13', '14', '33']
+field_10   nonempty=   114/114    distinct=32     examples=['19', '31', '17', '24', '35']
+field_11   nonempty=   114/114    distinct=29     examples=['22', '38', '36', '26', '37']
+field_12   nonempty=   114/114    distinct=23     examples=['43', '39', '49', '35', '48']
+field_13   nonempty=   114/114    distinct=42     examples=['36', '25', '41', '39', '11']
+field_14   nonempty=     0/114    distinct=0      examples=[]
+field_15   nonempty=     0/114    distinct=0      examples=[]
+field_16   nonempty=     0/114    distinct=0      examples=[]
+field_17   nonempty=     0/114    distinct=0      examples=[]
+field_18   nonempty=     0/114    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_2023.parquet
+ROWS: 116
+TYPE: base
+SOURCE: 2023/大樂透_2023.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號', ' ']
+ROW WIDTHS: {'18': 116}
+
+field_01   nonempty=   116/116    distinct=1      examples=['大樂透']
+field_02   nonempty=   116/116    distinct=116    examples=['112000001', '112000002', '112000003', '112000004', '112000005']
+field_03   nonempty=   116/116    distinct=116    examples=['2023/01/03', '2023/01/06', '2023/01/10', '2023/01/13', '2023/01/17']
+field_04   nonempty=   116/116    distinct=116    examples=['97465800', '99678950', '108667150', '113280950', '123175000']
+field_05   nonempty=   116/116    distinct=116    examples=['1949316', '1993579', '2173343', '2265619', '2463500']
+field_06   nonempty=   116/116    distinct=116    examples=['71749322', '91799689', '123350345', '154571437', '181841289']
+field_07   nonempty=   116/116    distinct=20     examples=['02', '19', '15', '05', '16']
+field_08   nonempty=   116/116    distinct=30     examples=['04', '22', '21', '17', '25']
+field_09   nonempty=   116/116    distinct=33     examples=['08', '29', '22', '23', '27']
+field_10   nonempty=   116/116    distinct=32     examples=['19', '36', '30', '24', '31']
+field_11   nonempty=   116/116    distinct=29     examples=['24', '43', '41', '40', '36']
+field_12   nonempty=   116/116    distinct=23     examples=['39', '46', '42', '44', '25']
+field_13   nonempty=   116/116    distinct=43     examples=['28', '30', '24', '17', '16']
+field_14   nonempty=     0/116    distinct=0      examples=[]
+field_15   nonempty=     0/116    distinct=0      examples=[]
+field_16   nonempty=     0/116    distinct=0      examples=[]
+field_17   nonempty=     0/116    distinct=0      examples=[]
+field_18   nonempty=     0/116    distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '112000001'
+    field_03: '2023/01/03'
+    field_04: '97465800'
+    field_05: '1949316'
+    field_06: '71749322'
+    field_07: '02'
+    field_08: '04'
+    field_09: '08'
+    field_10: '19'
+    field_11: '24'
+    field_12: '39'
+    field_13: '28'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '大樂透'
+    field_02: '112000002'
+    field_03: '2023/01/06'
+    field_04: '99678950'
+    field_05: '1993579'
+    field_06: '91799689'
+    field_07: '19'
+    field_08: '22'
+    field_09: '29'
+    field_10: '36'
+    field_11: '43'
+    field_12: '46'
+    field_13: '30'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '大樂透'
+    field_02: '112000003'
+    field_03: '2023/01/10'
+    field_04: '108667150'
+    field_05: '2173343'
+    field_06: '123350345'
+    field_07: '15'
+    field_08: '21'
+    field_09: '22'
+    field_10: '30'
+    field_11: '41'
+    field_12: '42'
+    field_13: '24'
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_2024.parquet
+ROWS: 118
+TYPE: base
+SOURCE: 2024/大樂透_2024.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號']
+ROW WIDTHS: {'13': 118}
+
+field_01   nonempty=   118/118    distinct=1      examples=['大樂透']
+field_02   nonempty=   118/118    distinct=118    examples=['113000001', '113000002', '113000003', '113000004', '113000005']
+field_03   nonempty=   118/118    distinct=118    examples=['2024/01/02', '2024/01/05', '2024/01/09', '2024/01/12', '2024/01/16']
+field_04   nonempty=   118/118    distinct=118    examples=['94153750', '101273350', '104402400', '104749750', '104587000']
+field_05   nonempty=   118/118    distinct=118    examples=['1883075', '2025467', '2088048', '2094995', '2091740']
+field_06   nonempty=   118/118    distinct=118    examples=['52726100', '79020651', '102331060', '127937062', '150437239']
+field_07   nonempty=   118/118    distinct=22     examples=['4', '2', '12', '1', '7']
+field_08   nonempty=   118/118    distinct=33     examples=['14', '20', '29', '25', '3']
+field_09   nonempty=   118/118    distinct=35     examples=['18', '23', '31', '29', '20']
+field_10   nonempty=   118/118    distinct=31     examples=['21', '30', '37', '38', '19']
+field_11   nonempty=   118/118    distinct=27     examples=['36', '35', '44', '42', '31']
+field_12   nonempty=   118/118    distinct=20     examples=['38', '47', '49', '46', '40']
+field_13   nonempty=   118/118    distinct=44     examples=['01', '40', '03', '06', '44']
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '113000001'
+    field_03: '2024/01/02'
+    field_04: '94153750'
+    field_05: '1883075'
+    field_06: '52726100'
+    field_07: '4'
+    field_08: '14'
+    field_09: '18'
+    field_10: '21'
+    field_11: '36'
+    field_12: '38'
+    field_13: '01'
+    __source_field_count: 13
+  Row 2:
+    field_01: '大樂透'
+    field_02: '113000002'
+    field_03: '2024/01/05'
+    field_04: '101273350'
+    field_05: '2025467'
+    field_06: '79020651'
+    field_07: '2'
+    field_08: '20'
+    field_09: '23'
+    field_10: '30'
+    field_11: '35'
+    field_12: '47'
+    field_13: '40'
+    __source_field_count: 13
+  Row 3:
+    field_01: '大樂透'
+    field_02: '113000003'
+    field_03: '2024/01/09'
+    field_04: '104402400'
+    field_05: '2088048'
+    field_06: '102331060'
+    field_07: '12'
+    field_08: '29'
+    field_09: '31'
+    field_10: '37'
+    field_11: '44'
+    field_12: '49'
+    field_13: '03'
+    __source_field_count: 13
+
+========================================================================
+FILE: lotto649_2025.parquet
+ROWS: 118
+TYPE: base
+SOURCE: 大樂透_2025.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號']
+ROW WIDTHS: {'13': 118}
+
+field_01   nonempty=   118/118    distinct=1      examples=['大樂透']
+field_02   nonempty=   118/118    distinct=118    examples=['114000001', '114000002', '114000003', '114000004', '114000005']
+field_03   nonempty=   118/118    distinct=118    examples=['2025/01/03', '2025/01/07', '2025/01/10', '2025/01/14', '2025/01/17']
+field_04   nonempty=   118/118    distinct=118    examples=['117667250', '128178500', '128446650', '139720950', '144271100']
+field_05   nonempty=   118/118    distinct=118    examples=['2353345', '2563570', '2568933', '2794419', '2885422']
+field_06   nonempty=   118/118    distinct=118    examples=['248630095', '275475149', '303665086', '344207417', '382395452']
+field_07   nonempty=   118/118    distinct=23     examples=['6', '1', '14', '11', '2']
+field_08   nonempty=   118/118    distinct=30     examples=['9', '8', '29', '3', '18']
+field_09   nonempty=   118/118    distinct=35     examples=['15', '20', '35', '13', '32']
+field_10   nonempty=   118/118    distinct=36     examples=['29', '26', '36', '15', '39']
+field_11   nonempty=   118/118    distinct=32     examples=['30', '29', '37', '44', '38']
+field_12   nonempty=   118/118    distinct=25     examples=['48', '35', '49', '42', '37']
+field_13   nonempty=   118/118    distinct=44     examples=['23', '19', '40', '42', '46']
+
+========================================================================
+FILE: lotto649_2026.parquet
+ROWS: 101
+TYPE: base
+SOURCE: 大樂透_2026.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', '特別號']
+ROW WIDTHS: {'13': 101}
+
+field_01   nonempty=   101/101    distinct=1      examples=['大樂透']
+field_02   nonempty=   101/101    distinct=101    examples=['115000001', '115000002', '115000003', '115000004', '115000005']
+field_03   nonempty=   101/101    distinct=101    examples=['2026/01/02', '2026/01/06', '2026/01/09', '2026/01/13', '2026/01/16']
+field_04   nonempty=   101/101    distinct=101    examples=['103669900', '103515950', '102376600', '109427400', '102371900']
+field_05   nonempty=   101/101    distinct=101    examples=['2073398', '2070319', '2047532', '2188548', '2047438']
+field_06   nonempty=   101/101    distinct=101    examples=['79764040', '100336832', '121832180', '147636494', '59255770']
+field_07   nonempty=   101/101    distinct=19     examples=['3', '2', '1', '9', '21']
+field_08   nonempty=   101/101    distinct=30     examples=['7', '23', '10', '11', '13']
+field_09   nonempty=   101/101    distinct=31     examples=['16', '33', '13', '18', '21']
+field_10   nonempty=   101/101    distinct=31     examples=['19', '38', '14', '22', '41']
+field_11   nonempty=   101/101    distinct=30     examples=['40', '39', '34', '25', '44']
+field_12   nonempty=   101/101    distinct=22     examples=['42', '45', '49', '36', '43']
+field_13   nonempty=   101/101    distinct=43     examples=['12', '06', '08', '24', '20']
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '大樂透'
+    field_02: '115000001'
+    field_03: '2026/01/02'
+    field_04: '103669900'
+    field_05: '2073398'
+    field_06: '79764040'
+    field_07: '3'
+    field_08: '7'
+    field_09: '16'
+    field_10: '19'
+    field_11: '40'
+    field_12: '42'
+    field_13: '12'
+    __source_field_count: 13
+  Row 2:
+    field_01: '大樂透'
+    field_02: '115000002'
+    field_03: '2026/01/06'
+    field_04: '103515950'
+    field_05: '2070319'
+    field_06: '100336832'
+    field_07: '2'
+    field_08: '23'
+    field_09: '33'
+    field_10: '38'
+    field_11: '39'
+    field_12: '45'
+    field_13: '06'
+    __source_field_count: 13
+  Row 3:
+    field_01: '大樂透'
+    field_02: '115000003'
+    field_03: '2026/01/09'
+    field_04: '102376600'
+    field_05: '2047532'
+    field_06: '121832180'
+    field_07: '1'
+    field_08: '7'
+    field_09: '13'
+    field_10: '14'
+    field_11: '34'
+    field_12: '45'
+    field_13: '08'
+    __source_field_count: 13
+
+========================================================================
+FILE: lotto649_bonus_2011.parquet
+ROWS: 118
+TYPE: bonus
+SOURCE: 100/大樂透加開獎項_2011.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 118}
+
+field_01   nonempty=   118/118    distinct=1      examples=['春節加碼加開獎項']
+field_02   nonempty=   118/118    distinct=3      examples=['100000009', '100000010', '100000011']
+field_03   nonempty=   118/118    distinct=3      examples=['2011/02/01', '2011/02/04', '2011/02/08']
+field_04   nonempty=   118/118    distinct=3      examples=['1326875350', '1758027050', '3013151950']
+field_05   nonempty=   118/118    distinct=3      examples=['26537507', '35160541', '60263039']
+field_06   nonempty=   118/118    distinct=3      examples=['1139707570', '1682205461', '2783011428']
+field_07   nonempty=   118/118    distinct=47     examples=['01', '02', '03', '04', '05']
+field_08   nonempty=   118/118    distinct=43     examples=['19', '40', '08', '12', '33']
+field_09   nonempty=   118/118    distinct=43     examples=['11', '06', '45', '03', '37']
+field_10   nonempty=   118/118    distinct=47     examples=['18', '47', '40', '45', '46']
+field_11   nonempty=   118/118    distinct=46     examples=['33', '41', '25', '27', '17']
+field_12   nonempty=   118/118    distinct=43     examples=['40', '35', '36', '24', '07']
+field_13   nonempty=     0/118    distinct=0      examples=[]
+field_14   nonempty=     0/118    distinct=0      examples=[]
+field_15   nonempty=     0/118    distinct=0      examples=[]
+field_16   nonempty=     0/118    distinct=0      examples=[]
+field_17   nonempty=     0/118    distinct=0      examples=[]
+field_18   nonempty=     0/118    distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '春節加碼加開獎項'
+    field_02: '100000009'
+    field_03: '2011/02/01'
+    field_04: '1326875350'
+    field_05: '26537507'
+    field_06: '1139707570'
+    field_07: '01'
+    field_08: '19'
+    field_09: '11'
+    field_10: '18'
+    field_11: '33'
+    field_12: '40'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '春節加碼加開獎項'
+    field_02: '100000009'
+    field_03: '2011/02/01'
+    field_04: '1326875350'
+    field_05: '26537507'
+    field_06: '1139707570'
+    field_07: '01'
+    field_08: '40'
+    field_09: '06'
+    field_10: '47'
+    field_11: '41'
+    field_12: '35'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '春節加碼加開獎項'
+    field_02: '100000009'
+    field_03: '2011/02/01'
+    field_04: '1326875350'
+    field_05: '26537507'
+    field_06: '1139707570'
+    field_07: '01'
+    field_08: '08'
+    field_09: '45'
+    field_10: '40'
+    field_11: '25'
+    field_12: '36'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_bonus_2012.parquet
+ROWS: 142
+TYPE: bonus
+SOURCE: 101/大樂透加開獎項_2012.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 142}
+
+field_01   nonempty=   142/142    distinct=1      examples=['春節加碼加開獎項']
+field_02   nonempty=   142/142    distinct=3      examples=['101000006', '101000007', '101000008']
+field_03   nonempty=   142/142    distinct=3      examples=['2012/01/20', '2012/01/24', '2012/01/27']
+field_04   nonempty=   142/142    distinct=3      examples=['1012424350', '1230276900', '735102450']
+field_05   nonempty=   142/142    distinct=3      examples=['20248487', '24605538', '14702049']
+field_06   nonempty=   142/142    distinct=3      examples=['746284117', '776652295', '504306347']
+field_07   nonempty=   142/142    distinct=44     examples=['01', '02', '05', '07', '08']
+field_08   nonempty=   142/142    distinct=49     examples=['31', '14', '18', '41', '36']
+field_09   nonempty=   142/142    distinct=45     examples=['32', '04', '27', '25', '28']
+field_10   nonempty=   142/142    distinct=47     examples=['35', '13', '38', '47', '22']
+field_11   nonempty=   142/142    distinct=44     examples=['22', '15', '45', '44', '29']
+field_12   nonempty=   142/142    distinct=47     examples=['09', '22', '02', '01', '13']
+field_13   nonempty=     0/142    distinct=0      examples=[]
+field_14   nonempty=     0/142    distinct=0      examples=[]
+field_15   nonempty=     0/142    distinct=0      examples=[]
+field_16   nonempty=     0/142    distinct=0      examples=[]
+field_17   nonempty=     0/142    distinct=0      examples=[]
+field_18   nonempty=     0/142    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2013.parquet
+ROWS: 443
+TYPE: bonus
+SOURCE: 102/大樂透加開獎項_2013.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 443}
+
+field_01   nonempty=   443/443    distinct=1      examples=['春節加碼加開獎項']
+field_02   nonempty=   443/443    distinct=7      examples=['102000013', '102000014', '102000015', '102000016', '102000017']
+field_03   nonempty=   443/443    distinct=7      examples=['2013/02/09', '2013/02/10', '2013/02/11', '2013/02/12', '2013/02/15']
+field_04   nonempty=   443/443    distinct=7      examples=['919721900', '855837950', '891091600', '700476950', '753036750']
+field_05   nonempty=   443/443    distinct=7      examples=['18394438', '17116759', '17821832', '14009539', '15060735']
+field_06   nonempty=   443/443    distinct=7      examples=['704271885', '470710872', '490100380', '692780742', '514170212']
+field_07   nonempty=   443/443    distinct=49     examples=['01', '02', '03', '04', '05']
+field_08   nonempty=   443/443    distinct=49     examples=['19', '06', '16', '18', '09']
+field_09   nonempty=   443/443    distinct=49     examples=['09', '11', '35', '27', '22']
+field_10   nonempty=   443/443    distinct=49     examples=['21', '40', '36', '15', '10']
+field_11   nonempty=   443/443    distinct=49     examples=['45', '26', '40', '35', '01']
+field_12   nonempty=   443/443    distinct=49     examples=['24', '28', '37', '44', '43']
+field_13   nonempty=     0/443    distinct=0      examples=[]
+field_14   nonempty=     0/443    distinct=0      examples=[]
+field_15   nonempty=     0/443    distinct=0      examples=[]
+field_16   nonempty=     0/443    distinct=0      examples=[]
+field_17   nonempty=     0/443    distinct=0      examples=[]
+field_18   nonempty=     0/443    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2014.parquet
+ROWS: 551
+TYPE: bonus
+SOURCE: 2014/大樂透加開獎項_2014.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 551}
+
+field_01   nonempty=   551/551    distinct=1      examples=['春節加碼加開獎項']
+field_02   nonempty=   551/551    distinct=6      examples=['103000009', '103000010', '103000011', '103000012', '103000013']
+field_03   nonempty=   551/551    distinct=6      examples=['2014/01/30', '2014/01/31', '2014/02/01', '2014/02/02', '2014/02/03']
+field_04   nonempty=   551/551    distinct=6      examples=['608966100', '670393200', '673933050', '365275250', '312885200']
+field_05   nonempty=   551/551    distinct=6      examples=['12179322', '13407864', '13478661', '7305505', '6257704']
+field_06   nonempty=   551/551    distinct=6      examples=['334931355', '510859037', '668825176', '216578907', '201322534']
+field_07   nonempty=   551/551    distinct=28     examples=['02', '08', '06', '15', '03']
+field_08   nonempty=   551/551    distinct=35     examples=['10', '19', '18', '07', '25']
+field_09   nonempty=   551/551    distinct=39     examples=['16', '22', '19', '30', '25']
+field_10   nonempty=   551/551    distinct=38     examples=['28', '32', '33', '42', '34']
+field_11   nonempty=   551/551    distinct=34     examples=['44', '41', '38', '43', '45']
+field_12   nonempty=   551/551    distinct=29     examples=['46', '49', '48', '44', '45']
+field_13   nonempty=     0/551    distinct=0      examples=[]
+field_14   nonempty=     0/551    distinct=0      examples=[]
+field_15   nonempty=     0/551    distinct=0      examples=[]
+field_16   nonempty=     0/551    distinct=0      examples=[]
+field_17   nonempty=     0/551    distinct=0      examples=[]
+field_18   nonempty=     0/551    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2015.parquet
+ROWS: 664
+TYPE: bonus
+SOURCE: 2015/大樂透加開獎項_2015.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 664}
+
+field_01   nonempty=   664/664    distinct=1      examples=['春節加碼加開獎項']
+field_02   nonempty=   664/664    distinct=7      examples=['104000015', '104000016', '104000017', '104000018', '104000019']
+field_03   nonempty=   664/664    distinct=7      examples=['2015/02/18', '2015/02/19', '2015/02/20', '2015/02/21', '2015/02/22']
+field_04   nonempty=   664/664    distinct=7      examples=['487544550', '516089850', '559593750', '308408150', '260782600']
+field_05   nonempty=   664/664    distinct=7      examples=['9750891', '10321797', '11191875', '6168163', '5215652']
+field_06   nonempty=   664/664    distinct=7      examples=['357069741', '476305046', '614407269', '169624482', '207098169']
+field_07   nonempty=   664/664    distinct=33     examples=['09', '05', '06', '04', '17']
+field_08   nonempty=   664/664    distinct=37     examples=['20', '11', '10', '09', '21']
+field_09   nonempty=   664/664    distinct=41     examples=['35', '31', '16', '23', '26']
+field_10   nonempty=   664/664    distinct=39     examples=['37', '43', '45', '30', '24']
+field_11   nonempty=   664/664    distinct=35     examples=['44', '45', '47', '41', '38']
+field_12   nonempty=   664/664    distinct=26     examples=['46', '47', '49', '42', '31']
+field_13   nonempty=     0/664    distinct=0      examples=[]
+field_14   nonempty=     0/664    distinct=0      examples=[]
+field_15   nonempty=     0/664    distinct=0      examples=[]
+field_16   nonempty=     0/664    distinct=0      examples=[]
+field_17   nonempty=     0/664    distinct=0      examples=[]
+field_18   nonempty=     0/664    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2016.parquet
+ROWS: 997
+TYPE: bonus
+SOURCE: 2016/大樂透加開獎項_2016.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 997}
+
+field_01   nonempty=   997/997    distinct=3      examples=['春節加碼加開獎項', '端午加碼加開獎項', '雙十國慶加碼加開獎項']
+field_02   nonempty=   997/997    distinct=18     examples=['105000012', '105000013', '105000014', '105000015', '105000016']
+field_03   nonempty=   997/997    distinct=18     examples=['2016/02/07', '2016/02/08', '2016/02/09', '2016/02/10', '2016/02/11']
+field_04   nonempty=   997/997    distinct=18     examples=['280857400', '291630750', '307177450', '259934300', '245501750']
+field_05   nonempty=   997/997    distinct=18     examples=['5617148', '5832615', '6143549', '5198686', '4910035']
+field_06   nonempty=   997/997    distinct=18     examples=['346119645', '160396912', '225999514', '142963865', '197112428']
+field_07   nonempty=   997/997    distinct=31     examples=['03', '01', '14', '07', '05']
+field_08   nonempty=   997/997    distinct=37     examples=['20', '02', '25', '12', '07']
+field_09   nonempty=   997/997    distinct=41     examples=['23', '03', '28', '14', '10']
+field_10   nonempty=   997/997    distinct=42     examples=['24', '05', '36', '30', '18']
+field_11   nonempty=   997/997    distinct=36     examples=['47', '38', '44', '36', '30']
+field_12   nonempty=   997/997    distinct=29     examples=['49', '45', '43', '47', '48']
+field_13   nonempty=     0/997    distinct=0      examples=[]
+field_14   nonempty=     0/997    distinct=0      examples=[]
+field_15   nonempty=     0/997    distinct=0      examples=[]
+field_16   nonempty=     0/997    distinct=0      examples=[]
+field_17   nonempty=     0/997    distinct=0      examples=[]
+field_18   nonempty=     0/997    distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2017.parquet
+ROWS: 3360
+TYPE: bonus
+SOURCE: 2017/大樂透加開獎項_2017.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 3360}
+
+field_01   nonempty=  3360/3360   distinct=2      examples=['春節加碼加開獎項', '端午加碼加開獎項']
+field_02   nonempty=  3360/3360   distinct=16     examples=['106000008', '106000009', '106000010', '106000011', '106000012']
+field_03   nonempty=  3360/3360   distinct=16     examples=['2017/01/27', '2017/01/28', '2017/01/29', '2017/01/30', '2017/01/31']
+field_04   nonempty=  3360/3360   distinct=16     examples=['514947450', '432233150', '427629200', '344924350', '371467400']
+field_05   nonempty=  3360/3360   distinct=16     examples=['10298949', '8644663', '8552584', '6898487', '7429348']
+field_06   nonempty=  3360/3360   distinct=16     examples=['388359518', '245844277', '249740611', '189708392', '280820408']
+field_07   nonempty=  3360/3360   distinct=28     examples=['01', '04', '11', '19', '23']
+field_08   nonempty=  3360/3360   distinct=28     examples=['04', '11', '19', '23', '26']
+field_09   nonempty=  3360/3360   distinct=32     examples=['11', '19', '23', '26', '34']
+field_10   nonempty=  3360/3360   distinct=29     examples=['19', '23', '26', '34', '35']
+field_11   nonempty=  3360/3360   distinct=29     examples=['23', '26', '34', '35', '40']
+field_12   nonempty=  3360/3360   distinct=29     examples=['26', '34', '35', '40', '43']
+field_13   nonempty=     0/3360   distinct=0      examples=[]
+field_14   nonempty=     0/3360   distinct=0      examples=[]
+field_15   nonempty=     0/3360   distinct=0      examples=[]
+field_16   nonempty=     0/3360   distinct=0      examples=[]
+field_17   nonempty=     0/3360   distinct=0      examples=[]
+field_18   nonempty=     0/3360   distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2018.parquet
+ROWS: 1638
+TYPE: bonus
+SOURCE: 2018/大樂透加開獎項_201801_201812.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 1638}
+
+field_01   nonempty=  1638/1638   distinct=2      examples=['春節加碼加開獎項', '中秋加碼加開獎項']
+field_02   nonempty=  1638/1638   distinct=12     examples=['107000014', '107000015', '107000016', '107000017', '107000018']
+field_03   nonempty=  1638/1638   distinct=12     examples=['2018/02/15', '2018/02/16', '2018/02/17', '2018/02/18', '2018/02/19']
+field_04   nonempty=  1638/1638   distinct=12     examples=['404613650', '433224300', '378958100', '387761800', '398983900']
+field_05   nonempty=  1638/1638   distinct=12     examples=['8092273', '8664486', '7579162', '7755236', '7979678']
+field_06   nonempty=  1638/1638   distinct=12     examples=['293901903', '248870254', '212216536', '298509415', '384157333']
+field_07   nonempty=  1638/1638   distinct=24     examples=['01', '04', '07', '17', '18']
+field_08   nonempty=  1638/1638   distinct=24     examples=['04', '07', '17', '18', '24']
+field_09   nonempty=  1638/1638   distinct=24     examples=['07', '17', '18', '24', '26']
+field_10   nonempty=  1638/1638   distinct=27     examples=['17', '18', '24', '26', '35']
+field_11   nonempty=  1638/1638   distinct=25     examples=['18', '24', '26', '35', '38']
+field_12   nonempty=  1638/1638   distinct=24     examples=['24', '26', '35', '38', '42']
+field_13   nonempty=     0/1638   distinct=0      examples=[]
+field_14   nonempty=     0/1638   distinct=0      examples=[]
+field_15   nonempty=     0/1638   distinct=0      examples=[]
+field_16   nonempty=     0/1638   distinct=0      examples=[]
+field_17   nonempty=     0/1638   distinct=0      examples=[]
+field_18   nonempty=     0/1638   distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '春節加碼加開獎項'
+    field_02: '107000014'
+    field_03: '2018/02/15'
+    field_04: '404613650'
+    field_05: '8092273'
+    field_06: '293901903'
+    field_07: '01'
+    field_08: '04'
+    field_09: '07'
+    field_10: '17'
+    field_11: '18'
+    field_12: '24'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '春節加碼加開獎項'
+    field_02: '107000014'
+    field_03: '2018/02/15'
+    field_04: '404613650'
+    field_05: '8092273'
+    field_06: '293901903'
+    field_07: '01'
+    field_08: '04'
+    field_09: '07'
+    field_10: '17'
+    field_11: '18'
+    field_12: '26'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '春節加碼加開獎項'
+    field_02: '107000014'
+    field_03: '2018/02/15'
+    field_04: '404613650'
+    field_05: '8092273'
+    field_06: '293901903'
+    field_07: '01'
+    field_08: '04'
+    field_09: '07'
+    field_10: '17'
+    field_11: '18'
+    field_12: '35'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_bonus_2019.parquet
+ROWS: 1877
+TYPE: bonus
+SOURCE: 2019/大樂透加開獎項_2019.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 1877}
+
+field_01   nonempty=  1877/1877   distinct=3      examples=['春節加碼加開獎項', '端午加碼加開獎項', '中秋加碼加開獎項']
+field_02   nonempty=  1877/1877   distinct=30     examples=['108000010', '108000011', '108000012', '108000013', '108000014']
+field_03   nonempty=  1877/1877   distinct=30     examples=['2019/02/01', '2019/02/02', '2019/02/03', '2019/02/04', '2019/02/05']
+field_04   nonempty=  1877/1877   distinct=30     examples=['262178900', '215838350', '232918050', '345287200', '385433650']
+field_05   nonempty=  1877/1877   distinct=30     examples=['5243578', '4316767', '4658361', '6905744', '7708673']
+field_06   nonempty=  1877/1877   distinct=30     examples=['425642974', '457609508', '130434108', '241689588', '342221358']
+field_07   nonempty=  1877/1877   distinct=30     examples=['02', '03', '05', '07', '06']
+field_08   nonempty=  1877/1877   distinct=36     examples=['03', '05', '07', '17', '19']
+field_09   nonempty=  1877/1877   distinct=41     examples=['05', '07', '17', '28', '29']
+field_10   nonempty=  1877/1877   distinct=41     examples=['07', '17', '28', '30', '35']
+field_11   nonempty=  1877/1877   distinct=34     examples=['17', '28', '30', '44', '42']
+field_12   nonempty=  1877/1877   distinct=30     examples=['28', '30', '44', '47', '46']
+field_13   nonempty=     0/1877   distinct=0      examples=[]
+field_14   nonempty=     0/1877   distinct=0      examples=[]
+field_15   nonempty=     0/1877   distinct=0      examples=[]
+field_16   nonempty=     0/1877   distinct=0      examples=[]
+field_17   nonempty=     0/1877   distinct=0      examples=[]
+field_18   nonempty=     0/1877   distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2020.parquet
+ROWS: 2219
+TYPE: bonus
+SOURCE: 2020/大樂透加開獎項_202001_202012.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 2219}
+
+field_01   nonempty=  2219/2219   distinct=3      examples=['春節加碼加開獎項', '端午加碼加開獎項', '中秋加碼加開獎項']
+field_02   nonempty=  2219/2219   distinct=33     examples=['109000007', '109000008', '109000009', '109000010', '109000011']
+field_03   nonempty=  2219/2219   distinct=33     examples=['2020/01/23', '2020/01/24', '2020/01/25', '2020/01/26', '2020/01/27']
+field_04   nonempty=  2219/2219   distinct=33     examples=['204098200', '325385850', '334410750', '272057600', '271906500']
+field_05   nonempty=  2219/2219   distinct=33     examples=['4081964', '6507717', '6688215', '5441152', '5438130']
+field_06   nonempty=  2219/2219   distinct=33     examples=['166038100', '283021745', '356160843', '152352256', '222330306']
+field_07   nonempty=  2219/2219   distinct=33     examples=['09', '34', '38', '40', '03']
+field_08   nonempty=  2219/2219   distinct=40     examples=['34', '38', '40', '41', '07']
+field_09   nonempty=  2219/2219   distinct=41     examples=['38', '40', '41', '42', '09']
+field_10   nonempty=  2219/2219   distinct=43     examples=['40', '41', '42', '43', '26']
+field_11   nonempty=  2219/2219   distinct=38     examples=['41', '42', '43', '45', '30']
+field_12   nonempty=  2219/2219   distinct=31     examples=['42', '43', '45', '47', '32']
+field_13   nonempty=     0/2219   distinct=0      examples=[]
+field_14   nonempty=     0/2219   distinct=0      examples=[]
+field_15   nonempty=     0/2219   distinct=0      examples=[]
+field_16   nonempty=     0/2219   distinct=0      examples=[]
+field_17   nonempty=     0/2219   distinct=0      examples=[]
+field_18   nonempty=     0/2219   distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2021.parquet
+ROWS: 2100
+TYPE: bonus
+SOURCE: 2021/大樂透加開獎項_2021.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 2100}
+
+field_01   nonempty=  2100/2100   distinct=2      examples=['春節加碼加開獎項', '中秋雙十加碼加開獎項']
+field_02   nonempty=  2100/2100   distinct=25     examples=['110000012', '110000013', '110000014', '110000015', '110000016']
+field_03   nonempty=  2100/2100   distinct=25     examples=['2021/02/09', '2021/02/10', '2021/02/11', '2021/02/12', '2021/02/13']
+field_04   nonempty=  2100/2100   distinct=25     examples=['313198450', '251511100', '301020800', '341992150', '303947950']
+field_05   nonempty=  2100/2100   distinct=25     examples=['6263969', '5030222', '6020416', '6839843', '6078959']
+field_06   nonempty=  2100/2100   distinct=25     examples=['602724776', '621486856', '203080144', '221338525', '200352714']
+field_07   nonempty=  2100/2100   distinct=29     examples=['03', '07', '16', '25', '04']
+field_08   nonempty=  2100/2100   distinct=31     examples=['07', '16', '25', '32', '19']
+field_09   nonempty=  2100/2100   distinct=33     examples=['16', '25', '32', '33', '28']
+field_10   nonempty=  2100/2100   distinct=35     examples=['25', '32', '33', '34', '44']
+field_11   nonempty=  2100/2100   distinct=33     examples=['32', '33', '34', '39', '45']
+field_12   nonempty=  2100/2100   distinct=28     examples=['33', '34', '39', '42', '49']
+field_13   nonempty=     0/2100   distinct=0      examples=[]
+field_14   nonempty=     0/2100   distinct=0      examples=[]
+field_15   nonempty=     0/2100   distinct=0      examples=[]
+field_16   nonempty=     0/2100   distinct=0      examples=[]
+field_17   nonempty=     0/2100   distinct=0      examples=[]
+field_18   nonempty=     0/2100   distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2022.parquet
+ROWS: 2430
+TYPE: bonus
+SOURCE: 2022/大樂透加開獎項_2022.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 2430}
+
+field_01   nonempty=  2430/2430   distinct=3      examples=['春節加碼加開獎項', '端午加碼加開獎項', '中秋雙十加碼加開獎項']
+field_02   nonempty=  2430/2430   distinct=40     examples=['111000008', '111000009', '111000010', '111000011', '111000012']
+field_03   nonempty=  2430/2430   distinct=40     examples=['2022/01/28', '2022/01/29', '2022/01/30', '2022/01/31', '2022/02/01']
+field_04   nonempty=  2430/2430   distinct=40     examples=['244971050', '153718600', '189671950', '297457700', '321300500']
+field_05   nonempty=  2430/2430   distinct=40     examples=['4899421', '3074372', '3793439', '5949154', '6426010']
+field_06   nonempty=  2430/2430   distinct=40     examples=['474059452', '90441068', '138128081', '235649428', '319513779']
+field_07   nonempty=  2430/2430   distinct=49     examples=['08', '09', '11', '12', '03']
+field_08   nonempty=  2430/2430   distinct=49     examples=['09', '11', '12', '15', '32']
+field_09   nonempty=  2430/2430   distinct=49     examples=['11', '12', '15', '23', '35']
+field_10   nonempty=  2430/2430   distinct=49     examples=['12', '15', '23', '24', '37']
+field_11   nonempty=  2430/2430   distinct=49     examples=['15', '23', '24', '35', '43']
+field_12   nonempty=  2430/2430   distinct=49     examples=['23', '24', '35', '49', '48']
+field_13   nonempty=     0/2430   distinct=0      examples=[]
+field_14   nonempty=     0/2430   distinct=0      examples=[]
+field_15   nonempty=     0/2430   distinct=0      examples=[]
+field_16   nonempty=     0/2430   distinct=0      examples=[]
+field_17   nonempty=     0/2430   distinct=0      examples=[]
+field_18   nonempty=     0/2430   distinct=0      examples=[]
+
+========================================================================
+FILE: lotto649_bonus_2023.parquet
+ROWS: 2561
+TYPE: bonus
+SOURCE: 2023/大樂透加開獎項_2023.csv
+HEADER: ['活動名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6', ' ']
+ROW WIDTHS: {'18': 2561}
+
+field_01   nonempty=  2561/2561   distinct=4      examples=['春節加碼加開獎項', '端午加碼加開獎項', '中秋雙十加碼加開獎項', '感恩加碼加開獎項']
+field_02   nonempty=  2561/2561   distinct=48     examples=['112000006', '112000007', '112000008', '112000009', '112000010']
+field_03   nonempty=  2561/2561   distinct=48     examples=['2023/01/20', '2023/01/21', '2023/01/22', '2023/01/23', '2023/01/24']
+field_04   nonempty=  2561/2561   distinct=48     examples=['267054950', '274091150', '313055850', '290979900', '274825800']
+field_05   nonempty=  2561/2561   distinct=48     examples=['5341099', '5481823', '6261117', '5819598', '5496516']
+field_06   nonempty=  2561/2561   distinct=48     examples=['291219749', '153491044', '230903540', '205894502', '153902448']
+field_07   nonempty=  2561/2561   distinct=49     examples=['07', '08', '12', '23', '01']
+field_08   nonempty=  2561/2561   distinct=49     examples=['08', '12', '23', '24', '10']
+field_09   nonempty=  2561/2561   distinct=49     examples=['12', '23', '24', '27', '15']
+field_10   nonempty=  2561/2561   distinct=49     examples=['23', '24', '27', '31', '21']
+field_11   nonempty=  2561/2561   distinct=49     examples=['24', '27', '31', '35', '23']
+field_12   nonempty=  2561/2561   distinct=49     examples=['27', '31', '35', '45', '28']
+field_13   nonempty=     0/2561   distinct=0      examples=[]
+field_14   nonempty=     0/2561   distinct=0      examples=[]
+field_15   nonempty=     0/2561   distinct=0      examples=[]
+field_16   nonempty=     0/2561   distinct=0      examples=[]
+field_17   nonempty=     0/2561   distinct=0      examples=[]
+field_18   nonempty=     0/2561   distinct=0      examples=[]
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '春節加碼加開獎項'
+    field_02: '112000006'
+    field_03: '2023/01/20'
+    field_04: '267054950'
+    field_05: '5341099'
+    field_06: '291219749'
+    field_07: '07'
+    field_08: '08'
+    field_09: '12'
+    field_10: '23'
+    field_11: '24'
+    field_12: '27'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 2:
+    field_01: '春節加碼加開獎項'
+    field_02: '112000006'
+    field_03: '2023/01/20'
+    field_04: '267054950'
+    field_05: '5341099'
+    field_06: '291219749'
+    field_07: '07'
+    field_08: '08'
+    field_09: '12'
+    field_10: '23'
+    field_11: '24'
+    field_12: '31'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+  Row 3:
+    field_01: '春節加碼加開獎項'
+    field_02: '112000006'
+    field_03: '2023/01/20'
+    field_04: '267054950'
+    field_05: '5341099'
+    field_06: '291219749'
+    field_07: '07'
+    field_08: '08'
+    field_09: '12'
+    field_10: '23'
+    field_11: '24'
+    field_12: '35'
+    field_13: ''
+    field_14: ''
+    field_15: ''
+    field_16: ''
+    field_17: ''
+    field_18: ''
+    __source_field_count: 18
+
+========================================================================
+FILE: lotto649_bonus_2024.parquet
+ROWS: 2561
+TYPE: bonus
+SOURCE: 2024/大樂透加開獎項_2024.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6']
+ROW WIDTHS: {'12': 2561}
+
+field_01   nonempty=  2561/2561   distinct=3      examples=['春節加碼活動', '端午節加碼活動', '中秋節加碼活動']
+field_02   nonempty=  2561/2561   distinct=46     examples=['113000011', '113000012', '113000013', '113000014', '113000015']
+field_03   nonempty=  2561/2561   distinct=46     examples=['2024/02/06', '2024/02/07', '2024/02/08', '2024/02/09', '2024/02/10']
+field_04   nonempty=  2561/2561   distinct=46     examples=['215438650', '147109300', '183653950', '289130550', '311420200']
+field_05   nonempty=  2561/2561   distinct=46     examples=['4308773', '2942186', '3673079', '5782611', '6228404']
+field_06   nonempty=  2561/2561   distinct=46     examples=['235074395', '244610583', '298415973', '401638006', '471129718']
+field_07   nonempty=  2561/2561   distinct=32     examples=['01', '03', '07', '15', '08']
+field_08   nonempty=  2561/2561   distinct=38     examples=['03', '07', '15', '17', '08']
+field_09   nonempty=  2561/2561   distinct=41     examples=['07', '15', '17', '20', '11']
+field_10   nonempty=  2561/2561   distinct=41     examples=['15', '17', '20', '25', '13']
+field_11   nonempty=  2561/2561   distinct=37     examples=['17', '20', '25', '29', '22']
+field_12   nonempty=  2561/2561   distinct=33     examples=['20', '25', '29', '45', '32']
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '春節加碼活動'
+    field_02: '113000011'
+    field_03: '2024/02/06'
+    field_04: '215438650'
+    field_05: '4308773'
+    field_06: '235074395'
+    field_07: '01'
+    field_08: '03'
+    field_09: '07'
+    field_10: '15'
+    field_11: '17'
+    field_12: '20'
+    __source_field_count: 12
+  Row 2:
+    field_01: '春節加碼活動'
+    field_02: '113000011'
+    field_03: '2024/02/06'
+    field_04: '215438650'
+    field_05: '4308773'
+    field_06: '235074395'
+    field_07: '01'
+    field_08: '03'
+    field_09: '07'
+    field_10: '15'
+    field_11: '17'
+    field_12: '25'
+    __source_field_count: 12
+  Row 3:
+    field_01: '春節加碼活動'
+    field_02: '113000011'
+    field_03: '2024/02/06'
+    field_04: '215438650'
+    field_05: '4308773'
+    field_06: '235074395'
+    field_07: '01'
+    field_08: '03'
+    field_09: '07'
+    field_10: '15'
+    field_11: '17'
+    field_12: '29'
+    __source_field_count: 12
+
+========================================================================
+FILE: lotto649_bonus_2025.parquet
+ROWS: 5180
+TYPE: bonus
+SOURCE: 大樂透加開獎項_2025.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6']
+ROW WIDTHS: {'12': 5180}
+
+field_01   nonempty=  5180/5180   distinct=3      examples=['春節加碼活動', '端午節加碼活動', '中秋節加碼活動']
+field_02   nonempty=  5180/5180   distinct=48     examples=['114000007', '114000008', '114000009', '114000010', '114000011']
+field_03   nonempty=  5180/5180   distinct=48     examples=['2025/01/24', '2025/01/25', '2025/01/26', '2025/01/27', '2025/01/28']
+field_04   nonempty=  5180/5180   distinct=48     examples=['309408250', '179145750', '180141500', '209473350', '289525150']
+field_05   nonempty=  5180/5180   distinct=48     examples=['6188165', '3582915', '3602830', '4189467', '5790503']
+field_06   nonempty=  5180/5180   distinct=48     examples=['537013182', '105759534', '167815782', '173878798', '162134084']
+field_07   nonempty=  5180/5180   distinct=32     examples=['12', '13', '14', '16', '26']
+field_08   nonempty=  5180/5180   distinct=38     examples=['13', '14', '16', '26', '28']
+field_09   nonempty=  5180/5180   distinct=40     examples=['14', '16', '26', '28', '29']
+field_10   nonempty=  5180/5180   distinct=40     examples=['16', '26', '28', '29', '33']
+field_11   nonempty=  5180/5180   distinct=36     examples=['26', '28', '29', '33', '43']
+field_12   nonempty=  5180/5180   distinct=33     examples=['28', '29', '33', '43', '45']
+
+========================================================================
+FILE: lotto649_bonus_2026.parquet
+ROWS: 5011
+TYPE: bonus
+SOURCE: 大樂透加開獎項_2026.csv
+HEADER: ['遊戲名稱', '期別', '開獎日期', '銷售總額', '銷售注數', '總獎金', '獎號1', '獎號2', '獎號3', '獎號4', '獎號5', '獎號6']
+ROW WIDTHS: {'12': 5011}
+
+field_01   nonempty=  5011/5011   distinct=3      examples=['春節加碼活動', '端午節加碼活動', '中秋節加碼活動']
+field_02   nonempty=  5011/5011   distinct=45     examples=['115000013', '115000014', '115000015', '115000016', '115000017']
+field_03   nonempty=  5011/5011   distinct=45     examples=['2026/02/12', '2026/02/13', '2026/02/14', '2026/02/15', '2026/02/16']
+field_04   nonempty=  5011/5011   distinct=45     examples=['195656750', '207590350', '201050700', '217549900', '294867300']
+field_05   nonempty=  5011/5011   distinct=45     examples=['3913135', '4151807', '4021014', '4350998', '5897346']
+field_06   nonempty=  5011/5011   distinct=45     examples=['163266467', '212129738', '261936220', '129349625', '218016490']
+field_07   nonempty=  5011/5011   distinct=29     examples=['05', '06', '14', '22', '28']
+field_08   nonempty=  5011/5011   distinct=35     examples=['06', '14', '22', '28', '32']
+field_09   nonempty=  5011/5011   distinct=40     examples=['14', '22', '28', '32', '36']
+field_10   nonempty=  5011/5011   distinct=38     examples=['22', '28', '32', '36', '37']
+field_11   nonempty=  5011/5011   distinct=33     examples=['28', '32', '36', '37', '38']
+field_12   nonempty=  5011/5011   distinct=31     examples=['32', '36', '37', '38', '47']
+
+SAMPLE ROWS:
+  Row 1:
+    field_01: '春節加碼活動'
+    field_02: '115000013'
+    field_03: '2026/02/12'
+    field_04: '195656750'
+    field_05: '3913135'
+    field_06: '163266467'
+    field_07: '05'
+    field_08: '06'
+    field_09: '14'
+    field_10: '22'
+    field_11: '28'
+    field_12: '32'
+    __source_field_count: 12
+  Row 2:
+    field_01: '春節加碼活動'
+    field_02: '115000013'
+    field_03: '2026/02/12'
+    field_04: '195656750'
+    field_05: '3913135'
+    field_06: '163266467'
+    field_07: '05'
+    field_08: '06'
+    field_09: '14'
+    field_10: '22'
+    field_11: '28'
+    field_12: '36'
+    __source_field_count: 12
+  Row 3:
+    field_01: '春節加碼活動'
+    field_02: '115000013'
+    field_03: '2026/02/12'
+    field_04: '195656750'
+    field_05: '3913135'
+    field_06: '163266467'
+    field_07: '05'
+    field_08: '06'
+    field_09: '14'
+    field_10: '22'
+    field_11: '28'
+    field_12: '37'
+    __source_field_count: 12

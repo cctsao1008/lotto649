@@ -1,12 +1,19 @@
-﻿__pycache__/
+﻿# Python
+__pycache__/
 *.py[cod]
 .venv/
 .env
-
-data/raw/
-data/binary/
-data/normalized/
-data/analysis/
-data/schema_report.txt
-
 .pytest_cache/
+
+# Temporary files
+*.part
+*.tmp
+*.bak
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
