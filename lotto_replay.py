@@ -11,6 +11,7 @@ of financial advantage, especially with 13,983,816 possible combinations.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import math
@@ -348,6 +349,49 @@ def run_replay(*, source: Path = SOURCE, year: int = DEFAULT_YEAR,
     }
 
 
+
+def export_draw_csv(report: dict, destination: Path) -> None:
+    """Export one audit row per historical draw and candidate model."""
+    columns = [
+        "date", "draw_id", "model", "actual_main_six",
+        "previous_main_six", "diagnostic_top_six",
+        "matched_main_numbers", "exact_six_match",
+        "observed_set_log_probability", "log_score_lift_vs_iid_nats",
+        "observed_set_midrank", "rank_fraction_lower_is_better",
+        "rank_fraction_mc_95pct_halfwidth", "rank_method",
+    ]
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=columns)
+        writer.writeheader()
+        for row in report["individual_draws"]:
+            for name in CANDIDATES:
+                score = row["models"][name]
+                writer.writerow({
+                    "date": row["date"],
+                    "draw_id": row["draw_id"],
+                    "model": name,
+                    "actual_main_six": " ".join(
+                        f"{v:02d}" for v in row["actual_main_six"]),
+                    "previous_main_six": " ".join(
+                        f"{v:02d}" for v in row["previous_main_six"]),
+                    "diagnostic_top_six": " ".join(
+                        f"{v:02d}" for v in score["diagnostic_top_six"]),
+                    "matched_main_numbers": score["matched_main_numbers"],
+                    "exact_six_match": score["exact_six_match"],
+                    "observed_set_log_probability":
+                        score["observed_set_log_probability"],
+                    "log_score_lift_vs_iid_nats":
+                        score["log_score_lift_vs_iid_nats"],
+                    "observed_set_midrank": score["observed_set_midrank"],
+                    "rank_fraction_lower_is_better":
+                        score["rank_fraction_lower_is_better"],
+                    "rank_fraction_mc_95pct_halfwidth":
+                        score["rank_fraction_mc_95pct_halfwidth"],
+                    "rank_method": score["rank_method"],
+                })
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Retrospective historical six-number replay; not a ticket tool")
@@ -365,6 +409,7 @@ def main() -> None:
     parser.add_argument("--validation-end", type=int, default=VALIDATION_END)
     parser.add_argument("--rank-samples", type=int, default=DEFAULT_RANK_SAMPLES)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--csv", type=Path)
     args = parser.parse_args()
     if not args.source.is_file():
         parser.error(f"source not found: {args.source}")
@@ -378,6 +423,8 @@ def main() -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, ensure_ascii=True) + "\n",
                       encoding="utf-8")
+    csv_output = args.csv or Path("data/neural") / f"historical_replay_{args.year}.csv"
+    export_draw_csv(result, csv_output)
     print(f"Lotto649 Historical Six-Number Replay v{VERSION}")
     print(f"Year: {result['year']}, draws: {result['evaluated_draws']}")
     print(f"Validation-selected model: {result['training']['validation_selected']}")
@@ -389,7 +436,8 @@ def main() -> None:
               f"{stats['exact_six_matches']:12d} "
               f"{stats['mean_log_score_lift_vs_iid_nats']:+16.6f} "
               f"{stats['mean_observed_set_rank_fraction']:26.4f}")
-    print(f"[DONE] {output.resolve()}")
+    print(f"[DONE] JSON: {output.resolve()}")
+    print(f"[DONE] CSV: {csv_output.resolve()}")
     print("[CAUTION] Historical top-six picks are retrospective diagnostics, not prospective tickets")
 
 
