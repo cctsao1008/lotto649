@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 4.1 passed 43/43 Windows tests and ten-seed synthetic controls; Echo Only +1.85191 nats vs Lag MLE +1.94827, but jointly fitted Echo + MLP only +0.65037. Phase 4.2 staged-residual optimizer audit committed; Windows validation pending. No real-draw prediction advantage established.**
+Status: **Phase 4.2 ten-seed controls completed: MLE Echo outperforms legacy AdamW by +0.08862 nats on artificial lag-echo, with no consistent test gain from neural residual; Phase 5 real-history read-only log-score diagnostic implemented, Windows validation pending. No real-draw prediction advantage established.**
 
 ## Objective and non-goals
 
@@ -120,3 +120,10 @@ Generated experiment results are written to `data/neural/*.json`, excluded from 
 ## Phase 4.2: optimizer audit before more architecture
 
 **`lotto_echo_staged.py`** compares the original AdamW one-parameter echo training, an exact **train-only MLE** echo coefficient (with PyTorch parity check), and a **frozen-MLE echo plus a validation-gated neural residual**. At training epoch zero, the staged residual is identically zero, so the benchmark starts at the correctly estimated reference distribution. New network weights are selected only if they improve the chronological validation log score; this is not a test guarantee. Fresh seeds 30000..30009 are used for IID and Lag Echo controls. See [Phase 4.2 audit protocol](phase4_staged_residual.md). No new architecture is promoted from synthetic performance alone; TCN/GRU and `lotto_select.py` remain deferred.
+
+
+## Phase 5: read-only historical distributional scoring
+
+**`lotto_historical.py`** ingests the structured official `lotto649_base.npy` archive (date, draw ID, main six, special), validates and sorts the six main numbers, excludes special/bonus draws and records source SHA-256. It compares **IID, Static, Small MLP, and a train-only-fitted Lag model** under chronological 60/20/20 split. Model selection is fixed using **validation only**, and all candidates' untouched test-period scores are reported with descriptive moving-block bootstrap intervals and calendar-year breakdown. These are **one-step log-probability diagnostics**, not ticket advice or evidence of shorter full-set waiting time. Earlier historical exploration means the last 20% is not an uncontaminated prospective blind holdout. See [Phase 5 historical protocol](phase5_historical_protocol.md) and `tests/test_lotto_historical.py`.
+
+The Phase 4.2 reporting fix ensures a residual rejected on validation has exactly zero staged-minus-MLE diagnostic difference. All newly added source code comments and docstrings are English-only. `lotto_select.py` remains the final stage.
