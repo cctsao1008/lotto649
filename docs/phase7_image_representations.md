@@ -1,3 +1,5 @@
+> **ARCHIVED / SUPERSEDED:** This exact-six and old neural-model Phase 7 experiment is retained only for reproducibility. The current research objective is graphical shape similarity rather than full six-number coincidence. Use [Phase 7B Pattern Similarity](phase7b_pattern_similarity.md) and `lotto_pattern_replay.py` instead. All older 2023–2026 neural results remain historical records, not active selection criteria.
+
 # Phase 7 — Reversible 7×7 Image Representation and Pattern Learning
 
 Status: **experimental branch implemented; full Windows validation and real-history run pending**.
