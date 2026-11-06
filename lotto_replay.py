@@ -257,7 +257,10 @@ def run_replay(*, source: Path = SOURCE, year: int = DEFAULT_YEAR,
                 rank_fraction, error_bound = midrank_fraction_mc(
                     weights, realized, pool)
                 rank_type = "monte_carlo_uniform_subset_midrank"
-            midrank = 1.0 + (TOTAL_SUBSETS - 1) * rank_fraction
+            # Exact midrank convention: rank = 0.5 + total_sets * tail_midfraction.
+            # Monte Carlo estimates are clipped to the legal [1, total_sets] range.
+            midrank = float(np.clip(
+                0.5 + TOTAL_SUBSETS * rank_fraction, 1.0, TOTAL_SUBSETS))
             actual_score = float(probability)
             by_model[name] = {
                 "diagnostic_top_six": top,
@@ -294,8 +297,10 @@ def run_replay(*, source: Path = SOURCE, year: int = DEFAULT_YEAR,
             "exact_six_matches": exact_hits[name],
             "mean_log_score_lift_vs_iid_nats": float(np.mean(log_lifts[name])),
             "mean_observed_set_rank_fraction": float(np.mean(rank_fractions[name])),
-            "mean_observed_set_midrank": float(
-                1.0 + (TOTAL_SUBSETS-1) * np.mean(rank_fractions[name])),
+            "mean_observed_set_midrank": float(np.mean([
+                row["models"][name]["observed_set_midrank"]
+                for row in draw_rows
+            ])),
         } for name in CANDIDATES
     }
     return {
