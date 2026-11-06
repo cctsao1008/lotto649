@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 6 seal/verify/score has passed 64/64 tests on the user's Windows host. Phase 6.1 adds a shadow-only bridge for recent official-site API draws; nine new unit tests and live API contract validation are pending. No real future forecast has been sealed or externally time-attested. IID remains the default.**
+Status: **Phase 6.1 passed 73/73 Windows tests; API bridge verified 2,183+2=2,185 records. First forecast for 2026-11-10 sealed in commit d4a131a and corroborated by server-created GitHub Issue #1 (2026-11-06T17:51:07Z); no future target results available. Phase 6.2 read-only readiness audit committed, Windows validation pending. IID remains default; no scores or bets produced.**
 
 ## Objective and non-goals
 
@@ -145,3 +145,12 @@ The official Taiwan Lottery annual-result download page says it updates on the f
 **`lotto_live_data.py`** offers `fetch` (preserves exact monthly API JSON) and `build` (strictly merges new validated draws into **separate** `data/shadow/sources/*.npy`, creates SHA-256 provenance manifest, checks old-period conflicts and missing Tuesday/Friday draws, never overwrites the monthly official archive). Financial fields absent from the API are explicitly zero **placeholders**, not authentic sales or prize data, in shadow-only rows. The historical analyzer's official data source remains untouched. See [Phase 6.1 protocol](phase6_recent_data_bridge.md) and `tests/test_lotto_live_data.py`.
 
 The new bridge does not prove an externally authenticated time of seal publication. No live forecast should be sealed until the latest official source, next actual drawing schedule, and independent timestamp method are verified. All added Python source comments and docstrings are English-only. `lotto_select.py` remains last.
+
+
+## Phase 6.2: pre-scoring readiness audit
+
+A November 7 file named for November 10 contained only 2,185 draws through November 6; the original November 7 shadow source and this misleadingly named file shared exact SHA-256 `2e21fe66094ef256dc76fc77d5c324195071bc70d3642b68a675d35ee9e480c1`. Before official outcome publication, `lotto_shadow.py score` correctly refuses to score.
+
+**`lotto_shadow_status.py`** is a **read-only inspection** command. It verifies sealed payload bytes against the original commit, the full historical draw prefix, candidate count and dates, the source SHA-256 and manifest provenance, and every staged record's date/period/main-six/special against the saved raw API snapshot. It reports `WAITING_FOR_TARGET_DRAW` for an unextended candidate or a distinct failure if missing dates, source conflicts, or deadline violations arise. A `READY_FOR_SCORING_PENDING_OFFICIAL_RESULT_CHECK` output is not independent confirmation that official draw results have been published. See [Phase 6.2 audit protocol](phase6_readiness_audit.md) and `tests/test_lotto_shadow_status.py`.
+
+The immutable forecast remains [`d4a131a`](https://github.com/cctsao1008/lotto649/commit/d4a131ad6bc503bc7360eb680bab899318a84234), with identical payload SHA-256 in [GitHub Issue #1](https://github.com/cctsao1008/lotto649/issues/1) created at 2026-11-06T17:51:07Z. This third-party created time precedes the research cutoff, but issue edits and absence of a cryptographically protected timestamp still warrant cautious claims about immutability. IID remains the baseline. `lotto_select.py` remains deferred.
