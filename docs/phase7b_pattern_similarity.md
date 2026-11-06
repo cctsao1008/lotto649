@@ -1,3 +1,5 @@
+> **SUPERSEDED FOR ACTIVE RESEARCH:** Phase 7B remains as a reproducible baseline. The current time-order, dynamic-shape and diversity research protocol is [Phase 7C](phase7c_temporal_patterns.md), run with `lotto_pattern_temporal_audit.py` and `lotto_pattern_dynamic_replay.py`. Keep Phase 7B historical reports unchanged.
+
 # Phase 7B — Pattern Similarity Framework v0.1
 
 **Active research goal:** Predict a 7×7 six-pixel *image pattern that resembles* the upcoming draw, **not** maximize the chance of exactly matching six numbered pixels. Exact 6/6 is optional secondary bookkeeping. No prizes or near-jackpot claims follow from visual similarity.
