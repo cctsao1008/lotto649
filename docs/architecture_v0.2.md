@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0 and Phase 1 passed user's Windows tests (16/16); Phase 2 trainer and tests implemented, awaiting host run. No real-draw predictive advantage established.**
+Status: **Phase 0/1 tests passed on Windows; Phase 2 single-seed IID and fixed-bias runs completed by user; Phase 3 multi-seed robustness tools committed, host run pending. No real-draw predictive advantage established.**
 
 ## Objective and non-goals
 
@@ -100,3 +100,8 @@ git pull origin main
 ```
 
 Generated experiment results are written to `data/neural/*.json`, excluded from Git. Preserve output and seed information for comparison. No model is yet used for real-money decisions or prospective 1/3/12-month forecasting. `lotto_select.py` remains last.
+
+
+## Phase 3: multi-seed negative and positive controls
+
+**`lotto_robustness.py`** reuses the Phase 2 trainer on independently seeded IID and fixed-bias synthetic datasets. It records *all* test lifts, including negative results; computes per-seed paired MLP vs Static differences; summarizes the distribution across seeds using descriptive bootstrap intervals; and reports a clearly labeled, optimistically biased best-of-two *test* diagnostic to illustrate why choosing models after seeing test outcomes is invalid. Synthetic oracle parameters are never written into the input file presented to the learner. **`tests/test_lotto_robustness.py`** checks statistical summaries, reproducibility and oracle isolation. See [Phase 3 experiment protocol](phase3_robustness_protocol.md) for full Windows commands and interpretation gates. **This is still one-step synthetic prediction, not prospective lottery outcome prediction or ticket selection.**
