@@ -20,3 +20,6 @@ Thumbs.db
 
 # Generated synthetic experiment data (reproducible from seed)
 data/synthetic/
+
+# Phase 2 local experiment reports (reproducible)
+data/neural/
