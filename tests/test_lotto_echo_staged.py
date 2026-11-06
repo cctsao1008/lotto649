@@ -69,6 +69,20 @@ class EchoStagedTests(unittest.TestCase):
                       "mle_minus_legacy", "staged_minus_mle"):
             self.assertTrue(math.isfinite(out[field]))
 
+    def test_rejected_residual_has_exact_zero_delta(self):
+        draws = generate_lag_echo(count=100, seed=15, strength=1.4)
+        from unittest.mock import patch
+        from lotto_echo_staged import fit_staged_residual as real_fit
+        def always_reject(*args, **kwargs):
+            kwargs["min_delta"] = 1e6
+            return real_fit(*args, **kwargs)
+        with patch("lotto_echo_staged.fit_staged_residual", side_effect=always_reject):
+            out = trial(draws=draws, seed=15, window=3, hidden=8,
+                        epochs=1, patience=1, batch_size=32)
+        self.assertFalse(out["staged_training"]["selected_residual"])
+        self.assertEqual(out["staged_residual"], out["mle_echo"])
+        self.assertEqual(out["staged_minus_mle"], 0.0)
+
     def test_run_single_seed_smoke(self):
         result = run(seeds=1, count=100, start_seed=40001,
                      modes=("iid",), window=3, hidden=8,
