@@ -17,3 +17,6 @@ __pycache__/
 # OS
 Thumbs.db
 .DS_Store
+
+# Generated synthetic experiment data (reproducible from seed)
+data/synthetic/
