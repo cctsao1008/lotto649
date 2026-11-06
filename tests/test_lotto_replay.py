@@ -1,6 +1,7 @@
 """Historical full-six replay tests using fabricated, never official, draw data."""
 from __future__ import annotations
 
+import csv
 import hashlib
 import math
 import tempfile
@@ -13,7 +14,7 @@ import numpy as np
 from lotto_neural import IID_LOGP
 from lotto_replay import (
     TOTAL_SUBSETS, expected_iid_overlap_distribution, lag_midrank_exact,
-    midrank_fraction_mc, run_replay, top_subset, uniform_subset_pool,
+    export_draw_csv, midrank_fraction_mc, run_replay, top_subset, uniform_subset_pool,
     validate_replay_split,
 )
 from lotto_synthetic import generate
@@ -187,6 +188,20 @@ class HistoricalTopSixReplayTests(unittest.TestCase):
                              first_b[name]["diagnostic_top_six"])
         self.assertNotEqual(a["individual_draws"][0]["actual_main_six"],
                             b["individual_draws"][0]["actual_main_six"])
+
+    def test_csv_export_has_one_row_per_draw_and_candidate(self):
+        report = self.run_fixture()
+        output = self.path.parent / "replay.csv"
+        export_draw_csv(report, output)
+        with output.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 24 * 4)
+        self.assertEqual(set(row["model"] for row in rows),
+                         {"iid", "static", "lag", "mlp"})
+        self.assertEqual(rows[0]["actual_main_six"],
+                         " ".join(f"{v:02d}" for v in
+                                  report["individual_draws"][0]["actual_main_six"]))
+        self.assertEqual(rows[0]["model"], "iid")
 
     def test_no_year_in_test_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "no observations"):
