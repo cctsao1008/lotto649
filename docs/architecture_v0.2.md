@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0 mathematical baseline implemented; neural learning pending.**
+Status: **Phase 0 verified by user's Windows machine (8/8); Phase 1 PyTorch decoder implemented and locally verified (8/8). Neural models not yet trained.**
 
 ## Objective and non-goals
 
@@ -42,9 +42,13 @@ Synthetic files stay separate at `data/synthetic/*.npz` and include oracle `phas
 
 **`tests/test_lotto_v02.py`**: exact small-space enumeration, normalization, shift invariance, sampler calibration, invalid-input rejection, reproducible generation, known-period repetition, and oracle-vs-IID diagnostic on biased synthetic samples.
 
-## Next gates, not implemented in Phase 0
+## Phase 1: differentiable probability decoder
 
-1. **Differentiable decoder**: PyTorch equivalent of the reference, with autodiff tests and log-probability parity; require strictly normalized six-number subsets.
+**`lotto_torch_decoder.py`** implements the same log-space O(batch*n*k) dynamic-programming distribution in PyTorch and exposes an autograd-compatible log-probability per subset. The decoder uses 1-based integer six-number sets and validates cardinality and uniqueness. Single/batched logits are supported. **`tests/test_lotto_torch_decoder.py`** compares the results to the NumPy reference, exact enumeration, analytic inclusion gradients and finite-difference autograd. Phase 1 self-check: `python lotto_torch_decoder.py` (CPU) or `python lotto_torch_decoder.py --device cuda` (CUDA enabled). Install PyTorch separately with `python -m pip install torch`. The base `requirements.txt` remains unchanged, so Phase 0 works without the optional ML dependency.
+
+## Next gates, not implemented in Phase 0/1
+
+1. **Differentiable decoder**: DONE (mathematical reference, parity, gradient tests; Windows verification pending).
 2. **Learning models**: first static regularized logits, then a **small MLP** with past draw representations; TCN/GRU only if earlier models justify complexity.
 3. **Scoring**: out-of-sample complete-subset log score relative to IID: `log P_model(S_t|history) + log(C(49,6))`. Compare full forecast paths, not training loss.
 4. **Statistical control**: correct for model/search selection, multi-seed IID null simulations, no deployment from training-only wins; freeze parameters and candidates at every forecast origin.
@@ -60,7 +64,7 @@ Synthetic files stay separate at `data/synthetic/*.npz` and include oracle `phas
 ## Local commands
 
 ```powershell
-cd E:\lotto649
+cd D:\my-github\lotto649
 python .\lotto_probability.py
 python -m unittest discover -s tests -v
 python .\lotto_synthetic.py --mode iid --count 2183 --seed 649
