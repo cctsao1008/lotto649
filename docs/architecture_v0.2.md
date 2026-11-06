@@ -172,3 +172,13 @@ Each regular-main-six lottery result is represented as a strict six-pixel 7×7 b
 `lotto_image_experiment.py` trains and evaluates seven feature-learning model variants (flat original 49-bit MLP; sequential, snake, permuted, DCT, FFT spatial CNNs; and temporal 3D CNN), plus exact IID. All use fixed Phase 5 **train/validation boundaries 1309/1746**, exact 6-of-49 likelihood, and validation-only model selection; 2025 is the already explored retrospective diagnostic year. **Whole-six-set 6/6** match is the only PASS, with partial matches considered FAIL. The exact full-set log-score lift remains an explicitly secondary statistical diagnostic, not a surrogate jackpot hit.
 
 `lotto_image_analysis.py` compares artificial-grid geometry to identically encoded IID control simulations. Added **22 Phase 7 tests** include reversible transforms, causal feature isolation, synthetic constant-six perfect-match recovery, reproducibility, and CSV exact-outcome verification. Previous 96 Windows tests passed, so the new expected suite is **118**, not yet executed on the user's Windows machine. Phase 6 Forecast #001 remains unchanged at original sealed Git commit `d4a131a`. No prospective advantage is claimed.
+
+## Phase 7C: active temporal image-pattern research (2026-11-07)
+
+**Current entrypoints:** `lotto_pattern_temporal_audit.py`, `lotto_pattern_dynamic_replay.py`, and `lotto_pattern_dynamic_gallery.py`. See [Phase 7C protocol](phase7c_temporal_patterns.md). They are isolated on `feature/phase7c-temporal-patterns`.
+
+The primary task is now **7×7 graphical-pattern resemblance and temporal order**, not six-of-six jackpot prediction. The former MLP, logits, CNN exact-subset classifiers and static two-prototype Cluster Transition model are retained as reproducibility archives, but they are **not** imported or scored in the active Phase 7C pipeline. A plain prior-image copy remains as a transparent *control*, not a trained prediction model.
+
+Phase 7C tests causal centroid-flow and training-only multi-analog fusion. It reports both unique-pixel and rigid-shape diversity, compares forecast similarity with a **conditional IID six-pixel outcome baseline**, performs within-year chronological shuffles (on lag signatures and train-reference transitions), scrambles only previously observed context frames, and displays block-bootstrap intervals. All 2023–2026 archive results remain retrospective because they were previously examined.
+
+The sealed prospective Phase 6 Forecast #001 is byte-for-byte unchanged in this branch. A new separately time-sealed protocol is required for any genuinely prospective shape-similarity claim.
