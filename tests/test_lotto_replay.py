@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import csv
 import hashlib
+from contextlib import redirect_stdout
+from io import StringIO
 import math
 import tempfile
 import unittest
@@ -14,7 +16,7 @@ import numpy as np
 from lotto_neural import IID_LOGP
 from lotto_replay import (
     TOTAL_SUBSETS, expected_iid_overlap_distribution, lag_midrank_exact,
-    export_draw_csv, midrank_fraction_mc, run_replay, top_subset, uniform_subset_pool,
+    export_draw_csv, midrank_fraction_mc, print_exact_six_report, run_replay, top_subset, uniform_subset_pool,
     validate_replay_split,
 )
 from lotto_synthetic import generate
@@ -205,6 +207,38 @@ class HistoricalTopSixReplayTests(unittest.TestCase):
                          " ".join(f"{v:02d}" for v in
                                   report["individual_draws"][0]["actual_main_six"]))
         self.assertEqual(rows[0]["model"], "iid")
+
+    def test_exact_six_report_treats_partial_matches_as_failure(self):
+        report = {
+            "individual_draws": [
+                {"date": 20250103, "draw_id": 114000001,
+                 "actual_main_six": [1, 2, 3, 4, 5, 6],
+                 "models": {"mlp": {"diagnostic_top_six": [1, 2, 3, 4, 5, 7],
+                                    "exact_six_match": False}}},
+                {"date": 20250107, "draw_id": 114000002,
+                 "actual_main_six": [8, 9, 10, 11, 12, 13],
+                 "models": {"mlp": {"diagnostic_top_six": [8, 9, 10, 11, 12, 13],
+                                    "exact_six_match": True}}},
+            ],
+            "summary_by_model": {
+                name: {"exact_six_matches": 1 if name == "mlp" else 0,
+                       "draws": 2}
+                for name in ("iid", "static", "lag", "mlp")
+            },
+        }
+        output = StringIO()
+        with redirect_stdout(output):
+            print_exact_six_report(report, model="mlp", show_draws=True)
+        content = output.getvalue()
+        self.assertIn("only 6/6 counts as PASS", content)
+        self.assertIn("20250103", content)
+        self.assertIn("20250107", content)
+        self.assertEqual(sum(line.rstrip().endswith("FAIL")
+                             for line in content.splitlines()), 1)
+        self.assertEqual(sum(line.rstrip().endswith("PASS")
+                             for line in content.splitlines()), 1)
+        with self.assertRaises(ValueError):
+            print_exact_six_report(report, model="unsupported")
 
     def test_no_year_in_test_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "no observations"):
