@@ -1,6 +1,6 @@
 # Lotto649 Phase 6.2 — Shadow Forecast Readiness Audit
 
-Status: **implementation committed; Windows verification pending**.
+Status: **implementation committed; Windows verification pending (83 expected tests). GitHub Issue #1 creation time independently verified.**
 
 ## Why this gate exists
 
@@ -29,7 +29,7 @@ The `lotto_shadow.py score` refusal before the research deadline was correct and
 2. Optionally, exact byte identity with the ORIGINAL forecast Git commit.
 3. Candidate structured NPY validity and the full sealed historical **date/ID/main-six prefix**.
 4. Candidate byte SHA-256, draw count, actual latest observed date/ID, and the **first newly appended draw**, if any.
-5. Manifest SHA-256 and counts, plus the bytes, hash and parsed record count of every referenced raw API snapshot.
+5. Manifest SHA-256 and counts, plus the bytes, hash and parsed record count of every referenced raw API snapshot. Each staged candidate draw must match the raw API record for date, period, main six and special number; mismatches are fatal.
 6. The operator-declared research deadline against the machine's current UTC time.
 
 No files are created, deleted, rewritten or renamed, and the command never scores the target draw.
@@ -50,7 +50,7 @@ Invalid source prefixes, bad hashes or invalid API manifest evidence raise error
 cd D:\my-github\lotto649
 git pull origin main
 
-# Expected: 82 tests (73 previously passed + 9 new readiness tests).
+# Expected: 83 tests (73 previously passed + 10 new readiness tests).
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 
 # Read-only audit; may be run at any time.
