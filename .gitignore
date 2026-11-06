@@ -23,3 +23,8 @@ data/synthetic/
 
 # Phase 2 local experiment reports (reproducible)
 data/neural/
+
+# Phase 6: local official-site API captures and derived shadow sources
+# Forecast seals and post-draw score reports remain deliberately trackable.
+data/shadow/api/
+data/shadow/sources/
