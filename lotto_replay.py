@@ -28,7 +28,7 @@ from lotto_neural import (IID_LOGP, K, N, SmallMLP, StaticLogitModel,
 from lotto_probability import FixedCardinalityDistribution
 from lotto_temporal import fit_beta
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 TOTAL_SUBSETS = math.comb(N, K)
 
 # Phase 5 boundaries from the 2,183-draw frozen research protocol.
@@ -397,6 +397,32 @@ def export_draw_csv(report: dict, destination: Path) -> None:
                 })
 
 
+def print_exact_six_report(report: dict, *, model: str = "mlp",
+                           show_draws: bool = False) -> None:
+    """Display the primary binary outcome: all six correct or failure."""
+    if model not in CANDIDATES:
+        raise ValueError("invalid model for exact-six report")
+    draws = report["individual_draws"]
+    stats = report["summary_by_model"]
+    print("Exact six-number match evaluation (only 6/6 counts as PASS)")
+    print("Model     Exact 6/6    Tested    Full-set success rate")
+    for name in CANDIDATES:
+        exact = stats[name]["exact_six_matches"]
+        count = stats[name]["draws"]
+        print(f"{name:7s}  {exact:9d}  {count:8d}  {exact/count:21.8%}")
+    print(f"Selected detail model: {model}")
+    if show_draws:
+        print("Draw date  Period     Predicted six          Actual six             Result")
+        for row in draws:
+            item = row["models"][model]
+            predicted = " ".join(f"{x:02d}" for x in item["diagnostic_top_six"])
+            actual = " ".join(f"{x:02d}" for x in row["actual_main_six"])
+            result = "PASS" if item["exact_six_match"] else "FAIL"
+            print(f"{row['date']}  {row['draw_id']}  "
+                  f"{predicted:<21s}  {actual:<21s}  {result}")
+    print("All non-6/6 outcomes count as FAIL; partial matches are not successes.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Retrospective historical six-number replay; not a ticket tool")
@@ -415,6 +441,9 @@ def main() -> None:
     parser.add_argument("--rank-samples", type=int, default=DEFAULT_RANK_SAMPLES)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--csv", type=Path)
+    parser.add_argument("--show-model", choices=CANDIDATES, default="mlp")
+    parser.add_argument("--show-draws", action="store_true",
+                        help="Print every six-number guess versus actual draw")
     args = parser.parse_args()
     if not args.source.is_file():
         parser.error(f"source not found: {args.source}")
@@ -433,14 +462,11 @@ def main() -> None:
     print(f"Lotto649 Historical Six-Number Replay v{VERSION}")
     print(f"Year: {result['year']}, draws: {result['evaluated_draws']}")
     print(f"Validation-selected model: {result['training']['validation_selected']}")
-    print(f"IID expected matches/draw: {result['iid_theory']['expected_main_numbers_matched_per_draw']:.6f}")
-    print("Model     Mean hits     Exact-six     Mean log lift     Mean observed rank fraction")
+    print_exact_six_report(
+        result, model=args.show_model, show_draws=args.show_draws)
+    print("Secondary probability-score diagnostic (nats relative to IID):")
     for name in CANDIDATES:
-        stats = result["summary_by_model"][name]
-        print(f"{name:7s}  {stats['mean_matched_main_numbers']:9.4f} "
-              f"{stats['exact_six_matches']:12d} "
-              f"{stats['mean_log_score_lift_vs_iid_nats']:+16.6f} "
-              f"{stats['mean_observed_set_rank_fraction']:26.4f}")
+        print(f"  {name:7s} {result['summary_by_model'][name]['mean_log_score_lift_vs_iid_nats']:+.6f}")
     print(f"[DONE] JSON: {output.resolve()}")
     print(f"[DONE] CSV: {csv_output.resolve()}")
     print("[CAUTION] Historical top-six picks are retrospective diagnostics, not prospective tickets")
