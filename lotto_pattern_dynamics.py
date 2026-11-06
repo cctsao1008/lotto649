@@ -103,10 +103,11 @@ class DynamicPatternLibrary:
         self.window = window
         self.neighbors = neighbors
         self.last_weight = float(last_weight)
-        self.signatures = np.stack([signature(x) for x in self.images])
+        # Precompute reference signatures only for the frozen training bank.
+        # Validation/test signatures are computed from past frames at each t.
         if bank_override is None:
             self.bank_images = self.images[:train_end].copy()
-            bank_signatures = self.signatures[:train_end]
+            bank_signatures = np.stack([signature(x) for x in self.bank_images])
         else:
             override = np.asarray(bank_override)
             if override.shape != (train_end, 7, 7):
