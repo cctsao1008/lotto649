@@ -236,6 +236,7 @@ def prepare(*, source: Path, target_date: str, deadline: str, out: Path,
         raise ValueError("target date is already in the past")
     if close.astimezone(TPE).date() != target or current >= close:
         raise ValueError("target deadline must be on target Taipei date and in the future")
+    snapshot_sha = hashlib.sha256(source.read_bytes()).hexdigest()
     numbers, dates, ids = load_official_main_draws(source)
     last = datetime.strptime(str(int(dates[-1])), "%Y%m%d").date()
     age = (current.astimezone(TPE).date() - last).days
@@ -248,6 +249,8 @@ def prepare(*, source: Path, target_date: str, deadline: str, out: Path,
         numbers, seed=seed, window=window, hidden=hidden,
         epochs=epochs, patience=patience, batch_size=batch_size,
         lr=lr, weight_decay=weight_decay)
+    if hashlib.sha256(source.read_bytes()).hexdigest() != snapshot_sha:
+        raise ValueError("source archive changed during forecast preparation")
     payload = {
         "schema": SCHEMA,
         "version": VERSION,
@@ -260,7 +263,7 @@ def prepare(*, source: Path, target_date: str, deadline: str, out: Path,
         "code_commit": revision,
         "source": {
             "path": str(source),
-            "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "sha256": snapshot_sha,
             "observed_prefix_sha256": observed_prefix_hash(numbers, dates, ids),
             "draw_count": len(numbers),
             "last_date": last.isoformat(),
@@ -328,14 +331,17 @@ def score(*, seal_path: Path, updated_source: Path, seal_commit: str,
     scored = {}
     for name in MODELS:
         logits = payload["forecasts"][name]["logits"]
-        logp = FixedCardinalityDistribution(logits, K).log_prob(result_numbers)
+        logp = (IID_LOGP if name == "iid"
+                else FixedCardinalityDistribution(logits, K).log_prob(result_numbers))
         scored[name] = {
             "log_probability": float(logp),
             "lift_vs_iid_nats": float(logp - IID_LOGP),
         }
     report = {
         "schema": "lotto649.shadow.score.v1",
-        "status": "CONTENT_COMMIT_VERIFIED_PRE_DRAW_PUBLICATION_UNVERIFIED",
+        "status": ("TEST_ONLY_GIT_VERIFICATION_SKIPPED"
+                   if skip_git_verification
+                   else "CONTENT_COMMIT_VERIFIED_PRE_DRAW_PUBLICATION_UNVERIFIED"),
         "seal_payload_sha256": seal["payload_sha256"],
         "seal_file_sha256": hashlib.sha256(seal_path.read_bytes()).hexdigest(),
         "seal_commit": seal_commit,
