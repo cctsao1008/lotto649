@@ -65,7 +65,7 @@ class DynamicGalleryTests(unittest.TestCase):
         }
         html = render_gallery(report, max_draws=3)
         self.assertIn("Dynamic 7×7", html)
-        self.assertIn("Temporal", html)
+        self.assertIn("Time-order permutation control", html)
         self.assertIn("analog_fusion", html)
         self.assertEqual(html.count("<svg "), 4)
 
