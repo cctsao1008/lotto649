@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0/1/2 tests confirmed; Phase 3 passed 29 tests and completed 10-seed robustness on home PC; Phase 4 synthetic temporal-learning benchmark implemented, awaiting Windows tests/results. No real-draw prediction advantage established.**
+Status: **Phase 0–4 Windows tests confirmed (37/37); Phase 4 ten-seed synthetic temporal benchmark shows partial MLP learning (+0.177 nats) vs matched one-parameter Lag Model (+1.895 nats). Phase 4.1 inductive-bias extension committed; host validation pending. No real-draw prediction advantage established.**
 
 ## Objective and non-goals
 
@@ -110,3 +110,8 @@ Generated experiment results are written to `data/neural/*.json`, excluded from 
 ## Phase 4: time-dependent synthetic positive control (implemented; host validation pending)
 
 **`lotto_temporal.py`** introduces exact Markov lag-echo sampling where `P(S_t|S_(t-1))` increases exponentially with the count of repeated numbers. Model sees previously observed draws only, never oracle parameters. On a separate seed range, compare IID, Static, Small MLP and a train-only estimated one-parameter lag model. MLP need not outperform this correctly specified lag baseline; whether it improves on time-independent Static demonstrates whether the neural architecture captures the synthetic temporal dependency. It uses the Phase 2 trainer unchanged and reports all seed-level outcomes. **`tests/test_lotto_temporal.py`** verifies exact overlap law, independence at zero coupling, causal fitting, reproducibility and oracle isolation. See [Phase 4 protocol](phase4_temporal_protocol.md). No 1/3/12-month forecasting and no final selection implementation.
+
+
+## Phase 4.1: Inductive bias before increasing neural complexity
+
+**`lotto_echo.py`** tests the hypothesis that a direct, interpretable neural skip connection from the previous observed draw to the 49 logits is more sample efficient than a generic MLP on a known synthetic lag-overlap distribution. The fully trainable `EchoOnlyModel` has one scalar; `EchoResidualMLP` adds a learned scalar echo path to the original MLP. Matched tests include IID, Static, MLP and the train-only fitted Lag Model, using a **fresh independent seed range**; results are saved in `data/neural/`. See [Phase 4.1 detailed experimental protocol](phase4_echo_inductive_bias.md). This does **not** assert an echo mechanism for the actual lottery. Neural state-space models, TCN, GRU and `lotto_select.py` remain deferred until specific validation criteria are met.
