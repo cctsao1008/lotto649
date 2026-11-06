@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0–4 Windows tests confirmed (37/37); Phase 4 ten-seed synthetic temporal benchmark shows partial MLP learning (+0.177 nats) vs matched one-parameter Lag Model (+1.895 nats). Phase 4.1 inductive-bias extension committed; host validation pending. No real-draw prediction advantage established.**
+Status: **Phase 4.1 passed 43/43 Windows tests and ten-seed synthetic controls; Echo Only +1.85191 nats vs Lag MLE +1.94827, but jointly fitted Echo + MLP only +0.65037. Phase 4.2 staged-residual optimizer audit committed; Windows validation pending. No real-draw prediction advantage established.**
 
 ## Objective and non-goals
 
@@ -115,3 +115,8 @@ Generated experiment results are written to `data/neural/*.json`, excluded from 
 ## Phase 4.1: Inductive bias before increasing neural complexity
 
 **`lotto_echo.py`** tests the hypothesis that a direct, interpretable neural skip connection from the previous observed draw to the 49 logits is more sample efficient than a generic MLP on a known synthetic lag-overlap distribution. The fully trainable `EchoOnlyModel` has one scalar; `EchoResidualMLP` adds a learned scalar echo path to the original MLP. Matched tests include IID, Static, MLP and the train-only fitted Lag Model, using a **fresh independent seed range**; results are saved in `data/neural/`. See [Phase 4.1 detailed experimental protocol](phase4_echo_inductive_bias.md). This does **not** assert an echo mechanism for the actual lottery. Neural state-space models, TCN, GRU and `lotto_select.py` remain deferred until specific validation criteria are met.
+
+
+## Phase 4.2: optimizer audit before more architecture
+
+**`lotto_echo_staged.py`** compares the original AdamW one-parameter echo training, an exact **train-only MLE** echo coefficient (with PyTorch parity check), and a **frozen-MLE echo plus a validation-gated neural residual**. At training epoch zero, the staged residual is identically zero, so the benchmark starts at the correctly estimated reference distribution. New network weights are selected only if they improve the chronological validation log score; this is not a test guarantee. Fresh seeds 30000..30009 are used for IID and Lag Echo controls. See [Phase 4.2 audit protocol](phase4_staged_residual.md). No new architecture is promoted from synthetic performance alone; TCN/GRU and `lotto_select.py` remain deferred.
