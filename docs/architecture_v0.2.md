@@ -1,6 +1,6 @@
 # Lotto649 Neural Learning & Predictive Control — Architecture v0.2
 
-Status: **Phase 0 verified by user's Windows machine (8/8); Phase 1 PyTorch decoder implemented and locally verified (8/8). Neural models not yet trained.**
+Status: **Phase 0 and Phase 1 passed user's Windows tests (16/16); Phase 2 trainer and tests implemented, awaiting host run. No real-draw predictive advantage established.**
 
 ## Objective and non-goals
 
@@ -73,3 +73,30 @@ python .\lotto_synthetic.py --mode periodic_bias --count 2183 --period 52 --stre
 ```
 
 These modules do **not** modify existing downloader, normalizer, analyzer, or historical data files.
+
+
+## Phase 2: static probability vs Small MLP (implemented; host verification pending)
+
+**`lotto_neural.py`** provides the first neural-learning experiment. It intentionally reads **only** `numbers` from generated `.npz` files and cannot see synthetic oracle `logits` or `phases`. Two trainable models share the exact Phase 1 fixed-cardinality decoder:
+
+- `static`: 49 trainable time-invariant logits; a simpler statistical model.
+- `mlp`: causal sequence of the previous `window` six-number draws represented as flattened 49-bit vectors -> `Linear(window*49, hidden) -> Tanh -> Linear(hidden,49)`. Defaults: window=5, hidden=16. It starts at the IID distribution.
+
+The loss is **negative exact joint six-number log-likelihood**, optimized with AdamW, gradient clipping and validation-based early stopping. Chronological draw-position splits are train 60%, validation 20%, test 20%. Every example's inputs end **before** its target draw; a test example may use previously observed test draws as context, as in operational one-step forecasting, but the frozen model cannot update its weights using them. Test scores are computed only after validation-based training finishes.
+
+Scores are **mean test log probability per complete set**, and lift (nats/draw) vs IID is `mean_logp_model - (-log(13983816))`. The baseline `iid` has no trainable parameters. A positive single-test lift is **not** proof of advantage: Phase 3 requires many random seeds and search-corrected null comparisons.
+
+The MLP is not guaranteed to outperform a static model on `fixed_bias` data: static bias is itself the truth. The `periodic_bias` generator has oracle periodic phases that must never be used as model inputs; the Phase 2 MLP intentionally has no phase feature. Phase 3 should evaluate explicit *past-observable* phase representations if justified, never use oracle phase labels.
+
+Run in Windows PowerShell from the user's home PC repository:
+
+```powershell
+cd D:\my-github\lotto649
+git pull origin main
+.\.venv\Scripts\python.exe .\lotto_synthetic.py --mode fixed_bias --count 2183 --seed 649 --strength 2.0
+.\.venv\Scripts\python.exe .\lotto_neural.py --data data/synthetic/fixed_bias_n2183_seed649.npz
+.\.venv\Scripts\python.exe .\lotto_neural.py --data data/synthetic/iid_n2183_seed649.npz
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+Generated experiment results are written to `data/neural/*.json`, excluded from Git. Preserve output and seed information for comparison. No model is yet used for real-money decisions or prospective 1/3/12-month forecasting. `lotto_select.py` remains last.
