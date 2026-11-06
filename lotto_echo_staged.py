@@ -156,7 +156,11 @@ def trial(*, draws: np.ndarray, seed: int,
         batch_size=batch_size, lr=lr, weight_decay=weight_decay,
         min_delta=min_delta,
     )
-    staged_lift = mean_log_score(staged, decoder, x_test, y_test, batch_size) - IID_LOGP
+    if staged_info["selected_residual"]:
+        staged_lift = mean_log_score(staged, decoder, x_test, y_test, batch_size) - IID_LOGP
+    else:
+        # An unselected residual is the exact MLE model; reuse its double-precision score.
+        staged_lift = mle_lift
     return {
         "seed": int(seed),
         "train_range": [int(train_idx[0]), int(train_idx[-1])],
