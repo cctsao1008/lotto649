@@ -48,6 +48,7 @@ def inspect_manifest(path: Path, candidate: Path, actual_count: int) -> dict:
     if not isinstance(entries, list) or not entries:
         raise ValueError("manifest is missing API evidence")
     snapshots = []
+    api_by_period = {}
     for item in entries:
         if not isinstance(item, dict) or not isinstance(item.get("file"), str):
             raise ValueError("invalid API snapshot manifest entry")
@@ -60,12 +61,38 @@ def inspect_manifest(path: Path, candidate: Path, actual_count: int) -> dict:
         results = parse_response(json.loads(snapshot_path.read_text(encoding="utf-8")))
         if len(results) != item.get("records"):
             raise ValueError(f"API snapshot record count mismatch: {snapshot_path}")
+        for result in results:
+            period = result["draw_id"]
+            if period in api_by_period:
+                raise ValueError(f"duplicate period across API snapshots: {period}")
+            api_by_period[period] = result
         snapshots.append({
             "file": str(snapshot_path),
             "sha256_verified": True,
             "record_count": len(results),
             "last_draw_date": results[-1]["date"] if results else None,
         })
+    records = np.load(candidate, allow_pickle=False)
+    for row in records:
+        period = int(row["draw_id"])
+        if period not in api_by_period:
+            continue
+        matched = api_by_period[period]
+        if (int(row["date"]) != matched["date"]
+                or sorted(map(int, row["numbers"])) != matched["numbers"]
+                or int(row["special"]) != matched["special"]):
+            raise ValueError(f"candidate conflicts with raw API evidence for {period}")
+    for row in records[original_count:]:
+        period = int(row["draw_id"])
+        if period not in api_by_period:
+            raise ValueError(f"staged draw {period} lacks raw API evidence")
+    if staged_count:
+        last_staged = records[-1]
+        stated = manifest.get("last_added")
+        if (not isinstance(stated, dict)
+                or stated.get("date") != int(last_staged["date"])
+                or stated.get("draw_id") != int(last_staged["draw_id"])):
+            raise ValueError("manifest last_added does not match staged source")
     return {
         "status": "VERIFIED",
         "path": str(path),
