@@ -24,7 +24,7 @@ from lotto_pattern_replay import (
 from lotto_pattern_similarity import signature
 
 VERSION = "0.1.0"
-LAGS = (1, 2, 3, 5)
+LAGS = (1, 2, 3, 4, 5, 10)
 DEFAULT_PERMUTATIONS = 99
 
 
@@ -117,6 +117,11 @@ def permutation_audit(images: np.ndarray, dates: np.ndarray, *,
                         1 + np.count_nonzero(
                             np.asarray(null[lag]) >= observed[lag][0]))
                         / (permutations + 1)),
+                    "empirical_two_sided_tail": float((
+                        1 + np.count_nonzero(
+                            np.abs(np.asarray(null[lag]) - np.mean(null[lag]))
+                            >= abs(observed[lag][0] - np.mean(null[lag]))))
+                        / (permutations + 1)),
                 } for lag in lags
             },
         }
@@ -124,7 +129,7 @@ def permutation_audit(images: np.ndarray, dates: np.ndarray, *,
         "schema": "lotto649.phase7c.temporal_permutation.v1",
         "version": VERSION,
         "status": "EXPLORATORY_HISTORICAL_NOT_PROSPECTIVE",
-        "primary_statistic": "train-standardized_signature_lag1_cosine",
+        "primary_statistic": "two-sided departure of train-standardized lag1 cosine from within-year shuffle null",
         "null": "independent_within_calendar_year_order_permutations",
         "seed": seed, "permutations": permutations,
         "lags": list(lags),
@@ -174,13 +179,13 @@ def main() -> None:
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"Lotto649 Phase 7C Temporal Permutation Audit v{VERSION}")
-    print("Segment             Pairs    Lag1 cosine    Shuffled mean    Tail probability")
+    print("Segment             Pairs    Lag1 cosine    Shuffled mean    Two-sided tail")
     for name, block in report["segments"].items():
         r = block["lags"]["1"]
         print(f"{name:20s} {r['pairs']:5d} "
               f"{r['observed_mean_cosine']:+13.6f} "
               f"{r['shuffled_mean_cosine']:+16.6f} "
-              f"{r['empirical_upper_tail']:15.4f}")
+              f"{r['empirical_two_sided_tail']:15.4f}")
     print(f"[DONE] JSON: {args.report.resolve()}")
     print("[CAUTION] Previously explored historical data; tails are exploratory only")
 
