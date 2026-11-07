@@ -426,3 +426,32 @@ prospective evidence of a lottery prediction edge. Audit result files are
 exclusive-create and tied to the input report SHA256.
 
 [Full command examples and statistical limitations](docs/full_history_independent_audit_v073.md).
+
+
+## v0.8 — GPU Causal Probability Research
+
+This experiment shifts from shape-candidate *mathematical coverage* to
+**individual next-draw number probability quality**. It compares fixed fair
+6/49 IID marginals, smoothed historical-frequency marginals, recent
+exponentially weighted marginals, and a GPU-trained 7×7 CNN+GRU model. All
+models forecast the same chronological targets, using only prior published
+draws. The network retrains every configurable block with an internal
+past-only validation segment, and its 49 marginals are constrained to sum six.
+Proper Brier Score / binary log loss and Top-6 hit distributions are reported.
+A separate next-draw research forecast is produced using the latest known
+historical prefix without access to an unseen winning result.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --tail-targets 5 --epochs 12 --out results/probability_v08_smoke.json
+& $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --block-size 100 --epochs 12 --seed 649 --out results/probability_v08_full.json
+```
+
+With the current 2,497-draw Biga BIN, the complete experiment evaluates
+2,297 chronological targets (one Top-6 research combination per model and
+target). The previously reported v0.7.2 five-ticket union rates are **not**
+comparable to this one-ticket forecast metric. A marginal sum of six does not
+create a valid six-number joint probability model or demonstrate empirical
+calibration. All historical results remain exploratory, not prospective proof.
+
+See [v0.8 research protocol](docs/gpu_probability_research_v08.md).
