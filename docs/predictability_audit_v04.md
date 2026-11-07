@@ -37,10 +37,12 @@ CNN/GRU dimensions, or deterministic hard Top-6 decoder.
   exploratory and cannot yield a blind-significance claim.
 - **Synthetic controls:** a periodic sequence whose cycle length equals the context window (positive
   control) and independent six-of-49 masks (negative control). These check
-  whether an architecture can learn supplied structure. Each window holds
-  the same unordered mask multiset in different orders, so the next target
-  cannot be inferred from the multiset alone; this does not show whether any
-  actual lottery draw is predictable. Both controls use the same methods and loss.
+  whether an architecture can learn supplied structure. In the periodic
+  control, each window holds the same unordered mask multiset in different
+  orders; only the ordered context identifies the next phase. This property
+  does not apply to the independent IID negative control. Neither control
+  establishes that any actual lottery draw is predictable. Both use the
+  same methods and loss.
 
 ## CLI
 
