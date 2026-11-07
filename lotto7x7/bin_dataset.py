@@ -1,63 +1,57 @@
-"""Versioned, lossless Lotto649 CSV-to-BIN draw archive.
+"""Canonical Lotto649 CSV to 7x7 six-pixel BIN v2 converter.
 
-Source columns: draw_id, six main numbers, and special number.
-The record excludes the date by design; the source CSV remains authoritative
-for dates and sales metadata. Binary records are ordered by draw_id.
+CSV remains the source of truth. Each record stores only draw_id and a
+sequentially mapped 7x7 six-pixel binary mask. No bonus number or date is
+stored in this file; the ROC year can be recovered from the draw ID.
 
-Wire format v1:
-    16-byte header: <8sII, magic=b'L649BIN1', count, record_bytes=11
-    11-byte record: <I7B, draw_id:uint32, main[6]:uint8, special:uint8
-
-All integers are unsigned, little-endian where multi-byte, and unaligned.
+Header (16 bytes): <8sII  magic=L649IMG2, count, record_bytes=53
+Record (53 bytes): <I49B  draw_id:uint32 and 49 raster uint8 cells
 """
 from __future__ import annotations
 
 import argparse
-import csv
 from collections import Counter
+import csv
 from dataclasses import dataclass
 from datetime import datetime
-from pathlib import Path
 import hashlib
 import os
+from pathlib import Path
 import re
 import struct
 import tempfile
 
 import numpy as np
 
-MAGIC = b"L649BIN1"
+from .core import decode, encode
+
+MAGIC = b"L649IMG2"
 HEADER = struct.Struct("<8sII")
-RECORD = struct.Struct("<I7B")
-DTYPE = np.dtype([
-    ("draw_id", "<u4"),
-    ("numbers", "u1", (6,)),
-    ("special", "u1"),
-], align=False)
+RECORD = struct.Struct("<I49B")
+DTYPE = np.dtype([("draw_id", "<u4"), ("image", "u1", (7, 7))], align=False)
 SOURCE_PATTERN = re.compile(r"^大樂透_\d{4}(?:\d{2}_\d{6})?\.csv$")
 REQUIRED = ("遊戲名稱", "期別", "開獎日期", "獎號1", "獎號2", "獎號3",
-            "獎號4", "獎號5", "獎號6", "特別號")
+            "獎號4", "獎號5", "獎號6")
 DEFAULT_CSV = Path("data/csv")
-DEFAULT_BIN = Path("data/bin/lotto649_draws_v1.bin")
+DEFAULT_BIN = Path("data/bin/lotto649_images_v2.bin")
 
-if DTYPE.itemsize != RECORD.size:
-    raise RuntimeError("binary structured record size differs from schema")
+if HEADER.size != 16 or RECORD.size != 53 or DTYPE.itemsize != RECORD.size:
+    raise RuntimeError("BIN v2 schema has an unexpected byte size")
 
 
 @dataclass(frozen=True)
 class Draw:
     draw_id: int
     main: tuple[int, int, int, int, int, int]
-    special: int
     date: int
     source: str
 
 
-def discover_sources(csv_root: Path) -> list[Path]:
-    """Discover both normal names and 2018/2020 yyyyMM_yyyyMM variants."""
+def discover_sources(csv_root: Path = DEFAULT_CSV) -> list[Path]:
+    """Discover annual Lotto649 CSVs, including 2018 and 2020 range names."""
     root = Path(csv_root)
     sources = sorted(p for p in root.glob("*/*.csv")
-                     if p.is_file() and p.parent.name.isdigit()
+                     if p.is_file() and p.parent.name.isdecimal()
                      and len(p.parent.name) == 4
                      and SOURCE_PATTERN.fullmatch(p.name))
     if not sources:
@@ -70,167 +64,186 @@ def discover_sources(csv_root: Path) -> list[Path]:
 
 
 def _positive_int(text: str, *, label: str, origin: str) -> int:
-    try:
-        raw = str(text).strip()
-        if not raw.isdecimal():
-            raise ValueError("non-decimal integer")
-        value = int(raw)
-    except (ValueError, TypeError) as exc:
-        raise ValueError(f"{origin}: invalid {label}: {text!r}") from exc
-    return value
+    raw = str(text).strip()
+    if not raw.isdecimal():
+        raise ValueError(f"{origin}: invalid {label}: {text!r}")
+    return int(raw)
 
 
 def parse_csv(path: Path) -> list[Draw]:
-    """Parse columns by header; tolerate BOM and unrelated trailing columns."""
+    """Validate source fields by header, tolerating BOM and trailing columns.
+
+    The special-number column is deliberately ignored. It is never encoded
+    into this six-pixel dataset and is not a training label.
+    """
     path = Path(path)
+    if not path.parent.name.isdecimal():
+        raise ValueError(f"{path}: numeric year directory required")
     year = int(path.parent.name)
-    results: list[Draw] = []
-    with path.open("r", encoding="utf-8-sig", newline="") as f:
-        reader = csv.reader(f)
+    result: list[Draw] = []
+    with path.open("r", encoding="utf-8-sig", newline="") as file:
+        reader = csv.reader(file)
         try:
-            header = [field.strip() for field in next(reader)]
+            header = [h.strip() for h in next(reader)]
         except StopIteration as exc:
             raise ValueError(f"{path}: empty CSV") from exc
-        missing = [field for field in REQUIRED if field not in header]
+        missing = [key for key in REQUIRED if key not in header]
         if missing:
             raise ValueError(f"{path}: missing columns: {missing}")
-        positions = {field: header.index(field) for field in REQUIRED}
-        for line_number, row in enumerate(reader, start=2):
+        columns = {key: header.index(key) for key in REQUIRED}
+        for lineno, row in enumerate(reader, 2):
             if not row or not any(cell.strip() for cell in row):
                 continue
-            origin = f"{path}:{line_number}"
-            if len(row) <= max(positions.values()):
+            origin = f"{path}:{lineno}"
+            if len(row) <= max(columns.values()):
                 raise ValueError(f"{origin}: truncated row")
-            if row[positions["遊戲名稱"]].strip() != "大樂透":
+            if row[columns["遊戲名稱"]].strip() != "大樂透":
                 raise ValueError(f"{origin}: unexpected game name")
-            draw_id = _positive_int(row[positions["期別"]], label="draw_id", origin=origin)
+            draw_id = _positive_int(row[columns["期別"]],
+                                    label="draw_id", origin=origin)
             if not 0 < draw_id <= 0xFFFFFFFF or draw_id // 1000000 != year - 1911:
                 raise ValueError(f"{origin}: draw_id/year mismatch or overflow")
-            raw_date = row[positions["開獎日期"]].strip()
+            date_text = row[columns["開獎日期"]].strip()
             try:
-                date = datetime.strptime(raw_date, "%Y/%m/%d")
+                date = datetime.strptime(date_text, "%Y/%m/%d")
             except ValueError as exc:
-                raise ValueError(f"{origin}: invalid draw date {raw_date!r}") from exc
+                raise ValueError(f"{origin}: invalid draw date {date_text!r}") from exc
             if date.year != year:
                 raise ValueError(f"{origin}: draw date/year mismatch")
-            labels = ("獎號1", "獎號2", "獎號3", "獎號4", "獎號5", "獎號6", "特別號")
-            nums = tuple(_positive_int(row[positions[key]], label=key, origin=origin)
-                         for key in labels)
-            if any(not 1 <= x <= 49 for x in nums) or len(set(nums)) != 7:
-                raise ValueError(f"{origin}: numbers must be seven distinct values in 1..49")
-            results.append(Draw(draw_id, nums[:6], nums[6],
-                                int(date.strftime("%Y%m%d")), str(path)))
-    if not results:
-        raise ValueError(f"{path}: no draw rows")
-    return results
+            main = tuple(_positive_int(row[columns[f"獎號{i}"]],
+                                       label=f"main_{i}", origin=origin)
+                         for i in range(1, 7))
+            if any(n < 1 or n > 49 for n in main) or len(set(main)) != 6:
+                raise ValueError(f"{origin}: six main numbers must be distinct in 1..49")
+            result.append(Draw(draw_id, main,
+                               int(date.strftime("%Y%m%d")), str(path)))
+    if not result:
+        raise ValueError(f"{path}: no draw records")
+    return result
 
 
-def load_csv_directory(root: Path = DEFAULT_CSV) -> tuple[list[Draw], list[Path]]:
-    """Read and validate every source; sort by globally increasing draw ID."""
-    sources = discover_sources(root)
-    draws = [draw for path in sources for draw in parse_csv(path)]
-    draws.sort(key=lambda x: x.draw_id)
-    for previous, current in zip(draws, draws[1:]):
-        if previous.draw_id == current.draw_id:
-            raise ValueError(f"duplicate draw ID {current.draw_id}")
-        if previous.date >= current.date:
-            raise ValueError(f"chronology mismatch near {current.draw_id}")
+def load_csv_directory(csv_root: Path = DEFAULT_CSV) -> tuple[list[Draw], list[Path]]:
+    """Read every annual file and verify globally unique IDs and chronology."""
+    sources = discover_sources(csv_root)
+    draws = sorted((r for path in sources for r in parse_csv(path)),
+                   key=lambda r: r.draw_id)
+    for left, right in zip(draws, draws[1:]):
+        if left.draw_id == right.draw_id:
+            raise ValueError(f"duplicate draw ID {right.draw_id}")
+        if left.date >= right.date:
+            raise ValueError(f"chronology mismatch near draw {right.draw_id}")
     return draws, sources
 
 
 def encode_bin(draws: list[Draw]) -> bytes:
-    """Serialize the exact eight requested fields with a versioned header."""
+    """Serialize sequential 7x7 raster images as 53-byte fixed-width records."""
     if not draws:
         raise ValueError("cannot serialize zero draws")
-    payload = bytearray(HEADER.pack(MAGIC, len(draws), RECORD.size))
-    last = 0
-    for entry in draws:
-        if entry.draw_id <= last or not 0 < entry.draw_id <= 0xFFFFFFFF:
-            raise ValueError("draw IDs must be unique ascending uint32 values")
-        numbers = (*entry.main, entry.special)
-        if len(entry.main) != 6 or any(not 1 <= n <= 49 for n in numbers) or len(set(numbers)) != 7:
-            raise ValueError(f"invalid six-main/special payload at {entry.draw_id}")
-        payload += RECORD.pack(entry.draw_id, *numbers)
-        last = entry.draw_id
-    return bytes(payload)
+    out = bytearray(HEADER.pack(MAGIC, len(draws), RECORD.size))
+    last_id = 0
+    for row in draws:
+        if (not 0 < row.draw_id <= 0xFFFFFFFF or row.draw_id <= last_id
+                or row.draw_id // 1000000 < 1
+                or len(row.main) != 6):
+            raise ValueError("draw IDs must be valid ascending uint32 values")
+        mask = encode(np.asarray(row.main, dtype=np.int64), mapping="sequential")
+        out.extend(RECORD.pack(row.draw_id, *mask.ravel().tolist()))
+        last_id = row.draw_id
+    return bytes(out)
 
 
 def decode_bin(payload: bytes) -> np.ndarray:
-    """Read and validate all records; do not silently accept damaged BIN data."""
-    if len(payload) < HEADER.size:
+    """Reject incompatible header versions, malformed masks or damaged sizes."""
+    data = memoryview(payload)
+    if len(data) < HEADER.size:
         raise ValueError("truncated BIN header")
-    magic, count, width = HEADER.unpack_from(payload)
+    magic, count, width = HEADER.unpack_from(data)
     if magic != MAGIC or width != RECORD.size:
-        raise ValueError("unsupported BIN magic/version or record size")
-    if not count or len(payload) != HEADER.size + count * width:
-        raise ValueError("BIN count does not match actual byte length")
-    records = np.frombuffer(payload, dtype=DTYPE, count=count, offset=HEADER.size)
-    ids = records["draw_id"]
-    if np.any(ids == 0) or np.any(ids[1:] <= ids[:-1]):
-        raise ValueError("BIN draw IDs are not strictly increasing")
-    numbers = np.column_stack([records["numbers"], records["special"]])
-    if np.any((numbers < 1) | (numbers > 49)) or any(len(set(row.tolist())) != 7 for row in numbers):
-        raise ValueError("BIN contains invalid or repeated numbers")
+        raise ValueError("unsupported BIN v2 magic or record width")
+    if not count or len(data) != HEADER.size + count * width:
+        raise ValueError("BIN record count does not match byte length")
+    records = np.frombuffer(data, dtype=DTYPE, count=count, offset=HEADER.size)
+    draw_ids = records["draw_id"].astype(np.int64)
+    if np.any(draw_ids < 1_000_000) or np.any(np.diff(draw_ids) <= 0):
+        raise ValueError("invalid, duplicated or unordered BIN draw IDs")
+    pixels = records["image"]
+    if np.any(pixels > 1) or np.any(pixels.sum(axis=(1, 2)) != 6):
+        raise ValueError("each BIN image must have exactly six binary active pixels")
     return records
 
 
+def verify(path: Path = DEFAULT_BIN, csv_root: Path = DEFAULT_CSV) -> dict:
+    """Check both the wire format and byte equality to fresh CSV conversion."""
+    content = Path(path).read_bytes()
+    records = decode_bin(content)
+    source_draws, sources = load_csv_directory(csv_root)
+    regenerated = encode_bin(source_draws)
+    if content != regenerated:
+        raise ValueError("BIN differs from original CSV-derived six-point masks")
+    return {
+        "records": len(records), "bytes": len(content),
+        "source_files": len(sources),
+        "first_draw_id": int(records["draw_id"][0]),
+        "last_draw_id": int(records["draw_id"][-1]),
+        "sha256": hashlib.sha256(content).hexdigest(),
+    }
+
+
 def build(csv_root: Path = DEFAULT_CSV, out: Path = DEFAULT_BIN) -> dict:
-    """Atomically write one canonical combined BIN after read-back verification."""
+    """Atomically generate, read back and CSV-verify the canonical BIN file."""
     draws, sources = load_csv_directory(csv_root)
-    payload = encode_bin(draws)
-    restored = decode_bin(payload)
-    for original, record in zip(draws, restored):
-        if (original.draw_id != int(record["draw_id"])
-                or original.main != tuple(map(int, record["numbers"]))
-                or original.special != int(record["special"])):
-            raise AssertionError(f"serialization round-trip failed at {original.draw_id}")
+    content = encode_bin(draws)
+    restored = decode_bin(content)
+    if len(restored) != len(draws):
+        raise AssertionError("binary roundtrip changed number of draws")
+    for row, decoded in zip(draws, restored):
+        if row.draw_id != int(decoded["draw_id"]) or set(row.main) != set(
+                decode(decoded["image"], mapping="sequential")):
+            raise AssertionError(f"binary roundtrip mismatch at {row.draw_id}")
     path = Path(out)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temp_path = None
+    temporary = None
     try:
-        with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent,
-                                         prefix=path.name+".", suffix=".tmp",
-                                         delete=False) as f:
-            temp_path = Path(f.name)
-            f.write(payload)
+        with tempfile.NamedTemporaryFile(
+                mode="wb", dir=path.parent, prefix=path.name+".",
+                suffix=".tmp", delete=False) as f:
+            temporary = Path(f.name)
+            f.write(content)
             f.flush()
             os.fsync(f.fileno())
-        temp_path.replace(path)
+        temporary.replace(path)
     finally:
-        if temp_path is not None:
-            temp_path.unlink(missing_ok=True)
-    reread = decode_bin(path.read_bytes())
-    if not np.array_equal(restored, reread):
-        raise AssertionError("written BIN failed read-back validation")
-    counts = dict(sorted(Counter(str(d.date)[:4] for d in draws).items()))
-    return {"file": str(path), "bytes": len(payload), "records": len(draws),
-            "source_files": len(sources), "counts_by_year": counts,
-            "sha256": hashlib.sha256(payload).hexdigest(),
-            "first_draw_id": draws[0].draw_id, "last_draw_id": draws[-1].draw_id}
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+    validated = verify(path, csv_root)
+    validated["counts_by_year"] = dict(sorted(Counter(
+        str(x.date)[:4] for x in draws).items()))
+    validated["file"] = str(path)
+    return validated
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Lossless Lotto649 CSV to versioned BIN")
+    parser = argparse.ArgumentParser(
+        description="Build or verify 7x7 Lotto649 BIN v2 from canonical CSV files")
     parser.add_argument("--csv-root", type=Path, default=DEFAULT_CSV)
     parser.add_argument("--out", type=Path, default=DEFAULT_BIN)
     parser.add_argument("--verify", type=Path,
-                        help="Validate an existing BIN file without rewriting")
+                        help="Compare an existing BIN v2 byte-for-byte against original CSVs")
     args = parser.parse_args()
-    if args.verify is not None:
-        records = decode_bin(args.verify.read_bytes())
-        print(f"[PASS] Binary: {args.verify} | records={len(records)} | record_bytes={RECORD.size}")
-        print(f"[PASS] First draw ID: {int(records['draw_id'][0])}")
-        print(f"[PASS] Last draw ID: {int(records['draw_id'][-1])}")
+    if args.verify:
+        result = verify(args.verify, args.csv_root)
+        print(f"[PASS] BIN v2: records={result['records']} bytes={result['bytes']}")
+        print(f"[PASS] CSV source files: {result['source_files']}")
+        print(f"[PASS] CSV parity and SHA256: {result['sha256']}")
         return
     result = build(args.csv_root, args.out)
-    print(f"[PASS] Source CSV files: {result['source_files']}")
-    print(f"[PASS] Parsed draws: {result['records']}")
-    for year, count in result["counts_by_year"].items():
-        print(f"[YEAR] {year}: {count}")
-    print(f"[PASS] Fixed BIN record: {RECORD.size} bytes")
-    print(f"[PASS] BIN size: {result['bytes']} bytes")
+    print("Lotto649 7x7 Image BIN v2")
+    print(f"[PASS] CSV sources: {result['source_files']}")
+    print(f"[PASS] Draw images: {result['records']}")
+    print(f"[PASS] Record size: {RECORD.size} bytes")
+    print(f"[PASS] Total size: {result['bytes']} bytes")
     print(f"[PASS] SHA256: {result['sha256']}")
-    print(f"[DONE] Binary dataset: {Path(result['file']).resolve()}")
+    print(f"[DONE] BIN: {Path(result['file']).resolve()}")
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ from torch.nn import functional as F
 
 from .core import decode, iid_expected, iid_images, similarity, validate
 from .models import diversity
-from .research import DATA, load_history, split
+from .research import DATA, calendar_years, load_history, split
 
 VERSION = "0.1.0"
 
@@ -231,7 +231,7 @@ def learned_replay(path: Path = DATA, *, year: int | None = None,
     path = Path(path)
     images, dates, ids = load_history(path)
     train, val, test = split(len(images), window)
-    chosen = test if year is None else test[dates[test] // 10000 == year]
+    chosen = test if year is None else test[calendar_years(ids[test]) == year]
     if not len(chosen):
         raise ValueError("year has no observations in chronological test range")
     model, training = train_model(
@@ -249,7 +249,9 @@ def learned_replay(path: Path = DATA, *, year: int | None = None,
         chance = iid_images(baseline, seed=seed + int(t)*1000003)
         compare = {"learned_image": predictions[i],
                    "previous_image": images[int(t)-1]}
-        item = {"date": int(dates[t]), "draw_id": int(ids[t]),
+        item = {"date": int(dates[t]) if dates[t] else None,
+                "year": int(calendar_years(ids[[t]])[0]),
+                "draw_id": int(ids[t]),
                 "actual": decode(current), "methods": {}}
         for name, guess in compare.items():
             observed = similarity(guess, current)

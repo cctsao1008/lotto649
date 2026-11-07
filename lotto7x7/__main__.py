@@ -10,6 +10,7 @@ from .core import decode, encode, invert_spectrum, spectrum
 from .research import DATA, load_history, research
 from .learning import learned_replay
 import torch
+import numpy as np
 
 
 def gallery(report: dict, count: int = 40) -> str:
@@ -29,7 +30,9 @@ def gallery(report: dict, count: int = 40) -> str:
             adjusted = item.get('adjusted', item.get('chance_adjusted'))
             figures.append('<section><h4>'+escape(name)+'</h4>'+image_svg(item['predicted'])+
                            '<p>Adjusted '+f"{adjusted:+.4f}"+'</p></section>')
-        blocks.append('<article><h3>'+str(entry['date'])+' | '+str(entry['draw_id'])+'</h3><div class="grid">'+''.join(figures)+'</div></article>')
+        date_label = (str(entry['date']) if entry.get('date') is not None
+                      else f"Year {entry['year']}")
+        blocks.append('<article><h3>'+date_label+' | '+str(entry['draw_id'])+'</h3><div class="grid">'+''.join(figures)+'</div></article>')
     summary = report['evaluation'] if report.get('schema') == 'lotto7x7.visual.v1' else report['summary']
     scores = ''.join('<tr><th>'+escape(name)+'</th><td>'+
                      f"{item.get('adjusted_mean', item.get('mean_iid_adjusted_similarity')):+.6f}"+
@@ -84,7 +87,12 @@ def main() -> None:
         for domain in ("dct", "fft"):
             if abs(invert_spectrum(spectrum(first, domain), domain)-first).max() > 1e-10:
                 raise RuntimeError("image spectral reconstruction failed")
-        print(f"[PASS] Data records: {len(images)}, date range: {dates[0]}..{dates[-1]}")
+        from .research import calendar_years
+        if np.any(dates):
+            print(f"[PASS] Data records: {len(images)}, date range: {dates[0]}..{dates[-1]}")
+        else:
+            years = calendar_years(ids)
+            print(f"[PASS] Data records: {len(images)}, years: {years[0]}..{years[-1]}")
         print(f"[PASS] First image six numbers: {decode(first)}")
         print("[PASS] 7x7 encoding and full DCT/FFT reconstruction")
     elif args.command == "replay":
