@@ -398,3 +398,31 @@ A CPU-only PyTorch build cannot use CUDA; select a compatible PyTorch build
 using the official PyTorch Start Locally installer if the `gpu-check` command
 reports CUDA unavailable. Historical replay remains exploratory, not prospective
 prediction evidence.
+
+
+## v0.7.3 — Independent Full-History Audit and Multi-Seed Robustness
+
+Audit all **2,297 targets** against the canonical 2,497-draw Biga archive without
+using the v0.7.2 CUDA scoring function. Independently read and compare the two
+BIN wire formats against the source manifest, validate every chronological
+cutoff and six-number portfolio, recompute the six strategies' match counts,
+per-year summaries and paired S1-B1 statistics, and verify fair 6/49 coverage
+(standalone analytic formula for disjoint tickets, existing exact DP for overlap).
+Keep every existing source GPU report unchanged.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 full-history-audit --report results/v072_biga_2497_full.json --out results/v073_biga_2497_seed649_audit.json
+
+# Compute GPU full-history runs with seeds 650 and 651 using unique checkpoint/
+# output paths, then independently audit each. Read the detailed methodology.
+& $py -m lotto7x7 full-history-multiseed --reports results/v072_biga_2497_full.json results/v072_biga_2497_seed650_full.json results/v072_biga_2497_seed651_full.json --audits results/v073_biga_2497_seed649_audit.json results/v073_biga_2497_seed650_audit.json results/v073_biga_2497_seed651_audit.json --out results/v073_biga_2497_multiseed.json
+```
+
+Each seed uses the **same historical targets**, so aggregation averages over
+seeds *within each draw* and bootstrap intervals resample **draws only**.
+Results are retrospective/exploratory, not an official source cross-check or
+prospective evidence of a lottery prediction edge. Audit result files are
+exclusive-create and tied to the input report SHA256.
+
+[Full command examples and statistical limitations](docs/full_history_independent_audit_v073.md).
