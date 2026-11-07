@@ -111,6 +111,19 @@ class DeviceTrainingTests(unittest.TestCase):
                                          batch_size=2, device=torch.device("cuda"))
             self.assertEqual(logits.shape, (5, 7, 7))
             self.assertTrue(np.isfinite(logits).all())
+            # Bare 'cuda' and explicit 'cuda:N' must address the same GPU.
+            concrete = torch.device("cuda", torch.cuda.current_device())
+            indexed = infer_device_logits(model, self.images,
+                                          indices=np.arange(96, 101), window=3,
+                                          batch_size=2, device=concrete)
+            np.testing.assert_array_equal(logits, indexed)
+            # A different explicit CUDA index must be rejected even when the
+            # machine has only one GPU (before any tensor is transferred).
+            wrong_index = 1 if concrete.index == 0 else 0
+            with self.assertRaisesRegex(ValueError, "model and inference device disagree"):
+                infer_device_logits(model, self.images,
+                                    indices=np.arange(96, 101), window=3,
+                                    batch_size=2, device=torch.device("cuda", wrong_index))
             self.assertGreaterEqual(fit["best_epoch"], 1)
 
 
