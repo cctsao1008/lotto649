@@ -6,7 +6,7 @@ There are **no inherited logits, MLP, legacy CNN classifiers, six-number jackpot
 
 ## Preserved lottery records
 
-The historical dataset files under `data/raw/`, `data/csv/`, `data/binary/` and `data/normalized/lotto649_*.{npy,parquet}` are preserved **byte for byte** from the original Git blobs. Non-draw reports and experimental artifacts are removed from the rebuilt working tree. The default model input is the versioned `data/bin/lotto649_images_v2.bin` containing **only Draw ID + 7×7 six-on bitmap** (53 bytes per record). The source CSV remains authoritative; the special number and exact date are not included in the BIN.
+The current 2004–2026 dataset contains **2,497** Lotto649 draws from one external Biga source, stored in `data/bin/lotto649_history_v1.bin` (including exact dates and bonus numbers), the model input `data/bin/lotto649_images_v2.bin` (Draw ID + 7×7 six-on bitmap), and 23 flat ASCII annual files `data/csv/lotto649_YYYY.csv`. The annual CSVs are deterministically exported from the verified history BIN. This is a single third-party data source, not independently verified against all original official drawings.
 
 ## Fresh implementation
 
@@ -88,8 +88,8 @@ The new test suite includes **67 tests** (31 image-core tests, 15 BIN format tes
 
 ## Canonical 7×7 image BIN v2
 
-- **Source:** 20 annual `data/csv/<year>/大樂透_*.csv` files, 2007–2026.
-- **Output:** `data/bin/lotto649_images_v2.bin`, currently **2,183 draws**, **115,715 bytes**.
+- **Source:** 23 flat annual `data/csv/lotto649_YYYY.csv` files, 2004–2026, with ASCII headers `date,draw_id,n1,n2,n3,n4,n5,n6,bonus`.
+- **Output:** `data/bin/lotto649_images_v2.bin`, currently **2,497 draws**, **132,357 bytes**.
 - **Header:** `L649IMG2` (8 bytes) + record count (little-endian u32) + record width (little-endian u32 = 53).
 - **Record:** draw ID (u32 little-endian) + a row-major 7×7 `uint8` bitmap (49 bytes, exactly six on pixels).
 - **Absent:** special number, exact date and redundant six-number list. For year filtering, derive the calendar year from the ROC-year draw ID; do not fabricate a date.
