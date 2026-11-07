@@ -11,6 +11,7 @@ from .research import DATA, load_history, research
 from .learning import learned_replay
 from .diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
 from .loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LOSS_STUDY_SCHEMA
+from .predictability_v04 import audit as predictability_audit, METHODS as PREDICTABILITY_METHODS
 import torch
 import numpy as np
 
@@ -112,6 +113,25 @@ def main() -> None:
     synthetic.add_argument("--epochs", type=int, default=45)
     synthetic.add_argument("--seed", type=int, default=649)
     synthetic.add_argument("--out", type=Path, default=Path("results/loss_synthetic_v03.json"))
+    pa = action.add_parser("predictability", help="v0.4 multi-seed temporal predictability audit")
+    pa.add_argument("--data", type=Path, default=DATA)
+    pa.add_argument("--year", default="all")
+    pa.add_argument("--window", type=int, default=5)
+    pa.add_argument("--seeds", type=int, default=5)
+    pa.add_argument("--seed", type=int, default=649)
+    pa.add_argument("--epochs", type=int, default=45)
+    pa.add_argument("--patience", type=int, default=8)
+    pa.add_argument("--batch-size", type=int, default=64)
+    pa.add_argument("--learning-rate", type=float, default=0.003)
+    pa.add_argument("--embedding", type=int, default=24)
+    pa.add_argument("--hidden", type=int, default=32)
+    pa.add_argument("--baseline", type=int, default=32)
+    pa.add_argument("--bootstrap", type=int, default=400)
+    pa.add_argument("--control-seeds", type=int, default=2)
+    pa.add_argument("--control-samples", type=int, default=120)
+    pa.add_argument("--control-epochs", type=int, default=45)
+    pa.add_argument("--no-controls", action="store_true")
+    pa.add_argument("--out", type=Path, default=Path("results/predictability_audit_v04.json"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -224,6 +244,41 @@ def main() -> None:
                   f"interval=[{low:+.6f}, {high:+.6f}]")
         print(f"[DONE] Report: {args.out.resolve()}")
         print("[CAUTION] Retrospective evaluation; diversity does not imply predictive skill")
+    elif args.command == "predictability":
+        year = None if args.year.lower() == "all" else int(args.year)
+        print("Lotto7x7 Predictability Audit v0.4 (CPU)", flush=True)
+        report = predictability_audit(
+            args.data, year=year, window=args.window, seeds=args.seeds,
+            seed=args.seed, epochs=args.epochs, patience=args.patience,
+            batch_size=args.batch_size, learning_rate=args.learning_rate,
+            embedding=args.embedding, hidden=args.hidden,
+            baseline=args.baseline, bootstrap=args.bootstrap,
+            control_seeds=args.control_seeds, control_samples=args.control_samples,
+            control_epochs=args.control_epochs, include_controls=not args.no_controls,
+            on_progress=lambda line: print(line, flush=True))
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\\n", encoding="utf-8")
+        print(f"[EVALUATED] {report['evaluation_draws']} historical targets, {args.seeds} seeds")
+        print(f"[UNIFORM] Pixel Brier baseline: {report['uniform_no_history_baseline']['pixel_brier']:.6f}")
+        print("Method                  Adjusted    Pixel Brier   Brier Skill   Epoch-0 Gain  Mean Unique")
+        for name in PREDICTABILITY_METHODS:
+            value = report["summary"][name]
+            print(f"{name:24s} {value['mean_iid_adjusted_similarity']:+10.6f} "
+                  f"{value['mean_pixel_brier']:13.6f} "
+                  f"{value['mean_brier_skill_vs_uniform']:+12.4%} "
+                  f"{value['training_gain_over_epoch0_adjusted']:+13.6f} "
+                  f"{value['mean_unique_patterns']:12.2f}")
+        for name, entry in report["paired_intervals"].items():
+            low, high = entry["interval_95"]
+            print(f"[PAIRED] {name}: {entry['mean']:+.6f} "
+                  f"interval=[{low:+.6f}, {high:+.6f}]")
+        for kind, control in report["synthetic_controls"].items():
+            ordered = control["summary"]["ordered_cnn_gru"]
+            shuffled = control["summary"]["shuffled_cnn_gru"]
+            print(f"[CONTROL] {kind}: ordered Brier={ordered['mean_pixel_brier']:.6f}; "
+                  f"shuffled Brier={shuffled['mean_pixel_brier']:.6f}")
+        print(f"[DONE] Audit report: {args.out.resolve()}")
+        print("[CAUTION] Previously inspected historical results are exploratory, not blind")
     elif args.command == "loss-synthetic":
         report = {"schema": "lotto7x7.loss_synthetic.v0.3",
                   "controls": [synthetic_control(kind=name, epochs=args.epochs,

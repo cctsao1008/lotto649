@@ -168,3 +168,30 @@ See the full preregistered control, loss and uncertainty details in
 [`docs/image_loss_alignment_v03.md`](docs/image_loss_alignment_v03.md).
 Historical evaluations are **exploratory**, since the targets were inspected
 in prior versions. Increasing image variety is not evidence of lottery predictability.
+
+## v0.4: multi-seed predictability audit
+
+The `predictability` command records both training and validation loss
+from **Epoch 0 (before any optimizer update)**, compares the same balanced-BCE
+CNN+GRU with ordered and within-context-shuffled history, and adds a no-history
+constant-template control. Five initialization seeds and a shared IID baseline
+permit exploratory paired comparisons of image similarity and pixel Brier.
+No loss selection or model changes are made on the historical test period.
+
+A periodic positive control uses a cycle equal to the history-window length:
+all historical windows have the **same unordered multiset** of images,
+so a model must exploit ordering to identify the next phase. An independent
+six-of-49 series is the negative control.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 predictability --year all --seeds 5 `
+    --epochs 45 --control-seeds 2 --control-epochs 45 `
+    --baseline 32 --bootstrap 400 `
+    --out results/predictability_audit_v04.json
+```
+
+This audit is intentionally CPU-only: CPU was faster than RTX 4060 for the
+current small network in one measured run. The 2023–2026 historical evaluation
+data have already been inspected; this audit is exploratory rather than blind.
+See [v0.4 experiment protocol](docs/predictability_audit_v04.md).
