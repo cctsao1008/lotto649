@@ -1,0 +1,175 @@
+{
+  "dataset": "lotto649.single-source.biga.v1",
+  "source_site": "https://2019.biga.com.tw/",
+  "cutoff": "2026-11-06",
+  "downloaded_at_utc": "2026-11-07T19:15:12.852043+00:00",
+  "total_draws": 2497,
+  "first_draw_id": 93000001,
+  "last_draw_id": 115000103,
+  "id_rule": "ROC year * 1,000,000 + annual sequence; raw 6-digit source IDs expanded",
+  "history_format": "L649HIS1, <II7B: id, YYYYMMDD, 6 sorted numbers, bonus",
+  "image_format": "L649IMG2, <I49B: id and six-hot 7x7 bitmap",
+  "source_pages": {
+    "1": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=1",
+      "sha256": "4d690a14f59572bfc2313c6b8d48f65ffa0af9bbd17ace01c533ddee5e5ed95d",
+      "rows": 100
+    },
+    "2": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=2",
+      "sha256": "320ba49339ebb59fd60c8bdd5964c4a654e62ad2c09faecbf0c7fb197a197fed",
+      "rows": 100
+    },
+    "3": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=3",
+      "sha256": "d1907ea03dfcfa823fa3fe45bffddbfd7d5c5e5f8eb491a86dda1dda1a11cc75",
+      "rows": 100
+    },
+    "4": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=4",
+      "sha256": "d15e38d68d53bf3c196f5dcc425cf8a54b100a5ae67646a55b2fd42f72b33fc2",
+      "rows": 100
+    },
+    "5": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=5",
+      "sha256": "d3d043e6c63693f8a2c4718195b37a4b26fa5867c5aaa25c219efb61926ac8f9",
+      "rows": 100
+    },
+    "6": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=6",
+      "sha256": "d390cb13e0112ab9f2aa0ffc33457dcb1b27796fc9121216e69a6e066ef2c225",
+      "rows": 100
+    },
+    "7": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=7",
+      "sha256": "3b69fe13f55e2e5fccc8f169d29c321a3d68d197352c995d6e802bcb0de72e13",
+      "rows": 100
+    },
+    "8": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=8",
+      "sha256": "2c7cbc53b4036d5453fd56fa04af6b8bb94dd384d5ccd84f4ecdb96b74555724",
+      "rows": 100
+    },
+    "9": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=9",
+      "sha256": "0ec015200a2db0274e28ce29fa8e65577a32dd688d9611e432fea93742019e90",
+      "rows": 100
+    },
+    "10": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=10",
+      "sha256": "fa83c88429500e3d43b0672e5fddc0d2c0358dd380b0db370e52bf9b52c75fa8",
+      "rows": 100
+    },
+    "11": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=11",
+      "sha256": "5baa3a8e995ef5458ae38d9d7a8b6984e7218b915b7aab5372142b8b459a7f42",
+      "rows": 100
+    },
+    "12": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=12",
+      "sha256": "97d0ea76d4893497955c4ad72a42ef60d5c53b0fc57e9712f650c7307b3742f4",
+      "rows": 100
+    },
+    "13": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=13",
+      "sha256": "341b588b7c01759b9203ecc63db146d29bc9915d534477227096c3a073396707",
+      "rows": 100
+    },
+    "14": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=14",
+      "sha256": "4a5eb9a9efc576baca6ec0efb763599a06b3cab846d1596e7ebd938d298b0713",
+      "rows": 100
+    },
+    "15": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=15",
+      "sha256": "8639b0e72541d02207ed104aa4433e339c4e11cd778c78e26fe3655d60921fc2",
+      "rows": 100
+    },
+    "16": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=16",
+      "sha256": "7c6eddd52daa8122f2d083a4c7265d94c998f4f3b02ba440872bd4780fa5ac0e",
+      "rows": 100
+    },
+    "17": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=17",
+      "sha256": "814a7b0f9238b38c99564e753f742c1a0672278c2bdf4af344752669a03a8469",
+      "rows": 100
+    },
+    "18": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=18",
+      "sha256": "4d593c578dc4a2fe0566ef36317c6b625abf6ca4817b07b3a0306f1abf0c668e",
+      "rows": 100
+    },
+    "19": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=19",
+      "sha256": "7e7e477a9398c38a6ea718093472a77d465936fb199db96283ba278c8ffbc367",
+      "rows": 100
+    },
+    "20": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=20",
+      "sha256": "e4aba71457195a94c320040ac29eaf9f70f95ffff957e7f0210bfa9e3e4c0258",
+      "rows": 100
+    },
+    "21": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=21",
+      "sha256": "74d8ca972b47f4c2dfee95fb5a7178310a419bc65fdea4022372d3d0dc77d8b9",
+      "rows": 100
+    },
+    "22": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=22",
+      "sha256": "b229f7d587822ba1611812c010d93c9a33289c014d17ae7a20a88ef90515e6d3",
+      "rows": 100
+    },
+    "23": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=23",
+      "sha256": "36210f7b9ef37a5d86af1d53af28a0adb6bfb9df75341937f58e726159c8b23a",
+      "rows": 100
+    },
+    "24": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=24",
+      "sha256": "8dae6c1c22533990174bf0a31a439b25be93b773e6ddf1ae2a116fe91e1bc564",
+      "rows": 100
+    },
+    "25": {
+      "url": "https://2019.biga.com.tw/ARCHIVE/DRAWDATA/PAGINATION/ZP/biglottoresultlist?page=25",
+      "sha256": "fffb773da8eb60ccb20e4d8683d5b31d82558a276e11fcb5a943af57eb67a336",
+      "rows": 97
+    }
+  },
+  "by_year": {
+    "2004": 104,
+    "2005": 104,
+    "2006": 104,
+    "2007": 104,
+    "2008": 105,
+    "2009": 104,
+    "2010": 105,
+    "2011": 104,
+    "2012": 104,
+    "2013": 108,
+    "2014": 108,
+    "2015": 109,
+    "2016": 111,
+    "2017": 108,
+    "2018": 108,
+    "2019": 112,
+    "2020": 112,
+    "2021": 114,
+    "2022": 114,
+    "2023": 116,
+    "2024": 118,
+    "2025": 118,
+    "2026": 103
+  },
+  "files": {
+    "lotto649_history_v1.bin": {
+      "bytes": 37471,
+      "sha256": "2418e5a3f3a7254035cacad04aab43f2e6dd4c70e83da64498a1f57602274e2e"
+    },
+    "lotto649_images_v2.bin": {
+      "bytes": 132357,
+      "sha256": "736f598a31abfa43cd91b7d58f878f52c48af850b2581b909ac6fbf649278b4b"
+    }
+  },
+  "limitations": "One third-party source, not independently cross-checked against official historical draws."
+}
