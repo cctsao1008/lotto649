@@ -1,0 +1,62 @@
+name: Rebuild Lotto649 history from AUZO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/fetch_lotto649_auzo.py"
+      - "tests/test_fetch_lotto649_auzo.py"
+      - ".github/workflows/rebuild_lotto649_auzo.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lotto649-auzo-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline importer tests
+        run: python -m unittest discover -s tests -p "test_fetch_lotto649_auzo.py" -v
+      - name: Download 23 AUZO annual pages, validate and build BIN-only dataset
+        run: python scripts/fetch_lotto649_auzo.py --workers 4 --until 2026-11-06 --expect-count 2497
+      - name: Check binary consistency and output directory
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib, struct
+          root = pathlib.Path("data")
+          assert sorted(x.name for x in root.iterdir()) == ["bin"]
+          out = root / "bin"
+          manifest = json.loads((out / "lotto649_source_manifest.json").read_text("utf-8"))
+          assert manifest["draw_count"] == 2497
+          for name, spec in manifest["files"].items():
+              data = (out / name).read_bytes()
+              assert len(data) == spec["bytes"]
+              assert hashlib.sha256(data).hexdigest() == spec["sha256"]
+              _, count, width = struct.unpack_from("<8sII", data)
+              assert count == 2497
+              assert len(data) == 16 + count * width
+          print("PASS: 2,497 draws, 23 pages, BIN hashes, bin-only structure")
+          PY
+      - name: Commit validated BIN files to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bin/lotto649_history_v1.bin data/bin/lotto649_images_v2.bin data/bin/lotto649_source_manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: rebuild Lotto649 2004-2026 BINs from single AUZO source"
+            git push origin HEAD:main
+          else
+            echo "No BIN data changes to commit"
+          fi
