@@ -306,7 +306,7 @@ estimate the 100-candidate research pool's partial-hit coverage using IID
 Monte Carlo with uncertainty intervals.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
 & $py -m lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
 & $py -m lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
@@ -328,7 +328,7 @@ Each historical target is excluded from the training prefix. Historical runs are
 **exploratory**, not evidence of future prediction skill.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 baseline-study --warmup 200 --eval-draws 12 --size 100 --families 20 --count 5 --seed 649 --out results/baseline_study_v07.json
 & $py -m lotto7x7 shadow-snapshot --size 100 --families 20 --count 5 --seed 649 --out results/shadow_pre_draw_v07.json
 # Score only after actual next draw; replace ID and numbers with official results:
@@ -351,7 +351,7 @@ comparisons, and descriptive year groups. Score and exact fair coverage values
 are recalculated from frozen tickets and outcomes.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 robustness-audit --input results/baseline_study_v07_100.json --out results/robustness_audit_v071_100.json
 & $py -m lotto7x7 robustness-sweep --seeds 649,650 --counts 1,3,5 --warmup 200 --eval-draws 12 --stride 5 --size 100 --families 20 --out results/robustness_sweep_v071_smoke.json
 ```
@@ -411,7 +411,7 @@ per-year summaries and paired S1-B1 statistics, and verify fair 6/49 coverage
 Keep every existing source GPU report unchanged.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 full-history-audit --report results/v072_biga_2497_full.json --out results/v073_biga_2497_seed649_audit.json
 
 # Compute GPU full-history runs with seeds 650 and 651 using unique checkpoint/
@@ -442,7 +442,7 @@ A separate next-draw research forecast is produced using the latest known
 historical prefix without access to an unseen winning result.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --tail-targets 5 --epochs 12 --out results/probability_v08_smoke.json
 & $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --block-size 100 --epochs 12 --seed 649 --out results/probability_v08_full.json
 ```
@@ -466,7 +466,7 @@ per-draw and 100-target contiguous-block bootstrap sensitivity intervals,
 plus year-level summaries. No retraining, CUDA setup, or old test suites.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 predict-audit --report results/probability_v08_full.json --out results/probability_v081_audit.json
 ```
 
@@ -487,12 +487,12 @@ calibrated by **whole-search maximum** statistics on both fair legal 6/49 IID
 surrogates and time-shuffled actual complete draw images.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 # Optional: only 11 new tests, not the previously passed full suite:
 & $py -m unittest discover -s tests -p 'test_feature_discovery_v09.py' -v
-& $py -m lotto7x7 feature-discover-gpu --device cuda --holdout-draws 500 \`
-    --surrogates 199 --surrogate-batch 8 --recent-windows 256 512 1024 \`
-    --z-half-lives 0 64 256 --min-period 2 --max-period 512 --top 20 \`
+& $py -m lotto7x7 feature-discover-gpu --device cuda --holdout-draws 500 `
+    --surrogates 199 --surrogate-batch 8 --recent-windows 256 512 1024 `
+    --z-half-lives 0 64 256 --min-period 2 --max-period 512 --top 20 `
     --seed 649 --out results/v09_feature_discovery_cuda.json
 ```
 

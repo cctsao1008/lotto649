@@ -207,8 +207,13 @@ def _scan_periods(bank:torch.Tensor, names:list[str], *, recent_windows:tuple[in
                                     "frequency_cycles_per_draw":float(selected_freqs[k]),
                                     "period_draws":float(1.0/selected_freqs[k])})
     winners.sort(key=lambda x:x['strength'],reverse=True)
-    # Dedup only identical feature + period + window + radial transform.
-    return global_max,winners[:top_count]
+    # Present distinct feature channels; the underlying multiplicity correction
+    # still covers EVERY feature/window/radius/period tested, including those
+    # not listed in the top candidate summary.
+    distinct = {}
+    for row in winners:
+        distinct.setdefault(row['feature'], row)
+    return global_max,list(distinct.values())[:top_count]
 
 
 def discover(images:np.ndarray,draw_ids:np.ndarray,*,device="auto",holdout_draws=500,
