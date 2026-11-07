@@ -184,7 +184,7 @@ so a model must exploit ordering to identify the next phase. An independent
 six-of-49 series is the negative control.
 
 ```powershell
-$py = '.\\.venv\\Scripts\\python.exe'
+$py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 predictability --year all --seeds 5 `
     --epochs 45 --control-seeds 2 --control-epochs 45 `
     --baseline 32 --bootstrap 400 `
