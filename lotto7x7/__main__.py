@@ -257,7 +257,7 @@ def main() -> None:
             control_epochs=args.control_epochs, include_controls=not args.no_controls,
             on_progress=lambda line: print(line, flush=True))
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(json.dumps(report, indent=2) + "\\n", encoding="utf-8")
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         print(f"[EVALUATED] {report['evaluation_draws']} historical targets, {args.seeds} seeds")
         print(f"[UNIFORM] Pixel Brier baseline: {report['uniform_no_history_baseline']['pixel_brier']:.6f}")
         print("Method                  Adjusted    Pixel Brier   Brier Skill   Epoch-0 Gain  Mean Unique")
