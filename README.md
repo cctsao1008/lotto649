@@ -501,3 +501,31 @@ established forecasting advantage. The current 2,497 records allocate a 1,997
 record discovery prefix and a 500 record held-out suffix for this experiment;
 old v0.8 studies have already inspected that suffix, so genuinely prospective
 validation remains essential. See [v0.9 method and controls](docs/multi_domain_feature_discovery_v09.md).
+
+
+## v0.10 — GPU Deep Feature Discovery
+
+Learn latent 7×7 six-hot image features using a CNN autoencoder and a causal
+4/16/64-scale GRU next-image head, then **freeze the model** and search unseen
+historical representations for latent spectral periods (finite Z-transform) and
+repeated multivariate subsequence motifs (GPU matrix-profile-style nearest
+neighbors). Calibrate each entire feature/period/motif-window search against
+legitimate IID 6/49 images and shuffled historical draws. A separate historical
+500-draw suffix is used for a predeclared Brier/Top-6 audit; it was previously
+seen in v0.8 and is not genuinely prospectively blind.
+
+```powershell
+$py = '.\.venv\Scripts\python.exe'
+& $py -m lotto7x7 deep-feature-gpu `
+    --device cuda --train-draws 1024 --holdout-draws 500 `
+    --window 64 --validation 128 --epochs 12 --surrogates 99 `
+    --surrogate-batch 4 --seed 649 `
+    --out results/v010_deep_feature_cuda.json `
+    --model-out results/v010_deep_feature_cuda.pt
+```
+
+The `.pt` checkpoint persists the fitted CNN/GRU weights for future
+feature-conditioned ticket research **without rerunning this training**; it is
+not a validated live selector. Only the 13 new tests were run in isolated
+synthetic local verification, not the prior full suite or real RTX 4060 data.
+See [v0.10 protocol](docs/gpu_deep_feature_discovery_v010.md).

@@ -25,6 +25,7 @@ from .full_history_audit_cli_v073 import configure_parsers as configure_v073_par
 from .prediction_cli_v08 import configure_parsers as configure_v08_parsers, run as run_v08
 from .prediction_audit_cli_v081 import configure_parsers as configure_v081_parsers, run as run_v081
 from .feature_discovery_cli_v09 import configure_parsers as configure_v09_parsers, run as run_v09
+from .deep_feature_cli_v010 import configure_parsers as configure_v010_parsers, run as run_v010
 import torch
 import numpy as np
 
@@ -210,6 +211,7 @@ def main() -> None:
     configure_v08_parsers(action)
     configure_v081_parsers(action)
     configure_v09_parsers(action)
+    configure_v010_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -429,6 +431,8 @@ def main() -> None:
         run_v081(args)
     elif args.command == "feature-discover-gpu":
         run_v09(args)
+    elif args.command == "deep-feature-gpu":
+        run_v010(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
