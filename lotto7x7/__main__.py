@@ -105,6 +105,8 @@ def main() -> None:
     loss_parser.add_argument("--baseline", type=int, default=32)
     loss_parser.add_argument("--bootstrap", type=int, default=400)
     loss_parser.add_argument("--seed", type=int, default=649)
+    loss_parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cpu",
+                             help="Training compute device; CPU keeps frozen v0.3 behavior")
     loss_parser.add_argument("--out", type=Path, default=Path("results/loss_study_v03.json"))
     synthetic = action.add_parser("loss-synthetic", help="v0.3 periodic/IID controls")
     synthetic.add_argument("--epochs", type=int, default=45)
@@ -199,10 +201,14 @@ def main() -> None:
             patience=args.patience, batch_size=args.batch_size,
             learning_rate=args.learning_rate, embedding=args.embedding,
             hidden=args.hidden, baseline=args.baseline,
-            bootstrap=args.bootstrap, seed=args.seed)
+            bootstrap=args.bootstrap, seed=args.seed, device=args.device)
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         print("Lotto7x7 Image Loss Alignment v0.3")
+        device_info = report["execution"]
+        print(f"[DEVICE] {device_info['actual_device']} "
+              f"(PyTorch {device_info['torch_version']}); "
+              f"training_seconds={device_info['training_seconds']:.3f}")
         print(f"[V02] Frozen baseline commit: {report['baseline_v02_commit']}")
         print(f"[EVALUATED] {report['evaluation_draws']} historical image targets")
         print("Method                 Adjusted     Unique  Top share   Soft mass   Pixel logit SD")

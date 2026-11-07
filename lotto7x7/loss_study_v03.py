@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 import random
+import time
 
 import numpy as np
 import torch
@@ -182,11 +183,21 @@ def train_treatment(images: np.ndarray, *, method: str,
 def _train_arms(images: np.ndarray, *, train_end: int, validation_end: int,
                 window: int, embedding: int, hidden: int, epochs: int,
                 patience: int, batch_size: int,
-                learning_rate: float, seed: int) -> tuple[dict, dict]:
+                learning_rate: float, seed: int, device: torch.device = torch.device("cpu")
+                ) -> tuple[dict, dict]:
     args = dict(train_end=train_end, validation_end=validation_end,
                 window=window, embedding=embedding, hidden=hidden,
                 epochs=epochs, patience=patience, batch_size=batch_size,
                 learning_rate=learning_rate, seed=seed)
+    if device.type == "cuda":
+        # The v0.2 source stays frozen; a separately implemented GPU path
+        # runs its same architecture, objective, optimizer and split.
+        from .device_training import train_device_model
+        models, fits = {}, {}
+        for method in METHODS:
+            models[method], fits[method] = train_device_model(
+                images, method=method, device=device, **args)
+        return models, fits
     # This is the original, unchanged v0.2 function, not a reimplementation.
     original, original_fit = train_model(images, **args)
     balanced, balanced_fit = train_treatment(images, method=METHODS[1], **args)
@@ -280,24 +291,37 @@ def study(path: Path = DATA, *, year: int | None = None,
           batch_size: int = 64, learning_rate: float = 0.003,
           embedding: int = 24, hidden: int = 32,
           baseline: int = 32, bootstrap: int = 400,
-          seed: int = 649) -> dict:
-    """Freeze baseline v0.2 then compare losses on the same chronological data."""
+          seed: int = 649, device: str = "cpu") -> dict:
+    """Freeze baseline v0.2; run the same study on CPU or opt-in CUDA."""
     if baseline < 2 or bootstrap < 2 or seed < 0:
         raise ValueError("invalid loss-study configuration")
+    from .device_training import select_device
+    resolved = select_device(device)
     path = Path(path)
     images, dates, draw_ids = load_history(path)
     train, val, test = split(len(images), window)
     targets = test if year is None else test[calendar_years(draw_ids[test]) == year]
     if not len(targets):
         raise ValueError("no evaluation images in requested year")
+    started = time.perf_counter()
     arms, fits = _train_arms(
         images, train_end=int(val[0]), validation_end=int(test[0]),
         window=window, embedding=embedding, hidden=hidden,
         epochs=epochs, patience=patience, batch_size=batch_size,
-        learning_rate=learning_rate, seed=seed)
-    logits = {name: infer_logits(model, images, indices=targets,
-                                window=window, batch_size=batch_size)
-              for name, model in arms.items()}
+        learning_rate=learning_rate, seed=seed, device=resolved)
+    if resolved.type == "cuda":
+        torch.cuda.synchronize()
+    train_seconds = time.perf_counter() - started
+    if resolved.type == "cuda":
+        from .device_training import infer_device_logits
+        logits = {name: infer_device_logits(
+            model, images, indices=targets, window=window,
+            batch_size=batch_size, device=resolved)
+                  for name, model in arms.items()}
+    else:
+        logits = {name: infer_logits(model, images, indices=targets,
+                                    window=window, batch_size=batch_size)
+                  for name, model in arms.items()}
     summary, per_draw, rows = _score_images(
         images, targets, logits, baseline=baseline, seed=seed,
         ids=draw_ids, dates=dates)
@@ -312,6 +336,18 @@ def study(path: Path = DATA, *, year: int | None = None,
         "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "baseline_v02_commit": V02_BASELINE_COMMIT,
         "baseline_v02_untouched": True,
+        "execution": {
+            "requested_device": device,
+            "actual_device": str(resolved),
+            "gpu_name": (torch.cuda.get_device_name(resolved) if resolved.type == "cuda"
+                         else None),
+            "torch_version": str(torch.__version__),
+            "torch_cuda_version": torch.version.cuda,
+            "training_seconds": float(train_seconds),
+            "warning": ("CUDA retrains all arms with matching protocols; numerical "
+                        "results are not guaranteed bit-identical to frozen CPU v0.2"
+                        if resolved.type == "cuda" else None),
+        },
         "comparison": "same_encoder_gru_and_top_six_decoder_only_loss_changes",
         "total_draws": len(images),
         "evaluation_draws": len(targets),

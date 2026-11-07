@@ -41,6 +41,38 @@ Start-Process .\results\visual_gallery.html
 
 Or create a clean venv using `py -3 -m venv .venv` and install requirements if needed. Generated JSON/HTML reports live under `results/` and are intentionally not tracked by Git.
 
+## Optional NVIDIA GPU training for v0.3 loss-study
+
+CUDA is **opt-in**. The original CPU `loss-study` still uses the exact frozen
+v0.2 training function and v0.3 comparison path. GPU mode uses a separately
+implemented device-aware copy of the **same** CNN/GRU, optimizer, loss variants,
+chronological split, seed and early stopping. It does not modify v0.2 sources.
+
+Use the **project venv interpreter**, not system `python`:
+
+```powershell
+$py = ".\.venv\Scripts\python.exe"
+& $py -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
+
+# Leave the existing historical report untouched; compare new files separately.
+& $py -m lotto7x7 loss-study --device cpu --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cpu_check.json
+& $py -m lotto7x7 loss-study --device cuda --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cuda.json
+# --device auto selects CUDA if available; default remains CPU.
+```
+
+`--device cuda` fails explicitly if a CUDA-enabled PyTorch build or NVIDIA
+GPU is unavailable; it does **not** silently run on CPU. Reports include
+`execution.actual_device` and `execution.training_seconds` (the three model
+training runs only; excludes data processing, scoring and HTML generation).
+Compare runtime on the same PC under similar background load. CPU/CUDA
+floating-point kernels may choose different checkpoints and Top-6 masks, so
+the scores are **not** expected to match exactly. GPU is not guaranteed to
+be faster for a small 7x7 model. No mixed precision is used.
+
+The package's `requirements.txt` intentionally does not pin a particular
+CUDA wheel: install the appropriate official CUDA-enabled PyTorch wheel
+for your NVIDIA driver before running GPU studies.
+
 ## Research guardrails
 
 The archive has already been explored in earlier work. A chronological test segment is useful for engineering checks but **not a new untouched blind test**. Do not tune shape weights, mappings, or analog windows on test scores and then claim improved future performance. The physical lottery machine has no demonstrated relationship to pixel geometry. An IID draw can resemble other IID draws; thus, high **raw** visual similarity by itself is not evidence of an advantage. Historical data remain unchanged. New prospective image-similarity research requires separately committed protocols and time-stamped pre-result predictions.
