@@ -455,3 +455,21 @@ create a valid six-number joint probability model or demonstrate empirical
 calibration. All historical results remain exploratory, not prospective proof.
 
 See [v0.8 research protocol](docs/gpu_probability_research_v08.md).
+
+
+## v0.8.1 — Audit existing GPU probability results without rerunning training
+
+Re-score and statistically compare **saved v0.8 prediction JSON** for all 2,297
+historical targets. Recompute Brier, binary log-loss and Top-6 hits for the
+IID baseline and three predictors. Use paired McNemar with Holm correction,
+per-draw and 100-target contiguous-block bootstrap sensitivity intervals,
+plus year-level summaries. No retraining, CUDA setup, or old test suites.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 predict-audit --report results/probability_v08_full.json --out results/probability_v081_audit.json
+```
+
+Read [the v0.8.1 score-audit protocol](docs/probability_audit_v081.md).
+This retrospective analysis cannot establish a predictive edge; source BIN
+independent verification is a separate step.
