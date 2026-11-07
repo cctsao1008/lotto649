@@ -37,10 +37,22 @@ def normalized_signatures(images: np.ndarray, *, train_end: int) -> np.ndarray:
         raise ValueError("invalid image matrix or train boundary")
     feats = np.stack([signature(img) for img in arr])
     train = feats[:train_end]
-    scale = np.maximum(train.std(axis=0), 0.05)
-    z = (feats - train.mean(axis=0)) / scale
+    # Center around a training reference before averaging differences.
+    # Directly averaging many identical nonzero floats can introduce a tiny
+    # rounding offset. Normalizing that residual would create a false
+    # temporal-correlation signal for a perfectly constant image sequence.
+    anchor = train[0]
+    centered_train = train - anchor
+    mean = anchor + centered_train.mean(axis=0)
+    scale = np.maximum(centered_train.std(axis=0), 0.05)
+    z = (feats - mean) / scale
     norms = np.linalg.norm(z, axis=1)
-    return z / np.maximum(norms[:, None], 1e-12)
+    # The direction of a numerically zero vector is undefined. Keep these
+    # constant-pattern signatures exactly zero rather than amplifying noise.
+    valid = norms > 1e-10
+    result = np.zeros_like(z)
+    result[valid] = z[valid] / norms[valid, None]
+    return result
 
 
 def lag_correlation(z: np.ndarray, years: np.ndarray, *,
