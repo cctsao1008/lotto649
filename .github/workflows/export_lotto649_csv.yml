@@ -36,14 +36,15 @@ jobs:
           python - <<'PY'
           import csv
           from pathlib import Path
-          files = sorted(Path("data/csv").glob("*/*.csv"))
+          files = sorted(Path("data/csv").glob("lotto649_*.csv"))
+          assert all(p.is_file() for p in Path("data/csv").iterdir())
           assert len(files) == 23, f"expected 23 yearly CSVs, found {len(files)}"
           rows = 0
           for path in files:
-              with path.open(encoding="utf-8-sig", newline="") as file:
+              with path.open(encoding="ascii", newline="") as file:
                   reader = csv.reader(file)
                   header = next(reader)
-                  assert header == ["開獎日期", "期別", "獎號1", "獎號2", "獎號3", "獎號4", "獎號5", "獎號6", "特別號"]
+                  assert header == ["date", "draw_id", "n1", "n2", "n3", "n4", "n5", "n6", "bonus"]
                   count = sum(1 for row in reader if row)
                   print(path, count)
                   rows += count
@@ -58,7 +59,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/csv/
+          git add -A data/csv/
           if ! git diff --cached --quiet; then
             git commit -m "data: export 2004-2026 annual Lotto649 CSVs from validated BIN"
             git push origin HEAD:main

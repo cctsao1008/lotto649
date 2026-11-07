@@ -24,8 +24,7 @@ import tempfile
 HEAD = struct.Struct("<8sII")
 HISTORY = struct.Struct("<II7B")
 IMAGE = struct.Struct("<I49B")
-HEADER = ("開獎日期", "期別", "獎號1", "獎號2", "獎號3",
-          "獎號4", "獎號5", "獎號6", "特別號")
+HEADER = ("date", "draw_id", "n1", "n2", "n3", "n4", "n5", "n6", "bonus")
 DEFAULT_BIN = Path("data/bin")
 DEFAULT_OUT = Path("data/csv")
 
@@ -113,8 +112,8 @@ def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes],
         for day, draw_id, main, special in draws:
             writer.writerow([day.strftime("%Y/%m/%d"), f"{draw_id:09d}",
                              *(f"{n:02d}" for n in main), f"{special:02d}"])
-        rel = Path(str(year)) / f"大樂透_{year}.csv"
-        output[rel] = buffer.getvalue().encode("utf-8-sig")
+        rel = Path(f"lotto649_{year}.csv")
+        output[rel] = buffer.getvalue().encode("ascii")
     return output, actual_counts
 
 
@@ -123,6 +122,8 @@ def verify_files(output_dir: Path, expected: dict[Path, bytes]) -> None:
     if existing != set(expected):
         raise ValueError(f"CSV filename set mismatch: missing={set(expected)-existing}, "
                          f"unexpected={existing-set(expected)}")
+    if any(path.is_dir() for path in output_dir.iterdir()):
+        raise ValueError("CSV directory must be flat: year subdirectories are not allowed")
     for relative, data in expected.items():
         if (output_dir / relative).read_bytes() != data:
             raise ValueError(f"CSV content differs from history BIN: {relative}")
@@ -135,6 +136,13 @@ def export(bin_dir: Path = DEFAULT_BIN, output_dir: Path = DEFAULT_OUT,
     if verify:
         verify_files(output_dir, expected)
     else:
+        # Migrate only the known previous-year directory layout; never remove unknown files.
+        nested = list(output_dir.glob("*/*.csv"))
+        legacy = [p for p in nested if p.parent.name.isdecimal()
+                  and len(p.parent.name) == 4
+                  and p.name == f"大樂透_{p.parent.name}.csv"]
+        if len(legacy) != len(nested):
+            raise ValueError("unexpected nested CSV: refusing destructive migration")
         for relative, contents in expected.items():
             destination = output_dir / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -151,6 +159,10 @@ def export(bin_dir: Path = DEFAULT_BIN, output_dir: Path = DEFAULT_OUT,
             finally:
                 if temporary is not None:
                     temporary.unlink(missing_ok=True)
+        for previous in legacy:
+            previous.unlink()
+        for folder in sorted({p.parent for p in legacy}):
+            folder.rmdir()
         verify_files(output_dir, expected)
     print(f"PASS: {sum(counts.values())} Lotto649 draws, "
           f"{len(counts)} annual CSVs, matching history and image BINs", flush=True)

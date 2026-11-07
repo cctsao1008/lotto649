@@ -30,8 +30,10 @@ HEADER = struct.Struct("<8sII")
 RECORD = struct.Struct("<I49B")
 DTYPE = np.dtype([("draw_id", "<u4"), ("image", "u1", (7, 7))], align=False)
 SOURCE_PATTERN = re.compile(r"^大樂透_\d{4}(?:\d{2}_\d{6})?\.csv$")
-REQUIRED = ("期別", "開獎日期", "獎號1", "獎號2", "獎號3",
-            "獎號4", "獎號5", "獎號6")
+FLAT_PATTERN = re.compile(r"^lotto649_(\d{4})\.csv$")
+LEGACY_REQUIRED = ("期別", "開獎日期", "獎號1", "獎號2", "獎號3",
+                   "獎號4", "獎號5", "獎號6")
+FLAT_REQUIRED = ("date", "draw_id", "n1", "n2", "n3", "n4", "n5", "n6", "bonus")
 DEFAULT_CSV = Path("data/csv")
 DEFAULT_BIN = Path("data/bin/lotto649_images_v2.bin")
 
@@ -48,15 +50,22 @@ class Draw:
 
 
 def discover_sources(csv_root: Path = DEFAULT_CSV) -> list[Path]:
-    """Discover annual Lotto649 CSVs, including 2018 and 2020 range names."""
+    """Discover flat lotto649_YYYY.csv files and legacy year-folder fixtures."""
     root = Path(csv_root)
-    sources = sorted(p for p in root.glob("*/*.csv")
-                     if p.is_file() and p.parent.name.isdecimal()
-                     and len(p.parent.name) == 4
-                     and SOURCE_PATTERN.fullmatch(p.name))
+    flat = [p for p in root.glob("lotto649_*.csv")
+            if p.is_file() and FLAT_PATTERN.fullmatch(p.name)]
+    legacy = [p for p in root.glob("*/*.csv")
+              if p.is_file() and p.parent.name.isdecimal()
+              and len(p.parent.name) == 4
+              and SOURCE_PATTERN.fullmatch(p.name)]
+    sources = sorted(flat + legacy)
     if not sources:
         raise ValueError(f"no Lotto649 draw CSV files found under {root}")
-    years = sorted({int(p.parent.name) for p in sources})
+    years = sorted(int(FLAT_PATTERN.fullmatch(p.name).group(1))
+                   if FLAT_PATTERN.fullmatch(p.name) else int(p.parent.name)
+                   for p in sources)
+    if len(set(years)) != len(years):
+        raise ValueError("duplicate yearly Lotto649 CSV sources")
     expected = list(range(years[0], years[-1] + 1))
     if years != expected:
         raise ValueError(f"missing calendar year folders: {sorted(set(expected)-set(years))}")
@@ -77,9 +86,13 @@ def parse_csv(path: Path) -> list[Draw]:
     into this six-pixel dataset and is not a training label.
     """
     path = Path(path)
-    if not path.parent.name.isdecimal():
-        raise ValueError(f"{path}: numeric year directory required")
-    year = int(path.parent.name)
+    flat_match = FLAT_PATTERN.fullmatch(path.name)
+    if flat_match:
+        year = int(flat_match.group(1))
+    elif path.parent.name.isdecimal() and SOURCE_PATTERN.fullmatch(path.name):
+        year = int(path.parent.name)
+    else:
+        raise ValueError(f"{path}: unsupported CSV filename or year directory")
     result: list[Draw] = []
     with path.open("r", encoding="utf-8-sig", newline="") as file:
         reader = csv.reader(file)
@@ -87,10 +100,15 @@ def parse_csv(path: Path) -> list[Draw]:
             header = [h.strip() for h in next(reader)]
         except StopIteration as exc:
             raise ValueError(f"{path}: empty CSV") from exc
-        missing = [key for key in REQUIRED if key not in header]
+        modern = all(key in header for key in FLAT_REQUIRED)
+        required = FLAT_REQUIRED if modern else LEGACY_REQUIRED
+        missing = [key for key in required if key not in header]
         if missing:
             raise ValueError(f"{path}: missing columns: {missing}")
-        columns = {key: header.index(key) for key in REQUIRED}
+        columns = {key: header.index(key) for key in required}
+        draw_col = "draw_id" if modern else "期別"
+        date_col = "date" if modern else "開獎日期"
+        number_prefix = "n" if modern else "獎號"
         for lineno, row in enumerate(reader, 2):
             if not row or not any(cell.strip() for cell in row):
                 continue
@@ -99,18 +117,18 @@ def parse_csv(path: Path) -> list[Draw]:
                 raise ValueError(f"{origin}: truncated row")
             if "遊戲名稱" in header and row[header.index("遊戲名稱")].strip() != "大樂透":
                 raise ValueError(f"{origin}: unexpected game name")
-            draw_id = _positive_int(row[columns["期別"]],
+            draw_id = _positive_int(row[columns[draw_col]],
                                     label="draw_id", origin=origin)
             if not 0 < draw_id <= 0xFFFFFFFF or draw_id // 1000000 != year - 1911:
                 raise ValueError(f"{origin}: draw_id/year mismatch or overflow")
-            date_text = row[columns["開獎日期"]].strip()
+            date_text = row[columns[date_col]].strip()
             try:
                 date = datetime.strptime(date_text, "%Y/%m/%d")
             except ValueError as exc:
                 raise ValueError(f"{origin}: invalid draw date {date_text!r}") from exc
             if date.year != year:
                 raise ValueError(f"{origin}: draw date/year mismatch")
-            main = tuple(_positive_int(row[columns[f"獎號{i}"]],
+            main = tuple(_positive_int(row[columns[f"{number_prefix}{i}"]],
                                        label=f"main_{i}", origin=origin)
                          for i in range(1, 7))
             if any(n < 1 or n > 49 for n in main) or len(set(main)) != 6:

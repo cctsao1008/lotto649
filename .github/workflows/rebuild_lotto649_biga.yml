@@ -47,7 +47,8 @@ jobs:
               _, count, row_size = struct.unpack_from("<8sII", contents)
               assert count == 2497
               assert len(contents) == 16 + count * row_size
-          csvs = sorted((root / "csv").glob("*/*.csv"))
+          csvs = sorted((root / "csv").glob("lotto649_*.csv"))
+          assert all(p.is_file() for p in (root / "csv").iterdir())
           assert len(csvs) == 23
           print("PASS: 2497 draws, source manifest, BIN hashes and 23 annual CSVs")
           PY
@@ -55,7 +56,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/bin/lotto649_history_v1.bin data/bin/lotto649_images_v2.bin data/bin/lotto649_source_manifest.json data/csv/
+          git add data/bin/lotto649_history_v1.bin data/bin/lotto649_images_v2.bin data/bin/lotto649_source_manifest.json
+          git add -A data/csv/
           if ! git diff --cached --quiet; then
             git commit -m "data: rebuild 2004-2026 Lotto649 history from Biga"
             git push origin HEAD:main

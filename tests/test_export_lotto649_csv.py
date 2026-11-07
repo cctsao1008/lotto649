@@ -67,11 +67,13 @@ class TestYearlyCsvExport(unittest.TestCase):
     def test_minimal_nine_column_csv_and_id_padding(self):
         counts = module.export(self.bin, self.csv)
         self.assertEqual({2004: 2}, counts)
-        path = self.csv / "2004" / "大樂透_2004.csv"
-        with path.open(encoding="utf-8-sig", newline="") as file:
+        path = self.csv / "lotto649_2004.csv"
+        with path.open(encoding="ascii", newline="") as file:
             rows = list(csv.reader(file))
         self.assertEqual(list(module.HEADER), rows[0])
         self.assertEqual(9, len(rows[1]))
+        self.assertTrue(path.read_bytes().isascii())
+        self.assertEqual(["lotto649_2004.csv"], sorted(p.name for p in self.csv.iterdir()))
         self.assertEqual(
             ["2004/01/05", "093000001", "06", "09", "12", "13", "33", "39", "21"],
             rows[1])
@@ -79,7 +81,7 @@ class TestYearlyCsvExport(unittest.TestCase):
 
     def test_tampered_csv_fails_verification(self):
         module.export(self.bin, self.csv)
-        path = self.csv / "2004" / "大樂透_2004.csv"
+        path = self.csv / "lotto649_2004.csv"
         path.write_text("changed", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "CSV content differs"):
             module.export(self.bin, self.csv, verify=True)
