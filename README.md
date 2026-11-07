@@ -195,3 +195,32 @@ This audit is intentionally CPU-only: CPU was faster than RTX 4060 for the
 current small network in one measured run. The 2023–2026 historical evaluation
 data have already been inspected; this audit is exploratory rather than blind.
 See [v0.4 experiment protocol](docs/predictability_audit_v04.md).
+
+## v0.5: image structure, dynamics and image-only representation learning
+
+The **research priority is 7x7 image geometry and image forecasting**, not
+general numerical lottery models. Each draw remains a lossless six-pixel bitmap.
+
+New commands:
+
+- `image-study`: morphology / spatial geometry, FFT / DCT spectral features,
+  lagged image relationships, IID six-of-49 nulls and fixed spatial-mapping
+  controls (sequential, snake, randomized). Produces **offline HTML** with
+  image and spectrum heatmaps, and a machine-readable JSON report.
+- `image-compare`: same-history causal image prediction from a raw-image CNN,
+  morphological image descriptors, spectral image descriptors and fused image
+  features. All use GRU temporal sequence modeling and the v0.3 balanced BCE
+  image loss; report Brier, exact six-point hits, geometry, parameter counts,
+  paired uncertainty and an offline visual prediction gallery.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+& $py -m lotto7x7 image-study --permutations 499 --null-images 4096 --mapping-seeds 2
+& $py -m lotto7x7 image-compare --seeds 3 --epochs 45 --bootstrap 400
+```
+
+The new code leaves archived v0.2 / v0.3 / v0.4 models and historical data
+unchanged. Historical evaluation data have been inspected previously, so these
+are **exploratory studies**, not prospective evidence of a lottery edge.
+See [v0.5 experiment protocol](docs/image_structure_and_temporal_v05.md).

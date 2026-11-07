@@ -12,6 +12,8 @@ from .learning import learned_replay
 from .diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
 from .loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LOSS_STUDY_SCHEMA
 from .predictability_v04 import audit as predictability_audit, METHODS as PREDICTABILITY_METHODS
+from .image_structure_v05 import image_study, image_gallery as image_structure_gallery
+from .image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
 import torch
 import numpy as np
 
@@ -132,6 +134,29 @@ def main() -> None:
     pa.add_argument("--control-epochs", type=int, default=45)
     pa.add_argument("--no-controls", action="store_true")
     pa.add_argument("--out", type=Path, default=Path("results/predictability_audit_v04.json"))
+    structure = action.add_parser("image-study", help="v0.5 image morphology, DCT/FFT, temporal and layout controls")
+    structure.add_argument("--data", type=Path, default=DATA)
+    structure.add_argument("--permutations", type=int, default=499)
+    structure.add_argument("--null-images", type=int, default=4096)
+    structure.add_argument("--mapping-seeds", type=int, default=2)
+    structure.add_argument("--lags", default="1,2,3,5,10")
+    structure.add_argument("--seed", type=int, default=649)
+    structure.add_argument("--out", type=Path, default=Path("results/image_structure_v05.json"))
+    structure.add_argument("--html-out", type=Path, default=Path("results/image_structure_v05.html"))
+    comparison = action.add_parser("image-compare", help="v0.5 four image-derived sequence representations")
+    comparison.add_argument("--data", type=Path, default=DATA)
+    comparison.add_argument("--window", type=int, default=5)
+    comparison.add_argument("--seeds", type=int, default=3)
+    comparison.add_argument("--seed", type=int, default=649)
+    comparison.add_argument("--epochs", type=int, default=45)
+    comparison.add_argument("--patience", type=int, default=8)
+    comparison.add_argument("--batch-size", type=int, default=64)
+    comparison.add_argument("--learning-rate", type=float, default=0.003)
+    comparison.add_argument("--embedding", type=int, default=24)
+    comparison.add_argument("--hidden", type=int, default=32)
+    comparison.add_argument("--bootstrap", type=int, default=400)
+    comparison.add_argument("--out", type=Path, default=Path("results/image_compare_v05.json"))
+    comparison.add_argument("--html-out", type=Path, default=Path("results/image_compare_v05.html"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -279,6 +304,60 @@ def main() -> None:
                   f"shuffled Brier={shuffled['mean_pixel_brier']:.6f}")
         print(f"[DONE] Audit report: {args.out.resolve()}")
         print("[CAUTION] Previously inspected historical results are exploratory, not blind")
+    elif args.command == "image-study":
+        print("Lotto7x7 Image Structure & Dynamics v0.5 (CPU)", flush=True)
+        lags = tuple(int(value.strip()) for value in args.lags.split(","))
+        report = image_study(
+            args.data, permutations=args.permutations,
+            null_images=args.null_images, mapping_seeds=args.mapping_seeds,
+            lags=lags, seed=args.seed)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        args.html_out.parent.mkdir(parents=True, exist_ok=True)
+        args.html_out.write_text(image_structure_gallery(report), encoding="utf-8")
+        print(f"[IMAGES] {report['draws']} historical six-pixel images")
+        print(f"[IID] Expected common pixels for two fair six-subsets: {report['exact_iid_expected_overlap']:.6f}")
+        for mapped in report["mapping_comparisons"]:
+            key = f"{mapped['mapping']}({mapped['mapping_seed']})"
+            lag = mapped["temporal"][str(lags[0])]
+            overlap = lag["pixel_overlap"]
+            dct = lag["low_dct_cosine"]
+            print(f"[LAYOUT] {key}: lag-{lags[0]} overlap={overlap['observed']:.4f} "
+                  f"null={overlap['null_mean']:.4f} p_adj={overlap['bonferroni_p']:.4f}; "
+                  f"DCT-cosine={dct['observed']:.4f} "
+                  f"null={dct['null_mean']:.4f} p_adj={dct['bonferroni_p']:.4f}")
+        print(f"[DONE] JSON: {args.out.resolve()}")
+        print(f"[DONE] HTML: {args.html_out.resolve()}")
+        print("[CAUTION] Arbitrary image layouts; retrospective patterns are not predictive evidence")
+    elif args.command == "image-compare":
+        print("Lotto7x7 Image Representation Comparison v0.5 (CPU)", flush=True)
+        report = image_compare(
+            args.data, seeds=args.seeds, seed=args.seed, window=args.window,
+            epochs=args.epochs, patience=args.patience,
+            batch_size=args.batch_size, learning_rate=args.learning_rate,
+            embedding=args.embedding, hidden=args.hidden,
+            bootstrap=args.bootstrap,
+            on_progress=lambda message: print(message, flush=True))
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        args.html_out.parent.mkdir(parents=True, exist_ok=True)
+        args.html_out.write_text(image_compare_gallery(report), encoding="utf-8")
+        print(f"[EVALUATED] {report['evaluation_draws']} historical image targets")
+        null = report["chance_baselines"]
+        print(f"[IID] Pixel Brier={null['pixel_brier_uniform']:.6f}; mean hits={null['expected_hits_iid']:.6f}")
+        print("Method                   Pixel Brier    Mean Hits    Shape Sim    Parameters")
+        for name in IMAGE_MODELS:
+            value = report["summary"][name]
+            print(f"{name:24s} {value['mean_pixel_brier']:12.6f} "
+                  f"{value['mean_hits']:12.4f} {value['mean_shape_similarity']:12.4f} "
+                  f"{value['parameter_count']:12d}")
+        for name, item in report["paired_intervals"].items():
+            low, high = item["interval_95"]
+            print(f"[PAIRED] {name}: {item['mean']:+.6f} "
+                  f"interval=[{low:+.6f}, {high:+.6f}]")
+        print(f"[DONE] JSON: {args.out.resolve()}")
+        print(f"[DONE] HTML: {args.html_out.resolve()}")
+        print("[CAUTION] Historical tests have been inspected and are exploratory only")
     elif args.command == "loss-synthetic":
         report = {"schema": "lotto7x7.loss_synthetic.v0.3",
                   "controls": [synthetic_control(kind=name, epochs=args.epochs,
