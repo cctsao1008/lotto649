@@ -9,6 +9,7 @@ from pathlib import Path
 from .core import decode, encode, invert_spectrum, spectrum
 from .research import DATA, load_history, research
 from .learning import learned_replay
+from .diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
 import torch
 import numpy as np
 
@@ -76,6 +77,20 @@ def main() -> None:
     learn.add_argument("--seed", type=int, default=649)
     learn.add_argument("--out", type=Path, default=Path("results/learned_replay.json"))
     learn.add_argument("--weights", type=Path, default=Path("results/learned_image_weights.pt"))
+    diag = action.add_parser("diagnose", help="v0.2 CNN/GRU collapse and time-order ablations")
+    diag.add_argument("--data", type=Path, default=DATA)
+    diag.add_argument("--year", default="all")
+    diag.add_argument("--window", type=int, default=5)
+    diag.add_argument("--epochs", type=int, default=45)
+    diag.add_argument("--patience", type=int, default=8)
+    diag.add_argument("--batch-size", type=int, default=64)
+    diag.add_argument("--learning-rate", type=float, default=0.003)
+    diag.add_argument("--embedding", type=int, default=24)
+    diag.add_argument("--hidden", type=int, default=32)
+    diag.add_argument("--baseline", type=int, default=32)
+    diag.add_argument("--bootstrap", type=int, default=400)
+    diag.add_argument("--seed", type=int, default=649)
+    diag.add_argument("--out", type=Path, default=Path("results/image_diagnostics_v02.json"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -130,9 +145,37 @@ def main() -> None:
         print(f"[DONE] Report: {args.out.resolve()}")
         print(f"[DONE] Weights: {args.weights.resolve()}")
         print("[CAUTION] Retrospective image similarity is not proof of a lottery edge")
+    elif args.command == "diagnose":
+        year = None if args.year.lower() == "all" else int(args.year)
+        report = diagnose(
+            args.data, year=year, window=args.window, epochs=args.epochs,
+            patience=args.patience, batch_size=args.batch_size,
+            learning_rate=args.learning_rate, embedding=args.embedding,
+            hidden=args.hidden, baseline=args.baseline,
+            bootstrap=args.bootstrap, seed=args.seed)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print("Lotto7x7 Image Learning Diagnostics v0.2")
+        print(f"[EVALUATED] {report['evaluation_draws']} historical images")
+        print("Method                    Adjusted      Unique   Top share    Pixel logit SD")
+        for name, result in report["summary"].items():
+            diversity = result["unique_patterns"]
+            score = report["logit_diagnostics"][name]
+            print(f"{name:25s} {result['mean_iid_adjusted_similarity']:+10.6f} "
+                  f"{diversity['unique']:10d} {diversity['top_fraction']:10.2%} "
+                  f"{score['mean_pixel_logit_std']:17.6f}")
+        control = report["fixed_weights_history_order_control"]
+        print(f"[ORDER] Fixed-weight shuffled-context top-six change: "
+              f"{control['changed_top6_fraction']:.2%}")
+        for name, item in report["paired_intervals"].items():
+            bounds = item["interval_95"]
+            print(f"[PAIRED] {name}: {item['mean']:+.6f} "
+                  f"interval=[{bounds[0]:+.6f}, {bounds[1]:+.6f}]")
+        print(f"[DONE] Diagnostic report: {args.out.resolve()}")
+        print("[CAUTION] Previously inspected historical results are exploratory only")
     else:
         report = json.loads(args.report.read_text(encoding="utf-8"))
-        if report.get('schema') not in ('lotto7x7.visual.v1', 'lotto7x7.learned_image.v1') or args.count < 1:
+        if report.get('schema') not in ('lotto7x7.visual.v1', 'lotto7x7.learned_image.v1', DIAGNOSTICS_SCHEMA) or args.count < 1:
             raise ValueError('unsupported report schema or count')
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(gallery(report, args.count), encoding='utf-8')

@@ -15,7 +15,8 @@ The historical dataset files under `data/raw/`, `data/csv/`, `data/binary/` and 
 - `lotto7x7/learning.py`: **trainable image learning** with a 2D CNN per historical frame, recurrent GRU across frames, D4/translation-tolerant shape loss (image autocorrelation), auxiliary pixel reconstruction and six-active-point constraint; trained 7×7 image output with six brightest pixels selected. This does not import the retired six-of-49 logit decoder.
 - `lotto7x7/models.py`: simple image-only causal controls (`previous`, `centroid_motion`, `temporal_analog`) and image-output diversity diagnostics; these are *non-neural baselines*, not the new learning model.
 - `lotto7x7/research.py`: BIN v2 image importer (default; normalized NumPy files only as optional comparison); chronological train/validation/evaluation splits; conditional-IID-adjusted similarity; within-year time-order shuffling; validation-only method selection and per-draw JSON audit.
-- `lotto7x7/__main__.py`: four commands: `check`, `learn` (main training path), `replay` (heuristic controls), and `gallery` (supports either report).
+- `lotto7x7/diagnostics.py`: three-arm image-learning diagnostic (normal-order CNN+GRU, per-context time-shuffled CNN+GRU, and history-free trainable template); quantifies continuous logits, Top-6 collapse, latent variability, and paired IID-adjusted scores.
+- `lotto7x7/__main__.py`: five commands: `check`, `learn`, `diagnose`, `replay`, and `gallery`.
 - `tests/`: tests written **only for this newly designed 7×7 project**.
 
 **Primary research outcome**: average `image_similarity(prediction, actual) - E_IID[image_similarity(prediction, random_draw)]`. A graphically similar forecast may have zero common numbers. The analysis is not a lottery ticket selector and contains no guarantee of an edge over random draws.
@@ -50,7 +51,8 @@ The `learn` command **optimizes trainable CNN and GRU parameters** on the first 
 
 `results/learned_image_weights.pt` is a newly trained state dictionary. Only load weights from a trusted source using the corresponding architecture and safe framework loading settings. `results/learned_replay.json` contains per-draw output masks and adjusted similarity; the HTML gallery draws observed/predicted 7×7 images.
 
-The new test suite includes **53 tests** (31 image-core tests, 15 BIN format tests and 7 BIN model-integration tests), including synthetic pattern learning, differentiable gradient flow, chronology and future leakage controls, DCT/FFT reversibility, visual similarity, and report generation. No old 169-case suite is retained. See [BIN v2 layout](docs/data_bin_format_v2.md).
+The new test suite includes **67 tests** (31 image-core tests, 15 BIN format tests,
+7 BIN model-integration tests, and 14 collapse/temporal-diagnostic tests), including synthetic pattern learning, differentiable gradient flow, chronology and future leakage controls, DCT/FFT reversibility, visual similarity, and report generation. No old 169-case suite is retained. See [BIN v2 layout](docs/data_bin_format_v2.md).
 
 ## Canonical 7×7 image BIN v2
 
@@ -71,3 +73,38 @@ To rebuild after a CSV update:
 ```
 
 The network reads raw 7×7 binary images from BIN v2 (converted to float32 for PyTorch). It does not train on special numbers. This data-format migration does not alter neural-network architecture or imply higher forecasting accuracy.
+
+## Image Learning v0.2: collapse and temporal diagnostics
+
+This is a diagnostic extension, not a model performance claim. It **does not
+change the default `learn` command** or BIN v2. It adds a paired three-arm
+comparison using identical 7x7 image targets, training/validation/test splits,
+CNN+GRU hyperparameters, loss function, and IID scoring controls:
+
+1. `ordered_cnn_gru`: normal chronological windows (the original v0.1 model).
+2. `shuffled_cnn_gru`: independently permuted **past input frames per target**,
+   at both training and inference; the target and the multiset of its earlier
+   frames are unchanged. Training uses the same initialization, seeds,
+   optimizer, and validation-loss selection as the ordered model.
+3. `constant_template`: a learned 7x7 template, independent of past images,
+   trained with the same loss, epochs, optimizer and validation criterion.
+
+The diagnostic report additionally measures continuous logit variance,
+Top-6/Top-7 margin, most-selected pixels, predicted-pattern concentration,
+encoder/GRU latent variation, and a fixed-weight input-order sensitivity
+control. Comparison uses shared per-target IID random masks, validation-only
+early stopping and exploratory paired circular-block bootstrap intervals.
+
+```powershell
+cd D:\my-github\lotto649
+.\.venv\Scripts\python.exe -m lotto7x7 diagnose --year all --epochs 45 --baseline 32
+.\.venv\Scripts\python.exe -m lotto7x7 gallery --report results/image_diagnostics_v02.json --out results/image_diagnostics_v02.html
+Start-Process .\results\image_diagnostics_v02.html
+```
+
+The output file is `results/image_diagnostics_v02.json`. The full report
+contains each model's validation loss history, validation and retrospective
+adjusted similarity, the 437 per-draw predictions and logit diagnostics.
+**Do not tune on historical test scores and call it prospective performance**:
+the dates have already been inspected. More varied images do not necessarily
+imply predictive value. See `docs/image_learning_diagnostics_v02.md`.

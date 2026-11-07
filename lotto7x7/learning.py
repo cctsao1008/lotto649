@@ -118,6 +118,30 @@ def image_windows(images: np.ndarray, *, window: int = 5
             torch.as_tensor(y, dtype=torch.float32))
 
 
+def permute_history_windows(windows: torch.Tensor, indices: np.ndarray,
+                            *, seed: int) -> torch.Tensor:
+    """Fixed per-target history-order control without moving target images.
+
+    A stable seed plus absolute target index gives identical permutations in
+    train, validation and inference, independent of batch composition.
+    Every target retains exactly the same previous images as the ordered input.
+    """
+    ids = np.asarray(indices, dtype=np.int64)
+    if (windows.ndim != 4 or windows.shape[2:] != (7, 7)
+            or windows.shape[1] < 2 or ids.shape != (len(windows),)
+            or np.any(ids < windows.shape[1]) or seed < 0):
+        raise ValueError("invalid context permutation configuration")
+    rows = []
+    for i, target in enumerate(ids):
+        rng = np.random.default_rng(np.random.SeedSequence([seed, int(target)]))
+        perm = rng.permutation(windows.shape[1])
+        # Disallow a no-op shuffle so every input is a genuine ablation.
+        if np.array_equal(perm, np.arange(windows.shape[1])):
+            perm = np.roll(perm, 1)
+        rows.append(windows[i, perm])
+    return torch.stack(rows, dim=0)
+
+
 def decode_image(logits: torch.Tensor) -> np.ndarray:
     """Convert one predicted image into six filled pixels without probability LUTs."""
     prediction = logits.detach().cpu().numpy()
@@ -132,7 +156,8 @@ def decode_image(logits: torch.Tensor) -> np.ndarray:
 def train_model(images: np.ndarray, *, train_end: int, validation_end: int,
                 window: int = 5, embedding: int = 24, hidden: int = 32,
                 epochs: int = 30, patience: int = 6, batch_size: int = 64,
-                learning_rate: float = 0.003, seed: int = 649
+                learning_rate: float = 0.003, seed: int = 649,
+                history_order: str = "chronological"
                 ) -> tuple[ImageSequenceLearner, dict]:
     """Fit only pre-validation images and early-stop only on validation images."""
     if (not 2 <= window < train_end - 10
@@ -140,7 +165,12 @@ def train_model(images: np.ndarray, *, train_end: int, validation_end: int,
             or epochs < 1 or patience < 1 or batch_size < 1 or seed < 0
             or not np.isfinite(learning_rate) or learning_rate <= 0):
         raise ValueError("invalid chronological training hyperparameters")
+    if history_order not in ("chronological", "permuted"):
+        raise ValueError("history_order must be chronological or permuted")
     x, y = image_windows(images, window=window)
+    if history_order == "permuted":
+        x = permute_history_windows(
+            x, np.arange(window, len(images)), seed=seed + 9001)
     # x[k] predicts draw t=k+window; t is excluded from x[k] by construction.
     tr_end = train_end - window
     va_end = validation_end - window
@@ -195,6 +225,8 @@ def train_model(images: np.ndarray, *, train_end: int, validation_end: int,
         "validation_targets": [train_end, validation_end - 1],
         "window": window,
         "architecture": "cnn_frame_encoder_plus_gru_next_7x7_image",
+        "history_order": history_order,
+        "history_permutation_seed": seed + 9001 if history_order == "permuted" else None,
         "objective": "image_shape_autocorrelation_plus_pixel_reconstruction_and_six_pixel_mass",
         "loss_weights": {"shape_autocorrelation": 0.35,
                          "pixel_reconstruction": 0.60, "pixel_mass": 0.05},
