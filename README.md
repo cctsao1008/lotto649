@@ -529,3 +529,34 @@ feature-conditioned ticket research **without rerunning this training**; it is
 not a validated live selector. Only the 13 new tests were run in isolated
 synthetic local verification, not the prior full suite or real RTX 4060 data.
 See [v0.10 protocol](docs/gpu_deep_feature_discovery_v010.md).
+
+
+## v0.11 — 7×7 Image Classification and Quantification (No Period Search)
+
+Group all 2,497 historical images by **exact six-pixel D4+translation shape**,
+**8-neighbor connectivity**, and **similar-image prototype classes**. The
+5-of-6 shared-shape graph is counted but **not** misrepresented as a valid
+mutually similar class system (chain effects form giant components). A CUDA
+k-means prototype classifier uses 40 D4-invariant geometric descriptors,
+or optionally the **frozen v0.10 CNN encoder** (`cnn` or `fused` feature modes).
+
+All classes have member counts, an actual representative 7×7 drawing,
+10000 legal fair-IID control draw proportions using the same frozen learned
+centroids, and full assignment tables. Results are **descriptive**, not
+winning-number probability claims. No retraining, no repeated historical
+walk-forward/period scans, no previously completed regression suite.
+
+```powershell
+$py = '.\.venv\Scripts\python.exe'
+& $py -m lotto7x7 image-classify `
+    --device cuda --clusters 12 --features geometry --iid-samples 10000 `
+    --out results/v011_geometry_12.json
+& $py -m lotto7x7 image-classify `
+    --device cuda --clusters 12 --features fused `
+    --model results/v010_deep_feature_cuda.pt --iid-samples 10000 `
+    --out results/v011_fused_12.json
+```
+
+Each run creates JSON, CSV and an **offline HTML gallery** with colored 7×7
+class representatives. Existing outputs are not overwritten. Read the
+[v0.11 research and classification protocol](docs/image_classification_v011.md).
