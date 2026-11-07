@@ -30,7 +30,7 @@ HEADER = struct.Struct("<8sII")
 RECORD = struct.Struct("<I49B")
 DTYPE = np.dtype([("draw_id", "<u4"), ("image", "u1", (7, 7))], align=False)
 SOURCE_PATTERN = re.compile(r"^大樂透_\d{4}(?:\d{2}_\d{6})?\.csv$")
-REQUIRED = ("遊戲名稱", "期別", "開獎日期", "獎號1", "獎號2", "獎號3",
+REQUIRED = ("期別", "開獎日期", "獎號1", "獎號2", "獎號3",
             "獎號4", "獎號5", "獎號6")
 DEFAULT_CSV = Path("data/csv")
 DEFAULT_BIN = Path("data/bin/lotto649_images_v2.bin")
@@ -97,7 +97,7 @@ def parse_csv(path: Path) -> list[Draw]:
             origin = f"{path}:{lineno}"
             if len(row) <= max(columns.values()):
                 raise ValueError(f"{origin}: truncated row")
-            if row[columns["遊戲名稱"]].strip() != "大樂透":
+            if "遊戲名稱" in header and row[header.index("遊戲名稱")].strip() != "大樂透":
                 raise ValueError(f"{origin}: unexpected game name")
             draw_id = _positive_int(row[columns["期別"]],
                                     label="draw_id", origin=origin)
