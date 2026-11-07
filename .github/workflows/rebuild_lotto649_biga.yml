@@ -1,4 +1,4 @@
-name: Rebuild Lotto649 BIN history from Biga
+name: Rebuild Lotto649 BIN and yearly CSV from Biga
 
 on:
   workflow_dispatch:
@@ -23,14 +23,20 @@ jobs:
           python-version: "3.12"
       - name: Offline single-source scraper tests
         run: python -m unittest discover -s tests -p "test_fetch_lotto649_biga.py" -v
-      - name: Download Biga archive, validate 2497 draws, build BIN-only dataset
+      - name: Offline annual CSV exporter tests
+        run: python -m unittest discover -s tests -p "test_export_lotto649_csv.py" -v
+      - name: Download Biga archive, validate 2497 draws, build BIN dataset
         run: python scripts/fetch_lotto649_biga.py --workers 4 --until 2026-11-06 --expect-count 2497
-      - name: Check hashes, record lengths and bin-only layout
+      - name: Export 23 minimal annual CSV files
+        run: |
+          python scripts/export_lotto649_csv.py
+          python scripts/export_lotto649_csv.py --verify
+      - name: Check hashes, record lengths and CSV structure
         run: |
           python - <<'PY'
           import hashlib, json, pathlib, struct
           root = pathlib.Path("data")
-          assert sorted(item.name for item in root.iterdir()) == ["bin"]
+          assert sorted(item.name for item in root.iterdir()) == ["bin", "csv"]
           out = root / "bin"
           manifest = json.loads((out / "lotto649_source_manifest.json").read_text("utf-8"))
           assert manifest["total_draws"] == 2497
@@ -41,16 +47,18 @@ jobs:
               _, count, row_size = struct.unpack_from("<8sII", contents)
               assert count == 2497
               assert len(contents) == 16 + count * row_size
-          print("PASS: 2497 draws, source manifest, BIN hashes and bin-only structure")
+          csvs = sorted((root / "csv").glob("*/*.csv"))
+          assert len(csvs) == 23
+          print("PASS: 2497 draws, source manifest, BIN hashes and 23 annual CSVs")
           PY
       - name: Commit validated datasets to main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/bin/lotto649_history_v1.bin data/bin/lotto649_images_v2.bin data/bin/lotto649_source_manifest.json
+          git add data/bin/lotto649_history_v1.bin data/bin/lotto649_images_v2.bin data/bin/lotto649_source_manifest.json data/csv/
           if ! git diff --cached --quiet; then
             git commit -m "data: rebuild 2004-2026 Lotto649 history from Biga"
             git push origin HEAD:main
           else
-            echo "No changes to BIN files"
+            echo "No changes to BIN and CSV files"
           fi
