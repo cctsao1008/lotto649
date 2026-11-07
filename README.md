@@ -224,3 +224,39 @@ The new code leaves archived v0.2 / v0.3 / v0.4 models and historical data
 unchanged. Historical evaluation data have been inspected previously, so these
 are **exploratory studies**, not prospective evidence of a lottery edge.
 See [v0.5 experiment protocol](docs/image_structure_and_temporal_v05.md).
+
+## v0.5.1: Visual Image Dynamics (image-first)
+
+The `image-dynamics` command adds a stand-alone **offline SVG/HTML**
+research view without retraining or altering any v0.2–v0.5 models:
+
+- Per-draw image transitions: **retained / removed / added** pixels, exact
+  position Jaccard and D4/translation-tolerant **shape similarity** separately.
+- Pixel-frequency differences versus exact fair `6/49` expectation;
+  six-pixel IID **morphology histograms** and spatial-mapping sensitivity.
+- **Non-DC DCT power** (observed, IID control, residual); DC is explicitly
+  excluded because every image contains exactly six filled pixels.
+- Two pairwise similarity matrices across recent historical draws: exact
+  shared-number positions versus transformed shape similarity.
+- Optional **read-only** inclusion of already-saved v0.5 image forecast examples.
+  Historical report hashes, draw identities, actual images and hit counts are
+  checked before display; no model is trained.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+& $py -m lotto7x7 image-dynamics `
+    --null-images 4096 --mapping-seeds 2 --transitions 12 `
+    --matrix-count 24 --null-shape-pairs 128 `
+    --out results/image_dynamics_v051.json `
+    --html-out results/image_dynamics_v051.html
+
+# Optional: include already-recorded v0.5 model output (no retraining).
+& $py -m lotto7x7 image-dynamics `
+    --compare-report results/image_compare_v05.json `
+    --out results/image_dynamics_v051_with_models.json `
+    --html-out results/image_dynamics_v051_with_models.html
+```
+
+These are **retrospective exploratory** plots, not a demonstration of an edge.
+See [v0.5.1 methodology](docs/visual_image_dynamics_v051.md).

@@ -14,6 +14,7 @@ from .loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LO
 from .predictability_v04 import audit as predictability_audit, METHODS as PREDICTABILITY_METHODS
 from .image_structure_v05 import image_study, image_gallery as image_structure_gallery
 from .image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
+from .image_dynamics_v051 import image_dynamics, image_dynamics_gallery
 import torch
 import numpy as np
 
@@ -157,6 +158,18 @@ def main() -> None:
     comparison.add_argument("--bootstrap", type=int, default=400)
     comparison.add_argument("--out", type=Path, default=Path("results/image_compare_v05.json"))
     comparison.add_argument("--html-out", type=Path, default=Path("results/image_compare_v05.html"))
+    dyn = action.add_parser("image-dynamics", help="v0.5.1 transitions, morphology distributions, non-DC spectra, similarity matrices")
+    dyn.add_argument("--data", type=Path, default=DATA)
+    dyn.add_argument("--seed", type=int, default=649)
+    dyn.add_argument("--null-images", type=int, default=4096)
+    dyn.add_argument("--mapping-seeds", type=int, default=2)
+    dyn.add_argument("--transitions", type=int, default=12)
+    dyn.add_argument("--matrix-count", type=int, default=24)
+    dyn.add_argument("--null-shape-pairs", type=int, default=128)
+    dyn.add_argument("--compare-report", type=Path, default=None,
+                     help="Read-only historical image-compare JSON; rejects mismatched dataset")
+    dyn.add_argument("--out", type=Path, default=Path("results/image_dynamics_v051.json"))
+    dyn.add_argument("--html-out", type=Path, default=Path("results/image_dynamics_v051.html"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -304,6 +317,31 @@ def main() -> None:
                   f"shuffled Brier={shuffled['mean_pixel_brier']:.6f}")
         print(f"[DONE] Audit report: {args.out.resolve()}")
         print("[CAUTION] Previously inspected historical results are exploratory, not blind")
+    elif args.command == "image-dynamics":
+        print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
+        report = image_dynamics(
+            args.data, seed=args.seed, null_images=args.null_images,
+            mapping_seeds=args.mapping_seeds, transitions=args.transitions,
+            matrix_count=args.matrix_count, null_shape_pairs=args.null_shape_pairs,
+            comparison_report=args.compare_report,
+            on_progress=lambda line: print(line, flush=True))
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        args.html_out.parent.mkdir(parents=True, exist_ok=True)
+        args.html_out.write_text(image_dynamics_gallery(report), encoding="utf-8")
+        print(f"[IMAGES] {report['draws']} historical six-point bitmaps")
+        chance = report["iid_baselines"]
+        print(f"[IID] Exact common pixels={chance['expected_common_pixels']:.6f}; "
+              f"non-DC mean power={chance['non_dc_dct_expected_power']:.6f}")
+        for item in report["recent_transitions"][-3:]:
+            print(f"[TRANSITION] {item['previous_draw_id']} -> {item['current_draw_id']}: "
+                  f"retained={item['retained']}, exact IoU={item['exact_pixel_jaccard']:.4f}, "
+                  f"D4 shape={item['d4_translation_shape_similarity']:.4f}")
+        if report["prediction_gallery"] is not None:
+            print(f"[GALLERY] {len(report['prediction_gallery']['examples'])} saved historical comparison examples")
+        print(f"[DONE] JSON: {args.out.resolve()}")
+        print(f"[DONE] HTML: {args.html_out.resolve()}")
+        print("[CAUTION] Descriptive image structure is not evidence of a prediction advantage")
     elif args.command == "image-study":
         print("Lotto7x7 Image Structure & Dynamics v0.5 (CPU)", flush=True)
         lags = tuple(int(value.strip()) for value in args.lags.split(","))
