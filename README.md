@@ -340,3 +340,28 @@ results. Snapshot and scoring files use exclusive creation to avoid overwrites.
 A local hash/timestamp cannot independently prove pre-draw existence; publish
 the commitment externally before a draw to support blind evaluation.
 See [v0.7 methods and safeguards](docs/baseline_blind_v07.md).
+
+
+## v0.7.1 — Statistical Robustness Audit (S1 vs B1)
+
+Re-analyze existing v0.7 matched baseline JSON **without rerunning candidate
+pools**, using paired exact McNemar tests, three-strategy Holm family-wise
+correction, draw-level paired bootstrap intervals, fair-coverage-adjusted
+comparisons, and descriptive year groups. Score and exact fair coverage values
+are recalculated from frozen tickets and outcomes.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 robustness-audit --input results/baseline_study_v07_100.json --out results/robustness_audit_v071_100.json
+& $py -m lotto7x7 robustness-sweep --seeds 649,650 --counts 1,3,5 --warmup 200 --eval-draws 12 --stride 5 --size 100 --families 20 --out results/robustness_sweep_v071_smoke.json
+```
+
+The sweep can also use `--counts 1,2,3,4,5` and more seeds/targets, but each
+configuration recomputes the full v0.7 baseline on identical target draw IDs.
+**Seed replications are never treated as new independent lottery draws**;
+S1-B1 differences are averaged across seeds *within each target draw*, then
+bootstrapped over draws. Holm correction in a sweep covers all seed × N ×
+strategy comparisons in that invocation; neither this nor the retrospective
+analysis corrects for previous experiments or proves future predictive skill.
+
+See [v0.7.1 statistical methodology](docs/statistical_robustness_v071.md).
