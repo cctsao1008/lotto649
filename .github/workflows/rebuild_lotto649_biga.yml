@@ -2,12 +2,6 @@ name: Rebuild Lotto649 BIN history from Biga
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/fetch_lotto649_biga.py"
-      - "tests/test_fetch_lotto649_biga.py"
-      - ".github/workflows/rebuild_lotto649_auzo.yml"
 
 permissions:
   contents: write
