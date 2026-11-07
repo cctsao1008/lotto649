@@ -50,6 +50,10 @@ jobs:
           assert rows == 2497, f"expected 2497 draws, found {rows}"
           print("PASS: 23 annual CSV files, 2497 draws, 9 columns")
           PY
+      - name: Verify legacy 7x7 BIN against regenerated CSV using project parser
+        run: |
+          python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,<2"
+          python -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
       - name: Commit exported annual CSV files
         run: |
           git config user.name "github-actions[bot]"
