@@ -16,6 +16,8 @@ from .image_structure_v05 import image_study, image_gallery as image_structure_g
 from .image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
 from .image_dynamics_v051 import image_dynamics, image_dynamics_gallery
 from .candidate_pool_v06 import create_shape_pool, shape_pool_gallery, POLICIES as SHAPE_POLICIES
+from .bet_selection_v06 import select_bets
+from .coverage_audit_v06 import audit_selection
 import torch
 import numpy as np
 
@@ -180,6 +182,20 @@ def main() -> None:
     sp.add_argument("--sample-count", type=int, default=5)
     sp.add_argument("--out", type=Path, default=Path("results/shape_pool_v06.json"))
     sp.add_argument("--html-out", type=Path, default=Path("results/shape_pool_v06.html"))
+    bs = action.add_parser("bet-select", help="v0.6 select 1..5 tickets from one frozen shape pool")
+    bs.add_argument("--pool", type=Path, required=True)
+    bs.add_argument("--count", type=int, default=5)
+    bs.add_argument("--strategy", choices=("all", "random", "shape-diverse", "coverage-optimized"), default="all")
+    bs.add_argument("--seed", type=int, default=1658)
+    bs.add_argument("--out", type=Path, default=Path("results/bet_selection_v06.json"))
+    ca = action.add_parser("coverage-audit", help="v0.6 exact 1..5 ticket coverage; MC for research pool")
+    ca.add_argument("--bets", type=Path, required=True)
+    ca.add_argument("--samples", type=int, default=50000,
+                    help="IID sample count for pool-wide partial-hit estimates only")
+    ca.add_argument("--seed", type=int, default=20261108)
+    ca.add_argument("--draw", type=str, default=None,
+                    help="Optional comma-separated known six-number draw, post-draw scoring only")
+    ca.add_argument("--out", type=Path, default=Path("results/coverage_audit_v06.json"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -353,6 +369,38 @@ def main() -> None:
         print(f"[DONE] JSON: {args.out.resolve()}")
         print(f"[DONE] HTML: {args.html_out.resolve()}")
         print("[CAUTION] Unoptimized random preview, not a forecast or an instruction to purchase")
+    elif args.command == "bet-select":
+        pool = json.loads(args.pool.read_text(encoding="utf-8"))
+        report = select_bets(pool, count=args.count, strategy=args.strategy, seed=args.seed)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print(f"[POOL] {report['pool_candidate_count']} frozen candidates; "
+              f"SHA256={report['pool_sha256']}")
+        for name, item in report["strategies"].items():
+            print(f"[STRATEGY] {name} — {len(item['bets'])} alternative bets")
+            for j, bet in enumerate(item["bets"], start=1):
+                numbers = " ".join(f"{n:02d}" for n in bet["numbers"])
+                print(f"  {j}. Pool #{bet['pool_index']+1:03d}: {numbers}")
+            exact = item["exact_fair_coverage"]["at_least"]
+            print(f"  [EXACT] >=3={exact['3']:.6%} >=4={exact['4']:.6%} "
+                  f">=5={exact['5']:.6%} 6/6={exact['6']:.8%}")
+        print(f"[DONE] Selection JSON: {args.out.resolve()}")
+        print("[CAUTION] These are alternative research portfolios; do not sum their ticket counts")
+    elif args.command == "coverage-audit":
+        selections = json.loads(args.bets.read_text(encoding="utf-8"))
+        known_draw = None if args.draw is None else tuple(int(v.strip()) for v in args.draw.split(","))
+        report = audit_selection(selections, samples=args.samples, seed=args.seed, actual=known_draw)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print(f"[TICKETS] {report['ticket_count_per_strategy']} per strategy "
+              f"(research candidate pool={report['research_pool_count']})")
+        for name, item in report["strategies"].items():
+            p = item["exact_fair_coverage"]["at_least"]
+            print(f"[EXACT] {name}: >=3={p['3']:.6%} >=4={p['4']:.6%} "
+                  f">=5={p['5']:.6%} 6/6={p['6']:.8%}")
+        print("[PARETO] " + ", ".join(report["pareto_nondominated"]))
+        print("[POOL] Partial-hit coverage: IID Monte Carlo, with CI (not purchased tickets)")
+        print(f"[DONE] Coverage audit JSON: {args.out.resolve()}")
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

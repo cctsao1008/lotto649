@@ -293,3 +293,26 @@ The preserved historical files and v0.2–v0.5.1 models are unchanged.
 See [v0.6 Phase 1 methodology](docs/shape_pool_v06_phase1.md).
 Under an independent fair draw, even a graph-derived K-combination pool
 has complete six-number coverage exactly K / C(49,6).
+
+
+## v0.6 Phase 2–3 — Multi-Strategy Ticket Selection and Exact Coverage
+
+From one frozen image-derived candidate pool (M=100), choose **N=1–5** distinct
+combinations by random, shape-diverse, or exact-coverage greedy selection.
+The optimizer prioritizes >=3 hit union coverage, with >=4/5 as lexicographic
+tie breaks; it does not predict lottery draws. Audits compute **exact** fair
+probabilities for 1–5 fixed tickets using combinatorial DP, and separately
+estimate the 100-candidate research pool's partial-hit coverage using IID
+Monte Carlo with uncertainty intervals.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
+& $py -m lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
+& $py -m lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
+```
+
+Read [the Phase 2–3 methodology](docs/shape_pool_v06_phase2.md).
+A 100-combination research pool is not 100 purchased tickets; five distinct
+bets have exactly **5 / 13,983,816** probability of all six main numbers in a
+fair independent draw, regardless of selection strategy.
