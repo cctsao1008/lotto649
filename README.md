@@ -473,3 +473,31 @@ $py = '.\\.venv\\Scripts\\python.exe'
 Read [the v0.8.1 score-audit protocol](docs/probability_audit_v081.md).
 This retrospective analysis cannot establish a predictive edge; source BIN
 independent verification is a separate step.
+
+
+## v0.9 — GPU Multi-Domain Feature Periodicity Discovery
+
+This *discovery-only* experiment tests whether historical 7×7 legal six-number
+lottery images contain recurring periodic structure in a multi-domain feature
+bank: raw pixels, signed/second differences, 2D DCT, 2D FFT power, geometrical
+and graph-pair motifs, and Sobel/Laplacian responses (254 channels). It scans
+multiple recent horizons and finite-window Z-domain exponential radii, using
+CUDA when selected. All tested periods, features, windows, and Z radii are
+calibrated by **whole-search maximum** statistics on both fair legal 6/49 IID
+surrogates and time-shuffled actual complete draw images.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+# Optional: only 11 new tests, not the previously passed full suite:
+& $py -m unittest discover -s tests -p 'test_feature_discovery_v09.py' -v
+& $py -m lotto7x7 feature-discover-gpu --device cuda --holdout-draws 500 \`
+    --surrogates 199 --surrogate-batch 8 --recent-windows 256 512 1024 \`
+    --z-half-lives 0 64 256 --min-period 2 --max-period 512 --top 20 \`
+    --seed 649 --out results/v09_feature_discovery_cuda.json
+```
+
+Feature discovery is **not** a trained number-selection model and provides no
+established forecasting advantage. The current 2,497 records allocate a 1,997
+record discovery prefix and a 500 record held-out suffix for this experiment;
+old v0.8 studies have already inspected that suffix, so genuinely prospective
+validation remains essential. See [v0.9 method and controls](docs/multi_domain_feature_discovery_v09.md).
