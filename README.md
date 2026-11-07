@@ -560,3 +560,46 @@ $py = '.\.venv\Scripts\python.exe'
 Each run creates JSON, CSV and an **offline HTML gallery** with colored 7×7
 class representatives. Existing outputs are not overwritten. Read the
 [v0.11 research and classification protocol](docs/image_classification_v011.md).
+
+## v0.12 — Natural 7×7 Image Clustering and Similarity Galleries
+
+Research **unknown image class counts**, without imposing the previous v0.11
+twelve-cluster K-means assumption. The new CUDA-assisted
+`natural-cluster-gpu` CLI compares *scikit-learn HDBSCAN* (density clusters
+plus unclassified NOISE), *Ward hierarchical clustering* (silhouette-ranked
+explicit K grid), and *K-medoids* (actual historic representative drawings).
+Use D4-invariant 40-dimensional geometry features, or optionally fuse the
+**frozen v0.10 CNN checkpoint** without retraining.
+
+Silhouette, 80% subsample ARI stability, medoid distances, nearest and boundary
+7×7 image galleries, full per-draw assignment CSV, and full-refit fair-IID
+controls accompany the quantitative class counts. IID can produce stable,
+apparently clean clusters too; **none of these outputs establishes a
+winning-number probability advantage**.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+& $py -m pip install -r requirements.txt
+
+& $py -m lotto7x7 natural-cluster-gpu `
+    --device cuda --features geometry `
+    --k-values 4 6 8 12 16 24 32 `
+    --min-cluster-size 30 --min-samples 10 `
+    --iid-replicates 9 --iid-samples 10000 `
+    --seed 649 --out results/v012_geometry.json
+
+& $py -m lotto7x7 natural-cluster-gpu `
+    --device cuda --features fused `
+    --model results/v010_deep_feature_cuda.pt `
+    --k-values 4 6 8 12 16 24 32 `
+    --min-cluster-size 30 --min-samples 10 `
+    --iid-replicates 9 --iid-samples 10000 `
+    --seed 649 --out results/v012_fused.json
+```
+
+Each run creates JSON, CSV, and offline HTML files using the output stem;
+previous reports are preserved. The 15 newly added tests passed locally;
+previous test suites and GPU predictive backtests were not re-executed.
+[Details, scientific limits, and controls](docs/natural_clustering_v012.md).
