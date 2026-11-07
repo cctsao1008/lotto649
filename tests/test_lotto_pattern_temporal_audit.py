@@ -59,6 +59,17 @@ class TemporalPermutationAuditTests(unittest.TestCase):
     def test_constant_within_year_is_not_mistaken_for_temporal_signal(self):
         sample = np.repeat(
             encode_draws([1, 2, 3, 4, 5, 6])[None], 90, axis=0)
+        # A constant history must yield an exactly zero centered signature,
+        # not a tiny residual amplified into a spurious normalized direction.
+        zero_vectors = normalized_signatures(sample, train_end=60)
+        np.testing.assert_array_equal(
+            zero_vectors, np.zeros((90, 27), dtype=np.float64))
+        # A genuinely different post-training image must remain detectable.
+        changed = sample.copy()
+        changed[80] = encode_draws([8, 14, 20, 26, 32, 38])
+        changed_vectors = normalized_signatures(changed, train_end=60)
+        np.testing.assert_array_equal(changed_vectors[:60], zero_vectors[:60])
+        self.assertGreater(float(np.linalg.norm(changed_vectors[80])), 0.99)
         r = permutation_audit(
             sample, self.dates, train_end=60,
             segments={"test": (60, 90)},
