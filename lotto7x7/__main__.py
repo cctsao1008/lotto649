@@ -18,6 +18,7 @@ from .image_dynamics_v051 import image_dynamics, image_dynamics_gallery
 from .candidate_pool_v06 import create_shape_pool, shape_pool_gallery, POLICIES as SHAPE_POLICIES
 from .bet_selection_v06 import select_bets
 from .coverage_audit_v06 import audit_selection
+from .baseline_cli_v07 import configure_parsers as configure_v07_parsers, run as run_v07
 import torch
 import numpy as np
 
@@ -196,6 +197,7 @@ def main() -> None:
     ca.add_argument("--draw", type=str, default=None,
                     help="Optional comma-separated known six-number draw, post-draw scoring only")
     ca.add_argument("--out", type=Path, default=Path("results/coverage_audit_v06.json"))
+    configure_v07_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -401,6 +403,8 @@ def main() -> None:
         print("[PARETO] " + ", ".join(report["pareto_nondominated"]))
         print("[POOL] Partial-hit coverage: IID Monte Carlo, with CI (not purchased tickets)")
         print(f"[DONE] Coverage audit JSON: {args.out.resolve()}")
+    elif args.command in ("baseline-study", "shadow-snapshot", "shadow-score"):
+        run_v07(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

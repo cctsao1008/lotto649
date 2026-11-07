@@ -316,3 +316,27 @@ Read [the Phase 2–3 methodology](docs/shape_pool_v06_phase2.md).
 A 100-combination research pool is not 100 purchased tickets; five distinct
 bets have exactly **5 / 13,983,816** probability of all six main numbers in a
 fair independent draw, regardless of selection strategy.
+
+
+## v0.7 — Matched Baselines and Prospective-Ready Shadow Tracking
+
+Compare **B0** global random tickets, **B1** uniformly random candidate pools,
+**S1** historical image-derived shape pools, and **B2** disjoint portfolios.
+B1/S1 use identical N=1..5, M=100, and Random / Shape-Diverse /
+Coverage-Optimized selectors; all arms score on the same chronological targets.
+Each historical target is excluded from the training prefix. Historical runs are
+**exploratory**, not evidence of future prediction skill.
+
+```powershell
+$py = '.\\.venv\\Scripts\\python.exe'
+& $py -m lotto7x7 baseline-study --warmup 200 --eval-draws 12 --size 100 --families 20 --count 5 --seed 649 --out results/baseline_study_v07.json
+& $py -m lotto7x7 shadow-snapshot --size 100 --families 20 --count 5 --seed 649 --out results/shadow_pre_draw_v07.json
+# Score only after actual next draw; replace ID and numbers with official results:
+& $py -m lotto7x7 shadow-score --snapshot results/shadow_pre_draw_v07.json --draw-id 115000102 --numbers '01,02,03,04,05,06' --out results/shadow_post_draw_v07.json
+```
+
+The sample scored draw ID and numbers above are **placeholders**, not verified
+results. Snapshot and scoring files use exclusive creation to avoid overwrites.
+A local hash/timestamp cannot independently prove pre-draw existence; publish
+the commitment externally before a draw to support blind evaluation.
+See [v0.7 methods and safeguards](docs/baseline_blind_v07.md).
