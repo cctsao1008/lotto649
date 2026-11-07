@@ -15,6 +15,7 @@ from .predictability_v04 import audit as predictability_audit, METHODS as PREDIC
 from .image_structure_v05 import image_study, image_gallery as image_structure_gallery
 from .image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
 from .image_dynamics_v051 import image_dynamics, image_dynamics_gallery
+from .candidate_pool_v06 import create_shape_pool, shape_pool_gallery, POLICIES as SHAPE_POLICIES
 import torch
 import numpy as np
 
@@ -170,6 +171,15 @@ def main() -> None:
                      help="Read-only historical image-compare JSON; rejects mismatched dataset")
     dyn.add_argument("--out", type=Path, default=Path("results/image_dynamics_v051.json"))
     dyn.add_argument("--html-out", type=Path, default=Path("results/image_dynamics_v051.html"))
+    sp = action.add_parser("shape-pool", help="v0.6 Phase 1 image shape families and candidate pool")
+    sp.add_argument("--data", type=Path, default=DATA)
+    sp.add_argument("--size", type=int, default=100)
+    sp.add_argument("--families", type=int, default=20)
+    sp.add_argument("--family-policy", choices=SHAPE_POLICIES, default="uniform-family")
+    sp.add_argument("--seed", type=int, default=649)
+    sp.add_argument("--sample-count", type=int, default=5)
+    sp.add_argument("--out", type=Path, default=Path("results/shape_pool_v06.json"))
+    sp.add_argument("--html-out", type=Path, default=Path("results/shape_pool_v06.html"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -317,6 +327,32 @@ def main() -> None:
                   f"shuffled Brier={shuffled['mean_pixel_brier']:.6f}")
         print(f"[DONE] Audit report: {args.out.resolve()}")
         print("[CAUTION] Previously inspected historical results are exploratory, not blind")
+    elif args.command == "shape-pool":
+        print("Lotto7x7 v0.6 Shape Pool — Phase 1 (CPU)", flush=True)
+        images, _, draw_ids = load_history(args.data)
+        report = create_shape_pool(
+            images, draw_ids, pool_size=args.size, family_count=args.families,
+            family_policy=args.family_policy, seed=args.seed,
+            sample_count=args.sample_count)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        args.html_out.parent.mkdir(parents=True, exist_ok=True)
+        args.html_out.write_text(shape_pool_gallery(report), encoding="utf-8")
+        print(f"[DATA] {report['source']['draw_count']} historical images, "
+              f"cutoff={report['source']['cutoff_draw_id']}")
+        print(f"[SHAPES] {report['shape_library_family_count']} historical shape families; "
+              f"{len(report['selected_families'])} selected")
+        print(f"[POOL] {report['candidate_count']} distinct six-number combinations")
+        for i, item in enumerate(report["random_preview"], start=1):
+            numbers = " ".join(f"{n:02d}" for n in item["numbers"])
+            print(f"[PREVIEW {i}] Pool #{item['pool_index']+1:03d}: {numbers}")
+        chance = report["fair_independent_reference"]
+        print(f"[FAIR] Pool 6/6 coverage={chance['candidate_pool_exact_six_coverage']:.8%}; "
+              f"preview={chance['preview_exact_six_coverage']:.8%}")
+        print(f"[HASH] {report['candidate_sha256']}")
+        print(f"[DONE] JSON: {args.out.resolve()}")
+        print(f"[DONE] HTML: {args.html_out.resolve()}")
+        print("[CAUTION] Unoptimized random preview, not a forecast or an instruction to purchase")
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

@@ -260,3 +260,36 @@ $py = '.\.venv\Scripts\python.exe'
 
 These are **retrospective exploratory** plots, not a demonstration of an edge.
 See [v0.5.1 methodology](docs/visual_image_dynamics_v051.md).
+
+## v0.6 Phase 1: Image Shape Engine and 100-combination candidate pool
+
+`shape-pool` establishes the first **shape-based number selection** workflow.
+Six-point images are canonicalized under D4 rotations/reflections and
+non-wrapping translations. A selected historical shape family generates
+legal spatial placements; 20 families supply a default pool of 100 distinct
+six-number combinations. Each result keeps the canonical bitmap, transformation
+metadata and historical cutoff SHA256. The separate **1..5 random preview**
+is not optimized and is not a purchase recommendation.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+& $py -m unittest discover -s tests -v
+& $py -m lotto7x7 shape-pool `
+    --size 100 --families 20 --family-policy uniform-family `
+    --sample-count 5 --seed 649 `
+    --out results/shape_pool_v06.json `
+    --html-out results/shape_pool_v06.html
+Invoke-Item .\results\shape_pool_v06.html
+```
+
+Output: JSON candidate pool plus **offline HTML** showing the 20 canonical
+shapes, 100 candidate six-pixel images and their numbers, and the five
+separate random preview combinations. This version does not retrain AI or
+implement the later Random / Shape-Diverse / Coverage-Optimized comparison.
+The preserved historical files and v0.2–v0.5.1 models are unchanged.
+
+See [v0.6 Phase 1 methodology](docs/shape_pool_v06_phase1.md).
+Under an independent fair draw, even a graph-derived K-combination pool
+has complete six-number coverage exactly K / C(49,6).
