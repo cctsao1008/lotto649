@@ -35,6 +35,19 @@ class BinaryDatasetTests(unittest.TestCase):
         self.assertEqual(rows[0].main, (2, 6, 12, 18, 36, 46))
         self.assertEqual(rows[0].special, 47)
 
+    def test_unpadded_month_and_day_in_csv_are_valid(self):
+        year_dir = self.root / "2024"
+        year_dir.mkdir()
+        path = year_dir / "大樂透_2024.csv"
+        path.write_text(
+            "遊戲名稱,期別,開獎日期,獎號1,獎號2,獎號3,獎號4,獎號5,獎號6,特別號\n"
+            "大樂透,113000110,2024/12/3,5,6,7,12,17,35,45\n",
+            encoding="utf-8",
+        )
+        values = parse_csv(path)
+        self.assertEqual(values[0].date, 20241203)
+        self.assertEqual(values[0].draw_id, 113000110)
+
     def test_binary_record_is_eleven_bytes(self):
         self.assertEqual(RECORD.size, 11)
         self.assertEqual(DTYPE.itemsize, 11)
