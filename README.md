@@ -49,3 +49,35 @@ The `learn` command **optimizes trainable CNN and GRU parameters** on the first 
 `results/learned_image_weights.pt` is a newly trained state dictionary. Only load weights from a trusted source using the corresponding architecture and safe framework loading settings. `results/learned_replay.json` contains per-draw output masks and adjusted similarity; the HTML gallery draws observed/predicted 7×7 images.
 
 The new test suite has **31 independent tests**, including synthetic pattern learning, differentiable gradient flow, chronology and future leakage controls, DCT/FFT reversibility, visual similarity, and report generation. No old 169-case suite is retained.
+
+## Canonical binary draw dataset (v1)
+
+The original annual CSV files remain the source of truth. A deterministic
+**BIN v1** derived from the 20 annual **Lotto649** CSV files (2007–2026)
+is available at [`data/bin/lotto649_draws_v1.bin`](data/bin/lotto649_draws_v1.bin).
+It currently contains 2,183 consecutive chronological records (through
+2026-10-30), totaling 24,029 bytes.
+
+The binary format contains **only** the requested eight logical fields:
+`draw_id:uint32`, `main_number[6]:uint8[6]`, `special:uint8`. A
+16-byte versioned header precedes 11-byte packed little-endian records.
+The format is documented in [`docs/data_bin_format_v1.md`](docs/data_bin_format_v1.md).
+The special number is **not** part of the six-pixel image.
+
+```powershell
+# Regenerate from all 20 CSV source files and verify each parsed record.
+.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset
+
+# Verify the generated binary without modifying it.
+.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset --verify data/bin/lotto649_draws_v1.bin
+
+# Compare the regenerated BIN with the GitHub-tracked canonical file.
+git diff --exit-code -- data/bin/lotto649_draws_v1.bin
+```
+
+CSV sources with an unpadded date (such as `2024/12/3`), UTF-8 BOMs,
+extra unused columns, or full-range filenames (such as 2018 and 2020)
+are explicitly supported. No existing CSV is rewritten. This BIN is a
+data-storage artifact; the current `learn` command still reads the
+normalized NumPy archive. Switching the trained-model input to BIN
+should be a separate verified change.
