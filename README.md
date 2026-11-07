@@ -108,3 +108,31 @@ adjusted similarity, the 437 per-draw predictions and logit diagnostics.
 **Do not tune on historical test scores and call it prospective performance**:
 the dates have already been inspected. More varied images do not necessarily
 imply predictive value. See `docs/image_learning_diagnostics_v02.md`.
+
+## Image Loss Alignment v0.3 — frozen v0.2 comparator
+
+The v0.2 diagnostics and original image-training functions are **unchanged** and anchored to Git commit
+`0102c561530522dd0abae4fd4aa0b8fccef81a9e` (convenience branch
+`baseline/image-learning-v02`). The new experiment isolates training-objective
+changes under the same CNN, GRU, hard Top-6 decoder, BIN v2 data, split, and scoring.
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m lotto7x7 loss-study `
+    --year all --epochs 45 --baseline 32 --bootstrap 400
+.\.venv\Scripts\python.exe -m lotto7x7 gallery `
+    --report results/loss_study_v03.json `
+    --out results/loss_study_v03.html
+Start-Process .\results\loss_study_v03.html
+.\.venv\Scripts\python.exe -m lotto7x7 loss-synthetic --epochs 45
+```
+
+The three arms are `original_v02` (unaltered v0.2 shape loss with positive-weighted BCE),
+`balanced_bce` (same shape/mass loss, unweighted BCE), and `projected_six_mass`
+(same CNN/GRU and six-logit decoder; differentiable per-sample soft mass exactly six).
+
+New module: [`lotto7x7/loss_study_v03.py`](lotto7x7/loss_study_v03.py).
+See the full preregistered control, loss and uncertainty details in
+[`docs/image_loss_alignment_v03.md`](docs/image_loss_alignment_v03.md).
+Historical evaluations are **exploratory**, since the targets were inspected
+in prior versions. Increasing image variety is not evidence of lottery predictability.

@@ -10,6 +10,7 @@ from .core import decode, encode, invert_spectrum, spectrum
 from .research import DATA, load_history, research
 from .learning import learned_replay
 from .diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
+from .loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LOSS_STUDY_SCHEMA
 import torch
 import numpy as np
 
@@ -91,6 +92,24 @@ def main() -> None:
     diag.add_argument("--bootstrap", type=int, default=400)
     diag.add_argument("--seed", type=int, default=649)
     diag.add_argument("--out", type=Path, default=Path("results/image_diagnostics_v02.json"))
+    loss_parser = action.add_parser("loss-study", help="v0.3 frozen-v0.2 loss/decoder comparison")
+    loss_parser.add_argument("--data", type=Path, default=DATA)
+    loss_parser.add_argument("--year", default="all")
+    loss_parser.add_argument("--window", type=int, default=5)
+    loss_parser.add_argument("--epochs", type=int, default=45)
+    loss_parser.add_argument("--patience", type=int, default=8)
+    loss_parser.add_argument("--batch-size", type=int, default=64)
+    loss_parser.add_argument("--learning-rate", type=float, default=0.003)
+    loss_parser.add_argument("--embedding", type=int, default=24)
+    loss_parser.add_argument("--hidden", type=int, default=32)
+    loss_parser.add_argument("--baseline", type=int, default=32)
+    loss_parser.add_argument("--bootstrap", type=int, default=400)
+    loss_parser.add_argument("--seed", type=int, default=649)
+    loss_parser.add_argument("--out", type=Path, default=Path("results/loss_study_v03.json"))
+    synthetic = action.add_parser("loss-synthetic", help="v0.3 periodic/IID controls")
+    synthetic.add_argument("--epochs", type=int, default=45)
+    synthetic.add_argument("--seed", type=int, default=649)
+    synthetic.add_argument("--out", type=Path, default=Path("results/loss_synthetic_v03.json"))
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -173,9 +192,51 @@ def main() -> None:
                   f"interval=[{bounds[0]:+.6f}, {bounds[1]:+.6f}]")
         print(f"[DONE] Diagnostic report: {args.out.resolve()}")
         print("[CAUTION] Previously inspected historical results are exploratory only")
+    elif args.command == "loss-study":
+        year = None if args.year.lower() == "all" else int(args.year)
+        report = loss_study(
+            args.data, year=year, window=args.window, epochs=args.epochs,
+            patience=args.patience, batch_size=args.batch_size,
+            learning_rate=args.learning_rate, embedding=args.embedding,
+            hidden=args.hidden, baseline=args.baseline,
+            bootstrap=args.bootstrap, seed=args.seed)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print("Lotto7x7 Image Loss Alignment v0.3")
+        print(f"[V02] Frozen baseline commit: {report['baseline_v02_commit']}")
+        print(f"[EVALUATED] {report['evaluation_draws']} historical image targets")
+        print("Method                 Adjusted     Unique  Top share   Soft mass   Pixel logit SD")
+        for method, item in report["summary"].items():
+            d = item["unique_patterns"]
+            m = report["logit_diagnostics"][method]
+            print(f"{method:22s} {item['mean_iid_adjusted_similarity']:+10.6f} "
+                  f"{d['unique']:9d} {d['top_fraction']:10.2%} "
+                  f"{m['effective_soft_mass']:11.5f} {m['mean_pixel_logit_std']:15.6f}")
+        for name, item in report["paired_intervals"].items():
+            low, high = item["interval_95"]
+            print(f"[PAIRED] {name}: {item['mean']:+.6f} "
+                  f"interval=[{low:+.6f}, {high:+.6f}]")
+        print(f"[DONE] Report: {args.out.resolve()}")
+        print("[CAUTION] Retrospective evaluation; diversity does not imply predictive skill")
+    elif args.command == "loss-synthetic":
+        report = {"schema": "lotto7x7.loss_synthetic.v0.3",
+                  "controls": [synthetic_control(kind=name, epochs=args.epochs,
+                                                 seed=args.seed)
+                               for name in ("periodic", "iid")]}
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print("Lotto7x7 Image Loss Synthetic Controls v0.3")
+        for control in report["controls"]:
+            print(f"[CONTROL] {control['kind']} image series")
+            for method, item in control["summary"].items():
+                print(f"  {method:22s} adjusted={item['adjusted_mean']:+.6f} "
+                      f"shape={item['mean_image_shape_similarity']:.5f} "
+                      f"unique={item['unique_patterns']}")
+        print(f"[DONE] Report: {args.out.resolve()}")
+        print("[CAUTION] A synthetic positive control is not lottery evidence")
     else:
         report = json.loads(args.report.read_text(encoding="utf-8"))
-        if report.get('schema') not in ('lotto7x7.visual.v1', 'lotto7x7.learned_image.v1', DIAGNOSTICS_SCHEMA) or args.count < 1:
+        if report.get('schema') not in ('lotto7x7.visual.v1', 'lotto7x7.learned_image.v1', DIAGNOSTICS_SCHEMA, LOSS_STUDY_SCHEMA) or args.count < 1:
             raise ValueError('unsupported report schema or count')
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(gallery(report, args.count), encoding='utf-8')
