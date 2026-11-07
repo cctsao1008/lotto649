@@ -1,0 +1,63 @@
+name: Export Lotto649 yearly CSVs from validated BIN
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/export_lotto649_csv.py"
+      - "tests/test_export_lotto649_csv.py"
+      - ".github/workflows/export_lotto649_csv.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lotto649-export-csv
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline CSV exporter tests
+        run: python -m unittest discover -s tests -p "test_export_lotto649_csv.py" -v
+      - name: Export and verify all 23 annual CSV files from validated history BIN
+        run: |
+          python scripts/export_lotto649_csv.py
+          python scripts/export_lotto649_csv.py --verify
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          files = sorted(Path("data/csv").glob("*/*.csv"))
+          assert len(files) == 23, f"expected 23 yearly CSVs, found {len(files)}"
+          rows = 0
+          for path in files:
+              with path.open(encoding="utf-8-sig", newline="") as file:
+                  reader = csv.reader(file)
+                  header = next(reader)
+                  assert header == ["開獎日期", "期別", "獎號1", "獎號2", "獎號3", "獎號4", "獎號5", "獎號6", "特別號"]
+                  count = sum(1 for row in reader if row)
+                  print(path, count)
+                  rows += count
+          assert rows == 2497, f"expected 2497 draws, found {rows}"
+          print("PASS: 23 annual CSV files, 2497 draws, 9 columns")
+          PY
+      - name: Commit exported annual CSV files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/csv/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: export 2004-2026 annual Lotto649 CSVs from validated BIN"
+            git push origin HEAD:main
+          else
+            echo "Annual CSVs already current"
+          fi
