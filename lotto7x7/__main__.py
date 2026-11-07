@@ -20,6 +20,7 @@ from .bet_selection_v06 import select_bets
 from .coverage_audit_v06 import audit_selection
 from .baseline_cli_v07 import configure_parsers as configure_v07_parsers, run as run_v07
 from .robustness_cli_v071 import configure_parsers as configure_v071_parsers, run as run_v071
+from .full_history_cli_v072 import configure_parsers as configure_v072_parsers, run as run_v072
 import torch
 import numpy as np
 
@@ -200,6 +201,7 @@ def main() -> None:
     ca.add_argument("--out", type=Path, default=Path("results/coverage_audit_v06.json"))
     configure_v07_parsers(action)
     configure_v071_parsers(action)
+    configure_v072_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -409,6 +411,8 @@ def main() -> None:
         run_v07(args)
     elif args.command in ("robustness-audit", "robustness-sweep"):
         run_v071(args)
+    elif args.command in ("gpu-check", "full-history-gpu"):
+        run_v072(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

@@ -365,3 +365,36 @@ strategy comparisons in that invocation; neither this nor the retrospective
 analysis corrects for previous experiments or proves future predictive skill.
 
 See [v0.7.1 statistical methodology](docs/statistical_robustness_v071.md).
+
+## v0.7.2 — Full-History GPU Scenario-Coverage Replay
+
+Analyze **all eligible historical targets**, instead of only the 12/100-target
+functional samples. With 2,183 source drawings and a chronological warmup of
+200, evaluate 1,983 separate target draws with an incrementally updated
+past-only image-shape library, B0/B1/S1/B2 baselines, independent fair-draw
+scenario optimization on CUDA via PyTorch, exact CPU postselection coverage
+audits, and batched CUDA hit scoring.
+
+The new six-portfolio `scenario-coverage` selector uses sampled fair scenarios
+and **is not the same as** v0.6's exact-greedy `coverage-optimized` selector.
+The old v0.7 and v0.7.1 methods are preserved. No GPU speed claim has been
+benchmarked for the user's computer; CUDA is explicitly verified before use.
+
+```powershell
+$py = '.\.venv\Scripts\python.exe'
+& $py -m lotto7x7 gpu-check
+
+# Smoke test: only five most recent target draws.
+& $py -m lotto7x7 full-history-gpu --device cuda --warmup 200 --tail-targets 5 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_smoke_checkpoint.jsonl --out results/full_history_v072_smoke.json
+
+# Full 1,983 eligible targets (2,183 source images; first 200 are warmup-only).
+& $py -m lotto7x7 full-history-gpu --device cuda --warmup 200 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_checkpoint.jsonl --out results/full_history_v072_all.json
+
+# After interruption, repeat the full command with --resume.
+```
+
+Documentation: [v0.7.2 full-history GPU methodology](docs/full_history_gpu_v072.md).
+A CPU-only PyTorch build cannot use CUDA; select a compatible PyTorch build
+using the official PyTorch Start Locally installer if the `gpu-check` command
+reports CUDA unavailable. Historical replay remains exploratory, not prospective
+prediction evidence.
