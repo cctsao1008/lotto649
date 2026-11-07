@@ -129,7 +129,17 @@ def infer_device_logits(model: ImageSequenceLearner, images: np.ndarray,
     if (ids.ndim != 1 or not len(ids) or ids.min() < window
             or ids.max() >= len(images) or batch_size < 1):
         raise ValueError("invalid inference indices or batch size")
-    if next(model.parameters()).device != device:
+    # An unindexed 'cuda' is an alias for the current CUDA device, while
+    # .to('cuda') places parameters on a concrete device such as 'cuda:0'.
+    # Compare physical devices, not the two unequal torch.device spellings.
+    model_device = next(model.parameters()).device
+    expected_device = (
+        torch.device("cuda", torch.cuda.current_device())
+        if device.type == "cuda" and device.index is None
+        and model_device.type == "cuda"
+        else device
+    )
+    if model_device != expected_device:
         raise ValueError("model and inference device disagree")
     windows = np.stack([images[int(t) - window:int(t)] for t in ids])
     input_tensor = torch.as_tensor(windows, dtype=torch.float32)
