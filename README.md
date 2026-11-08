@@ -689,3 +689,49 @@ new v0.14 tests (14 PASS) and a cached-real-data CPU experiment were run;
 old GPU backtests and old suites were not repeated.
 
 Read [the Gaussian shape analysis protocol](docs/gaussian_shape_distribution_v014.md).
+
+## v0.14.1 — P0 Gaussian Shape Validation (Batch 1 complete)
+
+Single-batch implementation of all four P0 tasks:
+(1) exact legal-6/49 matched-size historical vs independently refit IID with
+**identical sample size, MDS dimension, candidate K and GMM settings**, including
+one full-N IID refit; (2) GMM ARI/NMI stability over paired overlapping
+subsamples; (3) MDS 4/8/12/16-dimensional stress and BIC sensitivity; and
+(4) KDE bandwidth rank, prototype and density-CV sensitivity. Reuses **all
+2,497 historical draws** in the existing v0.13 `shape` NPZ and makes **no**
+new historical pairwise calculations or CNN retraining.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-gaussian-validate `
+    --device cuda `
+    --matrix results/v013_pairwise_similarity.npz `
+    --assignments results/v013_pairwise_similarity.csv `
+    --dimensions 4 8 12 16 `
+    --comparison-dimension 8 `
+    --gmm-components 1 2 3 4 6 8 12 16 24 `
+    --gmm-n-init 2 `
+    --bandwidths 0.35 0.55 0.8 1.1 `
+    --matched-size 384 `
+    --matched-replicates 9 `
+    --full-iid-replicates 1 `
+    --stability-seeds 649 650 651 652 `
+    --stability-fraction 0.8 `
+    --batch-size 512 `
+    --seed 649 `
+    --out results/v0141_p0_gaussian_validation.json
+
+Start-Process .\results\v0141_p0_gaussian_validation.html
+```
+
+Creates JSON, long-form CSV, offline HTML and compact features NPZ without
+overwriting prior v0.13–v0.14 outputs. Full-size IID generates **new**
+random images and re-computes only those controls' distances. No statistical
+significance claim is justified from just one full-size IID replicate.
+**Development checks:** 20 new tests passed and a full historical-distance
+CPU integration smoke test succeeded. **Research acceptance** requires
+running the above complete CUDA experiment and reviewing its outputs.
+[Detailed P0 protocol, interpretation limits and smoke settings](docs/gaussian_model_validation_p0_v0141.md).

@@ -30,6 +30,7 @@ from .image_classification_cli_v011 import configure_parsers as configure_v011_p
 from .natural_clustering_cli_v012 import configure_parsers as configure_v012_parsers, run as run_v012
 from .pairwise_similarity_cli_v013 import configure_parsers as configure_v013_parsers, run as run_v013
 from .gaussian_shape_cli_v014 import configure_parsers as configure_v014_parsers, run as run_v014
+from .gaussian_validation_cli_v0141 import configure_parsers as configure_p0_parsers, run as run_p0
 import torch
 import numpy as np
 
@@ -220,6 +221,7 @@ def main() -> None:
     configure_v012_parsers(action)
     configure_v013_parsers(action)
     configure_v014_parsers(action)
+    configure_p0_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -449,6 +451,8 @@ def main() -> None:
         run_v013(args)
     elif args.command == "shape-gaussian-gpu":
         run_v014(args)
+    elif args.command == "shape-gaussian-validate":
+        run_p0(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
