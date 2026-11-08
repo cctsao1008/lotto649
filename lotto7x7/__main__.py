@@ -34,6 +34,7 @@ from .gaussian_validation_cli_v0141 import configure_parsers as configure_p0_par
 from .shape_catalog_batch_p1_cli import configure_parsers as configure_p1_parsers, run as run_p1
 from .shape_p2_batch_cli import configure_parsers as configure_p2_parsers, run as run_p2
 from .shape_prospective_cli_v019 import configure_parsers as configure_v019_parsers, run as run_v019
+from .shape_pre_draw_cli_v020 import configure_parsers as configure_v020_parsers, run as run_v020
 import torch
 import numpy as np
 
@@ -228,6 +229,7 @@ def main() -> None:
     configure_p1_parsers(action)
     configure_p2_parsers(action)
     configure_v019_parsers(action)
+    configure_v020_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -465,6 +467,8 @@ def main() -> None:
         run_p2(args)
     elif args.command in ("shape-prospective-freeze", "shape-prospective-update"):
         run_v019(args)
+    elif args.command in ("shape-prospective-seal", "shape-prospective-audit"):
+        run_v020(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

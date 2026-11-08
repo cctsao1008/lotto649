@@ -1,0 +1,908 @@
+{
+  "schema": "lotto7x7.pre_draw_class_commitment.v0.20",
+  "purpose": "Prospective categorical forecast; NOT predicted lottery numbers",
+  "created_at_utc": "2026-11-08T09:50:13+00:00",
+  "target": {
+    "draw_id": 115000104,
+    "date": "2026-11-10",
+    "scheduled_draw_time_taipei": "2026-11-10T20:30:00+08:00"
+  },
+  "freeze_sha256": "ebd4ece388d047185276bffd7f0578db2e80948b8ca696bff3da4bafb94cddd8",
+  "freeze_file_sha256": "2d8c191f5c2605b00083709d2b39d712ccbd63c529e2734a850ace5b4a72ccee",
+  "previous_report_sha256": "eda971c39e476c40756e639ae7d15e2291dc38417250eae26f930fa2a728dac9",
+  "previous_events_count": 0,
+  "previous_events_sha256": "24de1c4a19c43ad41b013f13dcd858c17b0daa7f33a53f19913e5b11366d1c2e",
+  "last_scored_draw_id": 115000103,
+  "source_csv_manifest": [
+    {
+      "file": "data\\csv\\lotto649_2004.csv",
+      "sha256": "d9c2d627b89e06843f9fbaf3f5e9e62c5b9e827b5e20395244ba1b8e4316b829"
+    },
+    {
+      "file": "data\\csv\\lotto649_2005.csv",
+      "sha256": "a837363a254f8f114556eee9c6f3ebde572144674c288d0f493d045a694af525"
+    },
+    {
+      "file": "data\\csv\\lotto649_2006.csv",
+      "sha256": "e4ada51ea2e7743eb566aab1dc2e4340a92e491b9917d3d78959b1c6cf1b1b0c"
+    },
+    {
+      "file": "data\\csv\\lotto649_2007.csv",
+      "sha256": "badc09a05d1426348eed4095e18276484ea3d3458f86f20490a6d51ef81731c9"
+    },
+    {
+      "file": "data\\csv\\lotto649_2008.csv",
+      "sha256": "a17311134aafef178247ee441c086c74835c2c0620f910db35c12870ee733adf"
+    },
+    {
+      "file": "data\\csv\\lotto649_2009.csv",
+      "sha256": "603c73b087e199ed39d49b101b7963ab4fd1fdda860463ce5f511c36a3438d52"
+    },
+    {
+      "file": "data\\csv\\lotto649_2010.csv",
+      "sha256": "0b2a55748c01f048ae0f2e5dd34fb6edf3fc8d7f5a062663deb7e612b99edc34"
+    },
+    {
+      "file": "data\\csv\\lotto649_2011.csv",
+      "sha256": "20dc0ad91cdefc430ee4ca7f9fb5824d8cf37cac9b7e9bf8737c674aa48edd6a"
+    },
+    {
+      "file": "data\\csv\\lotto649_2012.csv",
+      "sha256": "ab21cbd6452463447d341d3d9806371ad74d64d76bb5073ea99458927c13dac1"
+    },
+    {
+      "file": "data\\csv\\lotto649_2013.csv",
+      "sha256": "988ae75d6febbb9838b4fef075f01553ba616e0739dad85de75d6db877ed63be"
+    },
+    {
+      "file": "data\\csv\\lotto649_2014.csv",
+      "sha256": "fab0ba29b8455887d678d05ddec4bff74ae69f7f73b66bc85113429f90036a1a"
+    },
+    {
+      "file": "data\\csv\\lotto649_2015.csv",
+      "sha256": "cfdffaa83972c62a71b2830258f5cb9dab50d6d19b8090a0d79c0e8e8d8ddaaf"
+    },
+    {
+      "file": "data\\csv\\lotto649_2016.csv",
+      "sha256": "7ea5f33d717cbb20e34619804c0013d72b253b54083072a7643c9e091a14343b"
+    },
+    {
+      "file": "data\\csv\\lotto649_2017.csv",
+      "sha256": "6203ca3d5c72e3c3558771346536e44700b1168a817461bc237fa61a82cbe36f"
+    },
+    {
+      "file": "data\\csv\\lotto649_2018.csv",
+      "sha256": "73d5437719582da3ca85decb9861aafa497b6d7876064944c794fc795f1e09ed"
+    },
+    {
+      "file": "data\\csv\\lotto649_2019.csv",
+      "sha256": "3277ea6ce3ce2ca16ea1428b1a37309efc7aac3bddc7ba91ec72f5f803e90f8c"
+    },
+    {
+      "file": "data\\csv\\lotto649_2020.csv",
+      "sha256": "9692b9e46faf4680202845cdd5e370b1f42840b4f9234c763d1bd8f4255c8f43"
+    },
+    {
+      "file": "data\\csv\\lotto649_2021.csv",
+      "sha256": "937223015da0efdaf35f1f9a081871f4ed5d2c807a81d71b9fa2e97a0f5ccc0a"
+    },
+    {
+      "file": "data\\csv\\lotto649_2022.csv",
+      "sha256": "3beb3e139baffd377ca6b1ae6ee4753c0fd2dbff5e64d2153a6367e3c5840aa1"
+    },
+    {
+      "file": "data\\csv\\lotto649_2023.csv",
+      "sha256": "de02c24db3c43bf48ea4af9e66db56e742a79060ce88c8f246d936d3c8c118e3"
+    },
+    {
+      "file": "data\\csv\\lotto649_2024.csv",
+      "sha256": "c191ddf8221ee4ca6c1e5ab8c23a35188c4941af8c348b40028b6fa215c45f9c"
+    },
+    {
+      "file": "data\\csv\\lotto649_2025.csv",
+      "sha256": "0b1e140c72a3004bfc3f2f9fdc6f2c346a2ce465e2cb77f553804c39a57c9de0"
+    },
+    {
+      "file": "data\\csv\\lotto649_2026.csv",
+      "sha256": "9e10b047fcb5242166e55b46a615f799e737165561701a932dfe780cd3eb24e8"
+    }
+  ],
+  "history_model": {
+    "tau": 384.0,
+    "training_draws_through_previous": 2497,
+    "universe": 13983816,
+    "fixed_rule_sha256": "5712be92cd4cb1beee2d3c463f09efb424a35a050d644de0d43043f9cb655d89"
+  },
+  "distributions": {
+    "component": [
+      {
+        "class": "C1",
+        "code": 1,
+        "p_fair": 0.004191988796191254,
+        "q_before_draw": 0.005765263345275057,
+        "relative_ratio": 1.3753050462618708
+      },
+      {
+        "class": "C2",
+        "code": 2,
+        "p_fair": 0.047874056695254,
+        "q_before_draw": 0.05254551814334521,
+        "relative_ratio": 1.0975781408671457
+      },
+      {
+        "class": "C3",
+        "code": 3,
+        "p_fair": 0.19847615271825658,
+        "q_before_draw": 0.19722833830052428,
+        "relative_ratio": 0.9937130259699077
+      },
+      {
+        "class": "C4",
+        "code": 4,
+        "p_fair": 0.3642552218936519,
+        "q_before_draw": 0.35642971371300325,
+        "relative_ratio": 0.9785164145623878
+      },
+      {
+        "class": "C5",
+        "code": 5,
+        "p_fair": 0.2979375586749711,
+        "q_before_draw": 0.29309546078833354,
+        "relative_ratio": 0.9837479440048713
+      },
+      {
+        "class": "C6",
+        "code": 6,
+        "p_fair": 0.08726502122167511,
+        "q_before_draw": 0.09493570570951866,
+        "relative_ratio": 1.0879010212850129
+      }
+    ],
+    "partition": [
+      {
+        "class": "P1-1-1-1-1-1",
+        "code": 37449,
+        "p_fair": 0.08726502122167511,
+        "q_before_draw": 0.09493570570951866,
+        "relative_ratio": 1.0879010212850129
+      },
+      {
+        "class": "P2-1-1-1-1",
+        "code": 70216,
+        "p_fair": 0.2979375586749711,
+        "q_before_draw": 0.29309546078833354,
+        "relative_ratio": 0.9837479440048713
+      },
+      {
+        "class": "P2-2-1-1",
+        "code": 74304,
+        "p_fair": 0.19485510964961208,
+        "q_before_draw": 0.19327468313274943,
+        "relative_ratio": 0.991889222100952
+      },
+      {
+        "class": "P2-2-2",
+        "code": 74752,
+        "p_fair": 0.013608588671361237,
+        "q_before_draw": 0.01430950990968508,
+        "relative_ratio": 1.051505799407319
+      },
+      {
+        "class": "P3-1-1-1",
+        "code": 102976,
+        "p_fair": 0.16940011224403984,
+        "q_before_draw": 0.16315503058025382,
+        "relative_ratio": 0.9631341350306234
+      },
+      {
+        "class": "P3-2-1",
+        "code": 107008,
+        "p_fair": 0.10585551182881697,
+        "q_before_draw": 0.10088459442633312,
+        "relative_ratio": 0.9530405425602918
+      },
+      {
+        "class": "P3-3",
+        "code": 110592,
+        "p_fair": 0.006807440830171106,
+        "q_before_draw": 0.0075022760426191265,
+        "relative_ratio": 1.1020699598839636
+      },
+      {
+        "class": "P4-1-1",
+        "code": 135680,
+        "p_fair": 0.07901205221807839,
+        "q_before_draw": 0.08203423396450611,
+        "relative_ratio": 1.0382496297917476
+      },
+      {
+        "class": "P4-2",
+        "code": 139264,
+        "p_fair": 0.015613477751709548,
+        "q_before_draw": 0.015270939068606897,
+        "relative_ratio": 0.9780613461939864
+      },
+      {
+        "class": "P5-1",
+        "code": 167936,
+        "p_fair": 0.025453138113373346,
+        "q_before_draw": 0.029772303032119182,
+        "relative_ratio": 1.1696908608874637
+      },
+      {
+        "class": "P6",
+        "code": 196608,
+        "p_fair": 0.004191988796191254,
+        "q_before_draw": 0.005765263345275057,
+        "relative_ratio": 1.3753050462618708
+      }
+    ],
+    "edge": [
+      {
+        "class": "P1-1-1-1-1-1_O0_D0",
+        "code": 38347776,
+        "p_fair": 0.08726502122167511,
+        "q_before_draw": 0.09493570570951866,
+        "relative_ratio": 1.0879010212850129
+      },
+      {
+        "class": "P2-1-1-1-1_O0_D1",
+        "code": 71901185,
+        "p_fair": 0.11764056392046349,
+        "q_before_draw": 0.11217423691268935,
+        "relative_ratio": 0.9535336551814737
+      },
+      {
+        "class": "P2-1-1-1-1_O1_D0",
+        "code": 71901216,
+        "p_fair": 0.18029699475450764,
+        "q_before_draw": 0.18092122387564422,
+        "relative_ratio": 1.0034622269882343
+      },
+      {
+        "class": "P2-2-1-1_O0_D2",
+        "code": 76087298,
+        "p_fair": 0.032093385668118056,
+        "q_before_draw": 0.029963158658992475,
+        "relative_ratio": 0.9336241108633866
+      },
+      {
+        "class": "P2-2-1-1_O1_D1",
+        "code": 76087329,
+        "p_fair": 0.09417286383058816,
+        "q_before_draw": 0.09550932999338628,
+        "relative_ratio": 1.0141916270615106
+      },
+      {
+        "class": "P2-2-1-1_O2_D0",
+        "code": 76087360,
+        "p_fair": 0.06858886015090587,
+        "q_before_draw": 0.06780219448037066,
+        "relative_ratio": 0.9885307079195597
+      },
+      {
+        "class": "P2-2-2_O0_D3",
+        "code": 76546051,
+        "p_fair": 0.0009888574048743204,
+        "q_before_draw": 0.0015202086926316344,
+        "relative_ratio": 1.5373386346081381
+      },
+      {
+        "class": "P2-2-2_O1_D2",
+        "code": 76546082,
+        "p_fair": 0.004149940188000185,
+        "q_before_draw": 0.004718353707807036,
+        "relative_ratio": 1.13696908727756
+      },
+      {
+        "class": "P2-2-2_O2_D1",
+        "code": 76546113,
+        "p_fair": 0.005789835907451872,
+        "q_before_draw": 0.005631133977251482,
+        "relative_ratio": 0.9725895633767219
+      },
+      {
+        "class": "P2-2-2_O3_D0",
+        "code": 76546144,
+        "p_fair": 0.002679955171034859,
+        "q_before_draw": 0.0024398135319949276,
+        "relative_ratio": 0.9103934119363641
+      },
+      {
+        "class": "P3-1-1-1_O0_D2",
+        "code": 105447426,
+        "p_fair": 0.039313160299019954,
+        "q_before_draw": 0.044809529175572245,
+        "relative_ratio": 1.1398098966032326
+      },
+      {
+        "class": "P3-1-1-1_O1_D1",
+        "code": 105447457,
+        "p_fair": 0.062455627276560274,
+        "q_before_draw": 0.055877459518986164,
+        "relative_ratio": 0.8946745386377232
+      },
+      {
+        "class": "P3-1-1-1_O2_D0",
+        "code": 105447488,
+        "p_fair": 0.02256122363166106,
+        "q_before_draw": 0.01897379724906555,
+        "relative_ratio": 0.8409914975728031
+      },
+      {
+        "class": "P3-1-1-1_O2_D1",
+        "code": 105447489,
+        "p_fair": 0.04507010103679854,
+        "q_before_draw": 0.04349424463662986,
+        "relative_ratio": 0.9650354367104251
+      },
+      {
+        "class": "P3-2-1_O0_D3",
+        "code": 109576195,
+        "p_fair": 0.010564212229337113,
+        "q_before_draw": 0.0073088016300123055,
+        "relative_ratio": 0.6918453994814264
+      },
+      {
+        "class": "P3-2-1_O1_D2",
+        "code": 109576226,
+        "p_fair": 0.031247550740084108,
+        "q_before_draw": 0.031238826617213573,
+        "relative_ratio": 0.9997208061859599
+      },
+      {
+        "class": "P3-2-1_O2_D1",
+        "code": 109576257,
+        "p_fair": 0.028646257931311453,
+        "q_before_draw": 0.027421090956481636,
+        "relative_ratio": 0.9572311686305573
+      },
+      {
+        "class": "P3-2-1_O2_D2",
+        "code": 109576258,
+        "p_fair": 0.0115476347800915,
+        "q_before_draw": 0.013340608037332571,
+        "relative_ratio": 1.1552675756885051
+      },
+      {
+        "class": "P3-2-1_O3_D0",
+        "code": 109576288,
+        "p_fair": 0.007926305666493324,
+        "q_before_draw": 0.0073043045386787355,
+        "relative_ratio": 0.921526981927538
+      },
+      {
+        "class": "P3-2-1_O3_D1",
+        "code": 109576289,
+        "p_fair": 0.01592355048149947,
+        "q_before_draw": 0.0142709626466143,
+        "relative_ratio": 0.8962173770978273
+      },
+      {
+        "class": "P3-3_O0_D4",
+        "code": 113246212,
+        "p_fair": 0.00041290589063814915,
+        "q_before_draw": 0.00040213671017183246,
+        "relative_ratio": 0.9739185593848689
+      },
+      {
+        "class": "P3-3_O1_D3",
+        "code": 113246243,
+        "p_fair": 0.0012500164475848367,
+        "q_before_draw": 0.0015550178118266496,
+        "relative_ratio": 1.243997880852774
+      },
+      {
+        "class": "P3-3_O2_D2",
+        "code": 113246274,
+        "p_fair": 0.0013750180923433203,
+        "q_before_draw": 0.0015716789126899808,
+        "relative_ratio": 1.1430241692394818
+      },
+      {
+        "class": "P3-3_O2_D3",
+        "code": 113246275,
+        "p_fair": 0.0008675743445136864,
+        "q_before_draw": 0.0015040432309244205,
+        "relative_ratio": 1.7336188425068089
+      },
+      {
+        "class": "P3-3_O3_D1",
+        "code": 113246305,
+        "p_fair": 0.0006384523366154131,
+        "q_before_draw": 0.0011264025328914678,
+        "relative_ratio": 1.7642703586344348
+      },
+      {
+        "class": "P3-3_O3_D2",
+        "code": 113246306,
+        "p_fair": 0.0012963557300811166,
+        "q_before_draw": 0.0008669908366369832,
+        "relative_ratio": 0.6687908392110344
+      },
+      {
+        "class": "P3-3_O4_D0",
+        "code": 113246336,
+        "p_fair": 0.00010612267781555478,
+        "q_before_draw": 1.4144778993812231e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P3-3_O4_D1",
+        "code": 113246337,
+        "p_fair": 0.0004273511607990265,
+        "q_before_draw": 0.0004040620776629039,
+        "relative_ratio": 0.9455036389919275
+      },
+      {
+        "class": "P3-3_O4_D2",
+        "code": 113246338,
+        "p_fair": 0.0004336441497800028,
+        "q_before_draw": 5.779915082107639e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P4-1-1_O0_D3",
+        "code": 138936323,
+        "p_fair": 0.009615115073024417,
+        "q_before_draw": 0.008570706070128905,
+        "relative_ratio": 0.8913784187746601
+      },
+      {
+        "class": "P4-1-1_O0_D4",
+        "code": 138936324,
+        "p_fair": 0.0006663417195992853,
+        "q_before_draw": 0.0004359164249656805,
+        "relative_ratio": 0.6541935048398672
+      },
+      {
+        "class": "P4-1-1_O1_D2",
+        "code": 138936354,
+        "p_fair": 0.022111560964474933,
+        "q_before_draw": 0.020996473242054278,
+        "relative_ratio": 0.9495699229822722
+      },
+      {
+        "class": "P4-1-1_O2_D1",
+        "code": 138936385,
+        "p_fair": 0.011384875201447158,
+        "q_before_draw": 0.014360219395125202,
+        "relative_ratio": 1.2613418365183169
+      },
+      {
+        "class": "P4-1-1_O2_D2",
+        "code": 138936386,
+        "p_fair": 0.016170979366433313,
+        "q_before_draw": 0.016386551918330574,
+        "relative_ratio": 1.0133308284558653
+      },
+      {
+        "class": "P4-1-1_O3_D0",
+        "code": 138936416,
+        "p_fair": 0.0019093500658189438,
+        "q_before_draw": 0.0019900001476134935,
+        "relative_ratio": 1.0422395469737802
+      },
+      {
+        "class": "P4-1-1_O3_D1",
+        "code": 138936417,
+        "p_fair": 0.00795605434167612,
+        "q_before_draw": 0.006614066250331007,
+        "relative_ratio": 0.8313249214104295
+      },
+      {
+        "class": "P4-1-1_O3_D2",
+        "code": 138936418,
+        "p_fair": 0.007856796742748903,
+        "q_before_draw": 0.011807362009446574,
+        "relative_ratio": 1.5028213655067095
+      },
+      {
+        "class": "P4-1-1_O4_D2",
+        "code": 138936450,
+        "p_fair": 0.0013409787428553123,
+        "q_before_draw": 0.0008729385065103921,
+        "relative_ratio": 0.6509711739737695
+      },
+      {
+        "class": "P4-2_O0_D4",
+        "code": 142606340,
+        "p_fair": 0.000833821039979359,
+        "q_before_draw": 0.00045823925003543,
+        "relative_ratio": 0.5495654679651326
+      },
+      {
+        "class": "P4-2_O0_D5",
+        "code": 142606341,
+        "p_fair": 5.835317055087109e-05,
+        "q_before_draw": 7.777722142150121e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P4-2_O1_D3",
+        "code": 142606371,
+        "p_fair": 0.0030349369585526585,
+        "q_before_draw": 0.002834229709158008,
+        "relative_ratio": 0.9338677369132681
+      },
+      {
+        "class": "P4-2_O1_D4",
+        "code": 142606372,
+        "p_fair": 7.80902723548422e-05,
+        "q_before_draw": 1.0408422278465605e-05,
+        "relative_ratio": 0.13328705310656025
+      },
+      {
+        "class": "P4-2_O2_D2",
+        "code": 142606402,
+        "p_fair": 0.003519497110087833,
+        "q_before_draw": 0.0035930187054056674,
+        "relative_ratio": 1.0208898013034595
+      },
+      {
+        "class": "P4-2_O2_D3",
+        "code": 142606403,
+        "p_fair": 0.0013527065859562225,
+        "q_before_draw": 0.0022629084793499444,
+        "relative_ratio": 1.6728745929408662
+      },
+      {
+        "class": "P4-2_O3_D1",
+        "code": 142606433,
+        "p_fair": 0.0014388061170141255,
+        "q_before_draw": 0.001927282731320175,
+        "relative_ratio": 1.3395013466579901
+      },
+      {
+        "class": "P4-2_O3_D2",
+        "code": 142606434,
+        "p_fair": 0.0024645633209132616,
+        "q_before_draw": 0.002064002886230716,
+        "relative_ratio": 0.8374720457439434
+      },
+      {
+        "class": "P4-2_O3_D3",
+        "code": 142606435,
+        "p_fair": 0.0006533266742068117,
+        "q_before_draw": 0.00043418168791926957,
+        "relative_ratio": 0.6645705817023302
+      },
+      {
+        "class": "P4-2_O4_D0",
+        "code": 142606464,
+        "p_fair": 0.00020738259141853696,
+        "q_before_draw": 0.00037474311527411255,
+        "relative_ratio": 1.807013369399993
+      },
+      {
+        "class": "P4-2_O4_D1",
+        "code": 142606465,
+        "p_fair": 0.0008644278500231983,
+        "q_before_draw": 0.0008094204423494995,
+        "relative_ratio": 0.9363655304809736
+      },
+      {
+        "class": "P4-2_O4_D2",
+        "code": 142606466,
+        "p_fair": 0.0008592790408569449,
+        "q_before_draw": 0.0004616324719503877,
+        "relative_ratio": 0.5372323191893628
+      },
+      {
+        "class": "P4-2_O4_D3",
+        "code": 142606467,
+        "p_fair": 0.00010755290258395849,
+        "q_before_draw": 1.4335409438472773e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P4-2_O5_D2",
+        "code": 142606498,
+        "p_fair": 0.0001407341172109244,
+        "q_before_draw": 1.875803575459735e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P5-1_O0_D4",
+        "code": 171966468,
+        "p_fair": 0.0015829727736692187,
+        "q_before_draw": 0.0019464982801419577,
+        "relative_ratio": 1.2296473524494755
+      },
+      {
+        "class": "P5-1_O0_D5",
+        "code": 171966469,
+        "p_fair": 0.00030950063988256137,
+        "q_before_draw": 0.00038835412902287527,
+        "relative_ratio": 1.254776497942733
+      },
+      {
+        "class": "P5-1_O1_D3",
+        "code": 171966499,
+        "p_fair": 0.00499377280135837,
+        "q_before_draw": 0.0037895205677617545,
+        "relative_ratio": 0.758849214511913
+      },
+      {
+        "class": "P5-1_O1_D4",
+        "code": 171966500,
+        "p_fair": 0.00015846890433913032,
+        "q_before_draw": 0.000368223554066722,
+        "relative_ratio": 2.3236328641403845
+      },
+      {
+        "class": "P5-1_O2_D2",
+        "code": 171966530,
+        "p_fair": 0.003907088022325237,
+        "q_before_draw": 0.0032975778551103405,
+        "relative_ratio": 0.8439988646961282
+      },
+      {
+        "class": "P5-1_O2_D3",
+        "code": 171966531,
+        "p_fair": 0.0035438109311506957,
+        "q_before_draw": 0.004637564525359898,
+        "relative_ratio": 1.3086376828388118
+      },
+      {
+        "class": "P5-1_O2_D4",
+        "code": 171966532,
+        "p_fair": 0.00021281744553847104,
+        "q_before_draw": 2.836581016548868e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P5-1_O3_D1",
+        "code": 171966561,
+        "p_fair": 0.0009399437177949137,
+        "q_before_draw": 0.001860790832222578,
+        "relative_ratio": 1.9796832480437767
+      },
+      {
+        "class": "P5-1_O3_D2",
+        "code": 171966562,
+        "p_fair": 0.0036602312272987574,
+        "q_before_draw": 0.0050001835443536004,
+        "relative_ratio": 1.366084062411468
+      },
+      {
+        "class": "P5-1_O3_D3",
+        "code": 171966563,
+        "p_fair": 0.002341563990830543,
+        "q_before_draw": 0.002741812069586577,
+        "relative_ratio": 1.170931941353466
+      },
+      {
+        "class": "P5-1_O4_D0",
+        "code": 171966592,
+        "p_fair": 9.553901452936738e-05,
+        "q_before_draw": 1.273411370332422e-05,
+        "relative_ratio": 0.13328705310656025
+      },
+      {
+        "class": "P5-1_O4_D1",
+        "code": 171966593,
+        "p_fair": 0.000649608089808962,
+        "q_before_draw": 0.0004336860487631521,
+        "relative_ratio": 0.6676118348382812
+      },
+      {
+        "class": "P5-1_O4_D2",
+        "code": 171966594,
+        "p_fair": 0.0015640938067262898,
+        "q_before_draw": 0.0026381853598691062,
+        "relative_ratio": 1.6867181166012877
+      },
+      {
+        "class": "P5-1_O4_D3",
+        "code": 171966595,
+        "p_fair": 0.0008764417380777894,
+        "q_before_draw": 0.001158123438882982,
+        "relative_ratio": 1.3213923853318266
+      },
+      {
+        "class": "P5-1_O4_D4",
+        "code": 171966596,
+        "p_fair": 5.434854119934072e-05,
+        "q_before_draw": 7.243956897100602e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P5-1_O5_D3",
+        "code": 171966627,
+        "p_fair": 0.0005629364688436976,
+        "q_before_draw": 0.0014634389462117251,
+        "relative_ratio": 2.599652051709688
+      },
+      {
+        "class": "P6_O0_D5",
+        "code": 201326597,
+        "p_fair": 0.00013701553281307476,
+        "q_before_draw": 1.826239659847994e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O0_D6",
+        "code": 201326598,
+        "p_fair": 4.347883295947258e-05,
+        "q_before_draw": 5.795165517680483e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O0_D7",
+        "code": 201326599,
+        "p_fair": 2.288359629445925e-06,
+        "q_before_draw": 3.050087114568675e-07,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O1_D4",
+        "code": 201326628,
+        "p_fair": 0.0005472039963912568,
+        "q_before_draw": 0.001808443712118793,
+        "relative_ratio": 3.3048803079751927
+      },
+      {
+        "class": "P6_O1_D5",
+        "code": 201326629,
+        "p_fair": 5.320436138461776e-05,
+        "q_before_draw": 0.0010483965549363738,
+        "relative_ratio": 19.705086719441052
+      },
+      {
+        "class": "P6_O2_D3",
+        "code": 201326659,
+        "p_fair": 0.0005892526045823258,
+        "q_before_draw": 0.0011198448455951452,
+        "relative_ratio": 1.9004495472513252
+      },
+      {
+        "class": "P6_O2_D4",
+        "code": 201326660,
+        "p_fair": 0.0004037524521203654,
+        "q_before_draw": 5.381497452767106e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O2_D5",
+        "code": 201326661,
+        "p_fair": 5.0343911847810355e-05,
+        "q_before_draw": 6.710191652051085e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O3_D2",
+        "code": 201326690,
+        "p_fair": 0.00022197088405625473,
+        "q_before_draw": 0.0003766875458096501,
+        "relative_ratio": 1.6970133151075122
+      },
+      {
+        "class": "P6_O3_D3",
+        "code": 201326691,
+        "p_fair": 0.0006344477072638828,
+        "q_before_draw": 8.456366525141652e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O3_D4",
+        "code": 201326692,
+        "p_fair": 0.0002723147959040651,
+        "q_before_draw": 0.00038339773746170114,
+        "relative_ratio": 1.407921064989689
+      },
+      {
+        "class": "P6_O3_D5",
+        "code": 201326693,
+        "p_fair": 2.2883596294459252e-05,
+        "q_before_draw": 3.0500871145686753e-06,
+        "relative_ratio": 0.13328705310656025
+      },
+      {
+        "class": "P6_O4_D1",
+        "code": 201326721,
+        "p_fair": 3.032076509015851e-05,
+        "q_before_draw": 4.041365426803494e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O4_D2",
+        "code": 201326722,
+        "p_fair": 0.0002208267042415318,
+        "q_before_draw": 2.9433340655587717e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O4_D3",
+        "code": 201326723,
+        "p_fair": 0.0003947420360794221,
+        "q_before_draw": 0.0003997157035246435,
+        "relative_ratio": 1.0125997917389793
+      },
+      {
+        "class": "P6_O4_D4",
+        "code": 201326724,
+        "p_fair": 0.0001517468479276329,
+        "q_before_draw": 2.0225890178483525e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O4_D5",
+        "code": 201326725,
+        "p_fair": 1.1441798147229626e-05,
+        "q_before_draw": 1.5250435572843377e-06,
+        "relative_ratio": 0.13328705310656025
+      },
+      {
+        "class": "P6_O5_D0",
+        "code": 201326752,
+        "p_fair": 2.0023146757651844e-06,
+        "q_before_draw": 2.6688262252475904e-07,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O5_D1",
+        "code": 201326753,
+        "p_fair": 2.173941647973629e-05,
+        "q_before_draw": 2.8975827588402414e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O5_D2",
+        "code": 201326754,
+        "p_fair": 8.638557601158368e-05,
+        "q_before_draw": 1.1514078857496749e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O5_D3",
+        "code": 201326755,
+        "p_fair": 0.00012185515026799552,
+        "q_before_draw": 0.0003633434146834121,
+        "relative_ratio": 2.981764938817214
+      },
+      {
+        "class": "P6_O5_D4",
+        "code": 201326756,
+        "p_fair": 9.811341911249405e-05,
+        "q_before_draw": 1.3077248503713194e-05,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O6_D3",
+        "code": 201326787,
+        "p_fair": 1.3730157776675552e-05,
+        "q_before_draw": 1.830052268741205e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O6_D4",
+        "code": 201326788,
+        "p_fair": 4.948577698676813e-05,
+        "q_before_draw": 6.59581338525476e-06,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O6_D5",
+        "code": 201326789,
+        "p_fair": 7.151123842018516e-06,
+        "q_before_draw": 9.53152223302711e-07,
+        "relative_ratio": 0.13328705310656022
+      },
+      {
+        "class": "P6_O7_D4",
+        "code": 201326820,
+        "p_fair": 4.29067430521111e-06,
+        "q_before_draw": 5.718913339816267e-07,
+        "relative_ratio": 0.13328705310656025
+      }
+    ]
+  },
+  "rare_class": {
+    "name": "P6_O1_D5",
+    "p_fair": 5.320436138461776e-05,
+    "q_alternative": 0.0005320436138461776
+  },
+  "warning": "This document has only a local hash seal. A Git commit pushed before the drawing is needed to anchor chronology. The input CSV report does not independently authenticate official results.",
+  "self_checksum_sha256": "f962047a8a3404bd20763b03fb9abe0b0db651ff5497882ba42a103408c496b3"
+}

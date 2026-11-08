@@ -903,3 +903,62 @@ HTML from the complete current-history scan verified. Only **future**
 draws with externally verified sources can provide prospective evidence.
 
 [Detailed study design, statistical justification and update protocol](docs/prospective_validation_v019.md).
+
+## v0.20 — Pre-Draw Commitments and Post-Draw Source Audit
+
+**First publicly committed pre-draw class-distribution snapshot:** Lotto649
+issue `115000104`, standard draw date `2026-11-10`, is sealed in
+[`docs/prospective_seals/115000104_2026-11-10.json`](docs/prospective_seals/115000104_2026-11-10.json)
+before that drawing. It includes complete pre-result probability vectors
+for L1's 6, L2's 11 and L3's 94 fixed shape classes, plus frozen
+`P6_O1_D5` monitoring odds; **no six-number results or picks**. Seal:
+`f962047a8a3404bd20763b03fb9abe0b0db651ff5497882ba42a103408c496b3`.
+
+**v0.20** adds two subcommands, 17 new tests, and checks that any
+pre-draw snapshot is for the next contiguous issue, a standard Tue/Fri date,
+before the 20:30 Asia/Taipei drawing deadline. Post-draw auditing reconstructs
+the entire prior probability vector and checks v0.19's event class,
+fair probability, causal forecast, log gain and rare-class increment.
+It rejects altered snapshots, rewritten prior events and inconsistent scoring.
+An independently timestamped public Git push is necessary to prove
+pre-draw commitment timing; a local creation timestamp is not sufficient.
+
+Use the **already committed** seal for the 2026-11-10 target. Do not replace
+it with a newly computed snapshot. Once the official result is available,
+verify its six numbers/date/issue externally, append them to the appropriate
+year CSV and run:
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-prospective-update `
+    --freeze docs/prospective_freeze_20261108.json `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --csv data/csv `
+    --previous results/v019_prospective_first_check.json `
+    --out results/v019_after_115000104.json
+
+& $py -m lotto7x7 shape-prospective-audit `
+    --seal docs/prospective_seals/115000104_2026-11-10.json `
+    --report results/v019_after_115000104.json `
+    --out results/v020_115000104_audit.json
+
+Start-Process .\results\v020_115000104_audit.html
+```
+
+For later dates, generate a new `shape-prospective-seal` using the
+**previous**, already scored v0.19 report, and commit/push that new seal
+**before the draw**. All outcomes still need verification against official
+Taiwan Lottery or CTBC. The monthly annual-data download is not a same-night
+feed; no unverified web scraper is installed. This is a **class-forecast
+integrity audit**, not an endorsement of lottery prediction or betting.
+
+**Validation:** 42/42 v0.19+v0.20 unit/CLI tests pass; real frozen
+2,497-draw P1 inputs and user-submitted zero-event v0.19 report generated
+the initial sealed snapshot. First post-draw audit currently correctly
+returns `AWAITING_DRAW` and contains zero new outcomes.
+
+[Full verification and evidence limitations](docs/pre_draw_commitment_v020.md).
