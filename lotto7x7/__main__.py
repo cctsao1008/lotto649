@@ -32,6 +32,7 @@ from .pairwise_similarity_cli_v013 import configure_parsers as configure_v013_pa
 from .gaussian_shape_cli_v014 import configure_parsers as configure_v014_parsers, run as run_v014
 from .gaussian_validation_cli_v0141 import configure_parsers as configure_p0_parsers, run as run_p0
 from .shape_catalog_batch_p1_cli import configure_parsers as configure_p1_parsers, run as run_p1
+from .shape_p2_batch_cli import configure_parsers as configure_p2_parsers, run as run_p2
 import torch
 import numpy as np
 
@@ -224,6 +225,7 @@ def main() -> None:
     configure_v014_parsers(action)
     configure_p0_parsers(action)
     configure_p1_parsers(action)
+    configure_p2_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -457,6 +459,8 @@ def main() -> None:
         run_p0(args)
     elif args.command == "shape-catalog-exact":
         run_p1(args)
+    elif args.command == "shape-p2-batch":
+        run_p2(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

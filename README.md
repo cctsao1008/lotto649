@@ -784,3 +784,65 @@ No historical distances, CNN checkpoints or P0 results were changed.
 these are interpretable countable structural codes, not guaranteed natural
 Euclidean clusters. KDE sample modes lack exact all-universe probabilities.
 [Research methods and full output specification](docs/shape_taxonomy_complete_universe_p1.md).
+
+## v0.17 + v0.18 — P2 Batch 3: Predictive Validation + Shape Explorer
+
+**P2 implemented as one batch.** Directly reuses verified P1 shape taxonomy,
+precomputed historical records and all 13,983,816 exact fair combination
+counts. No v0.13 historical pairwise recomputation or CNN retraining.
+
+- **v0.17**: per-draw *causal* one-step forecasts of L1/L2/L3 graph classes,
+  with a frozen Dirichlet shrinkage rule `q_t=(past_count + 384*p_fair)/(t+384)`.
+  Reports proper sequential log-gain over exact IID fair priors and
+  **1,000 independent IID full-sequence refits** preserving the nesting of L3,
+  L2 and L1 classes, with 3-level multiple-comparison correction.
+- Equal-budget ticket backtest: generate the same fresh 64-ticket
+  uniform legal candidate pool before each draw; compare 5 uniformly
+  chosen tickets to 5 scored by **historical L3 q/p**. A *conditional*
+  frozen-ticket IID future-draw simulation provides exploratory control
+  without claiming it is a full adaptive strategy refit.
+- **v0.18**: fully offline, interactive browser Shape Explorer. Input any
+  six different numbers (1–49), see their 7×7 image, frozen topology, exact
+  D4+legal-translation orbit size and fair category mass, and *all-history*
+  nearest shapes computed using 8 D4 transforms and exact six-point 64-state
+  minimum-cost assignment (not MDS approximate lookup).
+- Rare-class `P6_O1_D5` included in an explicit **future-only frozen
+  watchlist**; after-the-fact historical results never count as independent
+  preregistered evidence. Never grants special forecast weight.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-p2-batch `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --min-train 500 `
+    --tau 384 `
+    --iid-replicates 1000 `
+    --ticket-null-replicates 128 `
+    --candidate-pool 64 `
+    --tickets-per-draw 5 `
+    --seed 649 `
+    --out results/v017_v018_p2_batch.json
+
+Start-Process .\results\v017_v018_p2_batch_report.html
+Start-Process .\results\v017_v018_p2_batch_explorer.html
+```
+
+Seven new, nonoverwriting outputs: JSON audit, walk-forward CSV, last
+backtested tickets CSV (NOT next picks), report HTML, interactive offline
+Explorer HTML, NPZ auditable timeline and future-only watchlist JSON.
+
+**Development PASS:** 24/24 new unit and integration tests; Node.js browser
+implementation independently checked against six historical images and 36
+v0.13 distance cells (maximum error under 6e-8); all seven outputs created
+and inspected from real 2,497-draw data, 1,997 historical holdouts, 1,000
+coupled IID sequences and 128 independent ticket-draw simulations.
+
+**Research result:** under these frozen exploratory settings, all three
+historical class-forecast log-gains against IID were negative. Some ticket
+overlap differences arose in this one history but not reliably significant.
+No verified advantage in future fair 6/49 outcomes has been established.
+See [P2 research protocol and limitations](docs/shape_p2_predictive_validation_explorer.md).
