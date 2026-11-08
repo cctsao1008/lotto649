@@ -1018,3 +1018,55 @@ portfolio comparison, not a prospective test.
 
 [Detailed design, exact probability definition, objective trade-offs and
 validation](docs/unified_selection_v021.md).
+
+## v0.22 — Timed Historical Exact-Hit Benchmark (20-minute local experiment)
+
+This command **runs on the user's own Windows PC** and searches past known
+drawings, using **up to 10,000 unique candidate tickets per independent trial**
+for up to **20 minutes**. Each exact six-main-number match prints immediately
+with the old draw ID, winning six numbers and the first-hit ranks in the
+**uniform** order versus the frozen P1 **shape_score** (L3 q/p) order.
+
+Two strategies examine the **same candidate pool** each trial, so they must
+find the **same historical exact-six matches** upon completing all 10,000 guesses.
+Only **how early** a hit is discovered can differ. Repeated trials may contain
+the same previously drawn ticket; both total hit events and unique historical
+draws are reported. The v0.21 3+/4+/5+ multi-ticket coverage optimizer is not
+relevant to searching a known 6/6 historical match and is not included.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 historical-hit-benchmark `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --minutes 20 `
+    --per-round 10000 `
+    --target all `
+    --seed 649 `
+    --progress-every 100 `
+    --out results/v022_historical_20min.json
+```
+
+The command writes three **non-overwriting** artifacts: JSON summary,
+`_hits.csv` (flushed on every match) and `_rounds.csv` (including no-hit
+trials). It respects Ctrl+C and records completed-trial results.
+For a more disciplined retrospective research comparison, use
+`--target holdout --holdout-count 500`: learn L3 shape frequencies on the
+first 1,997 historical draws and search only the last 500.
+
+**Critical:** `--target all` includes all 2,497 historical target draws in
+its score training and **leaks target information**. Any apparently rapid
+shape-score hit is an in-sample retrieval outcome, **not a prediction result**.
+The last-500 holdout was inspected during prior project research, so that
+alternative is also exploratory, not genuinely blind prospective evidence.
+
+**Validation:** 14/14 v0.22 tests and 88/88 selected cross-version tests
+PASS. Seed 649 produced two historic full-six hits in the first 10,000
+uniform guesses at ranks 4,278 and 9,627. In the *same* candidate pool,
+in-sample L3 shape ordering moved those ranks to 3,786 and 1. Three
+10000-ticket trials had five historical hit events total; a separate
+last-500-target check gave one hit in three trials.
+[Full methodology and limitations](docs/historical_guess_benchmark_v022.md).
