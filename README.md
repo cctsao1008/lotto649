@@ -735,3 +735,52 @@ significance claim is justified from just one full-size IID replicate.
 CPU integration smoke test succeeded. **Research acceptance** requires
 running the above complete CUDA experiment and reviewing its outputs.
 [Detailed P0 protocol, interpretation limits and smoke settings](docs/gaussian_model_validation_p0_v0141.md).
+
+## v0.15 + v0.16 — P1 Batch 2: Exact Shape Catalog
+
+One command implements the entire P1 batch, without freezing the unstable
+8D-GMM K=12 classification. Uncapped **empirical Gaussian KDE local modes**
+are explored at 12 σ×radius combinations with coverage, persistence and
+intra-/inter-class distance diagnostics. A separate **fixed D4-invariant
+graph taxonomy** defines six component-count classes, eleven component-size
+partitions, and 94 orthogonal/diagonal-edge profiles. Exact D4+translation
+canonical families are also cataloged, including mathematically exact orbit
+sizes for the historically observed families and an unseen-family complement.
+
+The complete **13,983,816 legal 6/49 combinations are actually enumerated**
+using bounded-memory NumPy streaming and classified with the **same graph
+rules** as history; theoretical frequencies are exact. Exploratory
+multinomial Monte Carlo p-values, Bonferroni across three nested levels and
+BH-FDR per-class corrections compare history with the exact baseline.
+All eight output files are protected from overwriting prior results.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-catalog-exact `
+    --device cuda `
+    --matrix results/v013_pairwise_similarity.npz `
+    --assignments results/v013_pairwise_similarity.csv `
+    --bandwidths 0.35 0.55 0.8 1.1 `
+    --radii 0.70 0.75 0.80 `
+    --assignment-radius 0.85 `
+    --universe-batch-size 120000 `
+    --mc-replicates 5000 `
+    --seed 649 `
+    --out results/v015_v016_p1_shape_catalog.json
+
+Start-Process .\results\v015_v016_p1_shape_catalog.html
+```
+
+The full enumeration and complete historical integration were executed locally
+using the uploaded v0.13 distance cache: 13,983,816/13,983,816 processed;
+**31/31 new P1 tests pass**; all eight outputs verified. CPU is sufficient
+for full-universe counting, and CUDA remains an option for historical KDE.
+No historical distances, CNN checkpoints or P0 results were changed.
+
+**Caution:** Negative shape-distance silhouettes for graph taxonomy indicate
+these are interpretable countable structural codes, not guaranteed natural
+Euclidean clusters. KDE sample modes lack exact all-universe probabilities.
+[Research methods and full output specification](docs/shape_taxonomy_complete_universe_p1.md).
