@@ -10,7 +10,7 @@ import pytest
 
 from lotto7x7.shape_prospective_cli_v019 import configure_parsers,run
 
-ROOT=Path('/mnt/data')
+from _prospective_fixture_v019 import make_test_inputs
 
 
 def _args(argv):
@@ -28,16 +28,17 @@ def test_v019_command_registration():
 
 
 def test_full_cli_freeze_and_zero_new_sample(tmp_path):
-    base=str(ROOT/'v015_v016_p1_shape_catalog.npz')
-    theory=str(ROOT/'v015_v016_p1_shape_catalog_universe.json')
-    watch=str(ROOT/'v017_v018_p2_complete_future_watchlist.json')
+    inputs=make_test_inputs(tmp_path)
+    base=str(inputs['catalog'])
+    theory=str(inputs['universe'])
+    watch=str(inputs['watchlist'])
     freeze=tmp_path/'freeze.json'
     args=_args(['shape-prospective-freeze','--catalog',base,'--universe',theory,'--watchlist',watch,'--out',str(freeze)])
     run(args)
     assert freeze.exists()
     report=tmp_path/'zero.json'
     args=_args(['shape-prospective-update','--freeze',str(freeze),'--catalog',base,'--universe',theory,
-                '--csv',str(ROOT/'v015_v016_p1_shape_catalog_draws.csv'),'--out',str(report)])
+                '--csv',str(inputs['historical_csv']),'--out',str(report)])
     run(args)
     obj=json.loads(report.read_text())
     assert obj['status']=='NO_PROSPECTIVE_DRAWS'
@@ -49,9 +50,10 @@ def test_full_cli_freeze_and_zero_new_sample(tmp_path):
 
 
 def test_update_empty_csv_option(tmp_path):
-    base=str(ROOT/'v015_v016_p1_shape_catalog.npz')
-    theory=str(ROOT/'v015_v016_p1_shape_catalog_universe.json')
-    watch=str(ROOT/'v017_v018_p2_complete_future_watchlist.json')
+    inputs=make_test_inputs(tmp_path)
+    base=str(inputs['catalog'])
+    theory=str(inputs['universe'])
+    watch=str(inputs['watchlist'])
     freeze=tmp_path/'freeze.json'
     run(_args(['shape-prospective-freeze','--catalog',base,'--universe',theory,'--watchlist',watch,'--out',str(freeze)]))
     output=tmp_path/'empty.json'

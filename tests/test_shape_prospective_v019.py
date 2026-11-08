@@ -13,15 +13,17 @@ from lotto7x7.shape_prospective_v019 import (
     make_freeze,check_freeze,content_hash,verify_seal,read_updates,
     prospective_evaluate,report_html,RARE_CODE_NAME)
 
-ROOT=Path('/mnt/data')
-CAT=ROOT/'v015_v016_p1_shape_catalog.npz'
-UNIVERSE=ROOT/'v015_v016_p1_shape_catalog_universe.json'
-WATCH=ROOT/'v017_v018_p2_complete_future_watchlist.json'
+from _prospective_fixture_v019 import make_test_inputs
 
 @pytest.fixture(scope='module')
-def frozen():
-    f=make_freeze(CAT,UNIVERSE,WATCH,frozen_at=datetime(2026,11,8,9,20,tzinfo=timezone.utc))
-    ids,nums,tables,_=check_freeze(f,CAT,UNIVERSE)
+def inputs(tmp_path_factory):
+    return make_test_inputs(tmp_path_factory.mktemp('prospective_fixture'))
+
+@pytest.fixture(scope='module')
+def frozen(inputs):
+    cat,univ,watch=(inputs[k] for k in ('catalog','universe','watchlist'))
+    f=make_freeze(cat,univ,watch,frozen_at=datetime(2026,11,8,9,20,tzinfo=timezone.utc))
+    ids,nums,tables,_=check_freeze(f,cat,univ)
     return f,ids,nums,tables
 
 
@@ -35,7 +37,7 @@ def _new(day='2026-11-09',number=115000104,nums=(1,8,16,22,24,30)):
     return {'date':day,'draw_id':str(number),**{f'n{i+1}':str(x) for i,x in enumerate(nums)},'special':'49'}
 
 
-def test_freeze_fixes_real_historical_boundary(frozen):
+def test_freeze_fixes_synthetic_historical_boundary(frozen):
     f,ids,nums,_=frozen
     assert f['schema'].endswith('v0.19')
     assert len(ids)==2497 and int(ids[-1])==115000103
@@ -55,9 +57,9 @@ def test_no_new_returns_no_evidence(frozen):
     assert '尚' not in report_html(result) or '新期別' in report_html(result)
 
 
-def test_real_history_csv_yields_no_future(frozen):
+def test_synthetic_historical_csv_yields_no_future(frozen,inputs):
     f,ids,nums,_=frozen
-    updates,sources=read_updates([str(ROOT/'v015_v016_p1_shape_catalog_draws.csv')],
+    updates,sources=read_updates([str(inputs['historical_csv'])],
                                 freeze=f,reference_ids=ids,reference_numbers=nums)
     assert updates==[] and len(sources)==1 and len(sources[0]['sha256'])==64
 
@@ -111,11 +113,11 @@ def test_freeze_checksum_tamper_is_rejected(frozen):
     with pytest.raises(ValueError,match='checksum'):verify_seal(bad)
 
 
-def test_freeze_source_hash_tamper_is_rejected(frozen):
+def test_freeze_source_hash_tamper_is_rejected(frozen,inputs):
     f,_,_,_=frozen
     bad=json.loads(json.dumps(f));bad['source']['catalog_sha256']='0'*64
     bad['self_checksum_sha256']=content_hash({k:v for k,v in bad.items() if k!='self_checksum_sha256'})
-    with pytest.raises(ValueError,match='bytes changed'):check_freeze(bad,CAT,UNIVERSE)
+    with pytest.raises(ValueError,match='bytes changed'):check_freeze(bad,inputs['catalog'],inputs['universe'])
 
 
 def test_prior_historical_disagreement_rejected(frozen,tmp_path):
