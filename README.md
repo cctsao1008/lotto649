@@ -846,3 +846,60 @@ historical class-forecast log-gains against IID were negative. Some ticket
 overlap differences arose in this one history but not reliably significant.
 No verified advantage in future fair 6/49 outcomes has been established.
 See [P2 research protocol and limitations](docs/shape_p2_predictive_validation_explorer.md).
+
+## v0.19 — Future-only Prospective Validation (P3)
+
+**No additional lottery draw is currently claimed.** After P0–P2's entirely
+retrospective experiments, v0.19 freezes the verified 2,497-draw P1 baseline,
+rule hash, exactly enumerated fair 6/49 masses, fixed `tau=384` predictor,
+predeclared `P6_O1_D5` alternative, and the Taiwan-local freeze date
+**2026-11-08** in
+[`docs/prospective_freeze_20261108.json`](docs/prospective_freeze_20261108.json).
+This manifest is intended to remain unchanged, with committed history.
+
+The update command validates SHA-256 of both original P1 source files and
+the sealed freeze, scans supplied annual CSV sources for conflicts with
+frozen historical records, requires Gregorian draw dates **strictly after**
+the freeze date for new observations, and rejects duplicate or skipped
+within-year issue IDs. Every future class-probability forecast is scored
+**before** that draw enters its online counts. No data-provider verification
+is performed by the local program.
+
+Four preregistered nonnegative martingale e-processes are monitored under
+fair IID: L1, L2, L3 fair-class-normalized sequential forecasts, plus a fixed
+rare-category alternative at 10× its exact fair frequency. Their equal
+weighted mixture is an **anytime-valid e-process**, with a prespecified
+research-review threshold `mixture_e >= 20` (0.05 familywise bound for this
+specific mixture). A threshold crossing requests independent investigation:
+it is not proof of bias or improved winning-number odds.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-prospective-update `
+    --freeze docs/prospective_freeze_20261108.json `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --csv data/csv `
+    --out results/v019_prospective_first_check.json
+
+Start-Process .\results\v019_prospective_first_check.html
+```
+
+When a genuine new draw arrives, append the authoritative English-header
+`date,draw_id,n1,n2,n3,n4,n5,n6,special` record to the annual CSV and rerun
+using a **new** output name plus optional `--previous` for append-only
+validation of already published prospective event scores. Never reset the
+committed freeze to include newly observed events. A separate
+`shape-prospective-freeze` CLI supports designing an unrelated new experiment
+before new outcomes.
+
+**Initial zero-data acceptance** on uploaded P1 files:
+`NO_PROSPECTIVE_DRAWS`, `eligible_new_draws=0`, `mixture_e=1`,
+`anytime_p_upper_bound=1`. **25 new tests PASS**; JSON, CSV and offline
+HTML from the complete current-history scan verified. Only **future**
+draws with externally verified sources can provide prospective evidence.
+
+[Detailed study design, statistical justification and update protocol](docs/prospective_validation_v019.md).
