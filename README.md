@@ -1225,3 +1225,62 @@ Shape in 144 nonempty pools versus Uniform in 155.
 independent CSV-to-JSON sum consistency.
 
 [Methodology, caveats, report schema and reproducibility](docs/early_hit_efficiency_v023.md).
+
+## v0.24 — Temporal Image & Signal Analysis (P0–P5)
+
+GitHub issues: [P0 #2](https://github.com/cctsao1008/lotto649/issues/2),
+[P1 #3](https://github.com/cctsao1008/lotto649/issues/3),
+[P2 #4](https://github.com/cctsao1008/lotto649/issues/4),
+[P3 #5](https://github.com/cctsao1008/lotto649/issues/5),
+[P4 #6](https://github.com/cctsao1008/lotto649/issues/6),
+[P5 #7](https://github.com/cctsao1008/lotto649/issues/7).
+
+**P0:** validates source dates, chronological draw IDs, 6/49 legality,
+23 flat annual CSVs, image BIN parity, P1 catalog parity and source
+SHA-256. **P1:** consecutive 7×7 image changes, kept/added/removed,
+XOR, Jaccard, D4/translation similarity and exact IID overlap law.
+**P2:** 17 causal multi-lag features, ACF and 200 independent IID
+surrogates preserving naturally overlapping rolling windows. **P3:**
+orthonormal FFT/DCT, spatial DC/Parseval, temporal periodograms and
+sequential/snake/permuted mapping robustness with max-spectrum IID null.
+**P4:** time-safe, regularized 49-output conditional-six model
+with chronological validation hyperparameter selection. **P5:**
+500-draw one-step-ahead walk-forward scoring vs IID/static controls;
+block-bootstrap uncertainty and release decision.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+& $py -m pytest -q tests/test_temporal_v024.py
+$stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+& $py -m lotto7x7 temporal-research `
+    --csv-root data/csv `
+    --image-bin data/bin/lotto649_images_v2.bin `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --iid-reps 200 `
+    --bootstrap-reps 1000 `
+    --seed 649 `
+    --out "results/v024_temporal_$stamp.json"
+```
+
+Four non-overwriting artifacts: `.json`, `_transitions.csv`,
+`_features.csv`, `_forecast.csv`. Fully date-verified mode is
+**required on the user's actual repository**. Only for preliminary
+research, `--catalog-only` explicitly waives CSV/BIN/date verification
+and reports `P0.status=PARTIAL_NO_DATE_VERIFICATION`.
+
+**Preliminary 2,497-draw frozen-P1 catalog-only result:** P1 overlap
+mean 0.743590 vs IID 0.734694; P2 exploratory 100-comparison
+ACF IID max-test p≈0.0398 (not confirmed predictive signal); P3
+12-search spectrum max-test p≈0.2935; P5 500-draw fair IID Brier
+0.107455 vs temporal ridge Brier 0.107961; fair-minus-temporal paired
+95% block-bootstrap CI [-0.000692, -0.000339]; **NO_GO** on integrating
+the temporal model into monetary lottery number selection.
+This research is on previously inspected third-party data and is not
+an independently verified official-source prospective validation.
+
+**Tests:** 22/22 new v0.24 PASS, 43/43 combined v0.23+v0.24 PASS;
+full 200 IID / 1000-bootstrap local preliminary computation completed.
+See [full methodology, CLI, output schema and caveats](docs/temporal_image_signal_v024.md).

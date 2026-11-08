@@ -39,6 +39,7 @@ from .unified_selection_cli_v021 import configure_parsers as configure_v021_pars
 from .historical_guess_cli_v022 import configure_parsers as configure_v022_parsers, run as run_v022
 from .historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
 from .early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
+from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
 import torch
 import numpy as np
 
@@ -238,6 +239,7 @@ def main() -> None:
     configure_v022_parsers(action)
     configure_v0222_parsers(action)
     configure_v023_parsers(action)
+    configure_v024_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -485,6 +487,8 @@ def main() -> None:
         run_v0222(args)
     elif args.command == "early-hit-backtest":
         run_v023(args)
+    elif args.command == "temporal-research":
+        run_v024(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
