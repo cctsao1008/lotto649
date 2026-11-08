@@ -28,6 +28,7 @@ from .feature_discovery_cli_v09 import configure_parsers as configure_v09_parser
 from .deep_feature_cli_v010 import configure_parsers as configure_v010_parsers, run as run_v010
 from .image_classification_cli_v011 import configure_parsers as configure_v011_parsers, run as run_v011
 from .natural_clustering_cli_v012 import configure_parsers as configure_v012_parsers, run as run_v012
+from .pairwise_similarity_cli_v013 import configure_parsers as configure_v013_parsers, run as run_v013
 import torch
 import numpy as np
 
@@ -216,6 +217,7 @@ def main() -> None:
     configure_v010_parsers(action)
     configure_v011_parsers(action)
     configure_v012_parsers(action)
+    configure_v013_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -441,6 +443,8 @@ def main() -> None:
         run_v011(args)
     elif args.command == "natural-cluster-gpu":
         run_v012(args)
+    elif args.command == "pairwise-similarity-gpu":
+        run_v013(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

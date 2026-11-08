@@ -603,3 +603,43 @@ Each run creates JSON, CSV, and offline HTML files using the output stem;
 previous reports are preserved. The 15 newly added tests passed locally;
 previous test suites and GPU predictive backtests were not re-executed.
 [Details, scientific limits, and controls](docs/natural_clustering_v012.md).
+
+## v0.13 — GPU Pairwise Image Similarity (Exact Six-Point Matching)
+
+Rather than assume an arbitrary number of natural image classes, compute the
+**entire 2,497 × 2,497** pairwise distance matrix: 3,116,256 unique pairs.
+Each pair solves all **720 one-to-one six-point assignments** for:
+
+- `position`: optimal matching in the original board coordinates;
+- `d4`: minimum after quarter-turn rotations/reflections;
+- `shape`: minimum after D4 and **continuous centroid translation**;
+- `shape_hausdorff`: alternative centered, D4-minimized Hausdorff distance.
+
+The `shape` transform is **not limited to integer/non-wrapping board shifts**.
+The offline HTML gallery shows actual images beside an aligned overlay. Only
+groups whose **entire within-class pairwise diameter** fits a predefined
+fair-IID distance threshold are reported as true complete-link classes; other
+images remain singleton. Independent IID pairs and nine matched sample
+refits are descriptive controls, not proof of any selection advantage.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 pairwise-similarity-gpu `
+    --device cuda --batch-size 512 `
+    --iid-pairs 30000 --iid-quantiles 0.001 0.005 0.01 `
+    --cluster-mode shape --control-draws 384 --control-replicates 9 `
+    --top-pairs 25 --gallery-count 8 --seed 649 `
+    --out results/v013_pairwise_similarity.json
+
+Start-Process .\results\v013_pairwise_similarity.html
+```
+
+Each run creates JSON, CSV, HTML and compressed **NPZ containing all four
+full distance matrices**. Existing files are never intentionally overwritten.
+The only locally run checks were **16 new v0.13 unit tests** and a
+128-historical-draw integration analysis (CPU because the execution container
+has no CUDA GPU); the full 2,497-draw CUDA run must be performed separately.
+[Full method, controls and interpretation](docs/gpu_pairwise_image_similarity_v013.md).
