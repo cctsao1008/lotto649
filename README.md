@@ -643,3 +643,49 @@ The only locally run checks were **16 new v0.13 unit tests** and a
 128-historical-draw integration analysis (CPU because the execution container
 has no CUDA GPU); the full 2,497-draw CUDA run must be performed separately.
 [Full method, controls and interpretation](docs/gpu_pairwise_image_similarity_v013.md).
+
+## v0.14 — Gaussian Shape Distribution & Density-Based Classification
+
+**Reuses the precomputed v0.13 `shape` distance NPZ** for all 2,497
+historical images. No repeated 3.1-million-pair matching or CNN training.
+
+- Multi-bandwidth Gaussian radial **leave-one-out similarity** scores computed
+  on CUDA (these are not normalized PDFs in a non-Euclidean shape quotient).
+- Density peak selection and nearest-mode assignment with explicit NOISE and
+  a **maximum of 24 displayed** centers; a hit to that cap is reported, not
+  misread as a natural number of modes.
+- Approximate 8D classical MDS embedding with reported distance distortion,
+  followed by diagonal-Gaussian mixture classification, BIC search and soft
+  per-image membership probabilities.
+- Legal uniform 6/49 **matched-size IID refits**, including both KDE and
+  Gaussian-mixture BIC contrasts. No unjustified independent-pair p-values.
+- JSON, per-draw CSV, HTML gallery with density histogram and BIC table, and
+  lightweight embedding NPZ (all outputs protected from overwrite).
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-gaussian-gpu `
+    --device cuda `
+    --matrix results/v013_pairwise_similarity.npz `
+    --assignments results/v013_pairwise_similarity.csv `
+    --bandwidths 0.35 0.55 0.8 1.1 `
+    --mode-bandwidth 0.55 --peak-radius 0.6 `
+    --assignment-radius 0.85 --max-peaks 24 `
+    --mds-dimensions 8 `
+    --gmm-components 1 2 3 4 6 8 12 16 24 `
+    --control-draws 128 --control-replicates 9 `
+    --batch-size 512 --gallery-count 8 --seed 649 `
+    --out results/v014_shape_gaussian_cuda.json
+
+Start-Process .\results\v014_shape_gaussian_cuda.html
+```
+
+For an extended IID run, use `--control-draws 256` with a new output path.
+The output is a **descriptive classification**, not a forecast. Only the
+new v0.14 tests (14 PASS) and a cached-real-data CPU experiment were run;
+old GPU backtests and old suites were not repeated.
+
+Read [the Gaussian shape analysis protocol](docs/gaussian_shape_distribution_v014.md).
