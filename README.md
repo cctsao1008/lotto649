@@ -962,3 +962,59 @@ the initial sealed snapshot. First post-draw audit currently correctly
 returns `AWAITING_DRAW` and contains zero new outcomes.
 
 [Full verification and evidence limitations](docs/pre_draw_commitment_v020.md).
+
+## v0.21 — Unified Number Selection Engine
+
+**Working one-command integration** of the existing P1 full-6/49 theoretical
+category probabilities, v0.17 frozen L3 shape-class score, and v0.6 exact
+fair portfolio coverage algebra. All three approaches choose the **same N
+tickets** from the **same uniform, nonduplicate** candidate pool; there is
+no historical-shape weighting during candidate generation.
+
+Strategies:
+- `uniform`: first N uniform candidates (benchmark).
+- `coverage`: finite-pool **exact-oracle greedy plus one improving swap
+  pass**, maximizing selected `3plus`/`4plus`/`5plus` union-coverage counts.
+  It never returns a worse primary objective than the uniform benchmark in
+  that same pool. This is a local heuristic **not** a global optimum.
+- `shape_score`: highest v0.17 frozen Dirichlet-smoothed L3-class
+  `q(c)/p_fair(c)` scores. This is a descriptive historical ratio,
+  **not a validated AI neural selector or higher winning odds**.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 shape-select-unified `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --freeze docs/prospective_freeze_20261108.json `
+    --pool-size 100 `
+    --tickets 5 `
+    --objective 3plus `
+    --seed 649 `
+    --out results/v021_unified_selection.json
+
+Start-Process .\results\v021_unified_selection.html
+```
+
+Four immutable result files: JSON, `_pool.csv` (all candidates, frozen
+categories and q/p), `_bets.csv` (three distinct strategy portfolios), and
+offline HTML with **7×7 image grids** and mathematically exact >=3/4/5/6
+union probabilities over all 13,983,816 legal draws. The original
+v0.19 P1 freeze, v0.20 first pre-draw seal and all historical inputs
+remain **read-only**.
+
+**Verified:** 32 new v0.21 tests PASS; 74/74 combined v0.19/v0.20/v0.21
+tests PASS. Full integration with user's actual frozen 2,497-draw P1
+artifacts passed: 100 uniform candidates, five bets, fixed seed 649.
+Exact at-least-one-ticket >=3 coverage: uniform 0.0887766973;
+coverage-local-optimized 0.0929016801; experimental shape score
+0.0906839735. All three have the **same six-main-number jackpot
+probability 5/13,983,816**. The displayed shape-score difference
+does not establish predictive superiority; it is one seeded candidate
+portfolio comparison, not a prospective test.
+
+[Detailed design, exact probability definition, objective trade-offs and
+validation](docs/unified_selection_v021.md).
