@@ -37,6 +37,7 @@ from .shape_prospective_cli_v019 import configure_parsers as configure_v019_pars
 from .shape_pre_draw_cli_v020 import configure_parsers as configure_v020_parsers, run as run_v020
 from .unified_selection_cli_v021 import configure_parsers as configure_v021_parsers, run as run_v021
 from .historical_guess_cli_v022 import configure_parsers as configure_v022_parsers, run as run_v022
+from .historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
 import torch
 import numpy as np
 
@@ -234,6 +235,7 @@ def main() -> None:
     configure_v020_parsers(action)
     configure_v021_parsers(action)
     configure_v022_parsers(action)
+    configure_v0222_parsers(action)
     g = action.add_parser("gallery", help="Render 7x7 SVG report from replay JSON")
     g.add_argument("--report", type=Path, default=Path("results/visual_replay.json"))
     g.add_argument("--out", type=Path, default=Path("results/visual_gallery.html"))
@@ -477,6 +479,8 @@ def main() -> None:
         run_v021(args)
     elif args.command == "historical-hit-benchmark":
         run_v022(args)
+    elif args.command == "historical-hit-stream":
+        run_v0222(args)
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

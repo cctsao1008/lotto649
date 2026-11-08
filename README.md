@@ -1116,3 +1116,57 @@ sets (shape rank #1 and #3,786; uniform ranks #9,627 and #4,278).
 Ctrl+C audit persistence, total 10,000 cap and Windows CLI flags.
 
 [Correction details, statistical meaning and CLI](docs/historical_guess_watch_v0221.md).
+
+## v0.22.2 — Unlimited Fast Historical Hit Stream (Ctrl+C Stop)
+
+The new `historical-hit-stream` is a genuinely unpaced **CPU computation
+loop**, not the v0.22.1 20-minute delayed playback. No total-guess/time limit:
+batches of independently and uniformly sampled legal 6/49 six-sets are
+searched at maximum available throughput until the user presses **Ctrl+C**.
+The default seed is **OS cryptographic randomness** (stored in the report
+for reproducibility), unlike the previous fixed seed of 649.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+$stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+
+& $py -m lotto7x7 historical-hit-stream `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --target all `
+    --strategy shape_score `
+    --batch-size 10000 `
+    --out "results/v0222_stream_$stamp.json"
+```
+
+On Ctrl+C the final output prints the exact completed-batch
+`hits/guesses`, `100*hits/guesses` percentage and average guesses per
+historic exact-six match. **All repeat matches count in the numerator and
+all attempts, including repeats, in the denominator.** A separate counter
+tracks *unique* historical six-number combinations discovered. Guess
+samples are IID **with replacement**, in contrast to prior finite
+10,000-distinct-ticket experiments. `shape_score` only reorders each
+random batch and does not change complete-batch total matches versus
+`uniform`; the latter skips shape classification and can run faster.
+
+The console displays only the first ten **new unique** historical hits and
+each 100th new unique match thereafter to avoid flooding at high throughput.
+Every unique hit is saved in `_hits.csv`, completed-batch counts in
+`_rounds.csv`, and aggregate ratios, reference source hashes and the
+OS-derived seed in an atomic periodically checkpointed `.json`. No
+time-based throttling or periodic console-progress spam is used.
+`--show-all-hits` prints every *new unique* historic hit.
+
+Research caveat: finding six numbers in a **known historical archive**
+is not evidence of predicting the next draw. `--target all` also has
+training-target leakage; `--target holdout` can compare earlier-training
+versus later-history, but the archive has already been explored.
+
+**Verification:** 18/18 dedicated v0.22.2 unit/CLI tests PASS, actual
+2,497-draw source smoke (30,000 guesses, 5 historic hits) PASS, real
+Ctrl+C signal interrupted an unlimited execution normally and preserved
+`84/590000=0.014237%` summary (the measurement is test-environment-specific).
+
+[Detailed design, statistics, exact numerator/denominator and limitations](docs/historical_hit_stream_v0222.md).
