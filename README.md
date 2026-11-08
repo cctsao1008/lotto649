@@ -1170,3 +1170,58 @@ Ctrl+C signal interrupted an unlimited execution normally and preserved
 `84/590000=0.014237%` summary (the measurement is test-environment-specific).
 
 [Detailed design, statistics, exact numerator/denominator and limitations](docs/historical_hit_stream_v0222.md).
+
+## v0.23 — Chronological Holdout Early-Hit Efficiency
+
+Compare `shape_score` against `uniform` across **1,000 independently
+spawned seeds** and **identical** 10,000-candidate pools per seed, focusing
+on early-match efficiency rather than total 6/6 historical retrieval.
+The first 1,997 of 2,497 historical draws train a frozen L3 q/p scorer;
+only the **last 500 draws** are retrieval targets and they are **not** used
+to fit shape ratios. Since this history was inspected previously, this
+remains an exploratory *retrospective* holdout, not a pristine prospective
+test. Includes paired-bootstrap 95% intervals and Holm-adjusted exploratory
+p-values across predeclared K=100,500,1000,5000, primary K=5000.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+$stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+& $py -m lotto7x7 early-hit-backtest `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --trials 1000 `
+    --pool-size 10000 `
+    --holdout-count 500 `
+    --cutoffs 100 500 1000 5000 `
+    --primary-cutoff 5000 `
+    --seed 210594425653336206127332942922757299723 `
+    --out "results/v023_early_$stamp.json"
+```
+
+`--seed` is optional: absent means a fresh 128-bit OS random root seed
+is used and recorded precisely in the JSON. The run **finishes on its own**
+after `--trials` candidate pools (not a Ctrl+C endless stream).
+By default console output is quiet except for final results.
+The report writes 3 non-overwriting files:
+`.json`, `_trials.csv`, `_cutoffs.csv`.
+
+**Reproducible full-data verification (root seed shown above):**
+
+| Early candidate cutoff | Uniform historical matches | Shape historical matches | Difference |
+|---:|---:|---:|---:|
+| 100 | 4 | 5 | +1 |
+| 500 | 17 | 26 | +9 |
+| 1,000 | 31 | 39 | +8 |
+| **5,000** | **196** | **178** | **−18** |
+
+At the primary K=5000 cutoff, the Holm-adjusted exploratory p-value
+is **0.5101**; there is **no supported advantage** for shape ranking.
+At K=10000, both strategies find exactly 356 historical targets across
+all 1000 pools (same-pool invariant). First full-pool hit is earlier for
+Shape in 144 nonempty pools versus Uniform in 155.
+**39 selected v0.22.2 + v0.23 tests PASS**. Outputs checked for
+independent CSV-to-JSON sum consistency.
+
+[Methodology, caveats, report schema and reproducibility](docs/early_hit_efficiency_v023.md).
