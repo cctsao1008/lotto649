@@ -1021,6 +1021,8 @@ validation](docs/unified_selection_v021.md).
 
 ## v0.22 — Timed Historical Exact-Hit Benchmark (20-minute local experiment)
 
+**Important: this original timed-per-trial CLI behavior was superseded by v0.22.1.** See the correction at the bottom of the README; the same command name now caps the ENTIRE run at 10,000 and never prints progress.
+
 This command **runs on the user's own Windows PC** and searches past known
 drawings, using **up to 10,000 unique candidate tickets per independent trial**
 for up to **20 minutes**. Each exact six-main-number match prints immediately
@@ -1070,3 +1072,47 @@ in-sample L3 shape ordering moved those ranks to 3,786 and 1. Three
 10000-ticket trials had five historical hit events total; a separate
 last-500-target check gave one hit in three trials.
 [Full methodology and limitations](docs/historical_guess_benchmark_v022.md).
+
+## v0.22.1 — Quiet Historical Hit Watch (Fix)
+
+Fixes excessive console spam and the wrong interpretation of the previous
+`--per-round 10000` option. The default command now checks exactly **at
+most 10,000 distinct six-number combinations TOTAL** during one run,
+**not 10,000 per repeated trial**. It stretches (paces) their logical reveal
+times across **20 minutes** and emits a console line **only when a previously
+drawn six-number set matches** (plus one final summary line).
+An explicit cumulative number appears in every hit: `[HIT #1] guess #3,786`.
+There is no `[PROGRESS]` spam, duplicate cross-round events or unbounded
+guessing. The old `--per-round` argument is still accepted but now means
+`--max-guesses`, and `--progress-every` is silently ignored.
+
+```powershell
+cd D:\my-github\lotto649
+$py = '.\.venv\Scripts\python.exe'
+git pull --ff-only origin main
+
+& $py -m lotto7x7 historical-hit-benchmark `
+    --catalog results/v015_v016_p1_shape_catalog.npz `
+    --universe results/v015_v016_p1_shape_catalog_universe.json `
+    --minutes 20 `
+    --max-guesses 10000 `
+    --target all `
+    --strategy shape_score `
+    --seed 649 `
+    --out results/v0221_historical_quiet_20min.json
+```
+
+**Important duration clarification:** v0.22.1 precomputes the 10,000
+candidates and rankings quickly, then deliberately throttles their reveal
+across 20 minutes. Waiting does **not** improve the model or create more
+guesses. Use `--minutes 1` for the same experimental sample at a faster
+pace. The same 10,000 candidates are evaluated in shape-score order by
+default; `--strategy uniform` changes the order, **not the number of
+historical six-number matches** after all 10,000 are checked.
+
+Real historical 2,497-draw integration with Seed 649 matched exactly two
+sets (shape rank #1 and #3,786; uniform ranks #9,627 and #4,278).
+**97 selected old+new tests PASS**, including simulated timers, silent-no-hit,
+Ctrl+C audit persistence, total 10,000 cap and Windows CLI flags.
+
+[Correction details, statistical meaning and CLI](docs/historical_guess_watch_v0221.md).
