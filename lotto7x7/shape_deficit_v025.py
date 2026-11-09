@@ -130,10 +130,19 @@ def select_shape_portfolio(records, baseline, *, pool_size=300,
         weights = {"component": 1.0, "partition": 1.0, "edge": 1.0}
     # Reuse the uniform ticket-pool construction, not the historically
     # conditioned number-deficit selector (avoids pre-filter bias).
-    from .unified_selection_v021 import uniform_candidates
-    if pool_size < 4 or pool_size > 5000:
-        raise ValueError("pool size must be 4..5000")
-    pool = [tuple(map(int, r)) for r in uniform_candidates(pool_size, seed)]
+    from random import Random
+    if pool_size < 4 or pool_size > 5000 or seed < 0:
+        raise ValueError("pool size must be 4..5000 and seed >=0")
+    if alpha < 0 or not isfinite(alpha):
+        raise ValueError("alpha must be finite and >=0")
+    rng = Random(seed)
+    pool = []
+    seen = set()
+    while len(pool) < pool_size:
+        ticket = tuple(sorted(rng.sample(range(1, 50), 6)))
+        if ticket not in seen:
+            seen.add(ticket)
+            pool.append(ticket)
     # Cache all six-number shape classifications; scoring uses 6 keys only.
     history_codes = _keys(_history_tickets(records))
     candidate_codes = _keys(pool)
