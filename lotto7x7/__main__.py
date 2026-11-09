@@ -43,6 +43,7 @@ from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run 
 from .deficit_compensation_v025 import main as run_v025_deficit
 from .shape_deficit_v025 import main as run_v025_shape
 from .multivariate_audit_v025 import main as run_v025_multi
+from .multivariate_robustness_v025 import main as run_v025_robust
 import torch
 import numpy as np
 
@@ -111,6 +112,19 @@ def main() -> None:
     mult25.add_argument("--pool-size", type=int, default=300)
     mult25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
     mult25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_audit.json"))
+    robust25 = action.add_parser("multivariate-robustness", help="v0.25 IID null and covariance parameter sensitivity")
+    robust25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    robust25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    robust25.add_argument("--cutoff", default=None)
+    robust25.add_argument("--iid-sizes", default="8192")
+    robust25.add_argument("--covariance-seeds", default="649")
+    robust25.add_argument("--ridges", default="0.25")
+    robust25.add_argument("--selector-seed", type=int, default=649)
+    robust25.add_argument("--pool-size", type=int, default=300)
+    robust25.add_argument("--null-replicates", type=int, default=99)
+    robust25.add_argument("--null-seed", type=int, default=1649)
+    robust25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
+    robust25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_robustness.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -534,6 +548,15 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "multivariate-robustness":
+        run_v025_robust(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                         "--iid-sizes", args.iid_sizes, "--covariance-seeds", args.covariance_seeds,
+                         "--ridges", args.ridges, "--selector-seed", str(args.selector_seed),
+                         "--pool-size", str(args.pool_size), "--null-replicates", str(args.null_replicates),
+                         "--null-seed", str(args.null_seed),
+                         "--coverage-constraint", args.coverage_constraint,
+                         "--out", str(args.out)] +
+                        (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
