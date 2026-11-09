@@ -46,6 +46,7 @@ from .multivariate_audit_v025 import main as run_v025_multi
 from .multivariate_robustness_v025 import main as run_v025_robust
 from .official_prize_v026 import main as run_v026_prizes
 from .coverage_strategy_v026 import main as run_v026_coverage
+from .coverage_global_research_v026 import main as run_v026_global_research
 import torch
 import numpy as np
 
@@ -139,6 +140,10 @@ def main() -> None:
                                      "sixth", "seventh", "regular"))
     coverage26.add_argument("--profiles", default=None)
     coverage26.add_argument("--out", type=Path, default=Path("results/v026_coverage_strategy_a.json"))
+    global26 = action.add_parser("coverage-global-research", help="v0.26 research: two-ticket exact overlap theorem and four-ticket non-exhaustive structure search")
+    global26.add_argument("--seed", type=int, default=649)
+    global26.add_argument("--samples", type=int, default=200)
+    global26.add_argument("--out", type=Path, default=Path("results/v026_coverage_global_research.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -562,6 +567,10 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "coverage-global-research":
+        run_v026_global_research(["--seed", str(args.seed),
+                                  "--samples", str(args.samples),
+                                  "--out", str(args.out)])
     elif args.command == "coverage-strategy":
         run_v026_coverage(["--seed", str(args.seed), "--objective", args.objective,
                            "--out", str(args.out)] +
