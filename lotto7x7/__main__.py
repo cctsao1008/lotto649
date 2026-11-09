@@ -40,6 +40,7 @@ from .historical_guess_cli_v022 import configure_parsers as configure_v022_parse
 from .historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
 from .early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
 from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
+from .deficit_compensation_v025 import main as run_v025_deficit
 import torch
 import numpy as np
 
@@ -83,6 +84,12 @@ def gallery(report: dict, count: int = 40) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="7x7 image-first lottery research")
     action = parser.add_subparsers(dest="command", required=True)
+    c25 = action.add_parser("compensation-audit", help="v0.25 number-deficit audit and four-ticket research selector")
+    c25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    c25.add_argument("--cutoff", default=None)
+    c25.add_argument("--pool-size", type=int, default=1000)
+    c25.add_argument("--seed", type=int, default=649)
+    c25.add_argument("--out", type=Path, default=Path("results/v025_deficit_foundation.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -489,6 +496,10 @@ def main() -> None:
         run_v023(args)
     elif args.command == "temporal-research":
         run_v024(args)
+    elif args.command == "compensation-audit":
+        run_v025_deficit(["--csv-dir", str(args.csv_dir), "--pool-size", str(args.pool_size),
+                          "--seed", str(args.seed), "--out", str(args.out)] +
+                         (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
