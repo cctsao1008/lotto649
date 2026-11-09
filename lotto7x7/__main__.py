@@ -98,6 +98,7 @@ def main() -> None:
     shape25.add_argument("--pool-size", type=int, default=300)
     shape25.add_argument("--seed", type=int, default=649)
     shape25.add_argument("--alpha", type=float, default=4.0)
+    shape25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="none")
     shape25.add_argument("--out", type=Path, default=Path("results/v025_shape_deficit.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
@@ -512,7 +513,8 @@ def main() -> None:
     elif args.command == "shape-deficit-audit":
         run_v025_shape(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
                         "--pool-size", str(args.pool_size), "--seed", str(args.seed),
-                        "--alpha", str(args.alpha), "--out", str(args.out)] +
+                        "--alpha", str(args.alpha), "--coverage-constraint", args.coverage_constraint,
+                        "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
