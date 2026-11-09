@@ -28,7 +28,7 @@ def fixture():
         ticket_rows += [tuple(map(int, x)) for x in iid_tickets(n, seed)]
     pool = Random(649)
     ticket_rows += [tuple(sorted(pool.sample(range(1, 50), 6)))
-                    for _ in range(12)]
+                    for _ in range(60)]
     keys = _keys(ticket_rows)
     counts = {}
     for level in LEVELS:
@@ -55,7 +55,7 @@ def test_grid_parsing_rejects_duplicate_and_invalid():
 def test_null_reoptimizes_and_reports_resolution():
     records, baseline = fixture()
     settings = dict(iid_sizes=(256,), covariance_seeds=(649,),
-                    ridges=(0.5,), selector_seed=649, pool_size=12,
+                    ridges=(0.5,), selector_seed=649, pool_size=60,
                     null_replicates=2, null_seed=1649)
     a = robustness_audit(records, baseline, **settings)
     b = robustness_audit(records, baseline, **settings)
@@ -81,7 +81,7 @@ def test_invalid_audit_arguments():
                   {"covariance_seeds": ()}, {"ridges": (0,)},
                   {"coverage_constraint": "bad"}):
         opts = dict(iid_sizes=(256,), covariance_seeds=(649,),
-                    ridges=(0.5,), pool_size=12, null_replicates=2)
+                    ridges=(0.5,), pool_size=60, null_replicates=2)
         opts.update(patch)
         with pytest.raises(ValueError):
             robustness_audit(records, baseline, **opts)
