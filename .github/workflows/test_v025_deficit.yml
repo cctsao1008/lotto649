@@ -6,9 +6,11 @@ on:
       - "lotto7x7/deficit_compensation_v025.py"
       - "lotto7x7/shape_deficit_v025.py"
       - "lotto7x7/multivariate_audit_v025.py"
+      - "lotto7x7/multivariate_robustness_v025.py"
       - "tests/test_deficit_compensation_v025.py"
       - "tests/test_shape_deficit_v025.py"
       - "tests/test_multivariate_audit_v025.py"
+      - "tests/test_multivariate_robustness_v025.py"
       - "lotto7x7/__main__.py"
       - ".github/workflows/test_v025_deficit.yml"
   workflow_dispatch:
@@ -24,10 +26,10 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --upgrade pytest numpy scipy
       - name: Run standalone covariance and CSV-integrity regression tests
-        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py
+        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py
       - name: Real annual CSV smoke audit (cutoff before Nov 10)
         run: |
           python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json
           python -c 'import json; r=json.load(open("/tmp/v025_real_smoke.json")); assert r["historical_draws"] == 2497; assert r["last_draw"] == 115000103; assert len(r["selected"]["tickets"]) == 4; print("[PASS] real CSV and four-ticket audit")'
       - name: Python compile check
-        run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py
+        run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py
