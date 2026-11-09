@@ -49,6 +49,7 @@ from .coverage_strategy_v026 import main as run_v026_coverage
 from .coverage_global_research_v026 import main as run_v026_global_research
 from .coverage_exhaustive_v026 import main as run_v026_exhaustive
 from .strategy_ab_v026 import main as run_v026_ab
+from .strategy_ab_iid_calibration_v026 import main as run_v026_ab_iid
 import torch
 import numpy as np
 
@@ -164,6 +165,23 @@ def main() -> None:
     ab26.add_argument("--stride", type=int, default=25)
     ab26.add_argument("--max-folds", type=int, default=8)
     ab26.add_argument("--out", type=Path, default=Path("results/v026_strategy_ab_walkforward.json"))
+    ab_null26 = action.add_parser("strategy-ab-iid-calibration", help="v0.26 P3 replay full A/B walkforward on independent IID 6+special histories")
+    ab_null26.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    ab_null26.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    ab_null26.add_argument("--cutoff", default="2026-11-06")
+    ab_null26.add_argument("--iid-samples", type=int, default=8192)
+    ab_null26.add_argument("--covariance-seed", type=int, default=649)
+    ab_null26.add_argument("--ridge", type=float, default=0.25)
+    ab_null26.add_argument("--pool-size", type=int, default=300)
+    ab_null26.add_argument("--selector-seed", type=int, default=649)
+    ab_null26.add_argument("--a-seed", type=int, default=649)
+    ab_null26.add_argument("--train-min", type=int, default=1800)
+    ab_null26.add_argument("--horizon", type=int, default=25)
+    ab_null26.add_argument("--stride", type=int, default=25)
+    ab_null26.add_argument("--max-folds", type=int, default=8)
+    ab_null26.add_argument("--null-replicates", type=int, default=99)
+    ab_null26.add_argument("--null-seed", type=int, default=2649)
+    ab_null26.add_argument("--out", type=Path, default=Path("results/v026_strategy_ab_iid_calibration.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -587,6 +605,23 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "strategy-ab-iid-calibration":
+        run_v026_ab_iid(["--csv-dir", str(args.csv_dir),
+                         "--universe", str(args.universe),
+                         "--cutoff", args.cutoff,
+                         "--iid-samples", str(args.iid_samples),
+                         "--covariance-seed", str(args.covariance_seed),
+                         "--ridge", str(args.ridge),
+                         "--pool-size", str(args.pool_size),
+                         "--selector-seed", str(args.selector_seed),
+                         "--a-seed", str(args.a_seed),
+                         "--train-min", str(args.train_min),
+                         "--horizon", str(args.horizon),
+                         "--stride", str(args.stride),
+                         "--max-folds", str(args.max_folds),
+                         "--null-replicates", str(args.null_replicates),
+                         "--null-seed", str(args.null_seed),
+                         "--out", str(args.out)])
     elif args.command == "strategy-ab-walkforward":
         run_v026_ab(["--csv-dir", str(args.csv_dir),
                       "--universe", str(args.universe),
