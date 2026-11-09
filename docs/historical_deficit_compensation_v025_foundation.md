@@ -64,3 +64,41 @@ This reference is evaluated, never modified. Historical data, v0.20 prospective 
 5. Add no-leak chronological backtest and new prospective seals without touching existing frozen evidence (#8/#9).
 
 **Interpretation guard:** an observed historical deficit is not a future probability adjustment, and no fair-draw jackpot advantage is implied.
+
+## Second increment: exact L1/L2/L3 shape-deficit research
+
+The **`shape-deficit-audit`** command consumes an already-generated, **complete** v0.16 exact universe JSON. It rejects partial universes and mismatched taxonomy rule/schema. It uses the original 8-neighbor L1 component / L2 partition / L3 cardinal+diagonal-edge classes, not a newly invented shape encoding.
+
+```powershell
+& $py -m lotto7x7 shape-deficit-audit `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 `
+  --pool-size 300 `
+  --seed 649 `
+  --alpha 4 `
+  --out results/v025_shape_deficit.json
+
+& $py -m pytest tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py -q
+```
+
+The named `--universe` artifact is produced by the existing v0.16/P1 exact enumeration workflow; it is **not** checked into Git by this work. Generate it using existing repository tooling if absent. Never substitute a partial or synthetic catalog as the scientific baseline.
+
+For level `l` and its classes `c`, let `p_lc = exact_universe_count_lc / 13,983,816`, `H_lc` be the historical occurrence count, and `T_lc` be the number of candidate tickets in that class. The descriptive, ridge-like regularized categorical objective is:
+
+```text
+D_l(T) = sum_c [ ((H_lc + T_lc)/(N+|T|) - p_lc)^2 / (p_lc + alpha/N) ]
+D_shape(T) = sum_l weight_l * D_l(T)
+```
+
+`alpha` is fixed from the historical count `N` for before/after comparability. The default family weights are `(L1,L2,L3)=(1,1,1)`, deliberately **exposed** and not claimed statistically independent. These nested features are highly redundant: this is a tunable descriptive *objective*, **not** a covariance-inverted omnibus significance test. A full joint model and calibrated p-values remain open in #8.
+
+Candidate generation draws legal six-number combinations uniformly from the ticket universe, rejecting duplicate tickets; a finite 300-ticket pool is optimized using greedy additions and three bounded local one-swaps. The search is a **local heuristic** and is only reproducible given source files, seed, weights and exact universe version, not globally optimal. It returns four distinct tickets and does not require number-level disjointness.
+
+Its JSON includes:
+- Verified historical cutoff, SHA-256 of original CSV files and exact universe JSON, total sample count.
+- Historical observed/expected/deficit for **every** L1/L2/L3 class, selected class counts, before/after class contributions.
+- Selected portfolio and the fixed A–D reference, with separately calculated exact **main-ball** 3+/4+/5+/6-hit coverage from the existing `coverage_v06.exact_coverage` DP.
+- Explicit notice that neither the compensation objective nor official prize-rank probabilities are established by main-ball coverage alone.
+
+**Still pending:** sum/gap/parity joint feature registry, cross-family covariance, multiple-test IID null calibration, comprehensive Pareto optimization, historical walk-forward and prospective validation. Existing A–D bets and sealed predictions are immutable.
