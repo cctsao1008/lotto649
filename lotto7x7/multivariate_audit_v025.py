@@ -204,11 +204,37 @@ def select_multivariate_portfolio(records, model, *, pool_size=300,
         return True
 
     chosen = []
+    greedy_failed = False
     for _ in range(4):
         options = [i for i in range(pool_size) if feasible(chosen + [i])]
         if not options:
-            raise ValueError("candidate pool cannot form four pairwise-disjoint tickets")
+            greedy_failed = True
+            break
         chosen.append(min(options, key=lambda i: (score(chosen + [i]), tickets[i])))
+
+    # A greedy prefix can block all future tickets even if another
+    # feasible four-ticket portfolio exists in the pool. Recover only
+    # on failure with a deterministic, bounded feasibility backtrack.
+    if greedy_failed:
+        nodes = [0]
+        ticket_sets = [set(row) for row in tickets]
+        def recover(prefix, used, start):
+            if len(prefix) == 4:
+                return prefix
+            options = [i for i in range(start, pool_size)
+                       if not (ticket_sets[i] & used)]
+            options.sort(key=lambda i: (score(prefix + [i]), tickets[i]))
+            for i in options:
+                nodes[0] += 1
+                if nodes[0] > 100000:
+                    raise ValueError("coverage-feasible search budget exceeded")
+                answer = recover(prefix + [i], used | ticket_sets[i], i + 1)
+                if answer is not None:
+                    return answer
+            return None
+        chosen = recover([], set(), 0)
+        if chosen is None:
+            raise ValueError("candidate pool cannot form four pairwise-disjoint tickets")
     for _ in range(3):
         changed = False
         for position in range(4):
@@ -237,7 +263,7 @@ def select_multivariate_portfolio(records, model, *, pool_size=300,
         "reference_3plus_count_floor": reference["at_least_counts"]["3"],
         "exact_main_ball_coverage": coverage,
         "pool_size": pool_size, "seed": seed,
-        "algorithm": "greedy and improving one-swap local search",
+        "algorithm": "greedy; bounded feasibility backtrack if needed; improving one-swap",
         "globally_optimal": False,
     }
 
