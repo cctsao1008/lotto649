@@ -156,8 +156,95 @@ def portfolio_audit(records, model, tickets):
             "tickets": [list(t) for t in tickets]}
 
 
+
+def select_multivariate_portfolio(records, model, *, pool_size=300,
+                                  seed=649, coverage_constraint="reference-3plus"):
+    """Bounded covariance-aware four-ticket joint search.
+
+    Disjointness is a sufficient but not necessary condition for the A-D
+    exact 3+ main-ball coverage floor.
+    """
+    if coverage_constraint not in ("none", "reference-3plus"):
+        raise ValueError("unknown coverage constraint")
+    if not isinstance(pool_size, int) or not 4 <= pool_size <= 5000:
+        raise ValueError("pool size must be in 4..5000")
+    if not isinstance(seed, int) or seed < 0:
+        raise ValueError("seed must be nonnegative")
+    from random import Random
+    rng = Random(seed)
+    tickets = []
+    seen = set()
+    while len(tickets) < pool_size:
+        row = tuple(sorted(rng.sample(range(1, 50), 6)))
+        if row not in seen:
+            seen.add(row)
+            tickets.append(row)
+    history = encode_features([r[2] for r in records], model["catalog"])
+    candidates = encode_features(tickets, model["catalog"])
+    n = len(history)
+    transform = (model["basis"] / np.sqrt(model["eigenvalues"])[None, :]) / model["sd"][:, None]
+    residual = (history.sum(axis=0) - n * model["theory"]) @ transform
+    increments = (candidates - model["theory"]) @ transform
+
+    def score(indices):
+        total = residual + increments[list(indices)].sum(axis=0) if indices else residual
+        return float(total @ total / (n + len(indices)) ** 2)
+
+    def feasible(indices):
+        if len(set(indices)) != len(indices):
+            return False
+        if coverage_constraint == "none":
+            return True
+        used = set()
+        for index in indices:
+            values = set(tickets[index])
+            if used & values:
+                return False
+            used.update(values)
+        return True
+
+    chosen = []
+    for _ in range(4):
+        options = [i for i in range(pool_size) if feasible(chosen + [i])]
+        if not options:
+            raise ValueError("candidate pool cannot form four pairwise-disjoint tickets")
+        chosen.append(min(options, key=lambda i: (score(chosen + [i]), tickets[i])))
+    for _ in range(3):
+        changed = False
+        for position in range(4):
+            options = [i for i in range(pool_size)
+                       if feasible(chosen[:position] + [i] + chosen[position + 1:])]
+            replacement = min(options, key=lambda i:
+                              (score(chosen[:position] + [i] + chosen[position + 1:]),
+                               tickets[i]))
+            trial = chosen[:position] + [replacement] + chosen[position + 1:]
+            if score(trial) < score(chosen) - 1e-15:
+                chosen = trial
+                changed = True
+        if not changed:
+            break
+    selected = tuple(sorted(tickets[i] for i in chosen))
+    coverage = exact_coverage(selected)
+    reference = exact_coverage(REFERENCE)
+    meets = (coverage["at_least_counts"]["3"] >= reference["at_least_counts"]["3"])
+    if coverage_constraint == "reference-3plus" and not meets:
+        raise AssertionError("exact 3+ reference floor violated")
+    return {
+        "tickets": [list(t) for t in selected],
+        "objective": score(chosen),
+        "coverage_constraint": coverage_constraint,
+        "meets_reference_3plus_floor": meets,
+        "reference_3plus_count_floor": reference["at_least_counts"]["3"],
+        "exact_main_ball_coverage": coverage,
+        "pool_size": pool_size, "seed": seed,
+        "algorithm": "greedy and improving one-swap local search",
+        "globally_optimal": False,
+    }
+
+
 def report(csv_dir: Path, universe: Path, *, cutoff=None,
-           samples=8192, seed=649, ridge=0.25):
+           samples=8192, seed=649, ridge=0.25,
+           pool_size=300, coverage_constraint="reference-3plus"):
     records, history_hash = load_csv_history(csv_dir, cutoff)
     baseline, universe_hash = load_exact_baseline(universe)
     model = fair_covariance(baseline, samples=samples, seed=seed, ridge=ridge)
@@ -166,6 +253,8 @@ def report(csv_dir: Path, universe: Path, *, cutoff=None,
     assert len(names) == len(theory)
     np.testing.assert_allclose(theory[:49].sum(), 6.0, atol=1e-12)
     audit = portfolio_audit(records, model, REFERENCE)
+    selected = select_multivariate_portfolio(records, model, pool_size=pool_size,
+                                             seed=seed, coverage_constraint=coverage_constraint)
     return {
         "schema": SCHEMA, "history_draws": len(records),
         "first_draw_id": records[0][1], "last_draw_id": records[-1][1],
@@ -175,6 +264,7 @@ def report(csv_dir: Path, universe: Path, *, cutoff=None,
         "theory_mean": theory.tolist(),
         "covariance": model["meta"],
         "reference": {**audit, "exact_main_ball_coverage": exact_coverage(REFERENCE)},
+        "selected": selected,
         "scope": "multivariate audit only; no hybrid optimizer or prospective validation",
         "caution": "Optimization of descriptive historical deficit does not predict next draw.",
     }
@@ -190,10 +280,13 @@ def main(argv=None):
     p.add_argument("--iid-samples", type=int, default=8192)
     p.add_argument("--seed", type=int, default=649)
     p.add_argument("--ridge", type=float, default=0.25)
+    p.add_argument("--pool-size", type=int, default=300)
+    p.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
     p.add_argument("--out", type=Path, default=Path("results/v025_multivariate_audit.json"))
     args = p.parse_args(argv)
     result = report(args.csv_dir, args.universe, cutoff=args.cutoff,
-                    samples=args.iid_samples, seed=args.seed, ridge=args.ridge)
+                    samples=args.iid_samples, seed=args.seed, ridge=args.ridge,
+                    pool_size=args.pool_size, coverage_constraint=args.coverage_constraint)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f"[MULTIVARIATE] {result['history_draws']} draws; "
