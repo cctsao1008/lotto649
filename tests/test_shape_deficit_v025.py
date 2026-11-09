@@ -15,6 +15,7 @@ import numpy as np
 import pytest
 
 from lotto7x7.deficit_compensation_v025 import REFERENCE
+from lotto7x7.coverage_v06 import exact_coverage
 from lotto7x7.shape_deficit_v025 import (
     _keys, level_summary, load_exact_baseline, select_shape_portfolio,
     shape_score,
@@ -112,3 +113,42 @@ def test_shape_selection_rejects_bad_inputs():
                    {"alpha": float("nan")}, {"alpha": -1}):
         with pytest.raises(ValueError):
             select_shape_portfolio(records, baseline, **kwargs)
+
+
+def test_reference_3plus_constraint_and_reproducibility():
+    records = history()
+    baseline = synthetic_baseline(records, seed=649, pool_size=60)
+    kwargs = {"pool_size": 60, "seed": 649,
+              "coverage_constraint": "reference-3plus"}
+    first = select_shape_portfolio(records, baseline, **kwargs)
+    second = select_shape_portfolio(records, baseline, **kwargs)
+    assert first == second
+    assert first["meets_reference_3plus_floor"] is True
+    assert first["coverage_constraint"] == "reference-3plus"
+    tickets = first["tickets"]
+    assert len({v for row in tickets for v in row}) == 24
+    calculated = exact_coverage(tickets)
+    reference = exact_coverage(REFERENCE)
+    assert calculated == first["exact_main_ball_coverage"]
+    assert calculated["at_least_counts"]["3"] >= reference["at_least_counts"]["3"]
+    assert calculated["at_least_counts"]["6"] == 4
+    assert first["reference_3plus_count_floor"] == reference["at_least_counts"]["3"]
+
+
+def test_invalid_coverage_constraint_and_impossible_pool():
+    records = history()
+    baseline = synthetic_baseline(records, seed=649, pool_size=40)
+    with pytest.raises(ValueError, match="unknown coverage constraint"):
+        select_shape_portfolio(records, baseline, pool_size=40,
+                               coverage_constraint="invented")
+    with pytest.raises(ValueError, match="candidate pool cannot form"):
+        select_shape_portfolio(records, baseline, pool_size=4, seed=649,
+                               coverage_constraint="reference-3plus")
+
+
+def test_reference_coverage_regression_anchor():
+    exact = exact_coverage(REFERENCE)
+    assert exact["at_least"]["3"] == pytest.approx(0.07437855303588091)
+    assert exact["at_least"]["4"] == pytest.approx(0.003948564540608944)
+    assert exact["at_least"]["5"] == pytest.approx(7.40856430033118e-05)
+    assert exact["at_least"]["6"] == pytest.approx(2.86044953680741e-07)
