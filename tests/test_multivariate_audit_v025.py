@@ -21,6 +21,8 @@ def _fixture():
     rng = Random(649)
     rows = [tuple(sorted(rng.sample(range(1, 50), 6))) for _ in range(120)]
     rows += list(REFERENCE)
+    # Include the exact IID tickets exercised in the covariance unit test.
+    rows += [tuple(map(int, row)) for row in iid_tickets(256, 649)]
     class_keys = _keys(rows)
     weights = {}
     for level in LEVELS:
