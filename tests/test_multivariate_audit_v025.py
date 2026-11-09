@@ -9,7 +9,7 @@ import pytest
 from lotto7x7.deficit_compensation_v025 import REFERENCE
 from lotto7x7.multivariate_audit_v025 import (
     DIM_NAMES, encode_features, fair_covariance, iid_tickets,
-    portfolio_audit, registry,
+    portfolio_audit, registry, select_multivariate_portfolio,
 )
 from lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
 from lotto7x7.shape_deficit_v025 import _keys
@@ -96,3 +96,28 @@ def test_bad_covariance_inputs():
                    {"ridge": float("nan")}, {"ridge": -0.1}):
         with pytest.raises(ValueError):
             fair_covariance(baseline, **({"samples": 256, **kwargs}))
+
+
+def test_multivariate_joint_coverage_constrained_optimizer():
+    baseline, records = _fixture()
+    model = fair_covariance(baseline, samples=256, seed=649, ridge=0.5)
+    kwargs = {"pool_size": 35, "seed": 649, "coverage_constraint": "reference-3plus"}
+    first = select_multivariate_portfolio(records, model, **kwargs)
+    second = select_multivariate_portfolio(records, model, **kwargs)
+    assert first == second
+    assert first["meets_reference_3plus_floor"]
+    assert len(first["tickets"]) == 4
+    assert len({number for row in first["tickets"] for number in row}) == 24
+    assert first["objective"] == pytest.approx(
+        portfolio_audit(records, model, first["tickets"])["after"])
+    assert first["exact_main_ball_coverage"]["at_least"]["3"] == pytest.approx(
+        0.07437855303588091)
+
+
+def test_multivariate_joint_invalid_inputs():
+    baseline, records = _fixture()
+    model = fair_covariance(baseline, samples=256, seed=649, ridge=0.5)
+    for kwargs in ({"pool_size": 2}, {"seed": -1},
+                   {"coverage_constraint": "unknown"}):
+        with pytest.raises(ValueError):
+            select_multivariate_portfolio(records, model, **({"pool_size": 4, **kwargs}))
