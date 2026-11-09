@@ -42,6 +42,7 @@ from .early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run
 from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
 from .deficit_compensation_v025 import main as run_v025_deficit
 from .shape_deficit_v025 import main as run_v025_shape
+from .multivariate_audit_v025 import main as run_v025_multi
 import torch
 import numpy as np
 
@@ -100,6 +101,14 @@ def main() -> None:
     shape25.add_argument("--alpha", type=float, default=4.0)
     shape25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="none")
     shape25.add_argument("--out", type=Path, default=Path("results/v025_shape_deficit.json"))
+    mult25 = action.add_parser("multivariate-audit", help="v0.25 exact means and regularized fair-IID cross-feature covariance")
+    mult25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    mult25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    mult25.add_argument("--cutoff", default=None)
+    mult25.add_argument("--iid-samples", type=int, default=8192)
+    mult25.add_argument("--seed", type=int, default=649)
+    mult25.add_argument("--ridge", type=float, default=0.25)
+    mult25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_audit.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -515,6 +524,11 @@ def main() -> None:
                         "--pool-size", str(args.pool_size), "--seed", str(args.seed),
                         "--alpha", str(args.alpha), "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
+                       (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "multivariate-audit":
+        run_v025_multi(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                        "--iid-samples", str(args.iid_samples), "--seed", str(args.seed),
+                        "--ridge", str(args.ridge), "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
