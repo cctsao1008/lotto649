@@ -190,3 +190,80 @@ $r.selected.exact_main_ball_coverage.at_least
 ```
 
 **Review limits:** covariance sampling uncertainty, ridge/pool/seed sensitivity, nested-feature weighting, likelihood calibration, optimizer Pareto frontier, no-leak walk-forward, post-seal prospective evaluation and bonus-ball prize engine remain open. The fixed A–D purchased portfolio and historical seals are untouched; new generated tickets are research-only.
+
+## Fifth increment: pipeline-matched IID null calibration and parameter robustness
+
+New command: `multivariate-robustness`. This addresses a crucial
+multiple-comparisons trap: a selector that optimizes a discrepancy against
+historical data will often show an *in-sample* improvement even when the
+historical data are entirely fair IID draws. The null benchmark must re-run
+the SAME four-ticket selection algorithm on independent fair pseudo-histories,
+rather than merely compare the selected tickets to random tickets.
+
+For each requested covariance IID sample count, covariance seed and Ridge,
+the audit:
+1. Computes a standalone fair-IID covariance model and documents its condition number;
+2. Recomputes the observed A–D reference score and an optimized four-ticket
+   portfolio against the immutable 2497-draw historical sample;
+3. Generates an independent fair-IID pseudo-history **of exactly the same
+   draw count**, re-runs the same seeded candidate pool and four-ticket
+   optimizer on that history, and measures the *reference-minus-optimized*
+   gain; repeats for every null replicate;
+4. Reports the observed gain, null gains/distribution, empirical upper-tail
+   `(1 + count(null_gain >= observed_gain)) / (B+1)`, p-value resolution and
+   separate 3+ exact coverage verification.
+
+**Example calibrated single setting:**
+
+```powershell
+git switch feature/v025-deficit-compensation-foundation
+git pull --ff-only
+
+python -m lotto7x7 multivariate-robustness `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 `
+  --iid-sizes 8192 `
+  --covariance-seeds 649 `
+  --ridges 0.25 `
+  --selector-seed 649 `
+  --pool-size 300 `
+  --null-replicates 99 `
+  --null-seed 1649 `
+  --coverage-constraint reference-3plus `
+  --out results/v025_multivariate_robustness.json
+```
+
+**Explicit robustness grid** (3 x 3 x 3 = 27 parameter settings; 99 null
+re-optimizations per setting, therefore far more compute than a single audit):
+
+```powershell
+python -m lotto7x7 multivariate-robustness `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 `
+  --iid-sizes 4096,8192,16384 `
+  --covariance-seeds 649,650,651 `
+  --ridges 0.1,0.25,0.5 `
+  --pool-size 300 --null-replicates 99 `
+  --out results/v025_multivariate_robustness_grid.json
+```
+
+The same pseudo-history draw seeds are re-used across the grid for a *paired*
+robustness comparison; independent covariance sampling seeds are separate.
+The JSON saves every scenario's seed/size/ridge/observed selected four tickets
+and its corresponding null gain array. This is a computational **retrospective
+research control**, not a causal or future-draw prediction benchmark.
+
+**No significance claim is authorized** by this exploratory p-value:
+features, hyperparameters and selection objective have already been examined
+on the real history, so the empirical p is not a pre-registered prospective
+test. Its minimum resolution is `1/(B+1)`. Small B also leaves a very
+imprecise tail estimate. A robust small in-sample gain can exist under fair
+IID. Future prediction evidence still requires frozen, chronological
+out-of-sample tests and post-seal draws.
+
+Regression checks: a synthetic fixture confirms independent null cohorts,
+reproducibility, rerunning the optimizer for each history, correct empirical p
+resolution, exact 3+ coverage floor, and invalid configuration handling.
+Original purchased tickets and pre-draw seals remain untouched.
