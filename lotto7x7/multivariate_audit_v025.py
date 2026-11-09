@@ -46,7 +46,7 @@ def registry(baseline):
 
 def encode_features(tickets, catalog):
     """Each row describes ONE legal ticket, never a future label."""
-    tickets = [validate_ticket(row) for row in tickets]
+    tickets = [validate_ticket(tuple(int(v) for v in row)) for row in tickets]
     if not tickets:
         raise ValueError("feature matrix requires at least one ticket")
     arr = np.asarray(tickets, dtype=np.int16)
