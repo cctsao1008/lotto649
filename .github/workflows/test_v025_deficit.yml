@@ -1,0 +1,25 @@
+name: v0.25 deficit-compensation foundation tests
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/deficit_compensation_v025.py"
+      - "tests/test_deficit_compensation_v025.py"
+      - "lotto7x7/__main__.py"
+      - ".github/workflows/test_v025_deficit.yml"
+  workflow_dispatch:
+
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pytest
+      - name: Run standalone covariance and CSV-integrity regression tests
+        run: python -m pytest -q tests/test_deficit_compensation_v025.py
+      - name: Python compile check
+        run: python -m py_compile lotto7x7/deficit_compensation_v025.py
