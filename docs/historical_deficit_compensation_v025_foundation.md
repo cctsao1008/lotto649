@@ -143,3 +143,50 @@ The constrained selector currently uses the **sufficient** condition that all fo
 The selected JSON includes `selected.coverage_constraint`, `selected.meets_reference_3plus_floor`, `selected.reference_3plus_count_floor` and exact coverage `at_least` and `at_least_counts`. Original A–D remains unchanged.
 
 Research checklist: #8/#9 remain OPEN pending complete covariance, multivariate selection, prospective validation, and more general coverage constraints.
+
+## Fourth increment: cross-feature multivariate covariance / four-ticket research
+
+The `multivariate-audit` command now defines a fixed feature registry for:
+- 49 individual number-membership indicators (exact means 6/49),
+- six-number sum (exact mean 150),
+- odd-number count (exact mean 150/49),
+- maximum minus minimum span (exact mean 250/7),
+- one-hot indicators for **every** L1, L2 and L3 shape category in the original exact v0.16 universe file.
+
+No arbitrary observed-history bin boundaries are fitted. Each categorical theoretical mean is its exact count divided by 13,983,816. All categorical levels are nested, sum indicators are linear functions of the 49 number indicators, and the vector has deterministic constraints: a direct covariance inverse would be singular.
+
+The current **full covariance** is estimated using `--iid-samples` independent uniform legal 6/49 tickets (default 8192, seeded), with empirical correlations standardized by per-feature standard deviation and regularization `ridge * I`. Crucially **these cross-feature covariance entries are MC estimates, not exact exhaustive theoretical moments**; tiny class variance receives its exact Bernoulli variance floor, while never-seen MC classes receive regularization. The JSON explicitly reports its seed, sample count, regularization, dimension, eigenvalue bounds and condition number. The 49-number subspace already has a separate exact covariance model from P0/P1.
+
+On this fixed IID-calibrated metric, the code searches a seeded finite candidate pool using greedy four-ticket construction and improving one-swap moves, minimizing the **joint** whitened historical discrepancy. The default `reference-3plus` mode enforces the pairwise-disjoint sufficient condition, then verifies the exact fair main-ball coverage using the DP. This is not a complete Pareto optimizer or evidence of a conditional winning advantage.
+
+```powershell
+git switch feature/v025-deficit-compensation-foundation
+git pull --ff-only
+
+python -m lotto7x7 multivariate-audit `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 `
+  --iid-samples 8192 `
+  --ridge 0.25 `
+  --pool-size 300 `
+  --seed 649 `
+  --coverage-constraint reference-3plus `
+  --out results/v025_multivariate_audit.json
+
+python -m pytest -q tests/test_multivariate_audit_v025.py
+```
+
+Inspect:
+
+```powershell
+$r = Get-Content results/v025_multivariate_audit.json -Raw | ConvertFrom-Json
+$r.covariance
+$r.reference.after
+$r.selected.objective
+$r.selected.tickets
+$r.selected.meets_reference_3plus_floor
+$r.selected.exact_main_ball_coverage.at_least
+```
+
+**Review limits:** covariance sampling uncertainty, ridge/pool/seed sensitivity, nested-feature weighting, likelihood calibration, optimizer Pareto frontier, no-leak walk-forward, post-seal prospective evaluation and bonus-ball prize engine remain open. The fixed A–D purchased portfolio and historical seals are untouched; new generated tickets are research-only.
