@@ -108,6 +108,8 @@ def main() -> None:
     mult25.add_argument("--iid-samples", type=int, default=8192)
     mult25.add_argument("--seed", type=int, default=649)
     mult25.add_argument("--ridge", type=float, default=0.25)
+    mult25.add_argument("--pool-size", type=int, default=300)
+    mult25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
     mult25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_audit.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
@@ -528,7 +530,9 @@ def main() -> None:
     elif args.command == "multivariate-audit":
         run_v025_multi(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
                         "--iid-samples", str(args.iid_samples), "--seed", str(args.seed),
-                        "--ridge", str(args.ridge), "--out", str(args.out)] +
+                        "--ridge", str(args.ridge), "--pool-size", str(args.pool_size),
+                        "--coverage-constraint", args.coverage_constraint,
+                        "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
