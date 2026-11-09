@@ -33,5 +33,9 @@ jobs:
         run: |
           python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json
           python -c 'import json; r=json.load(open("/tmp/v025_real_smoke.json")); assert r["historical_draws"] == 2497; assert r["last_draw"] == 115000103; assert len(r["selected"]["tickets"]) == 4; print("[PASS] real CSV and four-ticket audit")'
+      - name: Real immutable A-D official eight-tier prize audit
+        run: |
+          python -m lotto7x7.official_prize_v026 --tickets 4,9,17,24,29,42 10,13,14,27,28,34 6,12,19,20,44,48 3,7,18,33,40,47 --out /tmp/v026_real_reference.json
+          python -c 'import json, math; r=json.load(open("/tmp/v026_real_reference.json")); assert r["ticket_count"] == 4; assert r["total_outcomes"] == math.comb(49,6)*43; assert r["any_ticket_by_tier"]["first"]["outcomes"] == 4*43; assert sum(r["awarded_ticket_count_outcomes"]) == r["total_outcomes"]; print("[PASS] exact eight-tier reference portfolio")'
       - name: Python compile check
         run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py lotto7x7/official_prize_v026.py
