@@ -14,7 +14,6 @@ from typing import Iterable
 import numpy as np
 from scipy.stats import spearmanr
 
-from .image_classification_v011 import canonical, orbit_size
 
 UNIVERSE=comb(49,6)
 BANDWIDTHS=(0.35,0.55,0.8,1.1)
@@ -87,6 +86,7 @@ def shape_key(numbers: Iterable[int])->str:
     if a.shape!=(6,) or len(set(a.tolist()))!=6 or a.min()<1 or a.max()>49:
         raise ValueError('need six distinct 1..49 numbers')
     points=np.stack(((a-1)//7,(a-1)%7),axis=1)
+    from .image_classification_v011 import canonical
     return canonical(points)
 
 
@@ -96,6 +96,7 @@ def exact_shape_families(numbers:np.ndarray,draw_ids:np.ndarray)->tuple[list[dic
     All unobserved families are exactly accounted for in one explicit remainder
     class; the finite fair universe size is not estimated from Monte Carlo.
     """
+    from .image_classification_v011 import orbit_size
     a=np.asarray(numbers)
     ids=np.asarray(draw_ids)
     if ids.shape!=(len(a),) or len(set(map(int,ids)))!=len(ids):raise ValueError('draw IDs')
