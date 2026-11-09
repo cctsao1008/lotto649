@@ -41,7 +41,7 @@ jobs:
           python -c 'import json, math; r=json.load(open("/tmp/v026_real_reference.json")); assert r["ticket_count"] == 4; assert r["total_outcomes"] == math.comb(49,6)*43; assert r["any_ticket_by_tier"]["first"]["outcomes"] == 4*43; assert sum(r["awarded_ticket_count_outcomes"]) == r["total_outcomes"]; print("[PASS] exact eight-tier reference portfolio")'
       - name: Exact structural Coverage Strategy A smoke
         run: |
-          python -m lotto7x7.coverage_strategy_v026 --profiles disjoint,star_2,two_pairs_2 --seed 649 --out /tmp/v026_coverage_strategy_smoke.json
-          python -c 'import json; r=json.load(open("/tmp/v026_coverage_strategy_smoke.json")); assert len(r["evaluated"])==3; assert not r["globally_optimal"]; assert r["reference"]["any_prize_probability"] > 0.12; print("[PASS] representative exact official prize profiles")'
+          python -m lotto7x7.coverage_strategy_v026 --seed 649 --out /tmp/v026_coverage_strategy_smoke.json
+          python -c 'import json; r=json.load(open("/tmp/v026_coverage_strategy_smoke.json")); assert len(r["evaluated"])==15; assert not r["globally_optimal"]; assert r["reference"]["any_prize_probability"] > 0.12; print("[PASS] representative exact official prize profiles")'
       - name: Python compile check
         run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py lotto7x7/official_prize_v026.py lotto7x7/coverage_strategy_v026.py
