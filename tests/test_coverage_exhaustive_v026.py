@@ -23,7 +23,7 @@ def test_canonicalization_matches_prior_independent_implementation():
     for idx, sig in enumerate(feasible_signatures()):
         if idx % 117 != 0:
             continue
-        assert canonical_signature(sig) == previous_canonical(sig)
+        assert canonical_signature(sig) == previous_canonical(materialize_tickets(sig))
 
 
 def test_disjoint_reference_all_permutations_identical():
