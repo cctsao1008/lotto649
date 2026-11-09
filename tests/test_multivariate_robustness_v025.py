@@ -15,7 +15,7 @@ from lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
 
 
 def fixture():
-    n = 48
+    n = 256
     rng = Random(77)
     records = [(None, i + 1, tuple(sorted(rng.sample(range(1, 50), 6))))
                for i in range(n)]
@@ -60,7 +60,7 @@ def test_null_reoptimizes_and_reports_resolution():
     a = robustness_audit(records, baseline, **settings)
     b = robustness_audit(records, baseline, **settings)
     assert a == b
-    assert a["history_draws"] == 48
+    assert a["history_draws"] == 256
     assert len(a["scenarios"]) == 1
     scenario = a["scenarios"][0]
     observed = scenario["observed"]
