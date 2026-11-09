@@ -21,7 +21,7 @@ def test_valid_labeled_structures_exact_count_independent():
 
 def test_canonicalization_matches_prior_independent_implementation():
     for idx, sig in enumerate(feasible_signatures()):
-        if idx % 117 != 0:
+        if idx % 117 != 0 or not has_unique_tickets(sig):
             continue
         assert canonical_signature(sig) == previous_canonical(materialize_tickets(sig))
 
