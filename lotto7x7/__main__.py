@@ -41,6 +41,7 @@ from .historical_guess_stream_cli_v0222 import configure_parsers as configure_v0
 from .early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
 from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
 from .deficit_compensation_v025 import main as run_v025_deficit
+from .shape_deficit_v025 import main as run_v025_shape
 import torch
 import numpy as np
 
@@ -90,6 +91,14 @@ def main() -> None:
     c25.add_argument("--pool-size", type=int, default=1000)
     c25.add_argument("--seed", type=int, default=649)
     c25.add_argument("--out", type=Path, default=Path("results/v025_deficit_foundation.json"))
+    shape25 = action.add_parser("shape-deficit-audit", help="v0.25 exact L1/L2/L3 shape deficit and four-ticket coverage audit")
+    shape25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    shape25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    shape25.add_argument("--cutoff", default=None)
+    shape25.add_argument("--pool-size", type=int, default=300)
+    shape25.add_argument("--seed", type=int, default=649)
+    shape25.add_argument("--alpha", type=float, default=4.0)
+    shape25.add_argument("--out", type=Path, default=Path("results/v025_shape_deficit.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -500,6 +509,11 @@ def main() -> None:
         run_v025_deficit(["--csv-dir", str(args.csv_dir), "--pool-size", str(args.pool_size),
                           "--seed", str(args.seed), "--out", str(args.out)] +
                          (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "shape-deficit-audit":
+        run_v025_shape(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                        "--pool-size", str(args.pool_size), "--seed", str(args.seed),
+                        "--alpha", str(args.alpha), "--out", str(args.out)] +
+                       (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(
