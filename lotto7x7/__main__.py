@@ -48,6 +48,7 @@ from .official_prize_v026 import main as run_v026_prizes
 from .coverage_strategy_v026 import main as run_v026_coverage
 from .coverage_global_research_v026 import main as run_v026_global_research
 from .coverage_exhaustive_v026 import main as run_v026_exhaustive
+from .strategy_ab_v026 import main as run_v026_ab
 import torch
 import numpy as np
 
@@ -148,6 +149,21 @@ def main() -> None:
     exhaustive26 = action.add_parser("coverage-exhaustive", help="v0.26 full four-ticket 15-mask exact global structural certificate")
     exhaustive26.add_argument("--max-classes", type=int, default=None)
     exhaustive26.add_argument("--out", type=Path, default=Path("results/v026_coverage_exhaustive.json"))
+    ab26 = action.add_parser("strategy-ab-walkforward", help="v0.26 P2 same coverage, history-blind A versus HDDC B, strictly forward official prize outcomes")
+    ab26.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    ab26.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    ab26.add_argument("--cutoff", default="2026-11-06")
+    ab26.add_argument("--iid-samples", type=int, default=8192)
+    ab26.add_argument("--covariance-seed", type=int, default=649)
+    ab26.add_argument("--ridge", type=float, default=0.25)
+    ab26.add_argument("--pool-size", type=int, default=300)
+    ab26.add_argument("--selector-seed", type=int, default=649)
+    ab26.add_argument("--a-seed", type=int, default=649)
+    ab26.add_argument("--train-min", type=int, default=1800)
+    ab26.add_argument("--horizon", type=int, default=25)
+    ab26.add_argument("--stride", type=int, default=25)
+    ab26.add_argument("--max-folds", type=int, default=8)
+    ab26.add_argument("--out", type=Path, default=Path("results/v026_strategy_ab_walkforward.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -571,6 +587,21 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "strategy-ab-walkforward":
+        run_v026_ab(["--csv-dir", str(args.csv_dir),
+                      "--universe", str(args.universe),
+                      "--cutoff", args.cutoff,
+                      "--iid-samples", str(args.iid_samples),
+                      "--covariance-seed", str(args.covariance_seed),
+                      "--ridge", str(args.ridge),
+                      "--pool-size", str(args.pool_size),
+                      "--selector-seed", str(args.selector_seed),
+                      "--a-seed", str(args.a_seed),
+                      "--train-min", str(args.train_min),
+                      "--horizon", str(args.horizon),
+                      "--stride", str(args.stride),
+                      "--max-folds", str(args.max_folds),
+                      "--out", str(args.out)])
     elif args.command == "coverage-exhaustive":
         run_v026_exhaustive(["--out", str(args.out)] +
                            (["--max-classes", str(args.max_classes)]
