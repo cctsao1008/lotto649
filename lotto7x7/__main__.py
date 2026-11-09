@@ -47,6 +47,7 @@ from .multivariate_robustness_v025 import main as run_v025_robust
 from .official_prize_v026 import main as run_v026_prizes
 from .coverage_strategy_v026 import main as run_v026_coverage
 from .coverage_global_research_v026 import main as run_v026_global_research
+from .coverage_exhaustive_v026 import main as run_v026_exhaustive
 import torch
 import numpy as np
 
@@ -144,6 +145,9 @@ def main() -> None:
     global26.add_argument("--seed", type=int, default=649)
     global26.add_argument("--samples", type=int, default=200)
     global26.add_argument("--out", type=Path, default=Path("results/v026_coverage_global_research.json"))
+    exhaustive26 = action.add_parser("coverage-exhaustive", help="v0.26 full four-ticket 15-mask exact global structural certificate")
+    exhaustive26.add_argument("--max-classes", type=int, default=None)
+    exhaustive26.add_argument("--out", type=Path, default=Path("results/v026_coverage_exhaustive.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -567,6 +571,10 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "coverage-exhaustive":
+        run_v026_exhaustive(["--out", str(args.out)] +
+                           (["--max-classes", str(args.max_classes)]
+                            if args.max_classes is not None else []))
     elif args.command == "coverage-global-research":
         run_v026_global_research(["--seed", str(args.seed),
                                   "--samples", str(args.samples),
