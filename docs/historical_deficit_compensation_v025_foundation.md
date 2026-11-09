@@ -102,3 +102,44 @@ Its JSON includes:
 - Explicit notice that neither the compensation objective nor official prize-rank probabilities are established by main-ball coverage alone.
 
 **Still pending:** sum/gap/parity joint feature registry, cross-family covariance, multiple-test IID null calibration, comprehensive Pareto optimization, historical walk-forward and prospective validation. Existing A–D bets and sealed predictions are immutable.
+
+## Third increment: 3+ reference-coverage constrained mode
+
+User's measured original A–D exact fair main-ball 3+ coverage:
+
+```text
+A–D reference >=3: 0.07437855303588091
+Shape-only candidate >=3: 0.07358477828941686
+Shape-only baseline score: 0.02215376
+Reference shape score: 0.02170049
+Unconstrained shape candidate score: 0.02116221
+```
+
+These fixed values are historical observations from an existing 2497-draw cutoff and are recorded as **regression/reference facts**, not predictions or an optimized future result.
+
+Run **two separate** modes, keeping the default no-constraint mode for backward compatibility:
+
+```powershell
+# Original unconstrained Shape selection; default remains unchanged
+python -m lotto7x7 shape-deficit-audit `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 --pool-size 300 --seed 649 `
+  --out results/v025_shape_deficit.json
+
+# 3+ main-ball portfolio event must be at least the existing A–D reference
+python -m lotto7x7 shape-deficit-audit `
+  --csv-dir data/csv `
+  --universe results/v015_v016_p1_shape_catalog_universe.json `
+  --cutoff 2026-11-06 --pool-size 300 --seed 649 `
+  --coverage-constraint reference-3plus `
+  --out results/v025_shape_deficit_coverage_constrained.json
+```
+
+The constrained selector currently uses the **sufficient** condition that all four six-number tickets are pairwise disjoint. All four such tickets have the same 3+ main-ball coverage as the A–D reference by label-exchange symmetry. The implementation verifies the actual result using the exact combinatorial DP, and raises if the floor is violated.
+
+**Limitations:** This is **not** a complete constrained optimizer over overlapping tickets, nor a proof of globally optimal coverage/compensation. It may exclude feasible overlapping portfolios, and does not yet implement a full Pareto frontier. A 3+ floor does not constrain every other prize objective; those are reported independently. Four disjoint tickets have 24 distinct numbers. The baseline score is a descriptive historical metric, not predictive skill.
+
+The selected JSON includes `selected.coverage_constraint`, `selected.meets_reference_3plus_floor`, `selected.reference_3plus_count_floor` and exact coverage `at_least` and `at_least_counts`. Original A–D remains unchanged.
+
+Research checklist: #8/#9 remain OPEN pending complete covariance, multivariate selection, prospective validation, and more general coverage constraints.
