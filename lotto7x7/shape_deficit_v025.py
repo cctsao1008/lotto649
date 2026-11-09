@@ -124,8 +124,16 @@ def shape_score(levels, weights):
 
 
 def select_shape_portfolio(records, baseline, *, pool_size=300,
-                           seed=649, weights=None, alpha=4.0):
-    """Finite-pool greedy + improving swaps on joint four-ticket shape score."""
+                           seed=649, weights=None, alpha=4.0,
+                           coverage_constraint="none"):
+    """Finite-pool greedy+swaps with optional exact reference-3plus guarantee.
+
+    In reference-3plus mode we restrict selection to pairwise disjoint bets.
+    For four disjoint six-sets, symmetry makes 3+ main-ball coverage exactly
+    equal to the all-disjoint A-D reference. This sufficient constraint is
+    deliberately conservative: it does not claim to explore all feasible
+    overlapping portfolios. Exact coverage is checked before return.
+    """
     if weights is None:
         weights = {"component": 1.0, "partition": 1.0, "edge": 1.0}
     # Reuse the uniform ticket-pool construction, not the historically
@@ -135,6 +143,13 @@ def select_shape_portfolio(records, baseline, *, pool_size=300,
         raise ValueError("pool size must be 4..5000 and seed >=0")
     if alpha < 0 or not isfinite(alpha):
         raise ValueError("alpha must be finite and >=0")
+    if coverage_constraint not in ("none", "reference-3plus"):
+        raise ValueError("unknown coverage constraint")
+    # Fail before selection if invalid weights would otherwise be silently ignored.
+    if (not weights or set(weights) - set(LEVELS)
+            or any(not isfinite(float(w)) or w < 0 for w in weights.values())
+            or sum(weights.values()) <= 0):
+        raise ValueError("invalid shape level weights")
     rng = Random(seed)
     pool = []
     seen = set()
@@ -172,18 +187,36 @@ def select_shape_portfolio(records, baseline, *, pool_size=300,
                 score += w * diff * diff / (p + alpha / n)
         return score
 
+    def feasible(indices):
+        if len(set(indices)) != len(indices):
+            return False
+        if coverage_constraint == "none":
+            return True
+        used = set()
+        for index in indices:
+            chosen_numbers = set(pool[index])
+            if used.intersection(chosen_numbers):
+                return False
+            used.update(chosen_numbers)
+        return True
+
     selected = []
     for _ in range(4):
-        option = min((i for i in range(len(pool)) if i not in selected),
-                     key=lambda i: (objective(selected + [i]), pool[i]))
+        options = [i for i in range(len(pool)) if feasible(selected + [i])]
+        if not options:
+            raise ValueError("candidate pool cannot form four pairwise-disjoint tickets; increase --pool-size")
+        option = min(options, key=lambda i: (objective(selected + [i]), pool[i]))
         selected.append(option)
     for _ in range(3):
         changed = False
         for position in range(4):
             old = objective(selected)
+            replacements = [
+                i for i in range(len(pool))
+                if feasible(selected[:position] + [i] + selected[position + 1:])
+            ]
             replacement = min(
-                (i for i in range(len(pool))
-                 if i not in selected or i == selected[position]),
+                replacements,
                 key=lambda i: (
                     objective(selected[:position] + [i] + selected[position + 1:]),
                     pool[i],
@@ -197,8 +230,18 @@ def select_shape_portfolio(records, baseline, *, pool_size=300,
             break
     tickets = tuple(sorted(pool[i] for i in selected))
     levels = level_summary(records, tickets, baseline, alpha=alpha)
+    coverage = exact_coverage(tickets)
+    reference_coverage = exact_coverage(REFERENCE)
+    if (coverage_constraint == "reference-3plus" and
+            coverage["at_least_counts"]["3"] < reference_coverage["at_least_counts"]["3"]):
+        raise AssertionError("exact 3+ reference coverage constraint violated")
     return {
         "tickets": [list(t) for t in tickets],
+        "coverage_constraint": coverage_constraint,
+        "exact_main_ball_coverage": coverage,
+        "reference_3plus_count_floor": reference_coverage["at_least_counts"]["3"],
+        "meets_reference_3plus_floor": (coverage["at_least_counts"]["3"] >=
+                                         reference_coverage["at_least_counts"]["3"]),
         "objective": shape_score(levels, weights),
         "weights": weights, "alpha": alpha, "seed": seed,
         "pool_size": pool_size, "method": "finite-pool greedy plus local swaps",
@@ -207,11 +250,13 @@ def select_shape_portfolio(records, baseline, *, pool_size=300,
 
 
 def report(csv_dir: Path, universe: Path, *, cutoff=None,
-           pool_size=300, seed=649, alpha=4.0):
+           pool_size=300, seed=649, alpha=4.0,
+           coverage_constraint="none"):
     records, history_hash = load_csv_history(csv_dir, cutoff)
     baseline, universe_hash = load_exact_baseline(universe)
     selected = select_shape_portfolio(
-        records, baseline, pool_size=pool_size, seed=seed, alpha=alpha)
+        records, baseline, pool_size=pool_size, seed=seed, alpha=alpha,
+        coverage_constraint=coverage_constraint)
     reference_summary = level_summary(records, REFERENCE, baseline, alpha=alpha)
     selected_tickets = selected["tickets"]
     selected_summary = level_summary(records, selected_tickets, baseline, alpha=alpha)
@@ -229,7 +274,7 @@ def report(csv_dir: Path, universe: Path, *, cutoff=None,
         "selected": {
             **selected,
             "levels": selected_summary,
-            "exact_main_ball_coverage": exact_coverage(selected_tickets),
+            "exact_main_ball_coverage": selected["exact_main_ball_coverage"],
         },
         "reference": {
             "tickets": [list(t) for t in REFERENCE],
@@ -252,10 +297,13 @@ def main(argv=None):
     parser.add_argument("--pool-size", type=int, default=300)
     parser.add_argument("--seed", type=int, default=649)
     parser.add_argument("--alpha", type=float, default=4.0)
+    parser.add_argument("--coverage-constraint", choices=("none", "reference-3plus"),
+                        default="none")
     parser.add_argument("--out", type=Path, default=Path("results/v025_shape_deficit.json"))
     args = parser.parse_args(argv)
     result = report(args.csv_dir, args.universe, cutoff=args.cutoff,
-                    pool_size=args.pool_size, seed=args.seed, alpha=args.alpha)
+                    pool_size=args.pool_size, seed=args.seed, alpha=args.alpha,
+                    coverage_constraint=args.coverage_constraint)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f"[v0.25 P2] {result['historical_draws']} verified historical draws")
