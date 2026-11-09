@@ -44,6 +44,7 @@ from .deficit_compensation_v025 import main as run_v025_deficit
 from .shape_deficit_v025 import main as run_v025_shape
 from .multivariate_audit_v025 import main as run_v025_multi
 from .multivariate_robustness_v025 import main as run_v025_robust
+from .official_prize_v026 import main as run_v026_prizes
 import torch
 import numpy as np
 
@@ -125,6 +126,10 @@ def main() -> None:
     robust25.add_argument("--null-seed", type=int, default=1649)
     robust25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
     robust25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_robustness.json"))
+    prizes26 = action.add_parser("official-prize-audit", help="v0.26 exact official eight-tier prize coverage")
+    prizes26.add_argument("--tickets", nargs="+", required=True,
+                          help="each ticket as comma-separated six integers")
+    prizes26.add_argument("--out", type=Path, default=Path("results/v026_official_prize.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -548,6 +553,8 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "official-prize-audit":
+        run_v026_prizes(["--tickets", *args.tickets, "--out", str(args.out)])
     elif args.command == "multivariate-robustness":
         run_v025_robust(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
                          "--iid-sizes", args.iid_sizes, "--covariance-seeds", args.covariance_seeds,
