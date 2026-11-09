@@ -8,11 +8,13 @@ on:
       - "lotto7x7/multivariate_audit_v025.py"
       - "lotto7x7/multivariate_robustness_v025.py"
       - "lotto7x7/official_prize_v026.py"
+      - "lotto7x7/coverage_strategy_v026.py"
       - "tests/test_deficit_compensation_v025.py"
       - "tests/test_shape_deficit_v025.py"
       - "tests/test_multivariate_audit_v025.py"
       - "tests/test_multivariate_robustness_v025.py"
       - "tests/test_official_prize_v026.py"
+      - "tests/test_coverage_strategy_v026.py"
       - "lotto7x7/__main__.py"
       - ".github/workflows/test_v025_deficit.yml"
   workflow_dispatch:
@@ -28,7 +30,7 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --upgrade pytest numpy scipy
       - name: Run standalone covariance and CSV-integrity regression tests
-        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py tests/test_official_prize_v026.py
+        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py tests/test_official_prize_v026.py tests/test_coverage_strategy_v026.py
       - name: Real annual CSV smoke audit (cutoff before Nov 10)
         run: |
           python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json
@@ -37,5 +39,9 @@ jobs:
         run: |
           python -m lotto7x7.official_prize_v026 --tickets 4,9,17,24,29,42 10,13,14,27,28,34 6,12,19,20,44,48 3,7,18,33,40,47 --out /tmp/v026_real_reference.json
           python -c 'import json, math; r=json.load(open("/tmp/v026_real_reference.json")); assert r["ticket_count"] == 4; assert r["total_outcomes"] == math.comb(49,6)*43; assert r["any_ticket_by_tier"]["first"]["outcomes"] == 4*43; assert sum(r["awarded_ticket_count_outcomes"]) == r["total_outcomes"]; print("[PASS] exact eight-tier reference portfolio")'
+      - name: Exact structural Coverage Strategy A smoke
+        run: |
+          python -m lotto7x7.coverage_strategy_v026 --profiles disjoint,star_2,two_pairs_2 --seed 649 --out /tmp/v026_coverage_strategy_smoke.json
+          python -c 'import json; r=json.load(open("/tmp/v026_coverage_strategy_smoke.json")); assert len(r["evaluated"])==3; assert not r["globally_optimal"]; assert r["reference"]["any_prize_probability"] > 0.12; print("[PASS] representative exact official prize profiles")'
       - name: Python compile check
-        run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py lotto7x7/official_prize_v026.py
+        run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py lotto7x7/official_prize_v026.py lotto7x7/coverage_strategy_v026.py
