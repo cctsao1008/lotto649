@@ -45,6 +45,7 @@ from .shape_deficit_v025 import main as run_v025_shape
 from .multivariate_audit_v025 import main as run_v025_multi
 from .multivariate_robustness_v025 import main as run_v025_robust
 from .official_prize_v026 import main as run_v026_prizes
+from .coverage_strategy_v026 import main as run_v026_coverage
 import torch
 import numpy as np
 
@@ -130,6 +131,14 @@ def main() -> None:
     prizes26.add_argument("--tickets", nargs="+", required=True,
                           help="each ticket as comma-separated six integers")
     prizes26.add_argument("--out", type=Path, default=Path("results/v026_official_prize.json"))
+    coverage26 = action.add_parser("coverage-strategy", help="v0.26 finite exact official prize coverage structural search")
+    coverage26.add_argument("--seed", type=int, default=649)
+    coverage26.add_argument("--objective", default="any-prize",
+                            choices=("any-prize", "two-or-more-awards",
+                                     "first", "second", "third", "fourth", "fifth",
+                                     "sixth", "seventh", "regular"))
+    coverage26.add_argument("--profiles", default=None)
+    coverage26.add_argument("--out", type=Path, default=Path("results/v026_coverage_strategy_a.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -553,6 +562,10 @@ def main() -> None:
                         "--coverage-constraint", args.coverage_constraint,
                         "--out", str(args.out)] +
                        (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "coverage-strategy":
+        run_v026_coverage(["--seed", str(args.seed), "--objective", args.objective,
+                           "--out", str(args.out)] +
+                          (["--profiles", args.profiles] if args.profiles else []))
     elif args.command == "official-prize-audit":
         run_v026_prizes(["--tickets", *args.tickets, "--out", str(args.out)])
     elif args.command == "multivariate-robustness":
