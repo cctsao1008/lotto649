@@ -40,3 +40,11 @@ jobs:
           assert Path('/tmp/v027_baseline.md').is_file()
           print('[PASS] verified 2,497-draw historical P0 baseline')
           PY
+      - name: Archive reproducible P0 baseline reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-p0-baseline-2026-11-06
+          path: |
+            /tmp/v027_baseline.json
+            /tmp/v027_baseline.md
+          if-no-files-found: error
