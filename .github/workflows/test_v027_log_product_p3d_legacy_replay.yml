@@ -1,0 +1,98 @@
+name: v0.27 Issue 15 P3d unchanged legacy P2 historical replay
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/log_product_p3d_legacy_replay_v027.py"
+      - "tests/test_log_product_p3d_legacy_replay_v027.py"
+      - ".github/workflows/test_v027_log_product_p3d_legacy_replay.yml"
+  workflow_dispatch:
+
+jobs:
+  strict-prior-only-original-p2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install existing regression dependencies
+        run: python -m pip install --upgrade pytest numpy
+      - name: Compile and run cumulative Sum/Log P0 through P3d tests
+        run: |
+          python -m py_compile lotto7x7/log_product_p3d_legacy_replay_v027.py
+          python -m pytest -q \
+            tests/test_distribution_repair_v027.py \
+            tests/test_distribution_repair_scoring_v027.py \
+            tests/test_distribution_repair_portfolio_v027.py \
+            tests/test_log_product_v027.py \
+            tests/test_log_product_dual_scoring_v027.py \
+            tests/test_log_product_dual_portfolio_v027.py \
+            tests/test_log_product_joint_p3_v027.py \
+            tests/test_log_product_p3b_pilot_v027.py \
+            tests/test_log_product_p3c_exact_iid_v027.py \
+            tests/test_log_product_p3d_legacy_replay_v027.py
+      - name: Execute UNMODIFIED legacy P2 optimize at early/middle/late historical prior prefixes
+        run: |
+          python -m lotto7x7.log_product_p3d_legacy_replay_v027 \
+            --csv-dir data/csv \
+            --out /tmp/v027_p3d_legacy.json \
+            --md-out /tmp/v027_p3d_legacy.md
+      - name: Validate 3 sealed prior-only choices, official eight-tier scoring and exact null
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/v027_p3d_legacy.json').read_text())
+          assert r['schema']=='lotto7x7.log_product.v0.27.p3d_legacy_replay'
+          assert r['source']['historical_draws']==2497
+          assert r['source']['last_draw_id']==115000103
+          assert r['source']['analysis_input_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert r['target_indices']==[300,1388,2476]
+          assert r['checkpoint_count']==3
+          assert r['actual_original_optimizer']=='lotto7x7.log_product_dual_portfolio_v027.optimize'
+          assert r['optimizer_parameters']=={
+              'seed':649,'pool_per_cell':800,'cell_limit':24,
+              'restarts':512,'fallback_trials':15000,
+          }
+          assert len(r['individual_replays'])==3
+          for row in r['individual_replays']:
+              t=row['target_index_zero_based']
+              assert row['training_count']==t
+              assert row['previous_draw_id']<row['target_draw_id']
+              assert row['previous_draw_date']<row['target_draw_date']
+              assert len(row['source_prefix_sha256'])==64
+              assert len(row['target_main'])==6
+              assert row['target_bonus'] not in row['target_main']
+              assert row['original_P2_schema']=='lotto7x7.log_product.v0.27.p2'
+              for name in ('primary','distinct_sums'):
+                  p=row['original_P2_portfolios'][name]
+                  assert p['status'] in ('GLOBAL_OPTIMUM_CERTIFIED',
+                                         'HEURISTIC_UNCERTIFIED','INFEASIBLE_UNCERTIFIED')
+                  if p['selection_failure']:
+                      assert not p['tickets'] and p['outcome'] is None
+                  else:
+                      assert len(p['tickets'])==4
+                      assert len({n for ticket in p['tickets'] for n in ticket})==24
+                      assert all(len(ticket)==6 and ticket==sorted(ticket) for ticket in p['tickets'])
+                      if name=='distinct_sums':
+                          assert len({sum(ticket) for ticket in p['tickets']})==4
+                      assert p['outcome']['any_award'] in (0,1)
+              rand=row['random_control']
+              assert len({n for ticket in rand['tickets'] for n in ticket})==24
+          for name in ('primary','distinct_sums','random'):
+              stat=r['empirical_results'][name]
+              assert stat['selected']+stat['selection_failures']==3
+          assert abs(r['exact_fair_any_award_probability']-0.1227314589619088)<1e-12
+          assert 'PREDICTIVE_INCONCLUSIVE' in r['decision']
+          print('[PASS] original P2 unchanged search at three real held-out historical outcomes; prior-only hash, 24-disjoint, eight-tier official scoring')
+          PY
+      - name: Archive reproducible original-P2 selection and official award results
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-dual-p3d-original-optimizer-2026-11-06
+          path: |
+            /tmp/v027_p3d_legacy.json
+            /tmp/v027_p3d_legacy.md
+          if-no-files-found: error
