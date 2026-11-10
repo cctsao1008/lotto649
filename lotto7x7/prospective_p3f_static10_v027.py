@@ -52,18 +52,38 @@ def _blob_sha1(raw: bytes) -> str:
     return sha1(f"blob {len(raw)}\0".encode("ascii") + raw).hexdigest()
 
 
+def _canonical_seal_bytes(raw: bytes) -> tuple[bytes, str]:
+    """Undo ONLY Git's all-CRLF Windows checkout translation.
+
+    Git blob IDs cover canonical bytes in the repository, but core.autocrlf
+    can materialize exactly the same tracked blob with CRLF on Windows.
+    Mixed LF/CRLF and stray CR are rejected; no JSON reserialization,
+    whitespace stripping or content edits are permitted. The pinned Git
+    blob checksum still has to match the historical pre-draw commit.
+    """
+    if b"\r" not in raw:
+        return raw, "LF"
+    normalized = raw.replace(b"\r\n", b"\n")
+    if b"\r" in normalized or b"\n" in raw.replace(b"\r\n", b""):
+        raise ValueError("PROSPECTIVE SEAL MODIFIED: mixed or invalid line endings")
+    return normalized, "CRLF_CHECKOUT"
+
+
 def load_frozen_seal(path: Path = SEAL) -> tuple[dict, dict]:
-    """Reject any edited/replaced preregistration, even if JSON still parses."""
+    """Pin historical Git blob, allowing only Git CRLF checkout translation."""
     raw = Path(path).read_bytes()
-    fingerprint = _blob_sha1(raw)
+    canonical, line_endings = _canonical_seal_bytes(raw)
+    fingerprint = _blob_sha1(canonical)
     if fingerprint != PINNED_GIT_BLOB_SHA1:
         raise ValueError("PROSPECTIVE SEAL MODIFIED: wrong pinned pre-draw Git blob SHA1")
-    manifest = json.loads(raw)
+    manifest = json.loads(canonical)
     validate_manifest(manifest)
     return manifest, {
         "first_pre_draw_seal_commit": SEAL_COMMIT,
         "pinned_git_blob_sha1": fingerprint,
         "seal_bytes_sha256": sha256(raw).hexdigest(),
+        "canonical_seal_sha256": sha256(canonical).hexdigest(),
+        "working_tree_line_endings": line_endings,
     }
 
 
