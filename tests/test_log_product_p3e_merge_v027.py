@@ -119,7 +119,7 @@ def test_reject_tampered_timeline_duplicate_source_or_award():
         lambda r: r[1]["source"].update(analysis_input_sha256="0"*64),
         lambda r: r[0]["individual_replays"][0]["original_P2_portfolios"]["primary"]["outcome"].update(any_award=0),
         lambda r: r[3]["individual_replays"][0].update(training_count=999),
-        lambda r: r[1]["bonus_prefix_sha256"]="wrong",
+        lambda r: r[1].update(bonus_prefix_sha256="wrong"),
         lambda r: r[2]["empirical_results"]["primary"].update(prize_events=999),
         lambda r: r[4]["individual_replays"][0]["original_P2_portfolios"]["primary"].update(tickets=[[1,2,3,4,5,6]]*4),
     ):
