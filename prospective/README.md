@@ -18,6 +18,19 @@ New actual results must be independently verified and appended to `data/csv/lott
 
 The fixed endpoint is the number of draws where at least one of the four legal disjoint tickets wins a prize among the eight official tiers. Exact fair IID per-draw odds are approximately 12.273145896191% for every valid four-disjoint set. Only after all ten planned outcomes are available, two one-sided exact Binomial(10,p) tests plus a Bonferroni correction for the two named P2 hypotheses become eligible. The random control is descriptive; no early inferential claim is published.
 
+## Windows Git line-ending compatibility
+
+Windows Git installations with `core.autocrlf=true` may check out the exact pinned LF Git blob as local CRLF bytes. The P3f reader first verifies the **canonical Git blob bytes**: it accepts only an all-LF checkout or a full-CRLF checkout after reversing exactly Git's LF-to-CRLF translation, and rejects mixed endings, any content changes, and JSON reserialization. The preregistration file, pre-draw commit and pinned checksum are **never modified**.
+
+Use these read-only commands if the local working tree differs from the Git blob:
+
+```powershell
+git ls-files --eol prospective/v027_p3f_static10_20261110_seal.json
+git rev-parse ae15748a88e7aad334d68354b04338fa71d6bfdf:prospective/v027_p3f_static10_20261110_seal.json
+```
+
+The second command must return `b7dec534a44b1ec08d575a4f2e48e5c3580e76d1`. A common Windows first-command result is `i/lf w/crlf`; this is normal Git checkout conversion, not proof that sealed picks were modified.
+
 ## Windows PowerShell
 
 ```powershell
