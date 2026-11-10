@@ -322,10 +322,12 @@ def markdown_report(report):
             lines.append("")
     lines.extend([
         "## Limitations","",
-        "This is the literal unchanged original P2 optimizer at three frozen prior-only historical prefixes. "
-        "It is a small retrospective integration audit, not evidence of predictive superiority. "
-        "Exact IID symmetry still gives the same fair odds to every 24-disjoint portfolio.",
-        "Full all-checkpoint legacy replay, broader model-family corrections and sealed future evaluation remain open.","",
+        f"This is the literal unchanged original P2 optimizer at {report['checkpoint_count']} "
+        "frozen prior-only historical prefixes. This retrospective integration audit does not "
+        "establish predictive superiority. Exact IID symmetry gives the same fair odds to "
+        "every 24-disjoint portfolio.",
+        "The other historical target dates beyond these fixed checkpoints, broader model-family "
+        "corrections, and prospective sealed future evaluation remain open.","",
         "## Reproduction","", "```powershell",
         "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_p3d_legacy_replay_v027 "
         "--csv-dir data/csv --out results/v027_p3d_legacy.json --md-out results/v027_p3d_legacy.md",
@@ -369,7 +371,7 @@ def main(argv=None):
         print(f"[{name.upper()}] wins={data['prize_events']}, selected={data['selected']}, failures={data['selection_failures']}")
     print(f"[FAMILYWISE] exact 2-policy Bonferroni p={result['two_policy_bonferroni_upper_tail_p']}")
     print(f"[REPORT] {out} / {md}")
-    print("[SCOPE] Original #18 reservoir used, small retrospective 3-target audit only; not predictive GO")
+    print(f"[SCOPE] Original #18 reservoir used, retrospective {result['checkpoint_count']}-target audit only; not predictive GO")
 
 
 if __name__=="__main__":
