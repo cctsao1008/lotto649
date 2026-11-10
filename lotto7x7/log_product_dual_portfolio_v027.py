@@ -25,11 +25,10 @@ from __future__ import annotations
 import argparse
 from bisect import bisect_right
 from collections import defaultdict
-from decimal import Decimal, ROUND_HALF_EVEN
 from hashlib import sha256
 from itertools import combinations
 import json
-from math import comb, prod
+from math import comb, isqrt, prod
 from pathlib import Path
 from random import Random
 
@@ -53,19 +52,62 @@ SUM_OFFSET = 21
 WEIGHT_SCALE = 10 ** 12
 
 
-def frozen_weights(sum_sd: float, log_sd: float) -> tuple[int, int]:
-    """Quantize reciprocal-IID-SD weights to integer units once.
+def _exact_variance_numerator(numerators: list[int], multiplicities: list[int]) -> tuple[int, int]:
+    """Var(integer gain numerator) = A / M**2 under exact conditional IID.
 
-    No target-ticket-dependent scaling; avoids floating tie break/certificate.
+    Theory-multiplicities are the *exact* fair combination counts, not
+    uniform weighting over histogram bins. No floating point occurs.
     """
-    if not (0 < sum_sd < float("inf") and 0 < log_sd < float("inf")):
-        raise ValueError("IID conditional standard deviations must be positive finite")
-    s = int((Decimal(WEIGHT_SCALE) / Decimal(str(sum_sd))).to_integral_value(rounding=ROUND_HALF_EVEN))
-    l = int((Decimal(WEIGHT_SCALE) / Decimal(str(log_sd))).to_integral_value(rounding=ROUND_HALF_EVEN))
-    if not (s > 0 and l > 0):
-        raise AssertionError("normalization weights vanish")
-    return s, l
+    if (not numerators or len(numerators) != len(multiplicities)
+            or any(type(x) is not int for x in numerators)
+            or any(type(x) is not int or x < 0 for x in multiplicities)):
+        raise ValueError("exact IID variance requires matching integer vectors")
+    m = sum(multiplicities)
+    if m < 1:
+        raise ValueError("empty IID theoretical universe")
+    s1 = sum(a * c for a, c in zip(numerators, multiplicities))
+    s2 = sum(a * a * c for a, c in zip(numerators, multiplicities))
+    a = m * s2 - s1 * s1
+    if a <= 0:
+        raise ValueError("zero conditional IID gain variance")
+    return a, m
 
+
+def _round_ratio_over_sqrt(k: int, a: int) -> int:
+    """Return round-half-even(k/sqrt(a)) using *only exact integers*.
+
+    Let floor(k/sqrt(a)) = floor(sqrt(k*k // a)) = q.
+    Compare 4*k*k with a*(2*q+1)^2 to decide the half-unit.
+    No float, Decimal precision or Python-platform dependence.
+    """
+    if type(k) is not int or type(a) is not int or k < 0 or a <= 0:
+        raise ValueError("k must be nonnegative and a must be positive integers")
+    q = isqrt((k*k) // a)
+    lhs, rhs = 4*k*k, a*(2*q+1)**2
+    return q + (lhs > rhs or (lhs == rhs and (q % 2 == 1)))
+
+
+def frozen_weights(sum_num: list[int], sum_counts: list[int],
+                   log_num: list[int], log_counts: list[int],
+                   gain_denominator: int) -> tuple[int, int]:
+    """Two reproducible reciprocal conditional-IID-SD weights.
+
+    Each G_bin = integer_gain_numerator / gain_denominator.
+    Exact weighted IID Var(G) = A / (M^2 * gain_denominator^2).
+    Thus W=round_half_even(10^12 * M * gain_denominator/sqrt(A))
+    can be calculated with pure integer comparisons.
+    """
+    if type(gain_denominator) is not int or gain_denominator <= 0:
+        raise ValueError("gain_denominator must be positive integer")
+    a_sum, m_sum = _exact_variance_numerator(sum_num, sum_counts)
+    a_log, m_log = _exact_variance_numerator(log_num, log_counts)
+    if m_sum != m_log:
+        raise ValueError("Sum and Log feature IID universes must match")
+    k = WEIGHT_SCALE * m_sum * gain_denominator
+    w_sum, w_log = _round_ratio_over_sqrt(k, a_sum), _round_ratio_over_sqrt(k, a_log)
+    if not (w_sum > 0 and w_log > 0):
+        raise AssertionError("positive standardized weights required")
+    return w_sum, w_log
 
 def score_joint_cell(sum_idx: int, log_idx: int,
                      sum_num: list[int], log_num: list[int],
@@ -370,14 +412,17 @@ def optimize(sum_p1: dict, log_p0: dict, dual_p1: dict, *, seed: int = 649,
     if any(type(value) is not int or value < lower for _,value,lower in options):
         raise ValueError("invalid seed or search budget")
     _, log_theory, s_gain, l_gain = _check_inputs(sum_p1, log_p0, dual_p1)
-    weights = frozen_weights(dual_p1["conditional_iid"]["sum_stddev_gain"],
-                             dual_p1["conditional_iid"]["log_stddev_gain"])
+    from .distribution_repair_v027 import exact_theory
+    exact_sum_counts = exact_theory()["counts"]
+    weights = frozen_weights(
+        s_gain["numerators"], exact_sum_counts,
+        l_gain["numerators"], log_theory["counts"],
+        s_gain["denominator"])
     grid = log_theory["grid"]
     joint, total = enumerate_joint_counts(thresholds=grid["integer_product_thresholds"])
     if total != TOTAL:
         raise AssertionError("wrong joint mass")
-    from .distribution_repair_v027 import exact_theory
-    expected_s = exact_theory()["counts"]
+    expected_s = exact_sum_counts
     if [sum(row) for row in joint] != expected_s:
         raise AssertionError("joint row marginals != exact sum theory")
     if [sum(row[i] for row in joint) for i in range(grid["bin_count"])] != log_theory["counts"]:
@@ -507,7 +552,7 @@ def optimize(sum_p1: dict, log_p0: dict, dual_p1: dict, *, seed: int = 649,
         },
         "objective": {
             "description": "max Σ[w_sum*exact_numerator(G_sum)+w_log*exact_numerator(G_log)]",
-            "weights_definition": "nearest integer to 10^12 / conditional IID SD(G_feature), ROUND_HALF_EVEN",
+            "weights_definition": "exact integer half-even rounding of 10^12 / conditional IID SD(G_feature); exact weighted squared-moment calculation, no float",
             "weight_scale": WEIGHT_SCALE,
             "w_sum": str(weights[0]), "w_log": str(weights[1]),
             "common_exact_gain_denominator": str(s_gain["denominator"]),
