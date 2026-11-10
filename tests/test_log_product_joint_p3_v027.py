@@ -165,5 +165,9 @@ def test_cli_frozen_gate_and_no_overwrite(tmp_path,fixture_joint,capsys):
     assert "prequential" in md.read_text(encoding="utf-8").lower()
     with pytest.raises(FileExistsError):
         main(args)
+    wrong=args.copy()
+    wrong[wrong.index("--cutoff")+1]="2026-11-05"
+    wrong[wrong.index("--out")+1]=str(tmp_path/"wrong_joint.json")
+    wrong[wrong.index("--md-out")+1]=str(tmp_path/"wrong_joint.md")
     with pytest.raises(ValueError,match="cutoff"):
-        main([*args[:7],"2026-11-05",*args[8:]])
+        main(wrong)
