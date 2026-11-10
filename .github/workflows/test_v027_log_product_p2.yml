@@ -74,6 +74,7 @@ jobs:
               assert all(x['dual_positive'] for x in other['ticket_details'])
               assert other['coverage']['exact_official_eight_tier_parity']
               assert other['certified_global_optimum']==(other['objective_exact_integer']==other['upper_bound_exact_integer'])
+              assert int(p['objective_exact_integer']) >= int(other['objective_exact_integer']), 'unrestricted optimum search must not underperform known diversity witness'
           assert r['sum_only_p2_baseline_unchanged']['sum_bins']==[152]*4
           assert r['objective']['no_joint_append_to_draw_history']
           assert 'PREDICTIVE_ADVANTAGE_NOT_EVALUATED' in r['decision']
