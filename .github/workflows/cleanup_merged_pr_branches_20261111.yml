@@ -1,0 +1,130 @@
+name: One-time cleanup of fully merged Lotto649 PR branches
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/cleanup_merged_pr_branches_20261111.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lotto649-merged-branch-cleanup
+  cancel-in-progress: false
+
+jobs:
+  delete-only-verified-merged-heads:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Refresh all remote refs for an exact ancestry check
+        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+      - name: Delete only specifically allowlisted SHA-pinned merged, unprotected PR heads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, urllib.request, urllib.parse, urllib.error
+          from pathlib import Path
+          
+          EXPECTED = {"feature/v025-deficit-compensation-foundation":"9871b1a0efb9a10b15f4c58fa1373d9a388e4dfb","feature/v027-distribution-repair-p0":"ea5307461423a1c30af274ad6dc664b5897e0e92","feature/v027-distribution-repair-p1":"e855f5998f8a938b42b44bb55dc93d71a758a1de","feature/v027-distribution-repair-p2":"685373d7eb18d09607c2c79d02bccce5bd28fb3c","feature/v027-log-product-p0":"ceb288796961872f5277a386dfd5feabccaff5f6","feature/v027-log-product-p1":"ab7bec8b71677030727f4ace43101be3db48ad07","feature/v027-log-product-p2":"79cc62a5ed2c3c5fca1bf21ca2e0b812955e66e9","feature/v027-log-product-p3-joint":"b97458815efbba7f497e0cfa0c31377912b73a3e","feature/v027-log-product-p3b-iid-pilot":"d1d4e97e706675e01c3e4976c2cefdfcf9147c75","feature/v027-log-product-p3c-exact-iid":"a06172b1b4341fb3e0ba8eefc536062fd0c3e6db","feature/v027-log-product-p3d-legacy-replay":"8a35ef2f11891cdabb3c6be3acc9adb41300d553","feature/v027-log-product-p3e-35-checkpoints":"3e952f089fe57fbd17a226c547a8181bb580d55c","feature/v027-prospective-p3f-static10":"654d59253250e354e0042be2adac42046a558f88","feature/v028-shape-joint-multiobjective":"a4b8daf82d915a5464be4505d14941ee26444c4c","data/lotto649-115000104-20261110":"a09a94eb50f570ed87b16529243f09c9675c8f6a","fix/lotto649-export-ci-dynamic-count-2498":"ef8c2561d8a9b6246d80484a80cef24f420f7d09"}
+          SELF_BRANCH = "maintenance/cleanup-merged-pr-branches-20261111"
+          repo=os.environ['GITHUB_REPOSITORY']
+          token=os.environ['GH_TOKEN']
+          assert repo == 'cctsao1008/lotto649'
+          assert os.environ['GITHUB_REF'] == 'refs/heads/main'
+          
+          def api(path, method='GET'):
+              url='https://api.github.com/repos/'+repo+'/'+path
+              req=urllib.request.Request(url,headers={
+                  'Authorization':'Bearer '+token,
+                  'Accept':'application/vnd.github+json',
+                  'X-GitHub-Api-Version':'2022-11-28'
+              },method=method)
+              try:
+                  with urllib.request.urlopen(req,timeout=30) as response:
+                      body=response.read()
+                      return json.loads(body) if body else {'deleted':method=='DELETE'}
+              except urllib.error.HTTPError as err:
+                  if err.code==404: return None
+                  raise
+          
+          def sha_for_ref(name):
+              obj=api('git/ref/heads/'+urllib.parse.quote(name,safe='/'))
+              return obj['object']['sha'] if obj else None
+          
+          def ancestor(sha):
+              proc=subprocess.run(['git','merge-base','--is-ancestor',sha,'refs/remotes/origin/main'],check=False)
+              return proc.returncode==0
+          
+          def is_unprotected(name):
+              row=api('branches/'+urllib.parse.quote(name,safe=''))
+              return row is not None and row.get('protected') is False
+          
+          open_prs=api('pulls?state=open&per_page=100')
+          assert isinstance(open_prs,list)
+          open_heads={x['head']['ref'] for x in open_prs if x['head']['repo'] and x['head']['repo']['full_name']==repo}
+          deleted=[];skipped=[]
+          
+          def safely_delete(name, expected):
+              if name in ('main','master') or name.startswith('feature/phase7'):
+                  raise ValueError('refusing protected scope '+name)
+              observed=sha_for_ref(name)
+              if observed is None:
+                  print('[ALREADY MISSING]',name,flush=True)
+                  return
+              if not expected or observed != expected:
+                  skipped.append((name,'head moved after PR merge'))
+                  print('[SKIP MOVED]',name,flush=True)
+                  return
+              if name in open_heads:
+                  skipped.append((name,'still has open PR'))
+                  print('[SKIP OPEN PR]',name,flush=True)
+                  return
+              if not ancestor(observed):
+                  skipped.append((name,'not an ancestor of current main'))
+                  print('[SKIP UNMERGED]',name,flush=True)
+                  return
+              if not is_unprotected(name):
+                  skipped.append((name,'branch protected or inaccessible'))
+                  print('[SKIP PROTECTED]',name,flush=True)
+                  return
+              # Recheck immediately before deletion; do not delete if a commit was pushed.
+              if sha_for_ref(name)!=observed:
+                  skipped.append((name,'head changed during preflight'))
+                  print('[SKIP RACE]',name,flush=True)
+                  return
+              api('git/refs/heads/'+urllib.parse.quote(name,safe='/'),method='DELETE')
+              assert sha_for_ref(name) is None
+              deleted.append(name)
+              print('[DELETED MERGED]',name,flush=True)
+          
+          for name,expected in EXPECTED.items():
+              safely_delete(name,expected)
+          
+          # This cleanup PR's own source branch is removed only after verifying
+          # it is an already-merged main-target PR and its head is an ancestor.
+          own_sha=sha_for_ref(SELF_BRANCH)
+          if own_sha:
+              owner=repo.split('/')[0]
+              matches=api('pulls?state=closed&per_page=100&head='+
+                          urllib.parse.quote(owner+':'+SELF_BRANCH,safe=':')) or []
+              approved=[p for p in matches if p.get('merged_at') and
+                        p['base']['ref']=='main' and p['head']['sha']==own_sha]
+              if approved:
+                  safely_delete(SELF_BRANCH,own_sha)
+              else:
+                  skipped.append((SELF_BRANCH,'no merged PR with unchanged head'))
+          
+          print('[CLEANUP FINISHED]',len(deleted),'deleted;',len(skipped),'skipped',flush=True)
+          if skipped:
+              print('[SKIPPED]',json.dumps(skipped),flush=True)
+              raise SystemExit('Some branches were not safely deleted; inspect the recorded reasons')
+          PY
