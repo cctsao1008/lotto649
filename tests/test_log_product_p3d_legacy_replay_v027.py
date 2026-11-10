@@ -71,9 +71,7 @@ def test_audit_uses_same_eight_official_tiers_for_held_out_draw():
     assert row["outcome"]["max_main_hits"]<=6
     assert len(row["outcome"]["tiers"])==4
     with pytest.raises(AssertionError,match="distinct"):
-        p3d._audit_selected(_variant((
-            (1,2,3,4,5,6),(7,8,9,10,11,12),
-            (13,14,15,16,17,18),(19,20,21,22,23,24))),
+        p3d._audit_selected(_variant(EXAMPLE),
             (1,2,3,4,5,6),bonus=25,distinct=True)
     invalid=_variant(EXAMPLE)
     invalid["ticket_details"][0]["dual_positive"]=False
