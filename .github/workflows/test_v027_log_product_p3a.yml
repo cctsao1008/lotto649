@@ -1,0 +1,89 @@
+name: v0.27 Issue 15 P3a exact joint IID audit
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/log_product_joint_p3_v027.py"
+      - "tests/test_log_product_joint_p3_v027.py"
+      - ".github/workflows/test_v027_log_product_p3a.yml"
+  workflow_dispatch:
+
+jobs:
+  joint-exact-prequential:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Dependencies (same as existing v0.27)
+        run: python -m pip install --upgrade pytest numpy
+      - name: Compile and run all v0.27 P0-P2 and Log P0-P3a regression
+        run: |
+          python -m py_compile lotto7x7/log_product_joint_p3_v027.py
+          python -m pytest -q \
+            tests/test_distribution_repair_v027.py \
+            tests/test_distribution_repair_scoring_v027.py \
+            tests/test_distribution_repair_portfolio_v027.py \
+            tests/test_log_product_v027.py \
+            tests/test_log_product_dual_scoring_v027.py \
+            tests/test_log_product_dual_portfolio_v027.py \
+            tests/test_log_product_joint_p3_v027.py
+      - name: Reproduce pinned Sum, Log and dual scores with joint chronological diagnostic
+        run: |
+          python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_sum_p0.json --md-out /tmp/v027_sum_p0.md
+          python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_sum_p0.json --out /tmp/v027_sum_p1.json --md-out /tmp/v027_sum_p1.md
+          python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_log_p0.json --md-out /tmp/v027_log_p0.md
+          python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v027_sum_p1.json --log-p0 /tmp/v027_log_p0.json --out /tmp/v027_dual_p1.json --md-out /tmp/v027_dual_p1.md
+          python -m lotto7x7.log_product_joint_p3_v027 \
+            --sum-p1 /tmp/v027_sum_p1.json \
+            --log-p0 /tmp/v027_log_p0.json \
+            --dual-p1 /tmp/v027_dual_p1.json \
+            --csv-dir data/csv --cutoff 2026-11-06 --warmup 300 \
+            --out /tmp/v027_joint_p3a.json --md-out /tmp/v027_joint_p3a.md
+      - name: Verify theory normalization, exact fair masses and predictive scope
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          r=json.loads(Path('/tmp/v027_joint_p3a.json').read_text())
+          assert r['schema'] == 'lotto7x7.log_product.v0.27.p3a'
+          assert r['source']['historical_draws'] == 2497
+          assert r['source']['last_draw_id'] == 115000103
+          assert r['source']['analysis_input_sha256'] == 'd865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          j=r['joint']
+          assert sum(map(sum,j['exact_theory_counts'])) == math.comb(49,6)
+          assert sum(map(sum,j['historical_counts'])) == 2497
+          assert len(j['exact_theory_counts'])==259
+          assert all(len(row)==34 for row in j['exact_theory_counts'])
+          assert r['repairs']['marginal_dual_positive_combinations']==4_014_395
+          assert (r['repairs']['dual_and_joint_positive_combinations']+
+                  r['repairs']['dual_positive_but_joint_negative_combinations']+
+                  r['repairs']['dual_positive_with_joint_zero_gain_combinations'])==4_014_395
+          assert .85 < r['correlation']['theory_unbinned']['sum_log_pearson_correlation'] < .98
+          p=r['prequential']
+          assert p['warmup']==300
+          assert p['evaluated_draws']==2197
+          assert 0 < p['IID_expected_average_positive_rate'] < 1
+          assert 0 <= p['observed_positive_rate'] <= 1
+          assert len(p['records'])==2197
+          assert p['records'][0]['prior_history_draws']==300
+          assert 'PREDICTIVE_NO_GO_OR_INCONCLUSIVE' in r['decision']
+          print('[PASS] exact 6/49 joint theory, correlated repairs, leak-free conditional IID single-draw event audit')
+          PY
+      - name: Archive P3a reproducibility outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-dual-p3a-joint-2026-11-06
+          path: |
+            /tmp/v027_sum_p0.json
+            /tmp/v027_sum_p0.md
+            /tmp/v027_sum_p1.json
+            /tmp/v027_sum_p1.md
+            /tmp/v027_log_p0.json
+            /tmp/v027_log_p0.md
+            /tmp/v027_dual_p1.json
+            /tmp/v027_dual_p1.md
+            /tmp/v027_joint_p3a.json
+            /tmp/v027_joint_p3a.md
+          if-no-files-found: error
