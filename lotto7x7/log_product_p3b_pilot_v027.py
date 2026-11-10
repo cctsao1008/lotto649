@@ -82,7 +82,7 @@ def catalogue(joint, thresholds, *, seed=649, per_cell=32):
     for cell in sorted(pools):
         for _,ticket in pools[cell]:
             fingerprint.update(bytes(ticket))
-        fingerprint.update(bytes((cell[0],cell[1])))
+        fingerprint.update(cell[0].to_bytes(2,"big")+bytes((cell[1],)))
     return pools,{
         "policy":POLICY,"seed":seed,"per_cell":per_cell,
         "candidate_pool_count":sum(map(len,pools.values())),
