@@ -40,6 +40,16 @@ from .historical_guess_cli_v022 import configure_parsers as configure_v022_parse
 from .historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
 from .early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
 from .temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
+from .deficit_compensation_v025 import main as run_v025_deficit
+from .shape_deficit_v025 import main as run_v025_shape
+from .multivariate_audit_v025 import main as run_v025_multi
+from .multivariate_robustness_v025 import main as run_v025_robust
+from .official_prize_v026 import main as run_v026_prizes
+from .coverage_strategy_v026 import main as run_v026_coverage
+from .coverage_global_research_v026 import main as run_v026_global_research
+from .coverage_exhaustive_v026 import main as run_v026_exhaustive
+from .strategy_ab_v026 import main as run_v026_ab
+from .strategy_ab_iid_calibration_v026 import main as run_v026_ab_iid
 import torch
 import numpy as np
 
@@ -83,6 +93,95 @@ def gallery(report: dict, count: int = 40) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="7x7 image-first lottery research")
     action = parser.add_subparsers(dest="command", required=True)
+    c25 = action.add_parser("compensation-audit", help="v0.25 number-deficit audit and four-ticket research selector")
+    c25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    c25.add_argument("--cutoff", default=None)
+    c25.add_argument("--pool-size", type=int, default=1000)
+    c25.add_argument("--seed", type=int, default=649)
+    c25.add_argument("--out", type=Path, default=Path("results/v025_deficit_foundation.json"))
+    shape25 = action.add_parser("shape-deficit-audit", help="v0.25 exact L1/L2/L3 shape deficit and four-ticket coverage audit")
+    shape25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    shape25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    shape25.add_argument("--cutoff", default=None)
+    shape25.add_argument("--pool-size", type=int, default=300)
+    shape25.add_argument("--seed", type=int, default=649)
+    shape25.add_argument("--alpha", type=float, default=4.0)
+    shape25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="none")
+    shape25.add_argument("--out", type=Path, default=Path("results/v025_shape_deficit.json"))
+    mult25 = action.add_parser("multivariate-audit", help="v0.25 exact means and regularized fair-IID cross-feature covariance")
+    mult25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    mult25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    mult25.add_argument("--cutoff", default=None)
+    mult25.add_argument("--iid-samples", type=int, default=8192)
+    mult25.add_argument("--seed", type=int, default=649)
+    mult25.add_argument("--ridge", type=float, default=0.25)
+    mult25.add_argument("--pool-size", type=int, default=300)
+    mult25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
+    mult25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_audit.json"))
+    robust25 = action.add_parser("multivariate-robustness", help="v0.25 IID null and covariance parameter sensitivity")
+    robust25.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    robust25.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    robust25.add_argument("--cutoff", default=None)
+    robust25.add_argument("--iid-sizes", default="8192")
+    robust25.add_argument("--covariance-seeds", default="649")
+    robust25.add_argument("--ridges", default="0.25")
+    robust25.add_argument("--selector-seed", type=int, default=649)
+    robust25.add_argument("--pool-size", type=int, default=300)
+    robust25.add_argument("--null-replicates", type=int, default=99)
+    robust25.add_argument("--null-seed", type=int, default=1649)
+    robust25.add_argument("--coverage-constraint", choices=("none", "reference-3plus"), default="reference-3plus")
+    robust25.add_argument("--out", type=Path, default=Path("results/v025_multivariate_robustness.json"))
+    prizes26 = action.add_parser("official-prize-audit", help="v0.26 exact official eight-tier prize coverage")
+    prizes26.add_argument("--tickets", nargs="+", required=True,
+                          help="each ticket as comma-separated six integers")
+    prizes26.add_argument("--out", type=Path, default=Path("results/v026_official_prize.json"))
+    coverage26 = action.add_parser("coverage-strategy", help="v0.26 finite exact official prize coverage structural search")
+    coverage26.add_argument("--seed", type=int, default=649)
+    coverage26.add_argument("--objective", default="any-prize",
+                            choices=("any-prize", "two-or-more-awards",
+                                     "first", "second", "third", "fourth", "fifth",
+                                     "sixth", "seventh", "regular"))
+    coverage26.add_argument("--profiles", default=None)
+    coverage26.add_argument("--out", type=Path, default=Path("results/v026_coverage_strategy_a.json"))
+    global26 = action.add_parser("coverage-global-research", help="v0.26 research: two-ticket exact overlap theorem and four-ticket non-exhaustive structure search")
+    global26.add_argument("--seed", type=int, default=649)
+    global26.add_argument("--samples", type=int, default=200)
+    global26.add_argument("--out", type=Path, default=Path("results/v026_coverage_global_research.json"))
+    exhaustive26 = action.add_parser("coverage-exhaustive", help="v0.26 full four-ticket 15-mask exact global structural certificate")
+    exhaustive26.add_argument("--max-classes", type=int, default=None)
+    exhaustive26.add_argument("--out", type=Path, default=Path("results/v026_coverage_exhaustive.json"))
+    ab26 = action.add_parser("strategy-ab-walkforward", help="v0.26 P2 same coverage, history-blind A versus HDDC B, strictly forward official prize outcomes")
+    ab26.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    ab26.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    ab26.add_argument("--cutoff", default="2026-11-06")
+    ab26.add_argument("--iid-samples", type=int, default=8192)
+    ab26.add_argument("--covariance-seed", type=int, default=649)
+    ab26.add_argument("--ridge", type=float, default=0.25)
+    ab26.add_argument("--pool-size", type=int, default=300)
+    ab26.add_argument("--selector-seed", type=int, default=649)
+    ab26.add_argument("--a-seed", type=int, default=649)
+    ab26.add_argument("--train-min", type=int, default=1800)
+    ab26.add_argument("--horizon", type=int, default=25)
+    ab26.add_argument("--stride", type=int, default=25)
+    ab26.add_argument("--max-folds", type=int, default=8)
+    ab26.add_argument("--out", type=Path, default=Path("results/v026_strategy_ab_walkforward.json"))
+    ab_null26 = action.add_parser("strategy-ab-iid-calibration", help="v0.26 P3 replay full A/B walkforward on independent IID 6+special histories")
+    ab_null26.add_argument("--csv-dir", type=Path, default=Path("data/csv"))
+    ab_null26.add_argument("--universe", type=Path, default=Path("results/v015_v016_p1_shape_catalog_universe.json"))
+    ab_null26.add_argument("--cutoff", default="2026-11-06")
+    ab_null26.add_argument("--iid-samples", type=int, default=8192)
+    ab_null26.add_argument("--covariance-seed", type=int, default=649)
+    ab_null26.add_argument("--ridge", type=float, default=0.25)
+    ab_null26.add_argument("--pool-size", type=int, default=300)
+    ab_null26.add_argument("--selector-seed", type=int, default=649)
+    ab_null26.add_argument("--a-seed", type=int, default=649)
+    ab_null26.add_argument("--train-min", type=int, default=1800)
+    ab_null26.add_argument("--horizon", type=int, default=25)
+    ab_null26.add_argument("--stride", type=int, default=25)
+    ab_null26.add_argument("--max-folds", type=int, default=8)
+    ab_null26.add_argument("--null-replicates", type=int, default=99)
+    ab_null26.add_argument("--null-seed", type=int, default=2649)
+    ab_null26.add_argument("--out", type=Path, default=Path("results/v026_strategy_ab_iid_calibration.json"))
     a = action.add_parser("check", help="Check archive and image/transform round-trip")
     a.add_argument("--data", type=Path, default=DATA)
     r = action.add_parser("replay", help="Research graphical image similarity")
@@ -489,6 +588,78 @@ def main() -> None:
         run_v023(args)
     elif args.command == "temporal-research":
         run_v024(args)
+    elif args.command == "compensation-audit":
+        run_v025_deficit(["--csv-dir", str(args.csv_dir), "--pool-size", str(args.pool_size),
+                          "--seed", str(args.seed), "--out", str(args.out)] +
+                         (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "shape-deficit-audit":
+        run_v025_shape(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                        "--pool-size", str(args.pool_size), "--seed", str(args.seed),
+                        "--alpha", str(args.alpha), "--coverage-constraint", args.coverage_constraint,
+                        "--out", str(args.out)] +
+                       (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "multivariate-audit":
+        run_v025_multi(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                        "--iid-samples", str(args.iid_samples), "--seed", str(args.seed),
+                        "--ridge", str(args.ridge), "--pool-size", str(args.pool_size),
+                        "--coverage-constraint", args.coverage_constraint,
+                        "--out", str(args.out)] +
+                       (["--cutoff", args.cutoff] if args.cutoff else []))
+    elif args.command == "strategy-ab-iid-calibration":
+        run_v026_ab_iid(["--csv-dir", str(args.csv_dir),
+                         "--universe", str(args.universe),
+                         "--cutoff", args.cutoff,
+                         "--iid-samples", str(args.iid_samples),
+                         "--covariance-seed", str(args.covariance_seed),
+                         "--ridge", str(args.ridge),
+                         "--pool-size", str(args.pool_size),
+                         "--selector-seed", str(args.selector_seed),
+                         "--a-seed", str(args.a_seed),
+                         "--train-min", str(args.train_min),
+                         "--horizon", str(args.horizon),
+                         "--stride", str(args.stride),
+                         "--max-folds", str(args.max_folds),
+                         "--null-replicates", str(args.null_replicates),
+                         "--null-seed", str(args.null_seed),
+                         "--out", str(args.out)])
+    elif args.command == "strategy-ab-walkforward":
+        run_v026_ab(["--csv-dir", str(args.csv_dir),
+                      "--universe", str(args.universe),
+                      "--cutoff", args.cutoff,
+                      "--iid-samples", str(args.iid_samples),
+                      "--covariance-seed", str(args.covariance_seed),
+                      "--ridge", str(args.ridge),
+                      "--pool-size", str(args.pool_size),
+                      "--selector-seed", str(args.selector_seed),
+                      "--a-seed", str(args.a_seed),
+                      "--train-min", str(args.train_min),
+                      "--horizon", str(args.horizon),
+                      "--stride", str(args.stride),
+                      "--max-folds", str(args.max_folds),
+                      "--out", str(args.out)])
+    elif args.command == "coverage-exhaustive":
+        run_v026_exhaustive(["--out", str(args.out)] +
+                           (["--max-classes", str(args.max_classes)]
+                            if args.max_classes is not None else []))
+    elif args.command == "coverage-global-research":
+        run_v026_global_research(["--seed", str(args.seed),
+                                  "--samples", str(args.samples),
+                                  "--out", str(args.out)])
+    elif args.command == "coverage-strategy":
+        run_v026_coverage(["--seed", str(args.seed), "--objective", args.objective,
+                           "--out", str(args.out)] +
+                          (["--profiles", args.profiles] if args.profiles else []))
+    elif args.command == "official-prize-audit":
+        run_v026_prizes(["--tickets", *args.tickets, "--out", str(args.out)])
+    elif args.command == "multivariate-robustness":
+        run_v025_robust(["--csv-dir", str(args.csv_dir), "--universe", str(args.universe),
+                         "--iid-sizes", args.iid_sizes, "--covariance-seeds", args.covariance_seeds,
+                         "--ridges", args.ridges, "--selector-seed", str(args.selector_seed),
+                         "--pool-size", str(args.pool_size), "--null-replicates", str(args.null_replicates),
+                         "--null-seed", str(args.null_seed),
+                         "--coverage-constraint", args.coverage_constraint,
+                         "--out", str(args.out)] +
+                        (["--cutoff", args.cutoff] if args.cutoff else []))
     elif args.command == "image-dynamics":
         print("Lotto7x7 v0.5.1 Visual Image Dynamics (CPU)", flush=True)
         report = image_dynamics(

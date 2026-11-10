@@ -1,0 +1,71 @@
+name: v0.25 deficit-compensation foundation tests
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/deficit_compensation_v025.py"
+      - "lotto7x7/shape_deficit_v025.py"
+      - "lotto7x7/multivariate_audit_v025.py"
+      - "lotto7x7/multivariate_robustness_v025.py"
+      - "lotto7x7/official_prize_v026.py"
+      - "lotto7x7/coverage_strategy_v026.py"
+      - "lotto7x7/coverage_global_research_v026.py"
+      - "lotto7x7/coverage_exhaustive_v026.py"
+      - "lotto7x7/strategy_ab_v026.py"
+      - "lotto7x7/strategy_ab_iid_calibration_v026.py"
+      - "tests/test_deficit_compensation_v025.py"
+      - "tests/test_shape_deficit_v025.py"
+      - "tests/test_multivariate_audit_v025.py"
+      - "tests/test_multivariate_robustness_v025.py"
+      - "tests/test_official_prize_v026.py"
+      - "tests/test_coverage_strategy_v026.py"
+      - "tests/test_coverage_global_research_v026.py"
+      - "tests/test_coverage_exhaustive_v026.py"
+      - "tests/test_strategy_ab_v026.py"
+      - "tests/test_strategy_ab_iid_calibration_v026.py"
+      - "lotto7x7/__main__.py"
+      - ".github/workflows/test_v025_deficit.yml"
+  workflow_dispatch:
+
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pytest numpy scipy
+      - name: Run standalone covariance and CSV-integrity regression tests
+        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py tests/test_official_prize_v026.py tests/test_coverage_strategy_v026.py tests/test_coverage_global_research_v026.py tests/test_coverage_exhaustive_v026.py tests/test_strategy_ab_v026.py tests/test_strategy_ab_iid_calibration_v026.py
+      - name: Real annual CSV smoke audit (cutoff before Nov 10)
+        run: |
+          python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json
+          python -c 'import json; r=json.load(open("/tmp/v025_real_smoke.json")); assert r["historical_draws"] == 2497; assert r["last_draw"] == 115000103; assert len(r["selected"]["tickets"]) == 4; print("[PASS] real CSV and four-ticket audit")'
+      - name: Real immutable A-D official eight-tier prize audit
+        run: |
+          python -m lotto7x7.official_prize_v026 --tickets 4,9,17,24,29,42 10,13,14,27,28,34 6,12,19,20,44,48 3,7,18,33,40,47 --out /tmp/v026_real_reference.json
+          python -c 'import json, math; r=json.load(open("/tmp/v026_real_reference.json")); assert r["ticket_count"] == 4; assert r["total_outcomes"] == math.comb(49,6)*43; assert r["any_ticket_by_tier"]["first"]["outcomes"] == 4*43; assert sum(r["awarded_ticket_count_outcomes"]) == r["total_outcomes"]; print("[PASS] exact eight-tier reference portfolio")'
+      - name: Exact structural Coverage Strategy A smoke
+        run: |
+          python -m lotto7x7.coverage_strategy_v026 --seed 649 --out /tmp/v026_coverage_strategy_smoke.json
+          python -c 'import json; r=json.load(open("/tmp/v026_coverage_strategy_smoke.json")); assert len(r["evaluated"])==15; assert not r["globally_optimal"]; assert r["reference"]["any_prize_probability"] > 0.12; print("[PASS] representative exact official prize profiles")'
+      - name: Exact pairwise overlap proof audit and structural search smoke
+        run: |
+          python -m lotto7x7.coverage_global_research_v026 --samples 25 --seed 649 --out /tmp/v026_global_research.json
+          python -c 'import json; r=json.load(open("/tmp/v026_global_research.json")); assert r["two_ticket_exact_structural_study"]["strict_disjoint_optimum"]; assert r["four_ticket"]["distinct_structures_evaluated"] >= 15; assert r["four_ticket"]["globally_optimal_proven"] is False; print("[PASS] pairwise exact structural classification and four-ticket exploratory search")'
+      - name: Complete membership-mask four-ticket exhaustive certificate
+        run: |
+          python -m lotto7x7.coverage_exhaustive_v026 --out /tmp/v026_exhaustive.json
+          python -c 'import json; r=json.load(open("/tmp/v026_exhaustive.json")); assert r["completed"]; assert r["raw_labeled_signatures"]==52450; assert r["valid_labeled_signatures"]==50985; assert r["unique_valid_unlabeled_structures"]==2957; assert r["global_disjoint_optimality_proven"]; assert r["maximum_improvement_outcomes"]==0; print("[PASS] all four-ticket membership classes exact coverage certification")'
+      - name: Strategy A-B walkforward CLI command registration
+        run: |
+          python -m lotto7x7.strategy_ab_v026 --help
+          python -c 'from lotto7x7.strategy_ab_v026 import disjoint_portfolio,assert_official_coverage_parity; from lotto7x7.deficit_compensation_v025 import REFERENCE; r=assert_official_coverage_parity(disjoint_portfolio(649),REFERENCE); assert r["exact_official_prize_event_counts_equal"]; print("[PASS] A/B exact parity")'
+      - name: P3 full IID replay CLI registration
+        run: |
+          python -m lotto7x7.strategy_ab_iid_calibration_v026 --help
+          python -c 'from lotto7x7.strategy_ab_iid_calibration_v026 import empirical_calibration; p=empirical_calibration(3,[-3,0,1,3,4]); assert p["p_empirical_upper_exploratory"] == 0.5; print("[PASS] IID pipeline matched null significance calculation")'
+      - name: Python compile check
+        run: python -m py_compile lotto7x7/deficit_compensation_v025.py lotto7x7/shape_deficit_v025.py lotto7x7/multivariate_audit_v025.py lotto7x7/multivariate_robustness_v025.py lotto7x7/official_prize_v026.py lotto7x7/coverage_strategy_v026.py lotto7x7/coverage_global_research_v026.py lotto7x7/coverage_exhaustive_v026.py lotto7x7/strategy_ab_v026.py lotto7x7/strategy_ab_iid_calibration_v026.py
