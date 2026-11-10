@@ -1,0 +1,53 @@
+name: v0.27 P1 exact repair scoring
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/distribution_repair_scoring_v027.py"
+      - "tests/test_distribution_repair_scoring_v027.py"
+      - ".github/workflows/test_v027_repair_p1.yml"
+  workflow_dispatch:
+
+jobs:
+  p1-exact-conditional-iid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install minimal dependencies
+        run: python -m pip install --upgrade pytest numpy
+      - name: Run P0/P1 regression and compile checks
+        run: |
+          python -m py_compile lotto7x7/distribution_repair_v027.py lotto7x7/distribution_repair_scoring_v027.py
+          python -m pytest -q tests/test_distribution_repair_v027.py tests/test_distribution_repair_scoring_v027.py
+      - name: Reproduce real data and exact conditional IID P1 scores
+        run: |
+          python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_p0.json --md-out /tmp/v027_p0.md
+          python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_p0.json --out /tmp/v027_p1.json --md-out /tmp/v027_p1.md --ticket 04,09,17,24,29,42
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          r = json.loads(Path('/tmp/v027_p1.json').read_text())
+          assert r['source']['historical_draws'] == 2497
+          assert r['source']['last_draw_id'] == 115000103
+          assert r['source']['analysis_input_sha256'] == 'd865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert math.isclose(r['baseline_loss'], 0.000382723193838, abs_tol=1e-15)
+          assert len(r['sums']) == 259
+          assert sum(x['theory_combinations'] for x in r['sums']) == math.comb(49,6)
+          assert math.isclose(sum(x['probability'] for x in r['iid_null']['law_by_exact_rank_integer']),1)
+          assert r['decision'] == 'REPAIR_DESCRIPTIVE_PASS; PREDICTIVE_ADVANTAGE_NOT_EVALUATED'
+          assert len(r['ticket_examples']) == 1
+          print('[PASS] real exact conditional IID repair law and frozen cutoff')
+          PY
+      - name: Archive reproducible P0 and P1 reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-p1-repair-2026-11-06
+          path: |
+            /tmp/v027_p0.json
+            /tmp/v027_p0.md
+            /tmp/v027_p1.json
+            /tmp/v027_p1.md
+          if-no-files-found: error
