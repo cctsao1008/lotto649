@@ -16,6 +16,7 @@ from lotto7x7.log_product_dual_portfolio_v027 import (
     SCHEMA, _describe_portfolio, _exact_coverage_parity, _fallback_four,
     _ticket_mask, _witness_for_cells, enumerate_joint_counts,
     frozen_weights, pareto_frontier, score_joint_cell,
+    _exact_variance_numerator, _round_ratio_over_sqrt,
     _best_greedy_from_pools, _exact_portfolio_key,
 )
 from lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
@@ -50,14 +51,40 @@ def test_joint_rejects_invalid_universe_or_thresholds(args):
 
 
 def test_fixed_weights_and_exact_integer_cell_ranking():
-    ws, wl = frozen_weights(1e-6, 2e-6)
-    assert ws == 10**18
-    assert wl == 5*10**17
+    # Two equiprobable exact gain numerators [-1,+1] and [-2,+2].
+    # Conditional IID SDs are EXACTLY 1 and 2 (denominator=1).
+    ws, wl = frozen_weights([-1, 1], [1, 1], [-2, 2], [1, 1], 1)
+    assert ws == 10**12
+    assert wl == 5 * 10**11
     assert score_joint_cell(0, 1, [3, 5], [1, 4], (ws, wl)) == 3*ws + 4*wl
-    assert frozen_weights(1e-6, 2e-6) == (ws, wl)
-    for a, b in ((0., 1.), (-1., 1.), (1., float("nan")), (1., float("inf"))):
+    assert frozen_weights([-1, 1], [1, 1], [-2, 2], [1, 1], 1) == (ws, wl)
+    assert _exact_variance_numerator([-1,1],[1,1]) == (4,2)
+    assert _exact_variance_numerator([-2,2],[1,1]) == (16,2)
+    # Gain denominator scales the reciprocal-SD weight EXACTLY.
+    assert frozen_weights([-1,1],[1,1],[-2,2],[1,1],5) == (ws*5, wl*5)
+
+    # Exact tie-to-even without float or Decimal sqrt.
+    assert _round_ratio_over_sqrt(3,4) == 2  # 1.5 -> 2
+    assert _round_ratio_over_sqrt(5,4) == 2  # 2.5 -> 2
+    assert _round_ratio_over_sqrt(7,4) == 4  # 3.5 -> 4
+    assert _round_ratio_over_sqrt(10,9) == 3
+    assert _round_ratio_over_sqrt(10, 1) == 10
+
+    for numerators, counts in (([], []), ([1], [0]), ([1], [1,2]),
+                               ([1.5],[1]), ([1],[True]), ([2,2],[1,1])):
         with pytest.raises(ValueError):
-            frozen_weights(a,b)
+            _exact_variance_numerator(numerators, counts)
+    for bad_args in ((-1,1),(1,0),(1,-1),(1.,2),(True,2)):
+        with pytest.raises(ValueError):
+            _round_ratio_over_sqrt(*bad_args)
+    for kwargs in (
+        ([-1,1],[1,1],[-1,1],[1,1],0),
+        ([0,0],[1,1],[-1,1],[1,1],1),
+        ([-1,1],[1,1],[-1,1],[1,2],1),
+        ([-1,1],[1,1],[-1,1],[1,1],1.5),
+    ):
+        with pytest.raises(ValueError):
+            frozen_weights(*kwargs)
 
 
 def test_true_two_feature_pareto_frontier_dominance_and_ties():
