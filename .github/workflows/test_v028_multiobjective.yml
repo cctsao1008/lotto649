@@ -1,0 +1,75 @@
+name: v0.28 four-block exact Shape Sum Log Joint multiobjective experiment
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/multiobjective_v028.py"
+      - "tests/test_multiobjective_v028.py"
+      - ".github/workflows/test_v028_multiobjective.yml"
+  workflow_dispatch:
+
+jobs:
+  research-four-block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install declared exact taxonomy dependencies
+        run: python -m pip install --upgrade pytest numpy scipy
+      - name: Test independent shape L1-L3 classifier, exact synthetic joint and 4-ticket maximin
+        run: |
+          python -m py_compile lotto7x7/multiobjective_v028.py
+          python -m pytest -q tests/test_multiobjective_v028.py
+      - name: Reproduce frozen historical Sum+Log theory and exact dual counterfactual
+        run: |
+          python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_s0.json --md-out /tmp/v028_s0.md
+          python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v028_s0.json --out /tmp/v028_s1.json --md-out /tmp/v028_s1.md
+          python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_l0.json --md-out /tmp/v028_l0.md
+          python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v028_s1.json --log-p0 /tmp/v028_l0.json --out /tmp/v028_d1.json --md-out /tmp/v028_d1.md
+      - name: Enumerate EXACT 13,983,816 joint and 7x7 shape categories and optimize NEW four-ticket portfolio
+        run: |
+          python -m lotto7x7.multiobjective_v028 \
+            --sum-p1 /tmp/v028_s1.json --log-p0 /tmp/v028_l0.json \
+            --dual-p1 /tmp/v028_d1.json --csv-dir data/csv \
+            --seed 20261110 --sample-count 80000 --pool-cap 2000 \
+            --restarts 40 --batch-size 120000 \
+            --out /tmp/v028_multiobjective.json \
+            --md-out /tmp/v028_multiobjective.md
+      - name: Audit true four-way repair, original-bet exclusion and fair coverage
+        run: |
+          python - <<'PY'
+          import json,math,pathlib
+          r=json.loads(pathlib.Path('/tmp/v028_multiobjective.json').read_text())
+          assert r['schema']=='lotto7x7.multiobjective.v0.28.m0'
+          assert r['source']['last_draw_id']==115000103
+          assert r['source']['historical_draws']==2497
+          assert r['source']['analysis_input_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert r['theory']['enumerated']==math.comb(49,6)
+          assert r['theory']['joint_sha256']=='31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a'
+          assert all(r['theory']['shape_category_counts'][k]>0 for k in ('component','partition','edge'))
+          assert r['search']['candidate_passing_four_positive_objective_blocks']>=100
+          assert r['search']['candidate_eligible_after_old_ticket_exclusion']>=1000
+          assert r['search']['search_optimality']=='HEURISTIC_UNCERTIFIED'
+          assert len(r['search']['sample_sha256'])==64
+          for v in (r['primary'],*r['sensitivity'].values()):
+              assert len(v['tickets'])==4
+              assert len({k for ticket in v['tickets'] for k in ticket})==24
+              assert v['shape_partition_count']==4
+              assert v['old_ticket_overlap_same_line_count']==0
+              assert v['status']=='HEURISTIC_UNCERTIFIED'
+              assert abs(v['exact_official_any_prize_probability']-.1227314589619088)<1e-12
+              assert all(all(z>0 for z in item['block_gain_in_exact_IID_std_units'].values()) for item in v['individual'])
+          assert 'NO_GO' in r['decision']
+          print('[PASS] 4 genuinely distinct objectives, exact fair joint/shape, Pareto maximin search, no old ticket reuse')
+          PY
+      - name: Archive frozen reproducible new-method evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: v028-shape-sum-log-joint-new-four-bets
+          path: |
+            /tmp/v028_multiobjective.json
+            /tmp/v028_multiobjective.md
+          if-no-files-found: error
