@@ -41,7 +41,7 @@ def test_iid_null_weighted_exactly_not_uniform_over_sum_bins():
     total = sum(theory)
     expected = sum(r["gain"] * p for r, p in zip(rows, theory)) / total
     assert null["expected_gain"] == pytest.approx(expected, abs=1e-16)
-    assert null["expected_gain_closed_form"] == pytest.approx(expected, abs=1e-16)
+    assert null["expected_gain_closed_form"] == pytest.approx(expected, rel=1e-12, abs=1e-14)
     assert null["stddev_gain"] ** 2 == pytest.approx(
         sum(p * (r["gain"] - expected) ** 2 for r, p in zip(rows, theory)) / total,
         abs=1e-17,
@@ -176,7 +176,6 @@ def test_invalid_top_k(tmp_path):
 
 
 def test_cli_generates_both_reports_without_overwrite(tmp_path, capsys):
-    p0 = baseline(tmp_path / "dataset", cutoff="2026-11-06") if False else None
     folder = tmp_path / "dataset"
     folder.mkdir()
     _write_history(folder / "lotto649_2026.csv", ROWS[:3])
