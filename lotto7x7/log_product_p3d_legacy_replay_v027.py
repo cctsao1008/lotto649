@@ -322,10 +322,12 @@ def markdown_report(report):
             lines.append("")
     lines.extend([
         "## Limitations","",
-        "This is the literal unchanged original P2 optimizer at three frozen prior-only historical prefixes. "
-        "It is a small retrospective integration audit, not evidence of predictive superiority. "
-        "Exact IID symmetry still gives the same fair odds to every 24-disjoint portfolio.",
-        "Full all-checkpoint legacy replay, broader model-family corrections and sealed future evaluation remain open.","",
+        f"This is the literal unchanged original P2 optimizer at {report['checkpoint_count']} "
+        "frozen prior-only historical prefixes. This retrospective integration audit does not "
+        "establish predictive superiority. Exact IID symmetry gives the same fair odds to "
+        "every 24-disjoint portfolio.",
+        "The other historical target dates beyond these fixed checkpoints, broader model-family "
+        "corrections, and prospective sealed future evaluation remain open.","",
         "## Reproduction","", "```powershell",
         "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_p3d_legacy_replay_v027 "
         "--csv-dir data/csv --out results/v027_p3d_legacy.json --md-out results/v027_p3d_legacy.md",
@@ -340,13 +342,17 @@ def main(argv=None):
     parser.add_argument("--out",type=Path,default=Path("results/v027_p3d_legacy.json"))
     parser.add_argument("--md-out",type=Path,default=None)
     parser.add_argument("--cached-p3b",type=Path,default=None)
+    parser.add_argument("--indices",type=str,default=None,
+                        help="optional comma-separated zero-based target indices; P3d default remains 300,1388,2476")
     args=parser.parse_args(argv)
     out,md=args.out,args.md_out or args.out.with_suffix(".md")
     if out.resolve()==md.resolve() or out.exists() or md.exists():
         raise FileExistsError("two distinct unused report paths required")
     raw=args.cached_p3b.read_bytes() if args.cached_p3b else None
     cached=json.loads(raw) if raw else None
-    result=replay(args.csv_dir,cache_pilot=cached)
+    indices=(tuple(int(x) for x in args.indices.split(","))
+             if args.indices is not None else TARGET_INDICES)
+    result=replay(args.csv_dir,target_indices=indices,cache_pilot=cached)
     if raw:
         result["cached_p3b_report_sha256"]=sha256(raw).hexdigest()
     out.parent.mkdir(parents=True,exist_ok=True)
@@ -365,7 +371,7 @@ def main(argv=None):
         print(f"[{name.upper()}] wins={data['prize_events']}, selected={data['selected']}, failures={data['selection_failures']}")
     print(f"[FAMILYWISE] exact 2-policy Bonferroni p={result['two_policy_bonferroni_upper_tail_p']}")
     print(f"[REPORT] {out} / {md}")
-    print("[SCOPE] Original #18 reservoir used, small retrospective 3-target audit only; not predictive GO")
+    print(f"[SCOPE] Original #18 reservoir used, retrospective {result['checkpoint_count']}-target audit only; not predictive GO")
 
 
 if __name__=="__main__":
