@@ -128,7 +128,7 @@ def test_full_universe_model_checksums_are_fixed_not_retuned_from_candidates():
     assert m.TOTAL==comb(49,6)
     assert m.CUTOFF=="2026-11-06"
     assert m.DRAW_ID==115000103
-    assert m.INPUT_SHA=="d865e1d241b607488e58a00b22fb595afd9d8850718808d6e8b7f8"
+    assert m.INPUT_SHA=="d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8"
     assert m.JOINT_SHA=="31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a"
     assert m.DEFAULT_SEED==20261110
     assert m.SCHEMA=="lotto7x7.multiobjective.v0.28.m0"
