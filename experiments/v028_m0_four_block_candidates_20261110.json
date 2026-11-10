@@ -1,0 +1,209 @@
+{
+  "schema": "lotto7x7.multiobjective.v0.28.m0.candidate_manifest.v1",
+  "experiment": "M0_new_four_block_composite_20261110",
+  "status": "DESCRIPTIVE_CANDIDATE_ONLY_NOT_A_PAID_TICKET",
+  "data_cutoff": {
+    "date": "2026-11-06",
+    "draw_id": 115000103,
+    "draws": 2497,
+    "historical_prefix_sha256": "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8"
+  },
+  "reproduced_at_ci": {
+    "run_id": 42793224246,
+    "run_url": "https://github.com/cctsao1008/lotto649/actions/runs/42793224246",
+    "artifact_name": "v028-shape-sum-log-joint-new-four-bets",
+    "code_module": "lotto7x7/multiobjective_v028.py"
+  },
+  "method": {
+    "objectives": [
+      "Sum one-draw squared-L2 repair",
+      "Log Product one-draw squared-L2 repair",
+      "Joint (Sum,Log bin) one-draw squared-L2 repair",
+      "Shape Taxonomy single-block L1/L2/L3 fixed-alpha regularized one-draw repair"
+    ],
+    "shape_sublevel_weights": {
+      "component": 0.25,
+      "partition": 0.35,
+      "edge": 0.4
+    },
+    "fair_6of49_count": 13983816,
+    "exact_joint_theory_sha256": "31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a",
+    "exact_shape_baseline_sha256": "341e33d37429c0f1e53c20ed4d54164c6adefa6080f54dc08c5ca9817967f320",
+    "exact_shape_taxonomy": "shape8-graph-partition-cardinal-diagonal-v1",
+    "seed": 20261110,
+    "uniform_candidate_sample_size": 80000,
+    "qualifying_all_four_positive_count": 13704,
+    "search_pool_size": 2000,
+    "restarts": 40,
+    "portfolio_objective": "bounded-search lexicographic maximin across FOUR percentile rank-sum blocks, with no assumption of independent forecasts",
+    "hard_constraints": [
+      "4 sorted legal six-ball tickets",
+      "24 mutually disjoint numbers",
+      "4 different exact Shape Taxonomy partition classes",
+      "each of 4 block single-draw gain strictly positive",
+      "no individual ticket from purchased set or original P2 Primary/Diverse"
+    ],
+    "search_certificate": "HEURISTIC_UNCERTIFIED"
+  },
+  "primary_candidate_tickets": [
+    {
+      "bet": "A",
+      "numbers": [
+        10,
+        27,
+        29,
+        35,
+        38,
+        47
+      ],
+      "sum": 186,
+      "log_bin": 27,
+      "shape_partition": "P2-1-1-1-1",
+      "standardized_IID_SD_gain": {
+        "sum": 1.84029873188,
+        "log": 1.85343144104,
+        "joint": 2.8036742417,
+        "shape": 0.4617363423
+      }
+    },
+    {
+      "bet": "B",
+      "numbers": [
+        15,
+        25,
+        30,
+        32,
+        39,
+        49
+      ],
+      "sum": 190,
+      "log_bin": 27,
+      "shape_partition": "P3-1-1-1",
+      "standardized_IID_SD_gain": {
+        "sum": 1.37722465561,
+        "log": 1.85343144104,
+        "joint": 1.89904531565,
+        "shape": 1.04529310482
+      }
+    },
+    {
+      "bet": "C",
+      "numbers": [
+        16,
+        18,
+        24,
+        40,
+        42,
+        46
+      ],
+      "sum": 186,
+      "log_bin": 27,
+      "shape_partition": "P3-2-1",
+      "standardized_IID_SD_gain": {
+        "sum": 1.84029873188,
+        "log": 1.85343144104,
+        "joint": 2.8036742417,
+        "shape": 1.49352926876
+      }
+    },
+    {
+      "bet": "D",
+      "numbers": [
+        20,
+        23,
+        28,
+        31,
+        33,
+        43
+      ],
+      "sum": 178,
+      "log_bin": 27,
+      "shape_partition": "P2-2-1-1",
+      "standardized_IID_SD_gain": {
+        "sum": 1.8865624802,
+        "log": 1.85343144104,
+        "joint": 1.42365866942,
+        "shape": 0.4929277018
+      }
+    }
+  ],
+  "fair_iid_four_disjoint_any_official_prize_probability": 0.1227314589619088,
+  "reported_sensitivity": {
+    "shape_first": [
+      [
+        1,
+        12,
+        20,
+        25,
+        31,
+        39
+      ],
+      [
+        14,
+        24,
+        29,
+        34,
+        37,
+        48
+      ],
+      [
+        15,
+        18,
+        26,
+        36,
+        44,
+        47
+      ],
+      [
+        19,
+        21,
+        28,
+        35,
+        40,
+        43
+      ]
+    ],
+    "joint_first": [
+      [
+        11,
+        26,
+        27,
+        32,
+        44,
+        46
+      ],
+      [
+        13,
+        29,
+        30,
+        35,
+        37,
+        42
+      ],
+      [
+        14,
+        20,
+        25,
+        33,
+        45,
+        49
+      ],
+      [
+        15,
+        18,
+        23,
+        39,
+        43,
+        48
+      ]
+    ]
+  },
+  "scientific_scope": [
+    "All four objectives are descriptive mathematical repair scores, not empirical estimates of next-draw winning probability.",
+    "High Sum values and identical Log Product bins reflect chosen finite-pool maximin ranking. Four distinct Log bins are NOT a hard constraint.",
+    "Sum and Log Product are correlated and Joint is derived from them; shape L1/L2/L3 are nested, not independent evidence.",
+    "Exact theoretical enumeration does not imply exhaustive globally optimal four-ticket search.",
+    "Neither purchased 4x10 bets nor original pre-first-draw P3f seal are changed.",
+    "This candidate file is not a pre-registered prospective test for specific future dates; an outcome-free fixed date schedule must be separately sealed before evaluation."
+  ]
+}
