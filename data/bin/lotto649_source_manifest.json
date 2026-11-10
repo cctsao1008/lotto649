@@ -1,11 +1,11 @@
 {
-  "dataset": "lotto649.single-source.biga.v1",
+  "dataset": "lotto649.appended-verified.v2",
   "source_site": "https://2019.biga.com.tw/",
-  "cutoff": "2026-11-06",
+  "cutoff": "2026-11-10",
   "downloaded_at_utc": "2026-11-07T19:15:12.852043+00:00",
-  "total_draws": 2497,
+  "total_draws": 2498,
   "first_draw_id": 93000001,
-  "last_draw_id": 115000103,
+  "last_draw_id": 115000104,
   "id_rule": "ROC year * 1,000,000 + annual sequence; raw 6-digit source IDs expanded",
   "history_format": "L649HIS1, <II7B: id, YYYYMMDD, 6 sorted numbers, bonus",
   "image_format": "L649IMG2, <I49B: id and six-hot 7x7 bitmap",
@@ -159,17 +159,51 @@
     "2023": 116,
     "2024": 118,
     "2025": 118,
-    "2026": 103
+    "2026": 104
   },
   "files": {
     "lotto649_history_v1.bin": {
-      "bytes": 37471,
-      "sha256": "2418e5a3f3a7254035cacad04aab43f2e6dd4c70e83da64498a1f57602274e2e"
+      "bytes": 37486,
+      "sha256": "57de2ead78147f998b7cac22dfbd94461a6af38584ee106d6a1a26c1dd97f3b8"
     },
     "lotto649_images_v2.bin": {
-      "bytes": 132357,
-      "sha256": "736f598a31abfa43cd91b7d58f878f52c48af850b2581b909ac6fbf649278b4b"
+      "bytes": 132410,
+      "sha256": "9069034085cfd901405dbfba0f0993c6e1fd8b1494ecea87c20681b52fe808b9"
     }
   },
-  "limitations": "One third-party source, not independently cross-checked against official historical draws."
+  "limitations": "First 2497 draws retain original Biga third-party source pages and recorded 2026-11-06 hashes. #115000104 appended from independent CNA and H8 records; not downloaded directly from Taiwan Lottery official operator.",
+  "original_source_snapshot": {
+    "dataset": "lotto649.single-source.biga.v1",
+    "cutoff": "2026-11-06",
+    "total_draws": 2497,
+    "last_draw_id": 115000103,
+    "prefix_sha256": "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8"
+  },
+  "appended_draws": [
+    {
+      "draw_id": 115000104,
+      "date": "2026-11-10",
+      "main": [
+        11,
+        23,
+        30,
+        32,
+        40,
+        41
+      ],
+      "bonus": 28,
+      "source_status": "CORROBORATED_BY_INDEPENDENT_NON_OFFICIAL_SOURCES",
+      "sources": [
+        {
+          "name": "Central News Agency",
+          "url": "https://www.cna.com.tw/news/ahel/202611100359.aspx",
+          "published_at_local": "2026-11-10 22:06 Asia/Taipei"
+        },
+        {
+          "name": "H8 Lottery Results",
+          "url": "https://www.h8.com.tw/web/biglotto.jhtml?lang=zh-TW&rwd=1"
+        }
+      ]
+    }
+  ]
 }
