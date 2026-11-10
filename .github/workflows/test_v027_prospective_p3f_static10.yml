@@ -1,0 +1,64 @@
+name: v0.27 P3f prospectively sealed static ten-draw shadow test
+
+on:
+  pull_request:
+    paths:
+      - "prospective/v027_p3f_static10_20261110_seal.json"
+      - "prospective/README.md"
+      - "lotto7x7/prospective_p3f_static10_v027.py"
+      - "tests/test_prospective_p3f_static10_v027.py"
+      - ".github/workflows/test_v027_prospective_p3f_static10.yml"
+  workflow_dispatch:
+
+jobs:
+  immutable-prospective-seal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install existing minimal dependencies
+        run: python -m pip install --upgrade pytest numpy
+      - name: Compile and test fixed pre-draw seal, no-lookahead and official prize logic
+        run: |
+          python -m py_compile lotto7x7/prospective_p3f_static10_v027.py
+          python -m pytest -q tests/test_prospective_p3f_static10_v027.py
+      - name: Audit original fixed history and report only available future results
+        run: |
+          python -m lotto7x7.prospective_p3f_static10_v027 \
+            --seal prospective/v027_p3f_static10_20261110_seal.json \
+            --csv-dir data/csv \
+            --out /tmp/v027_p3f_initial_shadow.json \
+            --md-out /tmp/v027_p3f_initial_shadow.md
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path('/tmp/v027_p3f_initial_shadow.json').read_text())
+          assert r['schema']=='lotto7x7.prospective.v0.27.p3f.static10.report.v1'
+          assert r['frozen_seal_provenance']['first_pre_draw_seal_commit']=='ae15748a88e7aad334d68354b04338fa71d6bfdf'
+          assert r['frozen_seal_provenance']['pinned_git_blob_sha1']=='b7dec534a44b1ec08d575a4f2e48e5c3580e76d1'
+          assert r['source']['input_prefix_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert r['fixed_draws_total']==10
+          assert r['observed_draws']+r['pending_draws']==10
+          assert len(r['status_per_draw'])==10
+          assert [x['draw_id'] for x in r['status_per_draw']]==list(range(115000104,115000114))
+          assert all(x['status'] in ('PENDING','OBSERVED') for x in r['status_per_draw'])
+          if r['pending_draws']:
+              assert r['final_exact_one_sided_binomial_tests'] is None
+              assert r['two_P2_policy_bonferroni_upper_tail_p'] is None
+          assert set(r['strategy_statistics'])=={
+              'original_p2_primary','original_p2_distinct_sums','history_blind_random_control'}
+          assert abs(r['fair_IID_probability'] - 0.1227314589619088) < 1e-12
+          assert 'PREDICTIVE_NO_GO' not in r['decision'] or r['observed_draws']==10
+          print('[PASS] immutable pre-draw seal, 2497-draw input fingerprint, 10 planned future dates and no premature inference')
+          PY
+      - name: Archive audit record (PENDING is expected before future results)
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-p3f-immutable-pre-draw-static10-shadow
+          path: |
+            /tmp/v027_p3f_initial_shadow.json
+            /tmp/v027_p3f_initial_shadow.md
+          if-no-files-found: error
