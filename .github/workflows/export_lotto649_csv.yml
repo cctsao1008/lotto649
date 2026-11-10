@@ -48,8 +48,18 @@ jobs:
                   count = sum(1 for row in reader if row)
                   print(path, count)
                   rows += count
-          assert rows == 2497, f"expected 2497 draws, found {rows}"
-          print("PASS: 23 annual CSV files, 2497 draws, 9 columns")
+          import json
+          manifest = json.loads(Path("data/bin/lotto649_source_manifest.json").read_text(encoding="utf-8"))
+          expected = manifest["total_draws"]
+          assert manifest["dataset"] in ("lotto649.single-source.biga.v1", "lotto649.appended-verified.v2")
+          assert rows == expected, f"expected {expected} draws from BIN manifest, found {rows}"
+          assert len(files) == len(manifest["by_year"])
+          for path in files:
+              year = path.stem.split("_")[-1]
+              with path.open(encoding="ascii", newline="") as file:
+                  observed = sum(1 for _ in file) - 1
+              assert observed == manifest["by_year"][year], (year, observed, manifest["by_year"][year])
+          print(f"PASS: {len(files)} annual CSV files, {rows} draws, 9 columns, manifest-consistent")
           PY
       - name: Verify legacy 7x7 BIN against regenerated CSV using project parser
         run: |
