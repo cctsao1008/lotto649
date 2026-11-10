@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "lotto7x7/multiobjective_v028.py"
+      - "experiments/v028_m0_four_block_candidates_20261110.json"
       - "tests/test_multiobjective_v028.py"
       - ".github/workflows/test_v028_multiobjective.yml"
   workflow_dispatch:
@@ -53,6 +54,21 @@ jobs:
           assert r['search']['candidate_passing_four_positive_objective_blocks']>=100
           assert r['search']['candidate_eligible_after_old_ticket_exclusion']>=1000
           assert r['search']['search_optimality']=='HEURISTIC_UNCERTIFIED'
+          assert r['theory']['shape_counts_sha256']=='341e33d37429c0f1e53c20ed4d54164c6adefa6080f54dc08c5ca9817967f320'
+          assert r['search']['sample_sha256']=='5744bb7b6e5ee9e086cb2c9eb17b7872b3028d512365610fb747672586b92c8c'
+          assert r['search']['candidate_passing_four_positive_objective_blocks']==13704
+          assert r['search']['bounded_search_pool_size']==2000
+          assert r['primary']['tickets']==[
+              [10,27,29,35,38,47],
+              [15,25,30,32,39,49],
+              [16,18,24,40,42,46],
+              [20,23,28,31,33,43],
+          ]
+          manifest=json.loads(pathlib.Path('experiments/v028_m0_four_block_candidates_20261110.json').read_text())
+          assert [item['numbers'] for item in manifest['primary_candidate_tickets']]==r['primary']['tickets']
+          assert manifest['method']['exact_shape_baseline_sha256']==r['theory']['shape_counts_sha256']
+          assert manifest['method']['exact_joint_theory_sha256']==r['theory']['joint_sha256']
+          assert manifest['status']=='DESCRIPTIVE_CANDIDATE_ONLY_NOT_A_PAID_TICKET'
           assert len(r['search']['sample_sha256'])==64
           for v in (r['primary'],*r['sensitivity'].values()):
               assert len(v['tickets'])==4
