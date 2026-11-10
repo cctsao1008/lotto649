@@ -1,0 +1,111 @@
+name: v0.27 Issue 15 P3b frozen-policy IID pilot
+
+on:
+  pull_request:
+    paths:
+      - "lotto7x7/log_product_p3b_pilot_v027.py"
+      - "tests/test_log_product_p3b_pilot_v027.py"
+      - ".github/workflows/test_v027_log_product_p3b_pilot.yml"
+  workflow_dispatch:
+
+jobs:
+  frozen-portfolio-iid-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install existing dependencies
+        run: python -m pip install --upgrade pytest numpy
+      - name: Compile and run cumulative v0.27 Sum/Log P0-P3b tests
+        run: |
+          python -m py_compile lotto7x7/log_product_p3b_pilot_v027.py
+          python -m pytest -q \
+            tests/test_distribution_repair_v027.py \
+            tests/test_distribution_repair_scoring_v027.py \
+            tests/test_distribution_repair_portfolio_v027.py \
+            tests/test_log_product_v027.py \
+            tests/test_log_product_dual_scoring_v027.py \
+            tests/test_log_product_dual_portfolio_v027.py \
+            tests/test_log_product_joint_p3_v027.py \
+            tests/test_log_product_p3b_pilot_v027.py
+      - name: Reproduce frozen 2,497-draw Sum and Log baselines
+        run: |
+          python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_sum_p0.json --md-out /tmp/v027_sum_p0.md
+          python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_sum_p0.json --out /tmp/v027_sum_p1.json --md-out /tmp/v027_sum_p1.md
+          python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_log_p0.json --md-out /tmp/v027_log_p0.md
+          python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v027_sum_p1.json --log-p0 /tmp/v027_log_p0.json --out /tmp/v027_dual_p1.json --md-out /tmp/v027_dual_p1.md
+      - name: Run frozen cached four-ticket policy on true timeline and 24 IID replay timelines
+        run: |
+          python -m lotto7x7.log_product_p3b_pilot_v027 \
+            --sum-p1 /tmp/v027_sum_p1.json \
+            --log-p0 /tmp/v027_log_p0.json \
+            --dual-p1 /tmp/v027_dual_p1.json \
+            --csv-dir data/csv --cutoff 2026-11-06 \
+            --warmup 300 --stride 64 --replicates 24 \
+            --seed 649 --per-cell 32 --restarts 12 --cell-limit 24 \
+            --out /tmp/v027_p3b_pilot.json --md-out /tmp/v027_p3b_pilot.md
+      - name: Verify scope, no-lookahead, disjoint selections and adjusted Monte Carlo null
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, math
+          r=json.loads(Path('/tmp/v027_p3b_pilot.json').read_text())
+          assert r['schema']=='lotto7x7.log_product.v0.27.p3b_pilot'
+          assert r['source']['historical_draws']==2497
+          assert r['source']['last_draw_id']==115000103
+          assert r['source']['analysis_input_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert r['theory_checksums']['joint']=='31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a'
+          p=r['policy']
+          assert p['policy']=='cached_joint_cell_greedy_v1'
+          assert p['full_universe_enumerated']==math.comb(49,6)
+          assert p['nonzero_joint_cells']==2199
+          assert len(p['catalogue_checksum_sha256'])==64
+          assert p['iid_replicates']==24
+          assert p['stride']==64 and p['warmup']==300
+          fair=r['fair_reference']['official_eight_tier_any_prize_probability']
+          assert abs(fair-0.1227314589619088)<1e-12
+          history=r['historical']
+          checkpoints=len(range(300,2497,64))
+          assert history['evaluated_checkpoints']==checkpoints
+          assert len(history['records'])==checkpoints
+          for entry in history['records']:
+              assert entry['training_count']==entry['target_index_zero_based']
+              for k in ('primary','distinct_sums','random'):
+                  decision=entry['decisions'][k]
+                  if 'tickets' not in decision:
+                      assert decision['no_feasible_witness']
+                      continue
+                  tickets=decision['tickets']
+                  assert len(tickets)==4
+                  assert len({n for t in tickets for n in t})==24
+                  assert all(len(t)==6 and t==sorted(t) for t in tickets)
+                  if k=='distinct_sums':
+                      assert len({sum(t) for t in tickets})==4
+          null=r['iid_null']
+          assert null['replay_count']==24
+          assert len(null['replicates'])==24
+          assert 1/25<=null['max_statistic_multiple_policy_adjusted_upper_tail_p']<=1.
+          assert null['pvalue_resolution']==1/25
+          assert 'PREDICTIVE_NO_GO_OR_INCONCLUSIVE' in r['decision']
+          assert 'not the byte-identical P2' in r['warnings'][3].lower() or 'not the byte-identical p2' in r['warnings'][3].lower()
+          print('[PASS] full cached-policy replay, disjoint four-ticket hard constraints, adjusted IID max-test, honest scope')
+          PY
+      - name: Archive P3b frozen-policy pilot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: v027-dual-p3b-cached-pilot-2026-11-06
+          path: |
+            /tmp/v027_sum_p0.json
+            /tmp/v027_sum_p0.md
+            /tmp/v027_sum_p1.json
+            /tmp/v027_sum_p1.md
+            /tmp/v027_log_p0.json
+            /tmp/v027_log_p0.md
+            /tmp/v027_dual_p1.json
+            /tmp/v027_dual_p1.md
+            /tmp/v027_p3b_pilot.json
+            /tmp/v027_p3b_pilot.md
+          if-no-files-found: error
