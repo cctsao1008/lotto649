@@ -142,6 +142,58 @@ def _witness_for_cells(cells, pools, *, rng: Random, restarts: int):
     return None
 
 
+
+def _exact_portfolio_key(tickets, thresholds, sum_num, log_num, weights):
+    """Shared integer objective for independent comparisons and baselines."""
+    return sum(score_joint_cell(
+        sum(t) - SUM_OFFSET,
+        bisect_right(thresholds, prod(t)) - 1,
+        sum_num, log_num, weights) for t in tickets)
+
+
+def _best_greedy_from_pools(cells: list[dict], pools: dict, *,
+                            rng: Random, restarts: int,
+                            sum_num: list[int], log_num: list[int],
+                            weights: tuple[int, int], thresholds: list[int]):
+    """Bounded deterministic greedy best-of-restarts over high-ranked cells.
+
+    Scores every feasible ticket EXACTLY by its feature-cell integer key.
+    This search is neither exhaustive nor a certification by itself.
+    """
+    best, best_key, valid_trials = None, None, 0
+    for _ in range(restarts):
+        used, selected = 0, []
+        for step in range(4):
+            match = None
+            for cell in cells:
+                key = (cell["sum"], cell["log_bin"])
+                arr = pools.get(key)
+                if not arr:
+                    continue
+                start = rng.randrange(len(arr))
+                for offset in range(len(arr)):
+                    mask, ticket = arr[(start + offset) % len(arr)]
+                    if not (mask & used):
+                        match = (mask, ticket)
+                        break
+                if match is not None:
+                    break
+            if match is None:
+                break
+            used |= match[0]
+            selected.append(match[1])
+        if len(selected) != 4:
+            continue
+        valid_trials += 1
+        selected = validate_four_disjoint(tuple(sorted(selected)))
+        value = _exact_portfolio_key(
+            selected, thresholds,
+            sum_num, log_num, weights)
+        if best_key is None or value > best_key or (value == best_key and selected < best):
+            best, best_key = selected, value
+    return best, {"greedy_restarts": restarts,
+                  "greedy_feasible_restarts": valid_trials}
+
 def _reservoir_pools(cells, *, per_cell: int, seed: int, thresholds: list[int]) -> tuple[dict, dict]:
     """Uniform bounded reservoir per prespecified (sum,log) cell, two-pass.
 
@@ -380,6 +432,23 @@ def optimize(sum_p1: dict, log_p0: dict, dual_p1: dict, *, seed: int = 649,
                       "target_cell": list(top_cell), "restarts": restarts,
                       "pool_per_cell": pool_per_cell, "candidate_cell_limit": cell_limit,
                       "pool_actual_size": len(pools[top_cell])}
+    # A restricted four-in-the-same-cell witness may be impossible because
+    # reaching a low Log Product often consumes scarce small labels. Search
+    # across high-scoring attainable cells as a separate, honest heuristic.
+    pool_candidate, pool_diagnostics = _best_greedy_from_pools(
+        cells[:cell_limit], pools, rng=rng, restarts=restarts,
+        sum_num=s_gain["numerators"], log_num=l_gain["numerators"],
+        weights=weights, thresholds=grid["integer_product_thresholds"])
+    primary_search["high_score_pool_search"] = pool_diagnostics
+    if pool_candidate is not None and (
+        primary_witness is None or
+        _exact_portfolio_key(pool_candidate, grid["integer_product_thresholds"],
+                             s_gain["numerators"], l_gain["numerators"], weights)
+        > _exact_portfolio_key(primary_witness, grid["integer_product_thresholds"],
+                               s_gain["numerators"], l_gain["numerators"], weights)
+    ):
+        primary_witness = pool_candidate
+        primary_search["best_witness_method"] = "greedy_multicell_reservoir"
     if primary_witness is None:
         primary_witness, fallback = _fallback_four(
             dual_p1, rng=rng, trials=fallback_trials, distinct_sums=False,
@@ -397,6 +466,19 @@ def optimize(sum_p1: dict, log_p0: dict, dual_p1: dict, *, seed: int = 649,
             dual_p1, rng=rng, trials=fallback_trials, distinct_sums=True,
             numerator_sum=s_gain["numerators"], numerator_log=l_gain["numerators"], weights=weights)
         diverse_search["uncertified_fallback"] = fallback
+    # The unrestricted feasible set contains the four-distinct-sum subset:
+    # it cannot legitimately return a lower objective than a known feasible
+    # diversity witness. Reuse the stronger witness when necessary.
+    if diverse_witness is not None and (
+        primary_witness is None or
+        _exact_portfolio_key(diverse_witness, grid["integer_product_thresholds"],
+                             s_gain["numerators"], l_gain["numerators"], weights)
+        > _exact_portfolio_key(primary_witness, grid["integer_product_thresholds"],
+                               s_gain["numerators"], l_gain["numerators"], weights)
+    ):
+        primary_witness = diverse_witness
+        primary_search["best_witness_method"] = "best_known_diverse_feasible_witness"
+        primary_search["dominance_guard"] = "unrestricted objective never worse than diversity witness"
     official_ref = official_prize_coverage(REFERENCE)
     hits_ref = exact_coverage(REFERENCE)
     primary = _describe_portfolio(
