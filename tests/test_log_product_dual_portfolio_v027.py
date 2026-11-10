@@ -16,6 +16,7 @@ from lotto7x7.log_product_dual_portfolio_v027 import (
     SCHEMA, _describe_portfolio, _exact_coverage_parity, _fallback_four,
     _ticket_mask, _witness_for_cells, enumerate_joint_counts,
     frozen_weights, pareto_frontier, score_joint_cell,
+    _best_greedy_from_pools, _exact_portfolio_key,
 )
 from lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
@@ -141,3 +142,33 @@ def test_no_fallback_without_valid_dual_positive_partition(monkeypatch):
         weights=(1,1))
     assert candidate is None
     assert details["dual_positive_24_number_partitions"] == 0
+
+
+def test_multicell_greedy_deterministic_and_exact_keys():
+    selected = [
+        (4, 21, 27, 28, 31, 41),
+        (5, 7, 9, 38, 46, 47),
+        (6, 15, 23, 29, 39, 40),
+        (11, 12, 19, 32, 35, 43),
+    ]
+    nums=[0]*259
+    nums[152-21] = 3
+    logs=[0]*34
+    logs[23]=7
+    thresholds=list(range(1,36))
+    # This artificial threshold grid labels all products above support;
+    # for the exact portfolio key test use a valid broad bin partition.
+    thresholds=[1, 10**16]
+    cells=[{"sum":152, "log_bin":0, "objective_key":20}]
+    pools={(152,0):[(_ticket_mask(t),t) for t in selected]}
+    logs=[7]
+    kwargs=dict(rng=Random(649),restarts=5,sum_num=nums,log_num=logs,
+                weights=(2,3),thresholds=thresholds)
+    witness, diagnostics=_best_greedy_from_pools(cells,pools,**kwargs)
+    assert validate_four_disjoint(witness)
+    assert diagnostics["greedy_feasible_restarts"] == 5
+    assert _exact_portfolio_key(witness,thresholds,nums,logs,(2,3)) == 4*(2*3+3*7)
+    another, diag=_best_greedy_from_pools(
+        cells,pools,rng=Random(649),restarts=5,
+        sum_num=nums,log_num=logs,weights=(2,3),thresholds=thresholds)
+    assert another==witness and diag==diagnostics
