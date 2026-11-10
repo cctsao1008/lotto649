@@ -290,7 +290,7 @@ def markdown_report(result: dict) -> str:
         f"- **Theoretical L variance/SD:** {moments['variance']:.12g} / {moments['stddev']:.12g}",
         f"- **Theoretical L skewness:** {moments['skewness']:+.12g} ({'left skew' if moments['skewness'] < 0 else 'nonnegative skew'})",
         f"- **Log support:** [{theory['support_log_min']:.9f}, {theory['support_log_max']:.9f}]",
-        f"- **Mode bins:** {', '.join(f'{grid['edges'][i]}–{grid['edges'][i+1]}' for i in theory['mode_bin_indices'])}",
+        "- **Mode bins:** " + ", ".join(grid["edges"][i] + "–" + grid["edges"][i+1] for i in theory["mode_bin_indices"]),
         f"- **Strict interior local peaks:** {theory['strict_interior_local_peaks']}",
         f"- **Observed L mean/variance/skewness:** {o['mean']:.9f} / {o['variance']:.9f} / {o['skewness'] if o['skewness'] is not None else 'N/A'}",
         f"- **Frozen primary loss:** `{METRIC}` = {o['squared_l2_probability']:.12g}",
