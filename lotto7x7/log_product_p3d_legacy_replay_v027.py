@@ -18,7 +18,6 @@ import argparse
 from datetime import datetime
 from hashlib import sha256
 import json
-from math import isclose
 from pathlib import Path
 from random import Random
 
@@ -149,15 +148,8 @@ def _compare_cached(pilot:dict|None, t:int, main, bonus, original:dict):
 
 
 def replay(csv_dir:Path, *, target_indices=TARGET_INDICES,
-           cache_pilot:dict|None=None, diagnostic_hook=None)->dict:
-    """Call EXACT original P2 optimizer once per frozen prior-history prefix.
-
-    An optional diagnostic_hook(index,prefix) supports unit testing that
-    the target was excluded, without replacing the original P2 algorithm
-    in production. If it returns a non-None object it substitutes ONLY
-    during a specially instrumented test; production always invokes
-    original_p2_optimize() directly and reports the original function.
-    """
+           cache_pilot:dict|None=None)->dict:
+    """Call the unchanged original P2 optimizer on strict prior-history input."""
     csv_dir=Path(csv_dir)
     full=baseline(csv_dir,cutoff=FINAL_CUTOFF)
     source=full["source"]
@@ -179,7 +171,6 @@ def replay(csv_dir:Path, *, target_indices=TARGET_INDICES,
     for t in indexes:
         previous_day=_date_from_yyyymmdd(data.dates[t-1])
         target_day=_date_from_yyyymmdd(data.dates[t])
-        before_main=[tuple(int(v) for v in row) for row in data.numbers[:t]]
         target=tuple(int(v) for v in data.numbers[t])
         target_bonus=bonus[t]
         # P0/P1 models accept ONLY a strict t-row cutoff; their hashes
@@ -189,23 +180,14 @@ def replay(csv_dir:Path, *, target_indices=TARGET_INDICES,
         if (p0["source"]["historical_draws"]!=t or
                 p0["source"]["analysis_input_sha256"]!=prior_hash or
                 p0["source"]["last_draw_id"]!=int(data.ids[t-1]) or
-                p0["source"]["post_cutoff_rows_excluded"]<1 or
-                tuple(int(x) for x in data.numbers[t]) in before_main[-1:]):
+                p0["source"]["post_cutoff_rows_excluded"]<1):
             raise AssertionError("historical prior-only cutoff/source isolation broken")
         s1=score_p0(p0)
         l0=historical_baseline(csv_dir,cutoff=previous_day,
                                expected_prefix_sha256=prior_hash,theory=theory)
         d1=dual_score(s1,l0)
         # Nothing about the unseen target or its bonus reaches optimize().
-        invoked= None
-        if diagnostic_hook is not None:
-            invoked=diagnostic_hook(t,{
-                "sum_p1":s1,"log_p0":l0,"dual_p1":d1,
-                "prior_numbers":tuple(before_main),
-                "prior_hash":prior_hash,"target_id":int(data.ids[t])
-            })
-        output=(invoked if invoked is not None else
-                original_p2_optimize(s1,l0,d1,**CONFIG))
+        output=original_p2_optimize(s1,l0,d1,**CONFIG)
         if output.get("schema")!="lotto7x7.log_product.v0.27.p2":
             raise ValueError("not an original P2 optimize() output")
         if output.get("source",{}).get("analysis_input_sha256")!=prior_hash:
@@ -314,17 +296,9 @@ def markdown_report(report):
         lines.append(
             f"| {name} | {item['selected']} | {item['selection_failures']} | "
             f"{item['prize_events']} | "
-            f"{test['exact_fair_expected_successes']:.4f if False else 'N/A'} | "
-            f"{test['upper_tail_probability']:.6f if test else 'N/A'} |"
+            f"{format(test['exact_fair_expected_successes'], '.4f') if test else 'N/A'} | "
+            f"{format(test['upper_tail_probability'], '.6f') if test else 'N/A'} |"
         )
-    # Format expected values independently, avoiding formatting Nones.
-    for i in range(len(lines)):
-        if "N/A |" in lines[i] and lines[i].startswith("| "):
-            for name in ("primary","distinct_sums","random"):
-                if lines[i].startswith(f"| {name} |"):
-                    t=report["empirical_results"][name]["exact_binomial_test"]
-                    if t:
-                        lines[i]=lines[i].replace("| N/A |",f"| {t['exact_fair_expected_successes']:.4f} |",1)
     lines.extend(["",
         f"- **Two-policy Bonferroni upper-tail p:** "
         f"{report['two_policy_bonferroni_upper_tail_p'] if report['two_policy_bonferroni_upper_tail_p'] is not None else 'INCONCLUSIVE'}",
