@@ -19,7 +19,7 @@ from lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
 from lotto7x7.log_product_p3c_exact_iid_v027 import exact_fair_probability
 from lotto7x7.prospective_p3f_static10_v027 import (
     SEAL, SCHEMA, SEAL_COMMIT, PINNED_GIT_BLOB_SHA1, REPORT_SCHEMA,
-    _blob_sha1, load_frozen_seal, validate_manifest,
+    _blob_sha1, _canonical_seal_bytes, load_frozen_seal, validate_manifest,
     read_verified_history, evaluate_frozen_future, markdown_report, main,
 )
 
@@ -34,9 +34,12 @@ def test_immutable_source_timestamp_and_exact_git_blob_pin(pinned_seal):
     seal,provenance=pinned_seal
     assert seal["schema"]==SCHEMA
     raw=SEAL.read_bytes()
-    assert _blob_sha1(raw)==PINNED_GIT_BLOB_SHA1
+    canonical,mode=_canonical_seal_bytes(raw)
+    assert _blob_sha1(canonical)==PINNED_GIT_BLOB_SHA1
     assert provenance["first_pre_draw_seal_commit"]==SEAL_COMMIT
     assert provenance["seal_bytes_sha256"]==sha256(raw).hexdigest()
+    assert provenance["canonical_seal_sha256"]==sha256(canonical).hexdigest()
+    assert provenance["working_tree_line_endings"]==mode
     assert seal["historical_cutoff"]["last_draw_id"]==115000103
     assert seal["historical_cutoff"]["draws"]==2497
     assert seal["historical_cutoff"]["last_draw_date"]=="2026-11-06"
@@ -64,6 +67,38 @@ def test_public_shadow_bets_are_legal_and_ten_draws_are_fixed(pinned_seal):
     assert all("tickets" in m["strategies"][k] for k in m["strategies"])
     assert m["status"]=="SHADOW_PRE_REGISTERED_NO_PURCHASE"
     validate_manifest(m)
+
+
+def test_crlf_checkout_is_equivalent_to_pre_draw_git_blob(tmp_path,pinned_seal):
+    # Reproduce Windows core.autocrlf=true on Linux CI AND Linux LF on Windows.
+    working_tree = SEAL.read_bytes()
+    canonical,mode = _canonical_seal_bytes(working_tree)
+    assert mode in ("LF","CRLF_CHECKOUT")
+    assert b"\r" not in canonical
+    assert _blob_sha1(canonical)==PINNED_GIT_BLOB_SHA1
+    windows = canonical.replace(b"\n",b"\r\n")
+    assert windows != canonical
+    assert _blob_sha1(windows)!=PINNED_GIT_BLOB_SHA1
+    assert _canonical_seal_bytes(windows)==(canonical,"CRLF_CHECKOUT")
+    copy = tmp_path/"windows_checkout.json"
+    copy.write_bytes(windows)
+    manifest,provenance = load_frozen_seal(copy)
+    assert manifest == pinned_seal[0]
+    assert provenance["pinned_git_blob_sha1"]==PINNED_GIT_BLOB_SHA1
+    assert provenance["working_tree_line_endings"]=="CRLF_CHECKOUT"
+    assert provenance["seal_bytes_sha256"]==sha256(windows).hexdigest()
+    assert provenance["canonical_seal_sha256"]==sha256(canonical).hexdigest()
+    # CRLF is the only permitted transformation; mixed/stray CR is rejected.
+    mixed = canonical.replace(b"\n",b"\r\n",1)
+    with pytest.raises(ValueError,match="mixed or invalid line endings"):
+        _canonical_seal_bytes(mixed)
+    with pytest.raises(ValueError,match="mixed or invalid line endings"):
+        _canonical_seal_bytes(canonical+b"\r")
+    # Even a valid JSON edit in a Windows-CRLF working tree must fail.
+    edited=windows.replace(b'"fixed_draw_count": 10',b'"fixed_draw_count": 11')
+    copy.write_bytes(edited)
+    with pytest.raises(ValueError,match="PROSPECTIVE SEAL MODIFIED"):
+        load_frozen_seal(copy)
 
 
 def test_any_modified_seal_rejected_even_if_valid_json(tmp_path,pinned_seal):
