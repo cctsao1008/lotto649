@@ -1,0 +1,211 @@
+{
+  "schema": "lotto7x7.prospective.v0.27.p3f.static10.v1",
+  "experiment_id": "v027-p3f-shadow-static10-20261110",
+  "created_for": "frozen before first prospective 2026-11-10 draw; do not edit after outcomes",
+  "status": "SHADOW_PRE_REGISTERED_NO_PURCHASE",
+  "research_stage": "P3F_PROSPECTIVE_STATIC_4_DISJOINT_TICKET_SEAL",
+  "historical_cutoff": {
+    "last_draw_date": "2026-11-06",
+    "last_draw_id": 115000103,
+    "draws": 2497,
+    "input_prefix_sha256": "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8",
+    "next_draw_not_in_model": 115000104
+  },
+  "source": {
+    "original_p2_pull_request": "https://github.com/cctsao1008/lotto649/pull/18",
+    "original_p2_module": "lotto7x7/log_product_dual_portfolio_v027.py",
+    "original_p2_module_git_blob_sha1": "e190bfbc847658301d69cc9d91a4c26dba27617e",
+    "original_p2_ci_evidence": "https://github.com/cctsao1008/lotto649/actions/runs/42761581450",
+    "log_theory_sha256": "6bfaf80d57451c3e5eb4577691a27113dd4ee7b9a50fe8363460a0645e1ba826",
+    "sum_theory_sha256": "a760f93e39368ae7e4b00a43859398d46d8368b9ba73663cefe0a41ee5e6e54f",
+    "selection_parameters": {
+      "seed": 649,
+      "pool_per_cell": 800,
+      "cell_limit": 24,
+      "restarts": 512,
+      "fallback_trials": 15000
+    }
+  },
+  "experiment": {
+    "selection_timing": "All four-ticket portfolios fixed for the whole ten-draw period BEFORE 2026-11-10 draw. No per-draw updates.",
+    "planned_draws": [
+      {
+        "draw_id": 115000104,
+        "date": "2026-11-10"
+      },
+      {
+        "draw_id": 115000105,
+        "date": "2026-11-13"
+      },
+      {
+        "draw_id": 115000106,
+        "date": "2026-11-17"
+      },
+      {
+        "draw_id": 115000107,
+        "date": "2026-11-20"
+      },
+      {
+        "draw_id": 115000108,
+        "date": "2026-11-24"
+      },
+      {
+        "draw_id": 115000109,
+        "date": "2026-11-27"
+      },
+      {
+        "draw_id": 115000110,
+        "date": "2026-12-01"
+      },
+      {
+        "draw_id": 115000111,
+        "date": "2026-12-04"
+      },
+      {
+        "draw_id": 115000112,
+        "date": "2026-12-08"
+      },
+      {
+        "draw_id": 115000113,
+        "date": "2026-12-11"
+      }
+    ],
+    "terminal_draw_id": 115000113,
+    "fixed_draw_count": 10,
+    "independent_under_IID": true,
+    "endpoint": "any_official_award_from_exactly_four_pairwise_disjoint_6_number_tickets_per_draw",
+    "outcome_definition": "Taiwan Lotto649 eight official prize tiers, main six plus distinct special number",
+    "fair_IID_any_prize_probability_description": "4-disjoint-ticket P(any award) = 0.122731458961909; exact rational from official_prize_coverage",
+    "prespecified_primary_hypotheses": [
+      "original_p2_primary",
+      "original_p2_distinct_sums"
+    ],
+    "multiple_testing": "two one-sided exact Binomial(10,p) upper-tail tests; Bonferroni correction across only these two policies; no GO claimed from 10 draws",
+    "early_peeking_rule": "Intermediate results are descriptive/PENDING only. Primary inferential summary is emitted only after all 10 fixed draws are available.",
+    "prospective_change_policy": "NEVER modify these four-ticket numbers, schedule, or hypotheses after any evaluated result. Revise implementation only with separate version and audit trail.",
+    "user_existing_paid_ticket_policy": "Existing purchased 4-line x 10-draw ticket is separate, not contained in this public research manifest and not substituted for these shadow tickets."
+  },
+  "strategies": {
+    "original_p2_primary": {
+      "selection_certificate": "HEURISTIC_UNCERTIFIED",
+      "source_frozen_results": "P2 CI 42761581450; precommitted 2497-draw cutoff",
+      "tickets": [
+        [
+          1,
+          6,
+          20,
+          39,
+          41,
+          45
+        ],
+        [
+          2,
+          5,
+          8,
+          42,
+          47,
+          48
+        ],
+        [
+          3,
+          4,
+          7,
+          43,
+          46,
+          49
+        ],
+        [
+          14,
+          28,
+          31,
+          32,
+          36,
+          37
+        ]
+      ]
+    },
+    "original_p2_distinct_sums": {
+      "selection_certificate": "GLOBAL_OPTIMUM_CERTIFIED (only under four different sums constraint)",
+      "source_frozen_results": "P2 CI 42761581450; precommitted 2497-draw cutoff",
+      "tickets": [
+        [
+          1,
+          5,
+          23,
+          35,
+          42,
+          46
+        ],
+        [
+          3,
+          8,
+          11,
+          20,
+          34,
+          40
+        ],
+        [
+          13,
+          22,
+          26,
+          38,
+          39,
+          48
+        ],
+        [
+          19,
+          25,
+          30,
+          31,
+          36,
+          37
+        ]
+      ]
+    },
+    "history_blind_random_control": {
+      "selection_certificate": "HISTORY_BLIND_UNOPTIMIZED",
+      "random_method": "Python random.Random(649).sample(range(1,50),24); split into groups of six, sort each and sort groups; chosen independently of future outcomes",
+      "tickets": [
+        [
+          3,
+          6,
+          19,
+          22,
+          27,
+          42
+        ],
+        [
+          4,
+          18,
+          20,
+          24,
+          28,
+          48
+        ],
+        [
+          10,
+          11,
+          33,
+          36,
+          38,
+          44
+        ],
+        [
+          15,
+          23,
+          29,
+          39,
+          40,
+          49
+        ]
+      ]
+    }
+  },
+  "methodological_caveats": [
+    "Static shadow portfolios reused over ten future draws; this is NOT the rolling P2 strategy.",
+    "The 35-checkpoint P3e historic experiment is retrospective and cannot substitute for a prospectively sealed test.",
+    "All three valid four-disjoint strategies have identical fair IID per-draw winning probability; any difference over 10 draws is noisy.",
+    "Multiple model families were previously explored; Bonferroni only covers the two named P2 arms.",
+    "No wager or new ticket purchase follows from this manifest. No actual future outcomes are stored in this file."
+  ]
+}
