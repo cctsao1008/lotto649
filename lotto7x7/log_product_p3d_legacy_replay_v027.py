@@ -340,13 +340,17 @@ def main(argv=None):
     parser.add_argument("--out",type=Path,default=Path("results/v027_p3d_legacy.json"))
     parser.add_argument("--md-out",type=Path,default=None)
     parser.add_argument("--cached-p3b",type=Path,default=None)
+    parser.add_argument("--indices",type=str,default=None,
+                        help="optional comma-separated zero-based target indices; P3d default remains 300,1388,2476")
     args=parser.parse_args(argv)
     out,md=args.out,args.md_out or args.out.with_suffix(".md")
     if out.resolve()==md.resolve() or out.exists() or md.exists():
         raise FileExistsError("two distinct unused report paths required")
     raw=args.cached_p3b.read_bytes() if args.cached_p3b else None
     cached=json.loads(raw) if raw else None
-    result=replay(args.csv_dir,cache_pilot=cached)
+    indices=(tuple(int(x) for x in args.indices.split(","))
+             if args.indices is not None else TARGET_INDICES)
+    result=replay(args.csv_dir,target_indices=indices,cache_pilot=cached)
     if raw:
         result["cached_p3b_report_sha256"]=sha256(raw).hexdigest()
     out.parent.mkdir(parents=True,exist_ok=True)
