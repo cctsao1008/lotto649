@@ -6,7 +6,7 @@ There are **no inherited logits, MLP, legacy CNN classifiers, six-number jackpot
 
 ## Preserved lottery records
 
-The current 2004–2026 dataset contains **2,497** Lotto649 draws from one external Biga source, stored in `data/bin/lotto649_history_v1.bin` (including exact dates and bonus numbers), the model input `data/bin/lotto649_images_v2.bin` (Draw ID + 7×7 six-on bitmap), and 23 flat ASCII annual files `data/csv/lotto649_YYYY.csv`. The annual CSVs are deterministically exported from the verified history BIN. This is a single third-party data source, not independently verified against all original official drawings.
+The current 2004–2026 dataset contains **2,498** Lotto649 draws through **2026-11-10 / #115000104**, stored in `data/bin/lotto649_history_v1.bin` (exact dates, main and special numbers), `data/bin/lotto649_images_v2.bin` (Draw ID + six-main 7×7 bitmap), and 23 flat ASCII annual `data/csv/lotto649_YYYY.csv` files. The initial **2,497 draws through 2026-11-06 / #115000103** retain the original Biga third-party source snapshot and immutable research cutoff. The latest #115000104 was independently corroborated using CNA and H8 reporting and is explicitly recorded in `data/bin/lotto649_source_manifest.json`; it was **not downloaded directly from the Taiwan Lottery operator**. Annual CSVs remain deterministically reproducible from both validated BINs. Older research reports and the pre-draw P3f seal remain pinned to their original 2,497-draw cutoff.
 
 ## Fresh implementation
 
