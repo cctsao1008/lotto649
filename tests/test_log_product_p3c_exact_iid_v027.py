@@ -134,7 +134,7 @@ def test_failure_does_not_silently_drop_adaptive_checkpoints():
 @pytest.mark.parametrize("mutation", [
     lambda x: x["historical"]["records"][0].update(training_count=1234),
     lambda x: x["historical"]["records"][0].update(target_bonus=1),
-    lambda x: x["historical"]["records"][1]["decisions"]["primary"].update(any_award=1),
+    lambda x: x["historical"]["records"][1]["decisions"]["primary"].update(any_award=0),
     lambda x: x["policy"].update(stride=3),
     lambda x: x["policy"].update(catalogue_checksum_sha256="wrong"),
     lambda x: x["source"].update(analysis_input_sha256="different"),
