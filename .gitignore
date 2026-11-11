@@ -7,3 +7,4 @@ results/
 *.bak
 .DS_Store
 .vscode/
+data/private/

@@ -1,0 +1,17 @@
+{
+  "schema": "lotto649.public_experiment_registry.v1",
+  "entries": [
+    {
+      "experiment_id": "v027-p3f-shadow-static10-20261110",
+      "role": "FROZEN_SHADOW",
+      "artifact": "prospective/v027_p3f_static10_20261110_seal.json",
+      "git_blob_sha1": "b7dec534a44b1ec08d575a4f2e48e5c3580e76d1"
+    },
+    {
+      "experiment_id": "M0_new_four_block_composite_20261110",
+      "role": "CANDIDATE_ONLY",
+      "artifact": "experiments/v028_m0_four_block_candidates_20261110.json",
+      "git_blob_sha1": "21dff1f975773ca919e6af9e762e93f8ffc3475c"
+    }
+  ]
+}

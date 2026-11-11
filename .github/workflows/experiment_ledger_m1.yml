@@ -1,0 +1,29 @@
+name: M1 Experiment Ledger Integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/experiment_ledger.py"
+      - "tests/test_experiment_ledger_m1.py"
+      - "experiments/ledger_registry_v1.json"
+      - "docs/experiment_ledger_m1.md"
+      - ".github/workflows/experiment_ledger_m1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: M1 regression tests and public anchor verification
+        run: |
+          python -m unittest discover -s tests -p 'test_experiment_ledger_m1.py' -v
+          python -m lotto7x7.experiment_ledger verify
