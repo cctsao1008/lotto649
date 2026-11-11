@@ -39,7 +39,15 @@ def fixture():
 class TestExperimentLedgerM1(unittest.TestCase):
     def test_public_repository_anchors(self):
         path = Path(__file__).resolve().parents[1] / "experiments" / "ledger_registry_v1.json"
-        self.assertEqual(2, ledger.verify_public_registry(path))
+        count = ledger.verify_public_registry(path)
+        self.assertGreaterEqual(count, 3)
+        entries = json.loads(path.read_text(encoding="utf-8"))["entries"]
+        ids = {entry["experiment_id"] for entry in entries}
+        self.assertTrue({
+            "v027-p3f-shadow-static10-20261110",
+            "M0_new_four_block_composite_20261110",
+            "v029-p5a-geometry-shadow-static9-20261113",
+        }.issubset(ids))
 
     def test_register_and_verify(self):
         with tempfile.TemporaryDirectory() as folder:
