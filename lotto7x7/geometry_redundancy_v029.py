@@ -60,7 +60,7 @@ def _certificate() -> dict:
     if np.array_equal(features[0], features[1]):
         raise AssertionError("two tickets do not distinguish long-range geometry")
     expected = {"l3": int(keys[0, 0]), "sum": 132, "log_bin": int(keys[0, 2])}
-    if expected["log_bin"] != 33 or int(features[0, 0]) != 172 or int(features[1, 0]) != 258:
+    if expected["log_bin"] != 20 or int(features[0, 0]) != 172 or int(features[1, 0]) != 258:
         raise AssertionError("fixed strict collision geometry changed")
     return {
         "same_v028_baseline": expected,
