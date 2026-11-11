@@ -86,6 +86,40 @@ class TestYearlyCsvExport(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CSV content differs"):
             module.export(self.bin, self.csv, verify=True)
 
+    def test_windows_git_crlf_checkout_matches_verified_bin(self):
+        module.export(self.bin, self.csv)
+        path = self.csv / "lotto649_2004.csv"
+        canonical = path.read_bytes()
+        self.assertNotIn(b"\r", canonical)
+        path.write_bytes(canonical.replace(b"\n", b"\r\n"))
+        self.assertNotEqual(path.read_bytes(), canonical)
+        module.export(self.bin, self.csv, verify=True)
+
+    def test_windows_crlf_does_not_mask_tampered_draws(self):
+        module.export(self.bin, self.csv)
+        path = self.csv / "lotto649_2004.csv"
+        canonical = path.read_bytes()
+        crlf = canonical.replace(b"\n", b"\r\n")
+        self.assertIn(b"2004/01/08", crlf)
+        path.write_bytes(crlf.replace(b"2004/01/08", b"2004/01/09"))
+        with self.assertRaisesRegex(ValueError, "CSV content differs"):
+            module.export(self.bin, self.csv, verify=True)
+
+    def test_mixed_lf_crlf_checkout_is_rejected(self):
+        module.export(self.bin, self.csv)
+        path = self.csv / "lotto649_2004.csv"
+        canonical = path.read_bytes()
+        path.write_bytes(canonical.replace(b"\n", b"\r\n", 1))
+        with self.assertRaisesRegex(ValueError, "CSV content differs"):
+            module.export(self.bin, self.csv, verify=True)
+
+    def test_extra_carriage_return_is_rejected(self):
+        module.export(self.bin, self.csv)
+        path = self.csv / "lotto649_2004.csv"
+        path.write_bytes(path.read_bytes() + b"\r")
+        with self.assertRaisesRegex(ValueError, "CSV content differs"):
+            module.export(self.bin, self.csv, verify=True)
+
     def test_mismatching_image_bin_fails_before_export(self):
         raw = bytearray((self.bin / "lotto649_images_v2.bin").read_bytes())
         raw[-1] ^= 1
