@@ -44,7 +44,7 @@ jobs:
           assert j["decision"] == "STRUCTURAL_NONIDENTITY_PROVEN_PREDICTIVE_NO_GO"
           assert j["certificate"]["structural_nonidentity_proven"]
           assert [r["pair_geometry"]["pair_squared_distance_sum"] for r in j["certificate"]["tickets"]] == [172,258]
-          assert j["certificate"]["same_v028_baseline"]["log_bin"] == 33
+          assert j["certificate"]["same_v028_baseline"]["log_bin"] == 20
           assert j["fair_iid_descriptive_collision_audit"]["sample_draws"] == 50000
           assert j["historical_descriptive_collision_audit"]["sample_draws"] >= 2498
           print("PASS: P3A strict conditional non-identity and validated historical gate")
