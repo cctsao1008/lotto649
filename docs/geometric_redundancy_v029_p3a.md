@@ -13,8 +13,8 @@ The baseline class key is (L3 edge code, exact Sum, Log Product integer bin). Th
 
 | Numbers | Exact Sum | LogBin | Sum of 15 squared pair distances |
 | --- | ---: | ---: | ---: |
-| 03 10 19 23 31 46 | 132 | 33 | 172 |
-| 04 08 12 27 34 47 | 132 | 33 | 258 |
+| 03 10 19 23 31 46 | 132 | 20 | 172 |
+| 04 08 12 27 34 47 | 132 | 20 | 258 |
 
 Both tickets have the same L3 class, hence the same L1/L2 and graph-edge counts. This proves that longer-range pair geometry is not an algebraic function of the selected v0.28 categories. Their unbinned products differ, so this certificate makes no claim of nonidentity relative to raw exact product, full six-number identity, or all selection constraints.
 
