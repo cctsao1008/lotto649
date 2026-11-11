@@ -94,8 +94,8 @@ class TestGeometryStructureV029P2B(unittest.TestCase):
         self.assertGreater(report["observed"]["maximum_absolute_pair_z"], 3.0)
         for family in ("pair", "graph_control"):
             p = null[f"{family}_max_z_empirical_p"]
-            self.assertAlmostEqual(null[f"{family}_two_endpoint_bonferroni_p"],
-                                   min(1., 2 * p))
+            adjusted_key = "pair_two_endpoint_bonferroni_p" if family == "pair" else "graph_two_endpoint_bonferroni_p"
+            self.assertAlmostEqual(null[adjusted_key], min(1., 2 * p))
             self.assertGreaterEqual(p, .1)
 
     def test_invalid_inputs_fail_closed(self):
