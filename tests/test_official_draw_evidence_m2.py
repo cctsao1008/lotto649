@@ -54,7 +54,7 @@ class TestOfficialDrawEvidenceM2(unittest.TestCase):
         self.assertEqual(DRAW, evidence.parse_independent(INDEPENDENT))
 
     def test_ctbc_rejects_wrong_game_or_missing_bonus(self):
-        with self.assertRaisesRegex(ValueError, "大樂透 issue"):
+        with self.assertRaisesRegex(ValueError, "recognized Chinese Lotto649 publication|大樂透 issue"):
             evidence.parse_ctbc(CTBC.replace("遊 戲 大樂透".encode("utf-8"),
                                              "遊 戲 威力彩".encode("utf-8")))
         with self.assertRaisesRegex(ValueError, "bonus unavailable"):
