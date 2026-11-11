@@ -4,10 +4,11 @@ M1 separates **public research identities** from **locally stored paid lottery t
 
 ## Public read-only research anchors
 
-`experiments/ledger_registry_v1.json` references two existing Git objects:
+`experiments/ledger_registry_v1.json` currently registers three read-only Git objects (and supports additional future research entries):
 
 - P3f static 10-draw prospective shadow seal, original Git blob SHA1 `b7dec534a44b1ec08d575a4f2e48e5c3580e76d1`. The existing immutable seal retains its three original strategies, ticket numbers and schedule.
 - v0.28 M0 multiobjective candidate manifest, Git blob SHA1 `21dff1f975773ca919e6af9e762e93f8ffc3475c`. It is explicitly `DESCRIPTIVE_CANDIDATE_ONLY_NOT_A_PAID_TICKET`; this file by itself is **not purchase evidence**.
+- v0.29 P5A prospective geometry shadow seal for nine future draws from #115000105, Git blob SHA1 `546c7352fd0a98a42959b333e51498ef7c56cf9d`; two fixed **shadow-only, unpaid** strategy arms. The original P3f public shadow is preserved unchanged, and actual paid tickets remain private.
 
 The verifier checks each artifact's original Git blob SHA1, allowing only a full Git-for-Windows CRLF checkout conversion. No public entry may contain a paid-ticket role. Source path escapes and modified artifacts are rejected.
 
