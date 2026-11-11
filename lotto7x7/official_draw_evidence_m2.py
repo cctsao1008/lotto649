@@ -10,7 +10,8 @@ Never fetch untrusted URLs, alter original draw files or infer future results.
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 from hashlib import sha256
 from html.parser import HTMLParser
 import json
@@ -176,6 +177,9 @@ def verify_local_evidence(draw_id: int, directory: Path) -> dict:
         raise ValueError("independent source snapshots must have different digests")
     parsed = []
     for provider in TRUSTED:
+        captured = datetime.fromisoformat(source_by_provider[provider]["captured_at_utc"])
+        if captured.astimezone(ZoneInfo("Asia/Taipei")).date() < date.fromisoformat(official["date"]):
+            raise ValueError("source was captured before the advertised draw date")
         data, digest = _read_one(directory, source_by_provider[provider], provider)
         if data != official:
             raise ValueError(f"{provider} source content contradicts indexed draw")

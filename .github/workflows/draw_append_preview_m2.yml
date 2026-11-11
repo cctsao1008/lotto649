@@ -1,0 +1,46 @@
+name: M2 Verified Append Preview Safety
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/draw_append_preview_m2.py"
+      - "lotto7x7/official_draw_evidence_m2.py"
+      - "tests/test_draw_append_preview_m2.py"
+      - "docs/draw_append_preview_m2.md"
+      - ".github/workflows/draw_append_preview_m2.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install numeric dependencies used by existing source-integrity parser
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Synthetic offline end-to-end staging tests
+        run: |
+          python -m unittest discover -s tests -p 'test_draw_append_preview_m2.py' -v
+          python -m unittest discover -s tests -p 'test_official_draw_evidence_m2.py' -v
+          python -m unittest discover -s tests -p 'test_prospective_evaluation_m4.py' -v
+      - name: Recheck original current history and pending P5A status
+        run: |
+          python -m lotto7x7.prospective_evaluation_m4 --out results/m2_preview_ci_current_archive.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('results/m2_preview_ci_current_archive.json').read_text())
+          assert report['observed_draw_count'] == 0
+          assert report['pending_draw_count'] == 9
+          assert report['final_one_sided_exact_p'] is None
+          assert report['predictive_go'] is False
+          assert report['source_evidence_gate']['admitted_draws'] == 0
+          print('PASS: existing sealed 2498-draw archive unchanged; P5A 0/9 future results')
+          PY
