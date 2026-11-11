@@ -1,0 +1,57 @@
+name: P5A M2 Source Evidence and M4 Prospective Evaluation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/official_draw_evidence_m2.py"
+      - "lotto7x7/prospective_evaluation_m4.py"
+      - "tests/test_official_draw_evidence_m2.py"
+      - "tests/test_prospective_evaluation_m4.py"
+      - "docs/source_evidence_prospective_m2_m4.md"
+      - ".github/workflows/source_evidence_prospective_m2_m4.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-source-and-shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing numerical dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Offline source snapshot and prospective paired tests
+        run: |
+          python -m unittest discover -s tests -p 'test_official_draw_evidence_m2.py' -v
+          python -m unittest discover -s tests -p 'test_prospective_evaluation_m4.py' -v
+      - name: Read-only pending P5A actual archive integration
+        run: |
+          python -m lotto7x7.prospective_evaluation_m4 \
+            --csv-root data/csv --bin-root data/bin \
+            --evidence-root data/private/lotto649-source \
+            --out results/p5a_m4_ci_pending.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/p5a_m4_ci_pending.json').read_text())
+          assert r['status'] == 'PENDING_NO_EARLY_SIGNIFICANCE_OR_GO'
+          assert r['source_evidence_gate']['admitted_draws'] == 0
+          assert r['observed_draw_count'] == 0
+          assert r['pending_draw_count'] == 9
+          assert r['final_one_sided_exact_p'] is None
+          assert r['winner_declared'] is False and r['predictive_go'] is False
+          assert r['realized_profit_twd'] is None
+          assert r['next_expected_draw'] == {'draw_id': 115000105, 'date': '2026-11-13'}
+          print('PASS: M4 sealed P5A prospective 0/9 pending; nothing fabricated')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p5a-m2-m4-pending-audit
+          path: results/p5a_m4_ci_pending.json
+          retention-days: 30
