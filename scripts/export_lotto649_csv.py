@@ -174,8 +174,15 @@ def verify_files(output_dir: Path, expected: dict[Path, bytes]) -> None:
     if any(path.is_dir() for path in output_dir.iterdir()):
         raise ValueError("CSV directory must be flat: year subdirectories are not allowed")
     for relative, data in expected.items():
-        if (output_dir / relative).read_bytes() != data:
-            raise ValueError(f"CSV content differs from history BIN: {relative}")
+        actual = (output_dir / relative).read_bytes()
+        if actual == data:
+            continue
+        # Git on Windows may check out canonical LF text files using CRLF.
+        # Accept only a complete LF-to-CRLF conversion, never modified fields,
+        # extra whitespace, mixed line endings, or missing/extra records.
+        if actual == data.replace(b"\n", b"\r\n"):
+            continue
+        raise ValueError(f"CSV content differs from history BIN: {relative}")
 
 
 def export(bin_dir: Path = DEFAULT_BIN, output_dir: Path = DEFAULT_OUT,
