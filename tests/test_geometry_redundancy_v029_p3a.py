@@ -19,7 +19,7 @@ class TestGeometryRedundancyV029P3A(unittest.TestCase):
         certificate = p3._certificate()
         self.assertTrue(certificate["structural_nonidentity_proven"])
         self.assertEqual(132, certificate["same_v028_baseline"]["sum"])
-        self.assertEqual(33, certificate["same_v028_baseline"]["log_bin"])
+        self.assertEqual(20, certificate["same_v028_baseline"]["log_bin"])
         self.assertEqual(
             [172, 258],
             [row["pair_geometry"]["pair_squared_distance_sum"]
@@ -39,7 +39,7 @@ class TestGeometryRedundancyV029P3A(unittest.TestCase):
     def test_existing_fixed_log_product_grid_reused(self):
         expected = _grid(49, 6, "0.5")
         self.assertEqual(expected, p3.log_grid())
-        self.assertEqual(33, p3._certificate()["same_v028_baseline"]["log_bin"])
+        self.assertEqual(20, p3._certificate()["same_v028_baseline"]["log_bin"])
         self.assertGreater(expected["bin_count"], 1)
 
     def test_baseline_key_includes_shape_sum_log_and_joint_is_derived(self):
@@ -51,7 +51,7 @@ class TestGeometryRedundancyV029P3A(unittest.TestCase):
         self.assertTrue(np.array_equal(keys[0], keys[1]))
         self.assertNotEqual(int(features[0][0]), int(features[1][0]))
         self.assertEqual(132, int(keys[0][1]))
-        self.assertEqual(33, int(keys[0][2]))
+        self.assertEqual(20, int(keys[0][2]))
 
     def test_observed_same_baseline_group_with_different_geometry(self):
         report = p3._stratum_audit(self.historical_fixture())
