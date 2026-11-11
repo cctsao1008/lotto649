@@ -1,0 +1,45 @@
+name: v0.29 Geometry P1 Exact Null Integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/geometry_theory_v029.py"
+      - "tests/test_geometry_theory_v029_p1.py"
+      - "docs/geometric_monte_carlo_v029_p1.md"
+      - ".github/workflows/geometry_v029_p1.yml"
+      - "lotto7x7/geometry_v029.py"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-exact-null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: P0 and P1 regression suites
+        run: |
+          python -m unittest discover -s tests -p 'test_geometry_v029_p0.py' -v
+          python -m unittest discover -s tests -p 'test_geometry_theory_v029_p1.py' -v
+          python -m lotto7x7.geometry_theory_v029 --theory-only > /tmp/p1_exact_summary.json
+          python -m lotto7x7.geometry_theory_v029 --trials 20000 --seed 649 > /tmp/p1_mc_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          exact = json.loads(Path("/tmp/p1_exact_summary.json").read_text())
+          mc = json.loads(Path("/tmp/p1_mc_summary.json").read_text())
+          assert exact["universe_combinations"] == 13983816
+          assert exact["region_count"] == 10
+          assert exact["pair_count"] == 45
+          assert exact["geometry_definition_sha256"] == mc["geometry_definition_sha256"]
+          assert abs(exact["disk_r3_probability_at_least_4"] - 0.5265236613525235) < 1e-12
+          assert mc["mc_trials"] == 20000
+          print("PASS: P1 exact-null / Monte Carlo smoke checks")
+          PY
