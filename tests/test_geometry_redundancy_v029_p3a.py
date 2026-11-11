@@ -1,4 +1,5 @@
 """v0.29 P3A strict conditional structural non-identity and negative controls."""
+import json
 import unittest
 
 import numpy as np
@@ -25,6 +26,9 @@ class TestGeometryRedundancyV029P3A(unittest.TestCase):
             [row["pair_geometry"]["pair_squared_distance_sum"]
              for row in certificate["tickets"]],
         )
+        self.assertEqual([18694860, 16568064],
+                         [record["exact_product"] for record in certificate["tickets"]])
+        self.assertIsInstance(json.dumps(certificate, allow_nan=False), str)
         for record in certificate["tickets"]:
             self.assertEqual(6, len(record["numbers"]))
             self.assertEqual(sorted(set(record["numbers"])), record["numbers"])
