@@ -1,0 +1,32 @@
+name: v0.29 P5A Future Shadow Seal Integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "prospective/v029_p5a_static9_20261113_seal.json"
+      - "experiments/ledger_registry_v1.json"
+      - "lotto7x7/geometry_shadow_v029.py"
+      - "tests/test_geometry_shadow_v029_p5a.py"
+      - "docs/geometric_shadow_v029_p5a.md"
+      - ".github/workflows/geometry_v029_p5a.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  seal-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check all public research evidence anchors
+        run: python -m lotto7x7.experiment_ledger verify
+      - name: Verify future-only nine-draw P5A shadow seal
+        run: python -m lotto7x7.geometry_shadow_v029
+      - name: Run shadow immutability regressions
+        run: python -m unittest discover -s tests -p 'test_geometry_shadow_v029_p5a.py' -v

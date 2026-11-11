@@ -1,0 +1,211 @@
+{
+  "schema": "lotto649.geometry.v0.29.p5a.shadow.static9.v1",
+  "experiment_id": "v029-p5a-geometry-shadow-static9-20261113",
+  "status": "SHADOW_PRE_REGISTERED_NO_PURCHASE",
+  "created_for": "Pre-draw immutable shadow registration. This manifest must be committed before the 2026-11-13 #115000105 draw; never revise the sealed blob after outcomes.",
+  "research_stage": "P5A_PRE_REGISTERED_PROSPECTIVE_GEOMETRIC_REPAIR_VS_RANDOM_CONTROL",
+  "historical_cutoff": {
+    "last_draw_id": 115000104,
+    "last_draw_date": "2026-11-10",
+    "draws": 2498,
+    "source_manifest_sha256": "003ed03eda889952654b679859f2d465ffb7349c7f005a6df3aa4436be3d54a3",
+    "history_bin_sha256": "57de2ead78147f998b7cac22dfbd94461a6af38584ee106d6a1a26c1dd97f3b8",
+    "image_bin_sha256": "9069034085cfd901405dbfba0f0993c6e1fd8b1494ecea87c20681b52fe808b9",
+    "next_draw_not_in_model": 115000105
+  },
+  "source_evidence": {
+    "geometry_optimizer": {
+      "module": "lotto7x7/geometry_repair_v029.py",
+      "implementation_commit": "b36cf882aae53578a3c2c2c5c6000af08d523313",
+      "validated_final_commit": "ffcfa2551c0bcefc3334b422d3ee58e8f1a7f238",
+      "github_actions_run_id": 42969777398,
+      "github_actions_url": "https://github.com/cctsao1008/lotto649/actions/runs/42969777398",
+      "report_artifact_id": 13832926377,
+      "report_artifact_name": "v029-p3b-counterfactual-repair",
+      "report_json_sha256": "9866e1c0294f86f1d078952146a5ad59e9f2053c2dc7be3e269de3e9ea480041",
+      "fixed_geometry_catalog_sha256": "5aa5f2820c3287fde1d548de8c90a46b1aed95ed0b7b0f8b9a84c2ea39c82f47",
+      "candidate_pool_sha256": "2caabf0223d28b04628ab44d9022d2b5cd6b2b13a8c846677684565d625d49f3",
+      "optimizer_params": {
+        "seed": 649,
+        "pool_size": 1024,
+        "random_portfolios": 256,
+        "iid_replicates": 99,
+        "regularization_ridge": 0.05,
+        "coordinate_exchange_max_passes": 4
+      },
+      "research_only_historical_gain": 0.566706723979709,
+      "iid_excess_empirical_p": 0.22,
+      "iid_gain_empirical_p": 0.24,
+      "historical_design_verdict": "DESCRIPTIVE_COUNTERFACTUAL_ONLY_NO_PREDICTIVE_GO"
+    },
+    "prior_public_shadow_control": {
+      "artifact": "prospective/v027_p3f_static10_20261110_seal.json",
+      "git_blob_sha1": "b7dec534a44b1ec08d575a4f2e48e5c3580e76d1",
+      "original_experiment_id": "v027-p3f-shadow-static10-20261110",
+      "original_strategy": "history_blind_random_control",
+      "original_preseal_cutoff_draw_id": 115000103
+    }
+  },
+  "experiment": {
+    "type": "STATIC_NINE_FUTURE_DRAWS_PAIRWISE_MATCHED_SHADOW",
+    "selection_locked_before_draw_id": 115000105,
+    "selection_timing": "Both four-ticket portfolios and all endpoints fixed before the first prospective 2026-11-13 draw. No per-draw updates or historical reruns.",
+    "planned_draws": [
+      {
+        "draw_id": 115000105,
+        "date": "2026-11-13"
+      },
+      {
+        "draw_id": 115000106,
+        "date": "2026-11-17"
+      },
+      {
+        "draw_id": 115000107,
+        "date": "2026-11-20"
+      },
+      {
+        "draw_id": 115000108,
+        "date": "2026-11-24"
+      },
+      {
+        "draw_id": 115000109,
+        "date": "2026-11-27"
+      },
+      {
+        "draw_id": 115000110,
+        "date": "2026-12-01"
+      },
+      {
+        "draw_id": 115000111,
+        "date": "2026-12-04"
+      },
+      {
+        "draw_id": 115000112,
+        "date": "2026-12-08"
+      },
+      {
+        "draw_id": 115000113,
+        "date": "2026-12-11"
+      }
+    ],
+    "terminal_draw_id": 115000113,
+    "fixed_draw_count": 9,
+    "shadow_only": true,
+    "purchase_authorized": false,
+    "primary_comparison": {
+      "name": "geometry_p3b_counterfactual_vs_history_blind_random_control",
+      "event": "Per draw: whether at least one of four tickets receives an official Taiwan Lotto649 prize, using six main numbers plus distinct special number",
+      "comparison": "Paired difference in the number of 9 draws with any awarded ticket: geometry minus random",
+      "direction": "geometry greater than random",
+      "null": "All legal four-disjoint-ticket portfolios have equal fair IID marginal odds; paired outcomes can be dependent because both see the same draws and tickets can overlap",
+      "inferential_method": "Exact conditional paired sign/McNemar-style test is possible on discordant draw indicators, but n=9 is severely underpowered. Treat all results as DESCRIPTIVE_OR_INCONCLUSIVE and no predictive GO.",
+      "early_peeking_rule": "Before all 9 official outcomes: only per-draw descriptive observations and PENDING status. No new choice, no refit, no early-stopping claim."
+    },
+    "secondary_exploratory": {
+      "metrics": [
+        "Per-draw best main-number match count among the four tickets",
+        "Distribution of best matches across all 9 draws",
+        "Official prize tiers and monetary returns only where a verified payout source is available"
+      ],
+      "multiple_testing": "Secondary outcomes are descriptive; no predictive hypothesis is declared for them.",
+      "replay_controls": "Preserve all ticket selections even if one arm starts out-performing; never post-select a new strategy."
+    },
+    "fair_iid_context": {
+      "marginal_any_prize_probability_for_four_disjoint_tickets": 0.122731458961909,
+      "source": "Original frozen P3f prospective manifest, fair IID exact-prize coverage description",
+      "expected_any_prize_draws_per_strategy_over_nine": 1.104583130657181,
+      "caveat": "Equal marginal chance does not imply independent events between competing portfolios on a shared draw."
+    },
+    "evaluation_policy": "Preregister fixed numbers and windows now; future validated official draw ingestion and prize-tier checker are separate M2/M3 steps. No future outcome included in this seal.",
+    "immutability": "NEVER edit this source file after creation. New hypotheses require a new experiment ID, artifact and commit. Outcomes must be recorded separately in append-only evaluations."
+  },
+  "strategies": {
+    "geometry_p3b_counterfactual": {
+      "selection_certificate": "FINITE_POOL_HEURISTIC_NOT_GLOBAL_OPTIMUM",
+      "training_last_draw_id": 115000104,
+      "research_origin": "Original 2026-11-11 CI P3B artifact, frozen before #115000105",
+      "tickets": [
+        [
+          7,
+          10,
+          12,
+          19,
+          30,
+          34
+        ],
+        [
+          11,
+          26,
+          27,
+          31,
+          40,
+          46
+        ],
+        [
+          6,
+          20,
+          21,
+          24,
+          33,
+          49
+        ],
+        [
+          5,
+          8,
+          17,
+          22,
+          32,
+          37
+        ]
+      ]
+    },
+    "history_blind_random_control": {
+      "selection_certificate": "PREVIOUSLY_SEALED_HISTORY_BLIND_RANDOM",
+      "training_last_draw_id": 115000103,
+      "research_origin": "Identical four tickets from original v0.27 P3f pre-registered public control; no re-randomization",
+      "tickets": [
+        [
+          3,
+          6,
+          19,
+          22,
+          27,
+          42
+        ],
+        [
+          4,
+          18,
+          20,
+          24,
+          28,
+          48
+        ],
+        [
+          10,
+          11,
+          33,
+          36,
+          38,
+          44
+        ],
+        [
+          15,
+          23,
+          29,
+          39,
+          40,
+          49
+        ]
+      ]
+    }
+  },
+  "methodological_caveats": [
+    "Source P3B improvement is a mathematical within-history repair, not predictive evidence; P2A/P2B and P3B IID controls did not show an anomaly.",
+    "Only future official draws #115000105..#115000113 can be used for this prospectively registered comparison.",
+    "Nine draws provide very low statistical power: any apparent performance difference must not be interpreted as a reliable edge.",
+    "Primary endpoint is an exploratory pilot despite prespecified direction; prospective preregistration does not cure earlier research multiple-selection bias.",
+    "Both four-disjoint portfolios have identical marginal per-draw winning probability under fair independent draws.",
+    "User-paid lottery tickets and purchased M0 four bets are NOT present in this public shadow manifest.",
+    "No lottery purchase, no automated wager, and no modification of any existing seal or historical CSV/BIN file."
+  ]
+}
