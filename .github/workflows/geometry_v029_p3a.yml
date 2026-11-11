@@ -1,0 +1,58 @@
+name: v0.29 Geometry P3A Conditional Redundancy Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/geometry_redundancy_v029.py"
+      - "tests/test_geometry_redundancy_v029_p3a.py"
+      - "docs/geometric_redundancy_v029_p3a.md"
+      - ".github/workflows/geometry_v029_p3a.yml"
+      - "lotto7x7/geometry_structure_v029.py"
+      - "lotto7x7/log_product_v027.py"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-redundancy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install original source and classifier dependencies
+        run: python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,<2"
+      - name: P3A strict conditional-ablation regression suite
+        run: |
+          python -m unittest discover -s tests -p 'test_geometry_redundancy_v029_p3a.py' -v
+      - name: Audit historical source and fair-IID structural variability
+        run: |
+          python -m lotto7x7.geometry_redundancy_v029 \
+            --csv-root data/csv --bin-root data/bin \
+            --iid-sample 50000 --seed 649 \
+            --out results/v029_p3a_ci_conditional_ablation.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path("results/v029_p3a_ci_conditional_ablation.json").read_text())
+          assert j["source_gate"]["status"] == "PASS_REPOSITORY_MANIFEST_CSV_AND_BOTH_BINS"
+          assert j["source_gate"]["draws"] >= 2498
+          assert j["decision"] == "STRUCTURAL_NONIDENTITY_PROVEN_PREDICTIVE_NO_GO"
+          assert j["certificate"]["structural_nonidentity_proven"]
+          assert [r["pair_geometry"]["pair_squared_distance_sum"] for r in j["certificate"]["tickets"]] == [172,258]
+          assert j["certificate"]["same_v028_baseline"]["log_bin"] == 33
+          assert j["fair_iid_descriptive_collision_audit"]["sample_draws"] == 50000
+          assert j["historical_descriptive_collision_audit"]["sample_draws"] >= 2498
+          print("PASS: P3A strict conditional non-identity and validated historical gate")
+          print("Historical:",j["historical_descriptive_collision_audit"])
+          print("Synthetic:",j["fair_iid_descriptive_collision_audit"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v029-p3a-conditional-ablation
+          path: results/v029_p3a_ci_conditional_ablation.json
+          retention-days: 30
