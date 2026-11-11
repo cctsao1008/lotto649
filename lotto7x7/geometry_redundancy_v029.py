@@ -66,7 +66,8 @@ def _certificate() -> dict:
         "same_v028_baseline": expected,
         "baseline_definition": "L3 edge class, exact Sum, integer Log Product bin; Joint is derived from the latter two",
         "tickets": [
-            {"numbers": list(a[i]), "exact_product": int(prod(a[i])),
+            {"numbers": [int(v) for v in a[i]],
+             "exact_product": prod(int(v) for v in a[i]),
              "pair_geometry": dict(zip(PAIR_FEATURES, map(int, features[i])))}
             for i in (0, 1)
         ],
