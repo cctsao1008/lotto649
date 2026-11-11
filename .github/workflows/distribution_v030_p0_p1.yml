@@ -1,0 +1,74 @@
+name: v0.30 Distribution Dynamics and Conditional Monte Carlo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/distribution_dynamics_v030.py"
+      - "lotto7x7/conditional_monte_carlo_v030.py"
+      - "tests/test_distribution_dynamics_v030_p0.py"
+      - "tests/test_conditional_monte_carlo_v030_p1.py"
+      - "docs/distribution_dynamics_v030_p0_p1.md"
+      - ".github/workflows/distribution_v030_p0_p1.yml"
+      - "lotto7x7/geometry_repair_v029.py"
+      - "lotto7x7/geometry_redundancy_v029.py"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-math:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install original source and geometry dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: v0.30 analytic and finite-sum conditional regressions
+        run: |
+          python -m unittest discover -s tests -p 'test_distribution_dynamics_v030_p0.py' -v
+          python -m unittest discover -s tests -p 'test_conditional_monte_carlo_v030_p1.py' -v
+      - name: Original 2498 draws and fully matched IID martingale null
+        run: |
+          python -m lotto7x7.distribution_dynamics_v030 \
+            --csv-root data/csv --bin-root data/bin \
+            --iid-reps 199 --seed 649 \
+            --out results/v030_p0_ci_dynamics.json
+      - name: Independently sampled conditional finite-population distribution
+        run: |
+          python -m lotto7x7.conditional_monte_carlo_v030 \
+            --csv-root data/csv --bin-root data/bin \
+            --proposals 40000 --seed 649 \
+            --out results/v030_p1_ci_conditional.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p0=json.loads(Path('results/v030_p0_ci_dynamics.json').read_text())
+          p1=json.loads(Path('results/v030_p1_ci_conditional.json').read_text())
+          assert p0['draws'] == 2498 and p1['history_draws_read_only'] == 2498
+          assert p0['source_gate']['status'] == 'PASS_REPOSITORY_MANIFEST_CSV_AND_BOTH_BINS'
+          assert p1['source_gate']['status'] == p0['source_gate']['status']
+          assert p0['decision'] == 'MARTINGALE_NULL_BASELINE_NO_PREDICTIVE_GO'
+          assert p0['matched_entire_search_iid']['replicates'] == 199
+          assert p1['decision'] == 'UNBIASED_CONDITIONAL_STRUCTURE_DESCRIPTIVE_NOT_PREDICTIVE'
+          assert p1['fixed_baseline']['sum'] == 132
+          assert p1['fixed_baseline']['log_bin'] == 20
+          assert p1['sampler']['total_legal_combinations_with_exact_sum'] == 144587
+          assert p1['sampler']['accepted_full_condition'] >= 25
+          print('PASS: P0 fair martingale dynamics and P1 exactly uniform conditional geometry')
+          print('P0 familywise p:',p0['matched_entire_search_iid']['primary_alignment_empirical_p'],
+                p0['matched_entire_search_iid']['secondary_energy_empirical_p'])
+          print('P1 acceptance:',p1['sampler']['accepted_full_condition'],
+                '/',p1['sampler']['exact_sum_proposals'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v030-distribution-martingale-conditional
+          path: |
+            results/v030_p0_ci_dynamics.json
+            results/v030_p1_ci_conditional.json
+          retention-days: 30
