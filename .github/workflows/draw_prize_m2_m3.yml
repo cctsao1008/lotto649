@@ -1,0 +1,64 @@
+name: M2 M3 Draw and Official Prize Integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/draw_ingestion_m2.py"
+      - "lotto7x7/prize_engine_m3.py"
+      - "tests/test_draw_ingestion_m2.py"
+      - "tests/test_prize_engine_m3.py"
+      - "docs/draw_ingestion_prize_m2_m3.md"
+      - ".github/workflows/draw_prize_m2_m3.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-m2-m3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing and independent test dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2' 'pytest>=8,<10'
+      - name: M2 archive/source and M3 grading suites
+        run: |
+          python -m unittest discover -s tests -p 'test_draw_ingestion_m2.py' -v
+          python -m unittest discover -s tests -p 'test_prize_engine_m3.py' -v
+      - name: Original bin/CSV, exact official probability, P3f regression checks
+        run: |
+          python -m pytest -q tests/test_export_lotto649_csv.py tests/test_lotto649_append_20261110.py tests/test_official_prize_v026.py
+      - name: Verified read-only current archive and prize matrix reports
+        run: |
+          python -m lotto7x7.draw_ingestion_m2 --csv-root data/csv --bin-root data/bin --out results/m2_ci_source.json
+          python -m lotto7x7.prize_engine_m3 --csv-root data/csv --bin-root data/bin --out results/m3_ci_prize.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m2=json.loads(Path('results/m2_ci_source.json').read_text())
+          m3=json.loads(Path('results/m3_ci_prize.json').read_text())
+          assert m2['total_draws'] == 2498
+          assert m2['annual_csv_files'] == 23
+          assert m2['crosscheck']['exact_match'] is True
+          assert m2['source_fingerprints']['manifest_sha256'] == '003ed03eda889952654b679859f2d465ffb7349c7f005a6df3aa4436be3d54a3'
+          assert m3['source_gate']['source_fingerprints'] == m2['source_fingerprints']
+          assert len(m3['prize_verification']['official_tier_matrix']) == 8
+          assert len(m3['prize_verification']['shadow_arms']) == 2
+          assert m3['shadow_current_state'] == 'P5A_NINE_FUTURE_DRAWS_PENDING_NO_PAYOUT_EVALUATION'
+          for arm in m3['prize_verification']['shadow_arms'].values():
+              assert abs(arm['fair_any_prize_probability'] - 0.122731458961909) < 1e-13
+          assert m3['example_anchor_hypothetical']['actual_realized_net_profit_twd'] is None
+          print('PASS: M2 archive, independent published result, M3 official tiers / monetary safeguards')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lotto649-m2-m3-audit
+          path: |
+            results/m2_ci_source.json
+            results/m3_ci_prize.json
+          retention-days: 30
