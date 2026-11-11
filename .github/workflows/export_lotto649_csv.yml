@@ -2,6 +2,11 @@ name: Export Lotto649 yearly CSVs from validated BIN
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/export_lotto649_csv.py"
+      - "tests/test_export_lotto649_csv.py"
+      - ".github/workflows/export_lotto649_csv.yml"
   push:
     branches: [main]
     paths:
@@ -66,6 +71,7 @@ jobs:
           python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,<2"
           python -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
       - name: Commit exported annual CSV files
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
