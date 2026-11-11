@@ -1,0 +1,40 @@
+name: v0.29 Geometry P0 Integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "lotto7x7/geometry_v029.py"
+      - "tests/test_geometry_v029_p0.py"
+      - "docs/geometric_monte_carlo_v029_p0.md"
+      - ".github/workflows/geometry_v029_p0.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fixed geometry P0 regression suite
+        run: |
+          python -m unittest discover -s tests -p 'test_geometry_v029_p0.py' -v
+          python -m lotto7x7.geometry_v029 --catalog > /tmp/geometry_catalog.json
+          python -m lotto7x7.geometry_v029 --numbers 4 9 17 24 29 42 > /tmp/geometry_example.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          cat = json.loads(Path("/tmp/geometry_catalog.json").read_text())
+          example = json.loads(Path("/tmp/geometry_example.json").read_text())
+          assert cat["regions"]["disk_r3"]["lattice_cell_count"] == 29
+          assert cat["definition_sha256"] == "5aa5f2820c3287fde1d548de8c90a46b1aed95ed0b7b0f8b9a84c2ea39c82f47"
+          assert example["region_occupancies"]["disk_r3"] == 4
+          assert sum(example["graph"]["pair_distance_squared_histogram"]) == 15
+          print("PASS: fixed region catalog and known geometry example")
+          PY
