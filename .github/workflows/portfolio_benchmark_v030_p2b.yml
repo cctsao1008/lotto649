@@ -25,3 +25,15 @@ jobs:
         run: |
           python -m lotto7x7.portfolio_benchmark_v030 --pool-size 128 --random-portfolios 32 --iid-reps 3 --seed 649 --out results/v030_p2b_ci_smoke.json
           git diff --exit-code
+      - name: Source-audited full retrospective P2B pilot
+        run: |
+          python -m lotto7x7.portfolio_benchmark_v030 --pool-size 512 --random-portfolios 256 --min-hybrid-unique 22 --iid-reps 19 --seed 649 --out results/v030_p2b_ci_full_pilot.json
+          git diff --exit-code
+      - name: Publish P2B research reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: v030-p2b-research-reports
+          path: |
+            results/v030_p2b_ci_smoke.json
+            results/v030_p2b_ci_full_pilot.json
+          retention-days: 30
