@@ -69,6 +69,9 @@ class TestV14(unittest.TestCase):
         self.assertEqual(r['decision'],'ORIGINAL_PRIMARY_MAXIMIN_OPTIMAL_SECONDARY_SUBOPTIMAL')
         self.assertEqual(r['complete_lexicographic_optimum_quality'][0],34)
         self.assertEqual(r['complete_lexicographic_optimum_quality'][1],184)
+        self.assertIn(r['secondary_total_rank']['certificate_basis'],('EXACT_INTEGER_DUAL_MATCH','MIP_ZERO_GAP_NUMERICAL_ONLY'))
+        self.assertGreaterEqual(r['secondary_total_rank']['exact_integer_upper_gap_to_incumbent'],0)
+        self.assertIn(r['tertiary_joint_rank']['certificate_basis'],('EXACT_INTEGER_DUAL_MATCH','MIP_ZERO_GAP_NUMERICAL_ONLY'))
 
     def test_04_dual_exact_upper_beyond_all_feasible_combinations(self):
         feasible=self._enumerate()
