@@ -1,0 +1,38 @@
+name: M0 Strategy Verification v1.6 Exact All Qualified
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'lotto7x7/strategy_verification_v14.py'
+      - 'lotto7x7/strategy_verification_v15.py'
+      - 'lotto7x7/strategy_verification_v16.py'
+      - 'lotto7x7/strategy_verification_v16_exact.py'
+      - 'tests/test_strategy_verification_v16_exact.py'
+      - '.github/workflows/strategy_verification_v16_exact.yml'
+  workflow_dispatch:
+jobs:
+  exhaustive-full-qualified:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install only required numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify exact nested-optimality sandwich and failure tests
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v16_exact.py' -v
+      - name: Exhaustively enumerate entire 13704-qualified frozen candidate pool
+        run: |
+          python -m lotto7x7.strategy_verification_v16_exact --timeout 360 --out results/strategy_v16_all_qualified_exact.json
+          python -c "import json; r=json.load(open('results/strategy_v16_all_qualified_exact.json')); assert r['source_gate']['original_v12_checks']==152; assert r['source_gate']['all_qualified']==13704; assert r['exact_full_qualified_enumeration']['candidates']>=893; assert r['nested_sandwich_proof']['full_quality']>=r['nested_sandwich_proof']['subset_quality']; print('EXACT AUDIT:',r['decision'])"
+          git diff --exit-code
+      - name: Archive exhaustive integer certificate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v16-all-qualified-exhaustive
+          path: results/strategy_v16_all_qualified_exact.json
+          retention-days: 30
+          if-no-files-found: warn
