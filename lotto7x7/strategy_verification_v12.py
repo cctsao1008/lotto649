@@ -240,7 +240,7 @@ def one_swap_improvements(pool:list[dict],chosen:list[dict],style:str) -> dict:
 
 def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
                    golden_path:Path,batch_size:int=80000,include_verified_pool:bool=False,
-                   include_qualified_candidates:bool=False) -> dict:
+                   include_qualified_candidates:bool=False, include_frozen_score_reference:bool=False) -> dict:
     _,evidence=audit_repository_inputs(csv_root,bin_root)
     data=load_csv_history(csv_root)
     if len(data.ids)!=2498 or int(data.ids[HISTORY_N-1])!=CUTOFF_ID or int(data.dates[HISTORY_N-1])!=CUTOFF_DATE:
@@ -380,6 +380,24 @@ def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
             {'ticket': list(c['ticket']), 'part': int(c['part']),
              'rank': [int(v) for v in c['rank']]} for c in qualifies
         ]
+    if include_frozen_score_reference:
+        # This is a read-only, INTERNAL research export for independent-seed
+        # sensitivity studies. Nothing below is persisted by the default CLI.
+        # The original 13,704 qualified-score reference (including ties) is
+        # frozen once, so new candidates NEVER re-normalize their own ranks.
+        result['frozen_score_reference'] = {
+            'integer_product_thresholds': [int(x) for x in cuts],
+            'sum_gain_numerators': score_sum,
+            'log_gain_numerators': score_log,
+            'joint_gain_numerators': score_joint,
+            'sum_denominator': den_sum,
+            'log_denominator': den_log,
+            'joint_denominator': den_joint,
+            'sum_sd': sd_sum, 'log_sd': sd_log, 'joint_sd': sd_joint,
+            'shape_gain_tables': shape_tables, 'shape_sd': shape_sd,
+            'sorted_qualified_gains': sorted_axes,
+            'history_n': HISTORY_N,
+        }
     return result
 
 
