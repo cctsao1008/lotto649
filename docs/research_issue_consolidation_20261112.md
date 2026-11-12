@@ -41,6 +41,37 @@ The v0.30 P2B four comparison arms are **random, coverage, three-feature repair,
 
 The complete v0.30 P2B pilot reported for 512 candidates: union sizes random 19, coverage 24, repair 19, hybrid 22; repair gains -0.28449364, 0.00875997, 0.59166552 and 0.56475476 respectively. Exact fair probabilities of at least one *regular base award* (including special ball) were 0.1167288921, 0.1227314590, 0.1171221141 and 0.1200976701. These are **selection-specific** probabilities, not rates measured from future draws. Different overlap changes the probability of any win, while each four-ticket arm has the same fair expected number of prize-winning lines.
 
+## #31 formal information boundary: a completed algebraic check
+
+Let `x_i(C)` be the 49-dimensional six-hot indicator of a **single** legal draw, and let `w_ij` be any frozen sequential-raster pair-distance weight. A fixed region's occupancy is
+
+```text
+O_R(C) = sum_i 1(i is in R) * x_i(C).
+```
+
+This is a **linear sum of number marginals**; rearranging regional occupancies cannot supply information absent from the full 49-dimensional single-draw indicator.
+
+A pair-distance feature is instead
+
+```text
+G_w(C) = sum_{i<j} w_ij * x_i(C) * x_j(C).
+```
+
+This is a **quadratic interaction**. For a history of `n` draws, `sum_t G_w(C_t) = sum_{i<j} w_ij * N_ij`, where `N_ij` are historical pair co-occurrence counts. The 49 *aggregate marginal counts* `N_i` do not generally determine these `N_ij`.
+
+**Constructive counterexample under the original sequential 7x7 map:** compare two two-draw histories, each legal and using every number `1..12` exactly once:
+
+| History | Draw 1 | Draw 2 | Sum of pairwise squared-distance features across both draws |
+| --- | --- | --- | ---: |
+| A | `01 02 03 04 05 06` | `07 08 09 10 11 12` | `105 + 145 = 250` |
+| B | `01 03 05 07 09 11` | `02 04 06 08 10 12` | `148 + 114 = 262` |
+
+The 49 aggregate marginal counts are **identical** (each of 1..12 occurs once, every other number zero), but the second-order geometric summary differs. This is a mathematical proof that aggregate univariate frequency summaries cannot reconstruct all pair-geometry summaries. It is **not** evidence of time dependence or predictive power.
+
+Conversely, when conditioned on the **full original ordered six-hot draw history**, these engineered pair features are deterministic functions of that input, so their conditional information-theoretic novelty is zero: `H(geometry | complete six-hot history) = 0`. They may still help *restricted, regularized models* extract useful second-order structure from finite data. Whether they improve independent future forecasts is precisely the outstanding empirical test, with equal-model-budget and full-pipeline IID controls.
+
+This resolves an otherwise ambiguous phrase: **feature nonredundancy relative to historical marginal summaries** is true, while **new information beyond the entire raw 6/49 history** is false. Neither claim establishes a correction force or a forecast edge.
+
 ## Consolidated next research questions
 
 ### A. #31 — Incremental geometric information, not another feature search
