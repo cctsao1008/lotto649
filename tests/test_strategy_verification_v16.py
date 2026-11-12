@@ -7,7 +7,7 @@ import unittest
 from lotto7x7.strategy_verification_v13 import validate_pool, is_feasible, quality
 from lotto7x7.strategy_verification_v16 import (
     nested_pools, canonical_sha, portfolio_audit, local_coordinate_ascent,
-    analyze_budget, bounded_mip_primary,
+    analyze_budget, bounded_mip_primary, analyze_secondary,
 )
 
 
@@ -105,6 +105,11 @@ class TestNestedScaling(unittest.TestCase):
         b=local_coordinate_ascent(self.all,self.original)
         self.assertEqual(a,b)
         self.assertEqual(canonical_sha(a),canonical_sha(b))
+
+    def test_10_secondary_audit_rejects_invalid_time_limit(self):
+        with self.assertRaises(ValueError):
+            analyze_secondary(self.all,original_primary=self.original,
+                              incumbent=self.original,seconds=0)
 
 
 if __name__=='__main__':

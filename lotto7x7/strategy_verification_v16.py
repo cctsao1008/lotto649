@@ -20,6 +20,9 @@ from .strategy_verification_v13 import (
     validate_pool, is_feasible, quality, shape_partition_bound,
     optimization_certificate, constraints,
 )
+from .strategy_verification_v14 import (
+    exact_primary_optimal_reduction, exact_lp_dual_certificate, certified_mip_search,
+)
 
 SCHEMA = 'lotto649.strategy_verification.v1.6'
 ORIGINAL_POOL_SHA = '366af606a178173d159198fef784a779b8ed430d52babc89d526f1df575f216e'
@@ -219,6 +222,72 @@ def analyze_budget(pool: list[dict], incumbent: list[list[int]], *,
             'comparison_basis':'all 4 block rank vectors fixed using the SAME 13704-qualified sample'}
 
 
+
+def analyze_secondary(pool: list[dict], *, original_primary: list[list[int]],
+                      incumbent: list[list[int]], seconds: float) -> dict:
+    """Numerical lexicographic search within an EXACT primary-optimal slice.
+
+    All v1.4 reductions follow from Shape class maxima; they are not
+    heuristic pruning. Independent integer dual upper bounds are retained
+    distinctly from numerical MIP optimality statuses.
+    """
+    if not 1 <= seconds <= 120:
+        raise ValueError('invalid secondary search limit')
+    reduced, proof = exact_primary_optimal_reduction(pool, original_primary)
+    before = portfolio_audit(pool, incumbent)
+    if before['min_rank'] != BASELINE_MAXIMIN:
+        raise AssertionError('incumbent has not reached certified primary optimum')
+    upper = exact_lp_dual_certificate(reduced, score_kind='total', primary_bound=BASELINE_MAXIMIN)
+    secondary = certified_mip_search(reduced, score_kind='total',
+                                     primary_bound=BASELINE_MAXIMIN,seconds=seconds)
+    winner = before
+    if secondary.get('feasible'):
+        trial = portfolio_audit(pool, secondary['tickets'])
+        if trial['min_rank'] != BASELINE_MAXIMIN or trial['total_rank'] != secondary['objective_integer']:
+            raise AssertionError('secondary MIP witness did not independently verify')
+        # No numerical outcome is adopted without a legal, integer-verified witness.
+        trial_local = local_coordinate_ascent(pool, trial['tickets'])
+        if tuple(trial_local['quality']) > tuple(winner['quality']):
+            winner = trial_local
+    if winner['total_rank'] > int(upper['integer_upper_bound']):
+        raise AssertionError('integer witness exceeds exact secondary bound')
+    joint = None
+    joint_upper = None
+    if secondary.get('solver_certifies_integer_optimum') and secondary.get('feasible'):
+        best_total = int(secondary['objective_integer'])
+        if winner['total_rank'] != best_total:
+            raise AssertionError('secondary numerical-optimality contradicts integer witness')
+        joint_upper = exact_lp_dual_certificate(reduced,score_kind='joint',
+                        primary_bound=BASELINE_MAXIMIN,total_floor=best_total)
+        joint = certified_mip_search(reduced,score_kind='joint',
+                    primary_bound=BASELINE_MAXIMIN,total_floor=best_total,seconds=seconds)
+        if joint.get('feasible'):
+            candidate = portfolio_audit(pool,joint['tickets'])
+            if candidate['min_rank']!=BASELINE_MAXIMIN or candidate['total_rank']!=best_total or candidate['joint_rank']!=joint['objective_integer']:
+                raise AssertionError('numerical final tie-break witness does not satisfy fixed total')
+            if tuple(candidate['quality']) > tuple(winner['quality']):
+                winner = candidate
+    return {
+        'reduced_primary_optimum_candidates':len(reduced),
+        'reduction_strict_partition_gap':proof['strict_partition_gap_to_fifth'],
+        'total_exact_integer_upper':int(upper['integer_upper_bound']),
+        'total_best_feasible_lower':winner['total_rank'],
+        'total_rigorous_gap_at_most':int(upper['integer_upper_bound'])-winner['total_rank'],
+        'total_solver':secondary,
+        'total_certificate_basis':('EXACT_INTEGER_UPPER_EQUAL_WITNESS'
+            if winner['total_rank']==int(upper['integer_upper_bound'])
+            else 'MIP_ZERO_GAP_NUMERIC_ONLY' if secondary.get('solver_certifies_integer_optimum')
+            else 'BOUNDED_UNRESOLVED'),
+        'joint_solver':joint,
+        'joint_exact_integer_upper':int(joint_upper['integer_upper_bound']) if joint_upper else None,
+        'joint_certificate_basis':('EXACT_INTEGER_UPPER_EQUAL_WITNESS'
+            if joint_upper is not None and winner['joint_rank']==int(joint_upper['integer_upper_bound'])
+            else 'MIP_ZERO_GAP_NUMERIC_ONLY' if joint and joint.get('solver_certifies_integer_optimum')
+            else 'BOUNDED_UNRESOLVED'),
+        'best_feasible_witness':winner,
+    }
+
+
 def verify_scaling(*, csv_root:Path, bin_root:Path,manifest:Path,golden:Path,
                    sizes: tuple[int,...] = POOL_SIZES,
                    mip_seconds:float=6., dual_for_all:bool=True) -> dict:
@@ -240,23 +309,37 @@ def verify_scaling(*, csv_root:Path, bin_root:Path,manifest:Path,golden:Path,
         raise AssertionError('original v1.5 exact optimum witness unexpectedly changed')
     results=[]
     incumbent=baseline['tickets']
+    original_primary=verified['replayed']['primary']['tickets']
     prev_best=tuple(baseline['quality'])
     for i,arm in enumerate(arms):
         budget = analyze_budget(arm['pool'],incumbent,
                 mip_seconds=0. if i==0 else mip_seconds,
                 compute_exact_lp=(dual_for_all or i==0))
         current=budget['best_feasible_witness']
+        # Original 2k full-lex optimum is independently exact-certificated by v1.5.
+        if i==0:
+            if current['quality']!=baseline['quality']:
+                raise AssertionError('original 2k exact full-lex optimum was surpassed')
+            budget['full_lexicographic_optimality']='V15_EXACT_FINITE_POOL_PASS'
+            budget['secondary_search']={'status':'V15_EXHAUSTIVE_CERTIFICATE',
+                                        'best_feasible_witness':baseline}
+        else:
+            if budget['primary_rigorous_upper']==BASELINE_MAXIMIN and current['min_rank']==BASELINE_MAXIMIN:
+                secondary=analyze_secondary(arm['pool'],original_primary=original_primary,
+                                             incumbent=current['tickets'],seconds=mip_seconds)
+                budget['secondary_search']=secondary
+                if tuple(secondary['best_feasible_witness']['quality']) > tuple(current['quality']):
+                    current=secondary['best_feasible_witness']
+                    budget['best_feasible_witness']=current
+                budget['full_lexicographic_optimality']='NUMERIC_ONLY_OR_BOUNDED_GAP'
+            else:
+                budget['secondary_search']={'status':'SKIPPED_PRIMARY_UNRESOLVED'}
         if tuple(current['quality']) < prev_best:
             raise AssertionError('best feasible objective regressed in nested candidate schedule')
         prev_best=tuple(current['quality'])
         incumbent=current['tickets']
         budget['candidate_pool_sha256']=arm['pool_sha256']
         budget['added_since_previous']=0 if i==0 else budget['size']-results[-1]['size']
-        # Original 2k full-lex optimum was exhaustively certified in v1.5.
-        if i==0:
-            if current['quality']!=baseline['quality']:
-                raise AssertionError('original 2k full-lexicographic optimum was surpassed')
-            budget['full_lexicographic_optimality']='V15_EXACT_FINITE_POOL_PASS'
         results.append(budget)
     return {'schema':SCHEMA, 'decision':'NESTED_POOL_SCALING_AUDIT_PASS',
       'source':{'draws':verified['source']['historical_prefix_draws'],
@@ -270,7 +353,7 @@ def verify_scaling(*, csv_root:Path, bin_root:Path,manifest:Path,golden:Path,
       'limitations':['Nested 2000/4000/8000/13704 schedule uses only the original sampled positive-qualified candidates.',
                      'Each arm has identical frozen score and rank units; no independent prediction tests.',
                      'Optimized feasible witnesses are lower bounds; a rigorous integer upper bound proves primary optimum only when equal.',
-                     'MIP outcomes are exploratory numeric witnesses and do not establish exact full lexicographic optimality.',
+                     'MIP outcomes may support a numerical complete lexicographic optimum but do not establish an independent exact integer certificate.',
                      'Candidate pool size impacts optimization opportunity, not the underlying fair-lottery winning probability.',
                      'No source or forecast seals were changed.']}
 
