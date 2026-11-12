@@ -58,3 +58,37 @@ if ($LASTEXITCODE -ne 0) { throw 'v1.4 research audit failed' }
 ```
 
 The report is exclusive-create under ignored `results/`; original source CSV/BIN/manifest, M0/P3f/P5A attestations, user-purchased tickets and prior research files remain unchanged. All numerical audit claims should cite a completed GitHub Actions run, not only the documented implementation.
+
+## Observed v1.4 CI outcome — 2026-11-12
+
+**Source and result gate:** [GitHub Actions 43169271494](https://github.com/cctsao1008/lotto649/actions/runs/43169271494/job/131018340055) PASS; six of six unit tests, original v1.2 replay **152** checks, original 2,497-draw prefix SHA and 2,000-pool SHA **`366af606a178173d159198fef784a779b8ed430d52babc89d526f1df575f216e`**. Original full report SHA256 **`481e3f6b6bce6075f6d379a56f02fa7408fb9affc4ec959f0a64d27d0f86faf4`**. Actions artifact `strategy-v14-m0-lexicographic`, ID **13920864232**, contains `strategy_v14_m0_lexicographic.json`.
+
+Exactly **893** candidates are necessary for any primary-optimal solution (four original Shape partitions with counts 200, 85, 123, 485 respectively). This reduction preserves **all** fixed-pool primary-optimal portfolios and was mathematically verified before secondary optimization.
+
+### Exact counterexample: original M0 is not full-lexicographically optimal in this pool
+
+| Rank objective | Original frozen M0 Primary | Alternative legal four-line witness | Change |
+| --- | ---: | ---: | ---: |
+| Sum | 47,199 | 47,031 | -168 |
+| Log | 49,240 | 49,240 | 0 |
+| Joint | 49,829 | 52,895 | +3,066 |
+| Shape | 43,549 | 43,549 | 0 |
+| **Minimum of four (first objective)** | **43,549** | **43,549** | **0** |
+| **Total of four (second objective)** | **189,817** | **192,715** | **+2,898** |
+
+The improved witness was independently checked to consist of four legal, different, 24-disjoint six-number tickets, each from a different original Shape partition, with every Sum/Log/Joint rank sum >= 43,549. Thus **the original bounded search heuristic fails the stronger complete lexicographic optimality test even though it faithfully executed its documented deterministic local-search program and attained the maximum possible primary Maximin**. This is a mathematically incontrovertible *feasible improving witness* and **does not require** trusting the MIP solver's global-optimum claim.
+
+**Research-only alternate four lines; do not replace any purchased or frozen ticket:**
+
+- A: `18 21 28 35 40 44`
+- B: `13 19 31 37 43 47`
+- C: `14 20 25 33 45 49`
+- D: `11 26 29 32 42 46`
+
+### Distinguish two certification levels
+
+1. **Strict suboptimality of the original secondary objective: exact integer witness.** All inputs and rank vectors are independently reproduced and the positive difference is an integer, `192715 - 189817 = 2898`.
+2. **Numerical solver-certified optimum of the alternate portfolio:** HiGHS MIP reports `status=Optimal`, `mip_gap=0`, Total rank optimum **192,715**, followed by Joint rank optimum **52,895** at that fixed Total. As with other floating-point MIP results, this is conditional on the solver's numerical tolerances.
+3. **Independent arbitrary-precision dual upper bounds are valid but not tight:** Total Rank <= **195,617**, Joint Rank <= **54,184**. The exact integer dual gaps above the feasible witness are **2,902** and **1,289**, respectively. Thus do **not** claim that the LP dual itself gives a zero-gap mathematical certificate for the full lexicographic optimum. The numeric MIP certificate and independent exact upper bound are separately labeled in the verifier JSON (`certificate_basis` and `exact_integer_upper_gap_to_incumbent`).
+
+**Scientific/engineering disposition:** `STRATEGY_EXECUTION_PASS / PRIMARY_FINITE_POOL_OPTIMUM_PASS / ORIGINAL_FULL_LEXICOGRAPHIC_OBJECTIVE_SUBOPTIMAL`. This identifies the expected tradeoff of a bounded original heuristic rather than a source-data error or retrospective forecast discovery. It does not show any higher true chance of winning, and it does not justify rewriting original M0, P3f/P5A seals, or paid tickets.
