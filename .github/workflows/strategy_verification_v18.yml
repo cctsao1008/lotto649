@@ -1,0 +1,52 @@
+name: M0 Strategy Verification v1.8 (New-Seed Exact Lexicographic Certification)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v18.py'
+      - 'lotto7x7/strategy_verification_v17.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'lotto7x7/strategy_verification_v15.py'
+      - 'tools/lexicographic_enumerator_v15.cpp'
+      - 'tests/test_strategy_verification_v18.py'
+      - '.github/workflows/strategy_verification_v18.yml'
+  workflow_dispatch:
+jobs:
+  certify-new-seed-pools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical dependencies only
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify fail-closed reduction, hash and C++ exact enumerator against Python
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v18.py' -v
+      - name: Rebuild original frozen scoring and independently exhaust four new-seed pools
+        run: |
+          python -m lotto7x7.strategy_verification_v18 \
+            --csv-root data/csv --bin-root data/bin --timeout 240 \
+            --out results/strategy_v18_new_seed_exact.json
+          python - <<'PY'
+          import json
+          p='results/strategy_v18_new_seed_exact.json'
+          r=json.load(open(p))
+          assert r['decision']=='NEW_SEED_2000_POOL_EXACT_CERTIFICATES_COMPLETE'
+          assert r['source_gate']['v12_checks']==152
+          assert r['source_gate']['reference_rescoring']=='PASS_ALL_13704_FOUR_RANK_VECTORS'
+          assert len(r['cases'])==4
+          assert all(x['certification']=='EXACT_FINITE_2000_POOL_LEXICOGRAPHIC_CERTIFIED' for x in r['cases'])
+          assert all(x['lossless_reduction']['primary_upper']==43549 for x in r['cases'])
+          assert all(x['exhaustive_quality']>=x['greedy_quality'] for x in r['cases'])
+          print('PASS four independent exact candidate-pool certificates')
+          PY
+          git diff --exit-code
+      - name: Archive auditable exact integer reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v18-new-seed-exact
+          path: results/strategy_v18_new_seed_exact.json
+          retention-days: 30
+          if-no-files-found: warn
