@@ -209,6 +209,8 @@ def audit_lexicographic(pool:list[dict],original:list[list[int]], *,primary_boun
     info={'reduction':reduction, 'original_total_rank_sum':original_total,'original_joint_rank_sum':original_joint,
           'secondary_total_rank':{'exact_upper_bound':bound_total,'solver':stage_total,
                                  'certified':bool(complete_total),
+                                 'certificate_basis':('EXACT_INTEGER_DUAL_MATCH' if stage_total.get('feasible') and stage_total['objective_integer']==bound_total['integer_upper_bound'] else 'MIP_ZERO_GAP_NUMERICAL_ONLY' if stage_total.get('solver_certifies_integer_optimum') else 'NOT_CERTIFIED'),
+                                 'exact_integer_upper_gap_to_incumbent':(bound_total['integer_upper_bound']-stage_total['objective_integer'] if stage_total.get('feasible') else None),
                                  'strict_improvement_found':bool(stage_total.get('feasible') and stage_total['objective_integer']>original_total)}}
     if not stage_total.get('feasible'):
         info['decision']='SECONDARY_SEARCH_NO_FEASIBLE_WITNESS'
@@ -226,7 +228,9 @@ def audit_lexicographic(pool:list[dict],original:list[list[int]], *,primary_boun
         raise AssertionError('feasible joint witness exceeds exact LP dual bound')
     complete_joint=stage_joint.get('solver_certifies_integer_optimum',False) or (
         stage_joint.get('feasible') and stage_joint['objective_integer']==bound_joint['integer_upper_bound'])
-    info['tertiary_joint_rank']={'exact_upper_bound':bound_joint,'solver':stage_joint,'certified':bool(complete_joint)}
+    info['tertiary_joint_rank']={'exact_upper_bound':bound_joint,'solver':stage_joint,'certified':bool(complete_joint),
+                                  'certificate_basis':('EXACT_INTEGER_DUAL_MATCH' if stage_joint.get('feasible') and stage_joint['objective_integer']==bound_joint['integer_upper_bound'] else 'MIP_ZERO_GAP_NUMERICAL_ONLY' if stage_joint.get('solver_certifies_integer_optimum') else 'NOT_CERTIFIED'),
+                                  'exact_integer_upper_gap_to_incumbent':(bound_joint['integer_upper_bound']-stage_joint['objective_integer'] if stage_joint.get('feasible') else None)}
     if complete_joint and stage_joint.get('feasible'):
         witness=stage_joint['lexicographic_quality']
         prior=reduction['original_lexicographic_quality']
