@@ -46,3 +46,43 @@ $py = '.\.venv\Scripts\python.exe'
 ```
 
 Detailed observed CI results belong below only after the GitHub Actions workflow completes and the artifact JSON is read back. If any reference ranking is inconsistent, the experiment must report **FAIL**, not silently repair the original M0 input.
+
+## Observed CI results — 2026-11-12
+
+**Full source-gated CI:** [GitHub Actions run 43192449439](https://github.com/cctsao1008/lotto649/actions/runs/43192449439/job/131094917641) **PASS**. Ten of ten tests; **27 of 27** new independent-seed/screening arms passed all strategy legality and source checks. Artifact **`strategy-v17-candidate-generation-robustness`**, ID **13931068131** (30-day retention), JSON SHA256 `0925cd8a17e72d7f464519d4f779294b35e7e13301020cb52eaab250189dadf1`. File `strategy_v17_candidate_robustness.json`. Runtime for entire source audit/replay and 27 arms was **20.94 seconds** on GitHub runner.
+
+**Integrity:** original v1.2 **152/152** checks passed; historical cutoff unchanged at 2,497 draws / 2026-11-06. New scorer exactly reconstructed all four frozen per-ticket rank vectors for all 13,704 original qualified candidates; baseline rank-axis SHA256 `18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b`. No rank refit was allowed. Each new independent 80k raw sample produced between **13,478 and 13,639** qualified candidates (about 16.85%–17.05%), and each 320k sample about **54,179–54,651** qualified candidates (about 16.93%–17.08%). All test pools were fixed at 2,000 qualified candidates.
+
+### Quality scores for each deterministic seed and raw sample size
+
+These are **feasible bounded-search witness scores**, not full lexicographic optimum certificates. Quality tuple = `(Maximin, Total Rank, Shape Rank, Joint Rank)`.
+
+| Seed | Raw uniform unique draws | Ranked screening: Total Rank | Shape round-robin: Total Rank | Uniform-screen: Total Rank |
+| --- | ---: | ---: | ---: | ---: |
+| 649 | 80,000 | **195,617** | **195,617** | 169,854 |
+| 649 | 160,000 | **195,617** | **195,617** | 175,155 |
+| 649 | 320,000 | **195,617** | **195,617** | 176,472 |
+| 20261111 | 80,000 | 191,191 | 191,191 | 176,430 |
+| 20261111 | 160,000 | **195,617** | **195,617** | 190,001 |
+| 20261111 | 320,000 | **195,617** | **195,617** | 180,953 |
+| 20261112 | 80,000 | 192,719 | 192,719 | 189,817 |
+| 20261112 | 160,000 | **195,617** | **195,617** | 181,349 |
+| 20261112 | 320,000 | **195,617** | **195,617** | 186,903 |
+
+**Primary maximin:** all nine `ranked` and all nine `shape_round_robin` arms reached **43,549**, equaling their independently calculated valid primary Shape upper bound and thus certifying *primary optimality within those particular screened 2,000 pools*. Only one of nine `uniform_screen` arms reached primary 43,549; other uniform results were between 41,679 and 43,109, leaving a strictly positive certified primary gap.
+
+**Secondary improvement:** frozen original 2,000-pool exact optimum was `(43,549, 192,715, 43,549, 52,895)` (v1.5–v1.6). The best independently sampled witnessed tuple is **`(43,549, 195,617, 43,549, 54,184)`**, i.e. Total Rank **+2,902**, Joint Rank **+1,289**, same primary. For ranked and shape-round-robin, **8/9** seed×budget arms had a higher feasible Total Rank than the original exact optimum. The two screeners selected *different* 2,000-candidate pools in **all nine** tests, but each independently reached the same best quality tuple within its seed×budget. This observation is about this particular deterministic search; it does not demonstrate that both screeners are always equivalent.
+
+**Important interpretation:** The fixed-rank original sample was now shown to be a **candidate-coverage limitation**, not a cap on the underlying mathematical score achievable from different random samples. The original v1.6 result — 2,000 candidates were enough within **that specific 13,704-qualified source sample** — remains true. The new finding is complementary: sourcing an independent batch can expose candidate combinations absent from the original source, which can improve the frozen strategy score.
+
+**No secondary/global claim:** v1.7 search is bounded greedy + coordinate ascent, not exhaustive among the new 2,000 candidates or their full raw pools. Therefore the new Total 195,617 and Joint 54,184 are **certified legal feasible lower bounds on each maximize objective**, not mathematically certified full lexicographic maxima. Observed scores happen to equal two previous non-tight LP upper bounds from a *different* fixed original pool; those previous pool-specific bounds do **not** apply to the new independently sampled pools and must **not** be reused as a global certificate.
+
+### Engineering disposition and next actions
+
+- **Strategy Compliance:** PASS, with all original source/rank consistency checks and new-sample conservation.
+- **Primary objective:** finite **screened 2,000-pool** optimum certified in 18/18 ranked and shape-screened arms; uniform-screen often not certified.
+- **Full lexicographic objective:** `FEASIBLE_BETTER_THAN_FROZEN_BASELINE / EXACT_OPTIMUM_UNVERIFIED`.
+- **Candidate-generation robustness:** `EXPLORATORY_SENSITIVITY_OBSERVED`, with 3 independent seeds, not a general population significance statement.
+- **Predicted lottery advantage:** not tested and not inferred.
+
+Next work should separate **new-sample candidate coverage** from **optimizer completeness**, preferably using mathematically certified secondary upper bounds or controlled exhaustive optimality in appropriately reduced candidate pools, and extend the seeds beyond 3 if statistical stability is the goal. Any additional source/reference change needs a new versioned acceptance contract.
