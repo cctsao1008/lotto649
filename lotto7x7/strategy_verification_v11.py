@@ -207,7 +207,7 @@ def verify_m0_frozen_manifest(payload: bytes) -> dict:
         check('original_historical_cutoff', cutoff.get('date') == '2026-11-06' and
               cutoff.get('draw_id') == 115000103 and cutoff.get('draws') == 2497 and
               cutoff.get('historical_prefix_sha256') ==
-              'd865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6b7f8')
+              'd865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8')
         method = obj.get('method') or {}
         check('fixed_candidate_search_contract', method.get('seed') == 20261110 and
               method.get('uniform_candidate_sample_size') == 80000 and
