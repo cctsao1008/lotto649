@@ -90,7 +90,7 @@ class TestM0VerifierV12(unittest.TestCase):
     def test_08_archive_reference_predeclared(self):
         p=Path('tests/fixtures/v028_m0_original_ci_golden_v12.json')
         obj=json.loads(p.read_text('utf-8'))
-        self.assertEqual(obj['original_ci_report_sha256'],
+        self.assertEqual(obj['original_ci_json_sha256'],
                          '7528a541d0d983ee1e36a300ff14c5fcbfd0c06a46af4eb894ff00f83db23520')
         self.assertEqual(obj['original_git_manifest_blob_sha1'],
                          '21dff1f975773ca919e6af9e762e93f8ffc3475c')
