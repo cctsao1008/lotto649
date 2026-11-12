@@ -239,7 +239,8 @@ def one_swap_improvements(pool:list[dict],chosen:list[dict],style:str) -> dict:
 
 
 def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
-                   golden_path:Path,batch_size:int=80000,include_verified_pool:bool=False) -> dict:
+                   golden_path:Path,batch_size:int=80000,include_verified_pool:bool=False,
+                   include_qualified_candidates:bool=False) -> dict:
     _,evidence=audit_repository_inputs(csv_root,bin_root)
     data=load_csv_history(csv_root)
     if len(data.ids)!=2498 or int(data.ids[HISTORY_N-1])!=CUTOFF_ID or int(data.dates[HISTORY_N-1])!=CUTOFF_DATE:
@@ -371,6 +372,14 @@ def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
     }
     if include_verified_pool:
         result['verified_pool'] = verified_pool
+    if include_qualified_candidates:
+        # Read-only optional replay export: the SAME scored 13,704 frozen
+        # candidates, in original qualifier order, with fixed rank semantics.
+        # Default v1.2 output remains identical.
+        result['qualified_candidates'] = [
+            {'ticket': list(c['ticket']), 'part': int(c['part']),
+             'rank': [int(v) for v in c['rank']]} for c in qualifies
+        ]
     return result
 
 
