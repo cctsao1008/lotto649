@@ -1,0 +1,52 @@
+name: M0 Strategy Verification v1.9 (Frozen Rank Saturation)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v19.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'lotto7x7/strategy_verification_v17.py'
+      - 'tests/test_strategy_verification_v19.py'
+      - '.github/workflows/strategy_verification_v19.yml'
+  workflow_dispatch:
+jobs:
+  score-saturation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimum numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Run adversarial score-rank and mathematical upper-bound tests
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v19.py' -v
+      - name: Verify 13,704 frozen ranks and audit independent sample saturation
+        run: |
+          python -m lotto7x7.strategy_verification_v19 \
+            --csv-root data/csv --bin-root data/bin \
+            --seeds 649 20261111 20261112 \
+            --raw-sizes 80000 160000 320000 \
+            --pool-cap 2000 --restarts 6 \
+            --out results/strategy_v19_score_saturation.json
+          python - <<'PY'
+          import json
+          r=json.load(open('results/strategy_v19_score_saturation.json'))
+          assert r['decision']=='V19_FROZEN_SCORE_SATURATION_AUDIT_PASS'
+          assert r['source_gate']['original_152_checks']==152
+          assert r['source_gate']['original_qualified']==13704
+          assert r['source_gate']['reference_axes_sha256']=='18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'
+          assert len(r['studies'])==9
+          assert all(len(s['policies'])==3 for s in r['studies'])
+          assert all(a['raw_qualified_source_envelope']['status'] in ('EXACT_LEXICOGRAPHIC_CERTIFIED_BY_CLASS_CAPS','VALID_UPPER_GAP_UNRESOLVED','PRIMARY_BOUND_NOT_ATTAINED','NOT_CERTIFIABLE_CLASS_BOUND_TIE') for s in r['studies'] for a in s['policies'])
+          print('PASS score saturation and reference envelope audit')
+          PY
+          git diff --exit-code
+      - name: Archive complete score-saturation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v19-frozen-rank-saturation
+          path: results/strategy_v19_score_saturation.json
+          retention-days: 30
+          if-no-files-found: warn
