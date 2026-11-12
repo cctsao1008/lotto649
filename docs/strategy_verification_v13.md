@@ -63,3 +63,11 @@ if ($LASTEXITCODE -ne 0) { throw 'v1.3 exact gap audit failed' }
 ```
 
 CI executes the same exact original source audit, finite-pool reconstruction and integer upper certificate, then retains the report as a GitHub Actions artifact. The optional time-bounded MIP exploration is engineering support, not a frozen future-bet recommendation.
+
+## First audited CI findings — original 2,000-candidate pool (2026-11-12)
+
+Initial full-history [GitHub Actions run 43166416254](https://github.com/cctsao1008/lotto649/actions/runs/43166416254/job/131009225463) **PASS**, six original v1.3 tests plus source-verified 80,000-draw-candidate replay. Independently computed original **43,549** versus exact scaled-integer Lagrangian bound **43,549**, so the original **primary minimum-of-four-rank-sums** objective is globally optimal **within the original selected 2,000-candidate pool** (gap zero). A separate bounded mixed-integer solve also reached 43,549 (MIP optimum status), but its alternate tie-break rank vector need not be original M0's lexicographic optimum.
+
+**A simpler, fully combinatorial independent proof** is also available and included in the revised audit report: with four distinct Shape partitions required, select at most one candidate from each partition. The original Primary ticket Shape ranks are **7,364**, **13,128**, **13,504**, and **9,553**. These are the highest Shape-rank contributions across the four highest permitted partition groups. Their sum is **43,549**. Since the minimum of four block sums is no greater than the Shape rank sum, no feasible selected four tickets in this pool can exceed 43,549. The original Primary sum vector **[47,199, 49,240, 49,829, 43,549]** attains this upper bound exactly.
+
+This exact result resolves the **primary maximin gap only**. The original lexicographic secondary objectives—sum of all rank totals, Shape sum and Joint sum—have not yet received an independently certified optimality bound, though their execution and one-for-one local stationarity have been independently reproduced. It is also possible that a wider pool yields higher scores; the 80,000 sampled combinations were not an exhaustive search of every lottery ticket.

@@ -11,7 +11,7 @@ import numpy as np
 # Tests run against the actual package when invoked from repository root.
 from lotto7x7.strategy_verification_v13 import (validate_pool, constraints,
      exact_dual_upper_bound, optimization_certificate, explain_selection, is_feasible,
-     quality, CERT_SCALE)
+     quality, shape_partition_bound, CERT_SCALE)
 
 
 def fixture():
@@ -76,6 +76,16 @@ class TestV13(unittest.TestCase):
             explain_selection(pool,[pool[i]['ticket'] for i in (0,1,2,4)])
         with self.assertRaises(ValueError):
             explain_selection(pool,[pool[i]['ticket'] for i in (0,1,2,2)])
+
+    def test_shape_partition_upper_bound_exact_small_pool(self):
+        pool=fixture()
+        ranks,tickets,parts=validate_pool(pool)
+        bound=shape_partition_bound(pool)
+        for ids in combinations(range(len(pool)),4):
+            if is_feasible(list(ids),tickets,parts):
+                self.assertLessEqual(int(min(ranks[list(ids)].sum(axis=0))),
+                                     bound['exact_integer_upper_bound'])
+        self.assertEqual(len(bound['top_four_partition_codes']),4)
 
     def test_milp_optional_candidate_feasible(self):
         pool=fixture()

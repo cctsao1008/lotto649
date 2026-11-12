@@ -168,6 +168,32 @@ def optimization_certificate(pool:list[dict], *, test_milp_seconds:float=0.) -> 
     return exact
 
 
+
+def shape_partition_bound(pool:list[dict]) -> dict:
+    """Simpler exact finite-pool upper bound using one ticket per Shape partition.
+
+    Because min(block sums) <= Shape rank sum and no more than one candidate
+    may be chosen from each partition, sum of the four largest per-partition
+    maximal Shape ranks is a hard integer upper bound on primary maximin.
+    """
+    ranks,tickets,parts=validate_pool(pool)
+    maxima={}
+    for i,part in enumerate(parts):
+        value=int(ranks[i,3])
+        if part not in maxima or value>maxima[part]['max_shape_rank']:
+            maxima[part]={'partition_code':int(part),'max_shape_rank':value,
+                          'attaining_ticket':list(tickets[i]),'max_tie_count':1}
+        elif value==maxima[part]['max_shape_rank']:
+            maxima[part]['max_tie_count']+=1
+    if len(maxima)<4:raise ValueError('fewer than 4 Shape partitions in pool')
+    order=sorted(maxima.values(),key=lambda x:(-x['max_shape_rank'],x['partition_code']))
+    return {'method':'FOUR_DISTINCT_PARTITION_CLASS_SHAPE_RANK_MAX_BOUND',
+            'exact_integer_upper_bound':sum(row['max_shape_rank'] for row in order[:4]),
+            'all_partition_caps':order,
+            'top_four_partition_codes':[x['partition_code'] for x in order[:4]],
+            'proof':'maximin <= sum of Shape ranks <= sum of top four per-partition maximal Shape ranks, with at most one candidate from each partition.'}
+
+
 def is_feasible(indices:list[int],tickets:list[tuple[int,...]],parts:list[int])->bool:
     if len(indices)!=4 or len(set(indices))!=4:return False
     try:
@@ -241,6 +267,9 @@ def verify_m0_gap(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
     if len(pool)!=2000:raise ValueError('expected exactly 2,000 pre-validated candidates')
     pool_sha=sha256(json.dumps(pool,separators=(',',':'),sort_keys=True).encode('ascii')).hexdigest()
     cert=optimization_certificate(pool,test_milp_seconds=mip_seconds)
+    simple_bound=shape_partition_bound(pool)
+    if simple_bound['exact_integer_upper_bound']<0:
+        raise AssertionError('bad partition upper bound')
     explanations={}
     for style,name in [('balanced','primary'),('shape','shape_first'),('joint','joint_first')]:
         explanation=explain_selection(pool,verified['replayed'][name]['tickets'],style=style)
@@ -249,8 +278,17 @@ def verify_m0_gap(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
         explanations[name]=explanation
     initial=explanations['primary']['rank_vector_sum']
     incumbent=min(initial)
-    upper=cert['integer_upper_bound']
+    upper=min(cert['integer_upper_bound'],simple_bound['exact_integer_upper_bound'])
     if upper<incumbent:raise AssertionError('rigorous bound falls below feasible original objective')
+    selected_partition_maxima=[]
+    by_part={int(x['partition_code']):int(x['max_shape_rank']) for x in simple_bound['all_partition_caps']}
+    pmap={tuple(x['ticket']):x for x in pool}
+    for ticket in verified['replayed']['primary']['tickets']:
+        row=pmap[tuple(ticket)]
+        selected_partition_maxima.append({
+           'ticket':ticket,'partition_code':row['part'],'shape_rank':row['rank'][3],
+           'max_shape_rank_within_partition':by_part[row['part']],
+           'attains_partition_shape_rank_maximum':row['rank'][3]==by_part[row['part']]})
     better=cert.get('mip_exploration',{}).get('main_maximin')
     if better is not None and better>incumbent:
         primary_status='ORIGINAL_HEURISTIC_STRICTLY_SUBOPTIMAL_IN_FIXED_POOL'
@@ -269,7 +307,9 @@ def verify_m0_gap(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
                   'upper':upper,
                   'absolute_gap_at_most':upper-incumbent,
                   'relative_gap_at_most_percent':100*(upper-incumbent)/upper if upper else 0,
-                  'certificate':cert},
+                  'certificate':cert,
+                  'simple_shape_partition_upper_bound':simple_bound,
+                  'original_primary_partition_maximum_evidence':selected_partition_maxima},
         'explanations':explanations,
         'limits':['Certified bound applies only to the frozen 2,000-candidate pool, not the full 13,983,816-ticket universe.',
                   'Original M0 multicriteria lexicographic tie-break is separately reported; upper bound addresses primary maximin only.',
