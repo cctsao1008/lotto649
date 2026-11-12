@@ -43,3 +43,26 @@ $py = '.\.venv\Scripts\python.exe'
 ```
 
 The exhaustive theoretical reference is computed during this verification once; it is CPU-intensive, not an environment integrity rebuild. Do not rerun if the linked CI has already passed. The older 10-draw ticket and shadow seals are not touched.
+
+## Observed independent CI result — 2026-11-12
+
+Original independent replay implementation: [commit 8e810b5](https://github.com/cctsao1008/lotto649/commit/8e810b5f2e89ed9a7b7846712b42b4654394d27d); test-fixture field-name correction: [commit 081f1fc](https://github.com/cctsao1008/lotto649/commit/081f1fcb669abeefbfaf4a983c2aa0dae9f9de75).
+
+**Validated GitHub Actions** [run 43158416794](https://github.com/cctsao1008/lotto649/actions/runs/43158416794/job/130983666280) **PASS**. **10/10 tests, 152/152 independently recomputed checks, zero failed checks.** The original test-fixture correction only changed the reference JSON key used by one test; it did not change the original M0 theory, tickets or verification tolerance.
+
+| Item | Verified result |
+| --- | --- |
+| Frozen prefix | 2,497 draws through 2026-11-06/#115000103; original SHA256 matched |
+| Complete fair universe | 13,983,816 combinations; original Sum×Log joint and L1/L2/L3 SHA256 matched |
+| Fair theory shape categories | L1=6, L2=11, L3=94; Sum×Log nonzero cells=2,199 |
+| Candidate generation | 80,000 unique fair samples; original sample SHA256 matched |
+| Four-block positive | 13,704 qualified; original rejection buckets also exactly matched |
+| Bounded pool | 2,000 candidates |
+| Main maximin | 43,549; exact original four lines, all four standardized gains and all four percentile ranks per line matched |
+| Shape-first | 43,549; exact original four-line sensitivity result matched |
+| Joint-first | 40,489; exact original four-line sensitivity result matched |
+| Finite-pool 1-for-1 exchange | All three portfolios one-swap stationary within the fixed pool |
+
+The complete JSON was archived in Actions artifact **`strategy-v12-independent-m0`**, artifact ID **13916094867** (30-day retention), containing `strategy_v12_m0_full.json`. Original reference CI run **42793224246**, original `v028_multiobjective.json` SHA256 **`7528a541d0d983ee1e36a300ff14c5fcbfd0c06a46af4eb894ff00f83db23520`**.
+
+**Decision:** `M0_BOUNDED_STRATEGY_REPLAY_PASS_GLOBAL_OPTIMUM_UNCERTIFIED`. This retires the earlier v1.1 `M0_OPTIMIZER_UNVERIFIED` label **for the bounded original sampling/scoring/search workflow only**. It does not assert that the selected four tickets globally optimize the objective over all valid 6/49 portfolios, that the statistical compensation assumption has prospective validity, or that past outcomes can cause future lottery corrections. Original purchased bets, original candidate manifest and P3f/P5A seals remain unchanged.
