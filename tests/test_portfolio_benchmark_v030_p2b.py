@@ -76,6 +76,10 @@ class TestPortfolioBenchmarkV030P2B(unittest.TestCase):
                 arms[arm]["exact_fair_max_main_ball_match"]["jackpot_probability"],
                 4 / comb(49, 6), places=15)
         self.assertEqual(result["matched_whole_pipeline_iid"]["replicates"], 3)
+        for arm in ARMS:
+            prize = arms[arm]["exact_fair_special_ball_prizes"]
+            self.assertGreater(prize["probability_any_prize"], 0.0)
+            self.assertLess(prize["probability_any_prize"], 1.0)
         self.assertEqual(result["decision"],
                          "DESCRIPTIVE_PORTFOLIO_TRADEOFF_ONLY_NO_PREDICTIVE_GO")
 

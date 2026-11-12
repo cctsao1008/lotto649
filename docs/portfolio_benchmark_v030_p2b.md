@@ -52,9 +52,34 @@ probability of at least 1/2/3/4/5/6 main-ball matches in the best of four
 lines. This fully models dependencies due to overlap. Test against brute-force
 enumeration on a small universe and preserve exact six-hit event count=4.
 
-**Limit:** This does **not** include the special ball, exact prize tiers,
-variable payouts, lottery taxes or the monetary expected value. It must not
-be called an exact prize-winning probability.
+## Special-ball-aware prize event extension
+
+The separately versioned `portfolio_prize_v030.py` models the base Taiwanese
+Lotto 6/49 special ball explicitly. Draw six main numbers and one **distinct**
+special number from the remaining 43. Under the regular base prize rules,
+a ticket wins with at least three main matches, **or** two main matches plus
+the special ball. These are not independent ticket events.
+
+Choose the special number first: for each of at most 16 different 4-bit ticket
+membership masks, remove one corresponding ball, count the main-six
+combinations among the remaining 48 using the same integer generating-function
+DP, and multiply by the number of possible special choices. The denominator
+is `49 * C(48,6) = C(49,6) * 43 = 601,304,088`. Report exact probabilities
+for 0, 1, 2, 3 or 4 winning tickets; `probability_any_prize` counts
+**at least one ticket with any normal base prize**, including 2+special.
+Small-universe brute-force tests cover every (main draw, special ball) pair.
+
+For the **nominal** base payouts of fifth/6th/7th/regular tiers (NT$2,000,
+NT$1,000, NT$400, NT$400), also compute the exact expected subtotal across
+four tickets. This lower-tier expected subtotal is invariant under portfolio
+overlap by linearity of expectation; actual winning-event probability and
+multi-winning-ticket concentration are not. It is **not the full monetary EV**:
+first through fourth prizes are variable, and this calculation excludes cost,
+tax, promotions and any payout changes from caps.
+
+Base-game prize-tier source (verify against the applicable drawing date):
+https://www.chinatrustgroup.com.tw/lotto/result_all.htm
+
 
 ## Fair-IID reference
 
@@ -96,7 +121,9 @@ if ($LASTEXITCODE -ne 0) { throw 'P2B pilot failed' }
 CLI output is exclusive-create under ignored `results/`, includes the source
 manifest and history fingerprints, configuration SHA256, pool SHA256, legal
 research-only ticket examples, coverage, repair gain, exact fair max-match
-histograms/probabilities, IID matched-gain controls and stated limitations.
+histograms/probabilities, exact special-ball-aware any-prize and winning-line
+distributions, nominal fixed lower-tier payout subtotal, IID matched-gain
+controls and stated limitations.
 
 ## Study boundaries
 

@@ -23,6 +23,7 @@ from .geometry_repair_v029 import (
     _whitened_features, exact_structural_covariance,
 )
 from .geometry_v029 import catalog
+from .portfolio_prize_v030 import exact_prize_distribution
 
 SCHEMA = "lotto649.v030.portfolio_benchmark.p2b.v1"
 ARMS = ("random", "coverage", "repair", "hybrid")
@@ -222,6 +223,7 @@ def _selection(history: np.ndarray, rng: np.random.Generator, *,
             lines = pool[indices]
             summary[arm]["research_only_tickets"] = [list(map(int, row)) for row in lines]
             summary[arm]["exact_fair_max_main_ball_match"] = exact_max_match_distribution(lines)
+            summary[arm]["exact_fair_special_ball_prizes"] = exact_prize_distribution(lines)
     output = {
         "pool_sha256": sha256(pool.astype("<i2", copy=False).tobytes()).hexdigest(),
         "before_energy": before,
@@ -365,7 +367,7 @@ def main(argv: list[str] | None = None) -> None:
         print(f"{arm.upper()}: unique={row['unique_numbers']}, "
               f"repair_gain={row['counterfactual_energy_repair_gain']:.8f}, "
               f"P(max_hits>=3)={tail['3']:.8f}, "
-              f"P(max_hits>=4)={tail['4']:.8f}")
+              f"P(any_prize)={row['exact_fair_special_ball_prizes']['probability_any_prize']:.8f}")
     print(f"DECISION: {report['decision']}")
     print(f"REPORT: {output}")
 
