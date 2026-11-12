@@ -1,0 +1,40 @@
+name: M0 Strategy Verification v1.7 (Independent Candidate Sampling)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v17.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'tests/test_strategy_verification_v17.py'
+      - '.github/workflows/strategy_verification_v17.yml'
+  workflow_dispatch:
+jobs:
+  candidate-generation-robustness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify independent seed, frozen-rank, screening and legality tests
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v17.py' -v
+      - name: Source-gated three-seed 80k/160k/320k candidate robustness matrix
+        run: |
+          python -m lotto7x7.strategy_verification_v17 \
+            --csv-root data/csv --bin-root data/bin \
+            --seeds 649 20261111 20261112 \
+            --raw-sizes 80000 160000 320000 \
+            --pool-cap 2000 --restarts 6 \
+            --out results/strategy_v17_candidate_robustness.json
+          python -c "import json; r=json.load(open('results/strategy_v17_candidate_robustness.json')); assert r['source_gate']['v12_checks']==152; assert r['source_gate']['reference_rescoring_all_13704']=='PASS_EXACT_RANK_PARITY'; assert r['parameters']['seeds']==[649,20261111,20261112]; assert r['parameters']['raw_sample_sizes']==[80000,160000,320000]; assert len(r['samples'])==9 and len(r['arms'])==27; assert all(a['strategy_compliance'].startswith('PASS_') for a in r['arms']); assert all(a['primary_gap_at_most']>=0 for a in r['arms']); print('V17 SOURCE_GATED ROBUSTNESS PASS',len(r['arms']),'arms')"
+          git diff --exit-code
+      - name: Archive complete research-only candidate audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v17-candidate-generation-robustness
+          path: results/strategy_v17_candidate_robustness.json
+          retention-days: 30
+          if-no-files-found: warn
