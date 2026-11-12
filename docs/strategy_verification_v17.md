@@ -86,3 +86,7 @@ These are **feasible bounded-search witness scores**, not full lexicographic opt
 - **Predicted lottery advantage:** not tested and not inferred.
 
 Next work should separate **new-sample candidate coverage** from **optimizer completeness**, preferably using mathematically certified secondary upper bounds or controlled exhaustive optimality in appropriately reduced candidate pools, and extend the seeds beyond 3 if statistical stability is the goal. Any additional source/reference change needs a new versioned acceptance contract.
+
+### Final regression-locked execution
+
+The follow-up regression-locked [GitHub Actions run 43193017636](https://github.com/cctsao1008/lotto649/actions/runs/43193017636/job/131096830943) also **PASS**. It repeats all 10 unit tests, the full 27-arm study, the 152-check original gate, **exact rank parity for all 13,704 reference candidates**, and the predeclared deterministic outcome checks (ranked + shape-round-robin primary-optimal in all nine scenarios; ranked 8/9 secondary improvements, uniform 1/9 primary-optimal; best observed Total=195,617 and Joint=54,184). Final artifact `strategy-v17-candidate-generation-robustness` ID **13930854386**, with report `strategy_v17_candidate_robustness.json` SHA256 **`97807a1cc7909427d4d2c6869b74443110c3cd2c7caa67b427fd0506ed197580`**. The difference from the initial report hash is expected because wall-clock measurements are included in the JSON; discrete rankings, source fingerprints, pool hashes, and observed objective values are stable.
