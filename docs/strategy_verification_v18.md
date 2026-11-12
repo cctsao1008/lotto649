@@ -77,3 +77,37 @@ python -m lotto7x7.strategy_verification_v18 --out results/strategy_v18_new_seed
 No original history, old study, sealed report, or ticket selections are
 modified. The output is an exclusively created independent JSON audit under
 ignored `results/`.
+
+## Observed CI results — 2026-11-12
+
+**Exact integer certification complete:** [Final regression-locked GitHub Actions 43194686900](https://github.com/cctsao1008/lotto649/actions/runs/43194686900/job/131102483336) **PASS**. Seven out of seven test cases pass, including independent Python enumeration oracle and negative fail-closed gate tests. The final CI locks expected exact candidate counts and ties, not only source hashes. Archived Actions artifact **`strategy-v18-new-seed-exact` ID 13931933741** (30-day retention), JSON **`strategy_v18_new_seed_exact.json` SHA256 `6b004ff6b5cffd328d59d21d76026cad89ba5ba2efe70d33abaec193e6d16b43`**.
+
+**Reference provenance:** original 2026-11-06 / 2,497-draw historical cutoff, exact preexisting v1.2 source replay **152/152 PASS**, four rank axes from the exact 13,704 qualified original reference (**`18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b`**), all 13,704 baseline candidates independently rescored with exact rank parity; no recalibration or data mutation.
+
+| Seed | Raw sample size | Screened policy | Lossless primary-optimum candidates | Four-class Cartesian portfolios | Legal 24-disjoint portfolios | Primary-optimal feasible portfolios | Tied full lexicographic maxima |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 649 | 80,000 | Ranked | 854 | 338,814,900 | 1,216,875 | 1,712 | 1 |
+| 649 | 80,000 | Shape round-robin | 681 | 218,400,000 | 783,666 | 1,597 | 1 |
+| 20261111 | 160,000 | Ranked | 997 | 869,103,900 | 3,297,345 | 31,577 | 27 |
+| 20261112 | 160,000 | Ranked | 982 | 698,025,984 | 2,716,183 | 30,284 | 11 |
+
+**All four exhaustive optima, independently recomputed with exact integers:**
+
+```text
+Quality tuple    [Maximin, Total Rank, Shape Rank, Joint Rank]
+Greedy v1.7      [43549, 195617, 43549, 54184]
+Exact v1.8       [43549, 195617, 43549, 54184]
+Block rank sums  [48644, 49240, 54184, 43549]
+```
+
+- The v1.7 six-restart deterministic heuristic returned an **actual full lexicographic optimum** in **each of the four selected 2,000-screened pools**; its observed optimization gap is zero **for these pools**, not all 27 v1.7 arms.
+- Optimal tickets are **not always unique**: the first two pools have a unique best four-ticket set, while the other pools have 27 and 11 tied sets. Ticket identity is not an independent higher-priority objective when rank quality ties.
+- The new-seed feasible optimum **strictly improves** the original historical-sample v1.5 exact optimum `[43549,192715,43549,52895]` by Total **2,902** and Joint **1,289**, at equal primary maximin.
+- This is independent proof of the best quality **within these four SHA-audited pools**, based on a provably lossless Shape partition reduction. It does not prove no higher quality exists in the full 13k–54k new-seed qualified candidates, across other seeds/screens, or all 13,983,816 six-number combinations.
+- The verification only addresses **strategy compliance and optimization quality**, not empirical lottery predictability, odds or payout, and no source/seal file was rewritten.
+
+**Decision:** `V18_FOUR_NEW_SEED_SCREENED_POOLS_EXACT_LEXICOGRAPHIC_CERTIFIED / GREEDY_EXECUTION_PASS / OPTIMIZATION_GAP_ZERO_IN_FOUR_AUDITED_POOLS`.
+
+### Follow-up research opportunity (separate from this completed audit)
+
+If expanding beyond the four selected screen pools, first analyze whether the frozen **rank scale saturates** for candidates outside the original 13,704 reference set: the reference-position rank `bisect_left` has a maximum of 13,704, which can create shared or clipped high scores across new samples. Candidate coverage, score saturation, and optimizer search completeness are separate phenomena. A new, versioned study should examine full qualified-sample optima and sensitivity to the fixed reference score axis, without modifying this completed finite-pool evidence.
