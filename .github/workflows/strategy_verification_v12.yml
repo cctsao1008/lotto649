@@ -1,0 +1,38 @@
+name: Lotto649 M0 independent strategy replay v1.2
+
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'tests/test_strategy_verification_v12.py'
+      - 'tests/fixtures/v028_m0_original_ci_golden_v12.json'
+      - 'docs/strategy_verification_v12.md'
+      - '.github/workflows/strategy_verification_v12.yml'
+  workflow_dispatch:
+
+jobs:
+  independent-m0-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify independent calculations and fail-closed cases
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v12.py' -v
+      - name: Full 13,983,816-universe independent M0 frozen replay
+        run: |
+          python -m lotto7x7.strategy_verification_v12 --csv-root data/csv --bin-root data/bin --manifest experiments/v028_m0_four_block_candidates_20261110.json --golden tests/fixtures/v028_m0_original_ci_golden_v12.json --out results/strategy_v12_m0_full.json
+          python -c "import json; r=json.load(open('results/strategy_v12_m0_full.json')); assert r['decision']=='M0_BOUNDED_STRATEGY_REPLAY_PASS_GLOBAL_OPTIMUM_UNCERTIFIED',r['failed_checks']; print('CONFIRMED:',len(r['checks']),'independent checks PASS')"
+          git diff --exit-code
+      - name: Archive reproducible audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v12-independent-m0
+          path: results/strategy_v12_m0_full.json
+          if-no-files-found: warn
+          retention-days: 30

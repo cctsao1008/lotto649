@@ -1,0 +1,703 @@
+{
+  "original_ci_json_sha256": "7528a541d0d983ee1e36a300ff14c5fcbfd0c06a46af4eb894ff00f83db23520",
+  "original_ci_run_id": 42793224246,
+  "original_git_manifest_blob_sha1": "21dff1f975773ca919e6af9e762e93f8ffc3475c",
+  "original_report_search": {
+    "all_single_draw_sum_log_joint_gains_strictly_positive": true,
+    "bounded_search_pool_size": 2000,
+    "candidate_eligible_after_old_ticket_exclusion": 80000,
+    "candidate_passing_four_positive_objective_blocks": 13704,
+    "candidate_rejection_reasons": {
+      "joint_nonpositive": 4236,
+      "marginal_nonpositive": 57173,
+      "shape_block_nonpositive": 4887
+    },
+    "complete_universe_for_fair_theory": 13983816,
+    "excluded_individual_historical_bets": 12,
+    "feasible_four_disjoint_requirement": true,
+    "four_distinct_shape_partitions_required": true,
+    "iid_uniform_candidate_sample_size": 80000,
+    "objective_rule": "lexicographic maximin of FOUR portfolio percentile-rank sums; total rank sum as secondary criterion",
+    "rank_rule": "empirical percentile ranks from fixed seeded candidate sample, not marginal likelihoods",
+    "sample_sha256": "5744bb7b6e5ee9e086cb2c9eb17b7872b3028d512365610fb747672586b92c8c",
+    "search_optimality": "HEURISTIC_UNCERTIFIED",
+    "search_restarts": 40,
+    "seed": 20261110,
+    "shape_block_gain_strictly_positive": true
+  },
+  "original_report_source": {
+    "analysis_input_sha256": "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8",
+    "analysis_input_sha256_protocol": "SHA256 of UTF-8 JSON Lines [YYYYMMDD,draw_id,n1,n2,n3,n4,n5,n6] for included draws only; sorted balls, no whitespace",
+    "cutoff": "2026-11-06",
+    "first_draw_id": 93000001,
+    "historical_draws": 2497,
+    "last_draw_id": 115000103
+  },
+  "original_report_theory": {
+    "enumerated": 13983816,
+    "joint_nonzero_cells": 2199,
+    "joint_sha256": "31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a",
+    "log_theory_sha256": "6bfaf80d57451c3e5eb4577691a27113dd4ee7b9a50fe8363460a0645e1ba826",
+    "shape_category_counts": {
+      "component": 6,
+      "edge": 94,
+      "partition": 11
+    },
+    "shape_counts_sha256": "341e33d37429c0f1e53c20ed4d54164c6adefa6080f54dc08c5ca9817967f320",
+    "shape_rule": "shape8-graph-partition-cardinal-diagonal-v1",
+    "sum_theory_sha256": "a760f93e39368ae7e4b00a43859398d46d8368b9ba73663cefe0a41ee5e6e54f"
+  },
+  "primary": {
+    "criterion": "balanced",
+    "distinct_number_count": 24,
+    "exact_official_any_prize_probability": 0.1227314589619088,
+    "individual": [
+      {
+        "block_gain_in_exact_IID_std_units": {
+          "joint": 2.8036742417016938,
+          "log": 1.8534314410369201,
+          "shape": 0.46173634230018645,
+          "sum": 1.8402987318798483
+        },
+        "block_percentile_ranks_in_frozen_sample": {
+          "joint": 13546,
+          "log": 12310,
+          "shape": 7364,
+          "sum": 12161
+        },
+        "joint_cell": [
+          186,
+          27
+        ],
+        "log_bin": 27,
+        "shape_internal_L1_L2_L3_scores": {
+          "component": 0.4093694888300676,
+          "edge": 0.5878344193936016,
+          "partition": 0.35502914952922554
+        },
+        "shape_taxonomy": {
+          "component": "C5",
+          "edge": "P2-1-1-1-1_O0_D1",
+          "partition": "P2-1-1-1-1"
+        },
+        "sum": 186,
+        "ticket": [
+          10,
+          27,
+          29,
+          35,
+          38,
+          47
+        ]
+      },
+      {
+        "block_gain_in_exact_IID_std_units": {
+          "joint": 1.899045315646807,
+          "log": 1.8534314410369201,
+          "shape": 1.045293104818406,
+          "sum": 1.3772246556108965
+        },
+        "block_percentile_ranks_in_frozen_sample": {
+          "joint": 12257,
+          "log": 12310,
+          "shape": 13128,
+          "sum": 10548
+        },
+        "joint_cell": [
+          190,
+          27
+        ],
+        "log_bin": 27,
+        "shape_internal_L1_L2_L3_scores": {
+          "component": 0.5364920502371109,
+          "edge": 1.619590390734076,
+          "partition": 0.7523826741871369
+        },
+        "shape_taxonomy": {
+          "component": "C4",
+          "edge": "P3-1-1-1_O2_D0",
+          "partition": "P3-1-1-1"
+        },
+        "sum": 190,
+        "ticket": [
+          15,
+          25,
+          30,
+          32,
+          39,
+          49
+        ]
+      },
+      {
+        "block_gain_in_exact_IID_std_units": {
+          "joint": 2.8036742417016938,
+          "log": 1.8534314410369201,
+          "shape": 1.4935292687606152,
+          "sum": 1.8402987318798483
+        },
+        "block_percentile_ranks_in_frozen_sample": {
+          "joint": 13546,
+          "log": 12310,
+          "shape": 13504,
+          "sum": 12161
+        },
+        "joint_cell": [
+          186,
+          27
+        ],
+        "log_bin": 27,
+        "shape_internal_L1_L2_L3_scores": {
+          "component": 0.16566741794516893,
+          "edge": 2.8124596199913614,
+          "partition": 0.9346530465079381
+        },
+        "shape_taxonomy": {
+          "component": "C3",
+          "edge": "P3-2-1_O0_D3",
+          "partition": "P3-2-1"
+        },
+        "sum": 186,
+        "ticket": [
+          16,
+          18,
+          24,
+          40,
+          42,
+          46
+        ]
+      },
+      {
+        "block_gain_in_exact_IID_std_units": {
+          "joint": 1.4236586694150646,
+          "log": 1.8534314410369201,
+          "shape": 0.4929277017978447,
+          "sum": 1.8865624802004786
+        },
+        "block_percentile_ranks_in_frozen_sample": {
+          "joint": 10480,
+          "log": 12310,
+          "shape": 9553,
+          "sum": 12329
+        },
+        "joint_cell": [
+          178,
+          27
+        ],
+        "log_bin": 27,
+        "shape_internal_L1_L2_L3_scores": {
+          "component": 0.5364920502371109,
+          "edge": 0.7334312488112033,
+          "partition": 0.1869491134688162
+        },
+        "shape_taxonomy": {
+          "component": "C4",
+          "edge": "P2-2-1-1_O0_D2",
+          "partition": "P2-2-1-1"
+        },
+        "sum": 178,
+        "ticket": [
+          20,
+          23,
+          28,
+          31,
+          33,
+          43
+        ]
+      }
+    ],
+    "maximin_rank_total": 43549,
+    "old_ticket_overlap_same_line_count": 0,
+    "rank_vector_sum": [
+      47199,
+      49240,
+      49829,
+      43549
+    ],
+    "restarts": 40,
+    "shape_partition_count": 4,
+    "shape_partitions": [
+      "P2-1-1-1-1",
+      "P3-1-1-1",
+      "P3-2-1",
+      "P2-2-1-1"
+    ],
+    "status": "HEURISTIC_UNCERTIFIED",
+    "sum_values": [
+      186,
+      190,
+      186,
+      178
+    ],
+    "tickets": [
+      [
+        10,
+        27,
+        29,
+        35,
+        38,
+        47
+      ],
+      [
+        15,
+        25,
+        30,
+        32,
+        39,
+        49
+      ],
+      [
+        16,
+        18,
+        24,
+        40,
+        42,
+        46
+      ],
+      [
+        20,
+        23,
+        28,
+        31,
+        33,
+        43
+      ]
+    ],
+    "total_rank_sum": 189817
+  },
+  "sensitivity": {
+    "joint_first": {
+      "criterion": "joint",
+      "distinct_number_count": 24,
+      "exact_official_any_prize_probability": 0.1227314589619088,
+      "individual": [
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.869408553901862,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 11938,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.5364920502371109,
+            "edge": 1.179879013442716,
+            "partition": 0.7523826741871369
+          },
+          "shape_taxonomy": {
+            "component": "C4",
+            "edge": "P3-1-1-1_O1_D1",
+            "partition": "P3-1-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            11,
+            26,
+            27,
+            32,
+            44,
+            46
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.7739916941072728,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 11634,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.16566741794516893,
+            "edge": 1.0136156833580054,
+            "partition": 0.9346530465079381
+          },
+          "shape_taxonomy": {
+            "component": "C3",
+            "edge": "P3-2-1_O3_D1",
+            "partition": "P3-2-1"
+          },
+          "sum": 186,
+          "ticket": [
+            13,
+            29,
+            30,
+            35,
+            37,
+            42
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.4929277017978447,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 9553,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.5364920502371109,
+            "edge": 0.7334312488112033,
+            "partition": 0.1869491134688162
+          },
+          "shape_taxonomy": {
+            "component": "C4",
+            "edge": "P2-2-1-1_O0_D2",
+            "partition": "P2-2-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            14,
+            20,
+            25,
+            33,
+            45,
+            49
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.46173634230018645,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 7364,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.4093694888300676,
+            "edge": 0.5878344193936016,
+            "partition": 0.35502914952922554
+          },
+          "shape_taxonomy": {
+            "component": "C5",
+            "edge": "P2-1-1-1-1_O0_D1",
+            "partition": "P2-1-1-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            15,
+            18,
+            23,
+            39,
+            43,
+            48
+          ]
+        }
+      ],
+      "maximin_rank_total": 40489,
+      "old_ticket_overlap_same_line_count": 0,
+      "rank_vector_sum": [
+        48644,
+        49240,
+        54184,
+        40489
+      ],
+      "restarts": 20,
+      "shape_partition_count": 4,
+      "shape_partitions": [
+        "P3-1-1-1",
+        "P3-2-1",
+        "P2-2-1-1",
+        "P2-1-1-1-1"
+      ],
+      "status": "HEURISTIC_UNCERTIFIED",
+      "sum_values": [
+        186,
+        186,
+        186,
+        186
+      ],
+      "tickets": [
+        [
+          11,
+          26,
+          27,
+          32,
+          44,
+          46
+        ],
+        [
+          13,
+          29,
+          30,
+          35,
+          37,
+          42
+        ],
+        [
+          14,
+          20,
+          25,
+          33,
+          45,
+          49
+        ],
+        [
+          15,
+          18,
+          23,
+          39,
+          43,
+          48
+        ]
+      ],
+      "total_rank_sum": 192557
+    },
+    "shape_first": {
+      "criterion": "shape",
+      "distinct_number_count": 24,
+      "exact_official_any_prize_probability": 0.1227314589619088,
+      "individual": [
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 1.8086028263920524,
+            "log": 1.6714080996952634,
+            "shape": 1.4935292687606152,
+            "sum": 1.4274273609719776
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 12009,
+            "log": 10816,
+            "shape": 13504,
+            "sum": 10766
+          },
+          "joint_cell": [
+            128,
+            18
+          ],
+          "log_bin": 18,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.16566741794516893,
+            "edge": 2.8124596199913614,
+            "partition": 0.9346530465079381
+          },
+          "shape_taxonomy": {
+            "component": "C3",
+            "edge": "P3-2-1_O0_D3",
+            "partition": "P3-2-1"
+          },
+          "sum": 128,
+          "ticket": [
+            1,
+            12,
+            20,
+            25,
+            31,
+            39
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.46173634230018645,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 7364,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.4093694888300676,
+            "edge": 0.5878344193936016,
+            "partition": 0.35502914952922554
+          },
+          "shape_taxonomy": {
+            "component": "C5",
+            "edge": "P2-1-1-1-1_O0_D1",
+            "partition": "P2-1-1-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            14,
+            24,
+            29,
+            34,
+            37,
+            48
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 0.4929277017978447,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 9553,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.5364920502371109,
+            "edge": 0.7334312488112033,
+            "partition": 0.1869491134688162
+          },
+          "shape_taxonomy": {
+            "component": "C4",
+            "edge": "P2-2-1-1_O0_D2",
+            "partition": "P2-2-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            15,
+            18,
+            26,
+            36,
+            44,
+            47
+          ]
+        },
+        {
+          "block_gain_in_exact_IID_std_units": {
+            "joint": 2.8036742417016938,
+            "log": 1.8534314410369201,
+            "shape": 1.045293104818406,
+            "sum": 1.8402987318798483
+          },
+          "block_percentile_ranks_in_frozen_sample": {
+            "joint": 13546,
+            "log": 12310,
+            "shape": 13128,
+            "sum": 12161
+          },
+          "joint_cell": [
+            186,
+            27
+          ],
+          "log_bin": 27,
+          "shape_internal_L1_L2_L3_scores": {
+            "component": 0.5364920502371109,
+            "edge": 1.619590390734076,
+            "partition": 0.7523826741871369
+          },
+          "shape_taxonomy": {
+            "component": "C4",
+            "edge": "P3-1-1-1_O2_D0",
+            "partition": "P3-1-1-1"
+          },
+          "sum": 186,
+          "ticket": [
+            19,
+            21,
+            28,
+            35,
+            40,
+            43
+          ]
+        }
+      ],
+      "maximin_rank_total": 43549,
+      "old_ticket_overlap_same_line_count": 0,
+      "rank_vector_sum": [
+        47249,
+        47746,
+        52647,
+        43549
+      ],
+      "restarts": 20,
+      "shape_partition_count": 4,
+      "shape_partitions": [
+        "P3-2-1",
+        "P2-1-1-1-1",
+        "P2-2-1-1",
+        "P3-1-1-1"
+      ],
+      "status": "HEURISTIC_UNCERTIFIED",
+      "sum_values": [
+        128,
+        186,
+        186,
+        186
+      ],
+      "tickets": [
+        [
+          1,
+          12,
+          20,
+          25,
+          31,
+          39
+        ],
+        [
+          14,
+          24,
+          29,
+          34,
+          37,
+          48
+        ],
+        [
+          15,
+          18,
+          26,
+          36,
+          44,
+          47
+        ],
+        [
+          19,
+          21,
+          28,
+          35,
+          40,
+          43
+        ]
+      ],
+      "total_rank_sum": 191191
+    }
+  }
+}
