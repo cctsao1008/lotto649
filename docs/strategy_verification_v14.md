@@ -61,7 +61,7 @@ The report is exclusive-create under ignored `results/`; original source CSV/BIN
 
 ## Observed v1.4 CI outcome — 2026-11-12
 
-**Source and result gate:** [GitHub Actions 43169271494](https://github.com/cctsao1008/lotto649/actions/runs/43169271494/job/131018340055) PASS; six of six unit tests, original v1.2 replay **152** checks, original 2,497-draw prefix SHA and 2,000-pool SHA **`366af606a178173d159198fef784a779b8ed430d52babc89d526f1df575f216e`**. Original full report SHA256 **`481e3f6b6bce6075f6d379a56f02fa7408fb9affc4ec959f0a64d27d0f86faf4`**. Actions artifact `strategy-v14-m0-lexicographic`, ID **13920864232**, contains `strategy_v14_m0_lexicographic.json`.
+**Source and result gate:** [GitHub Actions 43169271494](https://github.com/cctsao1008/lotto649/actions/runs/43169840083/job/131020236375) PASS; six of six unit tests, original v1.2 replay **152** checks, original 2,497-draw prefix SHA and 2,000-pool SHA **`366af606a178173d159198fef784a779b8ed430d52babc89d526f1df575f216e`**. Original full report SHA256 **`8d66dd1e3b83367da736d9234ecd0f1b0e3d4ee3ab0f1c25d5f3b7a9a53dbfae`**. Actions artifact `strategy-v14-m0-lexicographic`, ID **13921796511**, contains `strategy_v14_m0_lexicographic.json`.
 
 Exactly **893** candidates are necessary for any primary-optimal solution (four original Shape partitions with counts 200, 85, 123, 485 respectively). This reduction preserves **all** fixed-pool primary-optimal portfolios and was mathematically verified before secondary optimization.
 
