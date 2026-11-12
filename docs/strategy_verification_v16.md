@@ -78,7 +78,7 @@ The larger-pool MIP secondary and joint stages independently returned `status=Op
 
 ### Independent complete integer enumeration of all 13,704 original qualified candidates
 
-[Full integer enumeration CI run 43189784468](https://github.com/cctsao1008/lotto649/actions/runs/43189784468/job/131085878637) **PASS**, 5/5 sandwich regression tests plus 152/152 original v1.2 gates. Detailed artifact `strategy-v16-all-qualified-exhaustive` (ID `13928869951`, SHA256 `b12da8b4838f6652d5eff9f18d320dd5bac767a709011a7618645e5ebd11d747`). Source file `lotto7x7/strategy_verification_v16_exact.py`, using the independently tested standalone v1.5 C++17 exact integer enumerator.
+[Final regression-locked full integer CI run 43190203840](https://github.com/cctsao1008/lotto649/actions/runs/43190203840/job/131087279301) **PASS**, 5/5 sandwich regression tests plus 152/152 original v1.2 gates. Detailed artifact `strategy-v16-all-qualified-exhaustive` (final ID `13930725889`, SHA256 `b12da8b4838f6652d5eff9f18d320dd5bac767a709011a7618645e5ebd11d747`). Source file `lotto7x7/strategy_verification_v16_exact.py`, using the independently tested standalone v1.5 C++17 exact integer enumerator.
 
 | Exhaustive counting gate | Count |
 | --- | ---: |
