@@ -39,6 +39,12 @@ jobs:
           assert all(x['certification']=='EXACT_FINITE_2000_POOL_LEXICOGRAPHIC_CERTIFIED' for x in r['cases'])
           assert all(x['lossless_reduction']['primary_upper']==43549 for x in r['cases'])
           assert all(x['exhaustive_quality']>=x['greedy_quality'] for x in r['cases'])
+          assert all(x['greedy_was_optimal'] for x in r['cases'])
+          assert all(x['exhaustive_quality']==[43549,195617,43549,54184] for x in r['cases'])
+          assert [x['lossless_reduction']['primary_optimal_reduced_count'] for x in r['cases']]==[854,681,997,982]
+          assert [x['exhaustive_counts']['primary_feasible_portfolios'] for x in r['cases']]==[1712,1597,31577,30284]
+          assert [x['exhaustive_counts']['tied_best_lexicographic_portfolios'] for x in r['cases']]==[1,1,27,11]
+          assert [x['exhaustive_counts']['cartesian_count'] for x in r['cases']]==[338814900,218400000,869103900,698025984]
           print('PASS four independent exact candidate-pool certificates')
           PY
           git diff --exit-code
