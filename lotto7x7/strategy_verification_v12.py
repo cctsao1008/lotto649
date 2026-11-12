@@ -239,7 +239,7 @@ def one_swap_improvements(pool:list[dict],chosen:list[dict],style:str) -> dict:
 
 
 def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
-                   golden_path:Path,batch_size:int=80000) -> dict:
+                   golden_path:Path,batch_size:int=80000,include_verified_pool:bool=False) -> dict:
     _,evidence=audit_repository_inputs(csv_root,bin_root)
     data=load_csv_history(csv_root)
     if len(data.ids)!=2498 or int(data.ids[HISTORY_N-1])!=CUTOFF_ID or int(data.dates[HISTORY_N-1])!=CUTOFF_DATE:
@@ -349,7 +349,14 @@ def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
     checks['pool_size']=len(pool)==2000
     checks['all_strategies_24_disjoint']=all(len({v for t in outcomes[k]['tickets'] for v in t})==24 for k in outcomes)
     checks['original_manifest']=frozen['decision'].startswith('M0_FROZEN_MANIFEST_STRUCTURAL_PASS')
-    return {
+    # Optional read-only audited finite-pool export; default v1.2 output unchanged.
+    verified_pool = None
+    if include_verified_pool:
+        verified_pool = [
+            {'ticket': list(c['ticket']), 'part': int(c['part']),
+             'rank': [int(v) for v in c['rank']]} for c in pool
+        ]
+    result = {
         'schema':SCHEMA,
         'decision':'M0_BOUNDED_STRATEGY_REPLAY_PASS_GLOBAL_OPTIMUM_UNCERTIFIED' if all(checks.values()) else 'M0_BOUNDED_STRATEGY_REPLAY_FAIL',
         'checks':checks,'failed_checks':[k for k,v in checks.items() if not v],
@@ -362,6 +369,9 @@ def verify_full_m0(*,csv_root:Path, bin_root:Path,manifest_path:Path,
                  'No changes to purchased bets, original candidate manifest, P3f/P5A or historical source.',
                  'No evidence of next-draw predictive superiority claimed.'],
     }
+    if include_verified_pool:
+        result['verified_pool'] = verified_pool
+    return result
 
 
 def main(argv:list[str]|None=None) -> int:
