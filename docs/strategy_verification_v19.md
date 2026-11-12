@@ -42,7 +42,7 @@ The result file is write-once; use another filename for a new independent run. G
 
 ## Measured v1.9 results — 2026-11-12
 
-[GitHub Actions job 131154891153](https://github.com/cctsao1008/lotto649/actions/runs/43210005033/job/131154891153) **PASS**. Eight of eight regression tests, and 27/27 deterministic policy analyses after **152/152** original M0 independent source/replay checks. All original 13,704 reference candidates' scores, Shape classes and integer ranks were independently recalculated and matched. Artifact **`strategy-v19-frozen-rank-saturation`**, ID **13940408516** (30-day retention), `strategy_v19_score_saturation.json` SHA256 **`6e29e86480026b98db2c1b010184a1a187fdf7c58063339a5dd9d1d571e55b00`**.
+[GitHub Actions job 131154891153](https://github.com/cctsao1008/lotto649/actions/runs/43210736463/job/131157357438) **PASS**. Eight of eight regression tests, and 27/27 deterministic policy analyses after **152/152** original M0 independent source/replay checks. All original 13,704 reference candidates' scores, Shape classes and integer ranks were independently recalculated and matched. Artifact **`strategy-v19-frozen-rank-saturation`**, final ID **13941456094** (30-day retention), `strategy_v19_score_saturation.json` SHA256 **`6e29e86480026b98db2c1b010184a1a187fdf7c58063339a5dd9d1d571e55b00`**.
 
 ### 1. Frozen reference resolution is low; this is mostly native feature discreteness
 
@@ -98,3 +98,7 @@ The primary Shape limit of 43,549 is attained. The maximum Log, Joint and Shape 
 - **Research status:** `V19_SCORE_SATURATION_DIAGNOSIS_PASS / FULL_NEW_SOURCE_SECONDARY_OPTIMUM_NOT_YET_CERTIFIED`.
 
 **Next strongest research step:** combine the class-separable Sum upper with **all 24-ball disjointness and minimum Joint/Sum constraints**, to close the remaining full-source gap or produce a strict feasible improving witness. A second independent approach could compare exact continuous raw-gain ordering **only inside equal frozen-rank classes** as a *separate versioned diagnostic*, not a retrospective score change. No original data, source manifest, or sealed legacy experiment was modified.
+
+### Final regression-locked confirmation
+
+[Final CI 43210736463](https://github.com/cctsao1008/lotto649/actions/runs/43210736463/job/131157357438) **PASS** after adding fail-closed checks for the exact four-axis reference resolution **[115,17,355,16]**, exact reference-top ties **[432,1394,158,200]**, strictly no measured above-reference clipping in the 9 tested independent-seed batches, Sum/Joint score-alias counts on all three 320k samples, and **4,444** safe total rank upper gap on the 160k/320k ranked arms. The archived final report SHA256 remains **`6e29e86480026b98db2c1b010184a1a187fdf7c58063339a5dd9d1d571e55b00`** (runtime does not affect this implementation's output).
