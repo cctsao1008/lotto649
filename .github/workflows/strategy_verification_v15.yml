@@ -26,7 +26,7 @@ jobs:
       - name: Exact full M0 finite-pool lexicographic audit with integer exhaustive enumeration
         run: |
           python -m lotto7x7.strategy_verification_v15 --out results/strategy_v15_m0_exhaustive.json
-          python -c "import json; x=json.load(open('results/strategy_v15_m0_exhaustive.json')); assert x['decision']=='EXACT_INTEGER_FINITE_POOL_LEXICOGRAPHIC_OPTIMUM_CONFIRMED'; assert x['exact_exhaustive_evidence']['best_total_rank']==192715; assert x['exact_exhaustive_evidence']['best_joint_rank']==52895; assert x['original_primary_secondary_suboptimal']; print('PASS complete exact finite-pool certificate')"
+          python -c "import json; x=json.load(open('results/strategy_v15_m0_exhaustive.json')); assert x['decision']=='EXACT_INTEGER_FINITE_POOL_LEXICOGRAPHIC_OPTIMUM_CONFIRMED'; assert x['exact_exhaustive_evidence']['best_total_rank']==192715; assert x['exact_exhaustive_evidence']['best_joint_rank']==52895; assert x['original_primary_secondary_suboptimal']; e=x['exact_exhaustive_evidence']; assert e['cartesian_count']==1014135000; assert e['disjoint_four_portfolios']==3853084; assert e['primary_feasible_portfolios']==2059; assert e['tied_best_lexicographic_portfolios']==1; print('PASS complete exact finite-pool certificate')"
           git diff --exit-code
       - name: Preserve original-input and exhaustive certificate reports
         if: always()
