@@ -25,7 +25,7 @@ jobs:
       - name: Independently rebuild original M0 pool and audit lexicographic optimum
         run: |
           python -m lotto7x7.strategy_verification_v14 --csv-root data/csv --bin-root data/bin --mip-seconds 90 --out results/strategy_v14_m0_lexicographic.json
-          python -c "import json; r=json.load(open('results/strategy_v14_m0_lexicographic.json')); assert r['v12_checks']==152; assert r['historical_draws']==2497; assert r['audit']['reduction']['frozen_primary_maximin']==43549; print('AUDITED:',r['decision'])"
+          python -c "import json; r=json.load(open('results/strategy_v14_m0_lexicographic.json')); assert r['v12_checks']==152; assert r['historical_draws']==2497; assert r['audit']['reduction']['frozen_primary_maximin']==43549; assert r['decision']=='ORIGINAL_PRIMARY_MAXIMIN_OPTIMAL_SECONDARY_SUBOPTIMAL'; assert r['audit']['original_total_rank_sum']==189817; assert r['audit']['secondary_total_rank']['solver']['objective_integer']==192715; assert r['audit']['tertiary_joint_rank']['solver']['objective_integer']==52895; assert r['audit']['secondary_total_rank']['strict_improvement_found']; assert r['audit']['secondary_total_rank']['certificate_basis']=='MIP_ZERO_GAP_NUMERICAL_ONLY'; assert r['audit']['tertiary_joint_rank']['certificate_basis']=='MIP_ZERO_GAP_NUMERICAL_ONLY'; print('AUDITED:',r['decision'])"
           git diff --exit-code
       - name: Preserve immutable audit and optimization certificates
         if: always()
