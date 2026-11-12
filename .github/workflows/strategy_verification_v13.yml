@@ -1,0 +1,36 @@
+name: M0 Strategy Verification v1.3 (Optimization Gap and Explanation)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v13.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'tests/test_strategy_verification_v13.py'
+      - 'tests/fixtures/v028_m0_original_ci_golden_v12.json'
+      - '.github/workflows/strategy_verification_v13.yml'
+  workflow_dispatch:
+jobs:
+  verify-v13:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify v1.3 exact bound on small pools and adversarial selections
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v13.py' -v
+      - name: Reconstruct original 80k M0 sample and certify finite-pool optimization gap
+        run: |
+          python -m lotto7x7.strategy_verification_v13 --csv-root data/csv --bin-root data/bin --mip-seconds 15 --out results/strategy_v13_full.json
+          python -c "import json; r=json.load(open('results/strategy_v13_full.json')); assert r['decision']=='M0_STRATEGY_EXPLANATION_AND_GAP_AUDIT_PASS'; assert r['bounds']['upper']>=43549; assert all(v['one_swap_stationary'] for v in r['explanations'].values()); print('V13 PASS:',r['bounds']['original_primary_main_maximin_lower'],r['bounds']['upper'],r['primary_maximin_status'])"
+          git diff --exit-code
+      - name: Retain audit certificate and explainable decisions
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strategy-v13-m0-optimization-gap
+          path: results/strategy_v13_full.json
+          retention-days: 30
+          if-no-files-found: warn
