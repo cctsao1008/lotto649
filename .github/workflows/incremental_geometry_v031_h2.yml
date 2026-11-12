@@ -1,0 +1,35 @@
+name: v0.31 H2 Incremental Geometry Proper Scores
+
+on:
+  push:
+    paths:
+      - 'lotto7x7/incremental_geometry_v031.py'
+      - 'tests/test_incremental_geometry_v031.py'
+      - 'docs/incremental_geometry_v031_h2.md'
+      - '.github/workflows/incremental_geometry_v031_h2.yml'
+  workflow_dispatch:
+
+jobs:
+  h2-ablation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Python requirements
+        run: python -m pip install -r requirements.txt
+      - name: H2 frozen ablation regressions
+        run: |
+          mkdir -p results
+          python -m unittest discover -s tests -p 'test_incremental_geometry_v031.py' -v
+      - name: Source-audited real-history H2 pilot
+        run: |
+          python -m lotto7x7.incremental_geometry_v031 --start-draw 500 --step 10 --iid-reps 39 --seed 649 --ridge 64 --out results/v031_h2_ci_pilot.json
+          git diff --exit-code
+      - name: Publish research-only report
+        uses: actions/upload-artifact@v4
+        with:
+          name: v031-h2-incremental-geometry-audit
+          path: results/v031_h2_ci_pilot.json
+          retention-days: 30
