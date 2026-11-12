@@ -1,0 +1,38 @@
+name: M0 Strategy Verification v1.5 (Exact Exhaustive Lexicographic Certificate)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v15.py'
+      - 'tools/lexicographic_enumerator_v15.cpp'
+      - 'tests/test_strategy_verification_v15.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'lotto7x7/strategy_verification_v13.py'
+      - 'lotto7x7/strategy_verification_v14.py'
+      - '.github/workflows/strategy_verification_v15.yml'
+  workflow_dispatch:
+jobs:
+  exact-m0-lexicographic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install only numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Verify C++ enumerator against independent Python brute-force oracles
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v15.py' -v
+      - name: Exact full M0 finite-pool lexicographic audit with integer exhaustive enumeration
+        run: |
+          python -m lotto7x7.strategy_verification_v15 --out results/strategy_v15_m0_exhaustive.json
+          python -c "import json; x=json.load(open('results/strategy_v15_m0_exhaustive.json')); assert x['decision']=='EXACT_INTEGER_FINITE_POOL_LEXICOGRAPHIC_OPTIMUM_CONFIRMED'; assert x['exact_exhaustive_evidence']['best_total_rank']==192715; assert x['exact_exhaustive_evidence']['best_joint_rank']==52895; assert x['original_primary_secondary_suboptimal']; print('PASS complete exact finite-pool certificate')"
+          git diff --exit-code
+      - name: Preserve original-input and exhaustive certificate reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v15-exact-m0-lexicographic
+          path: results/strategy_v15_m0_exhaustive.json
+          retention-days: 30
+          if-no-files-found: warn
