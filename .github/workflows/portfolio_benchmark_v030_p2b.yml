@@ -1,0 +1,27 @@
+name: v0.30 P2B Portfolio Benchmark
+
+on:
+  push:
+    paths:
+      - 'lotto7x7/portfolio_benchmark_v030.py'
+      - 'tests/test_portfolio_benchmark_v030_p2b.py'
+      - 'docs/portfolio_benchmark_v030_p2b.md'
+      - '.github/workflows/portfolio_benchmark_v030_p2b.yml'
+  workflow_dispatch:
+
+jobs:
+  test-p2b:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install project requirements
+        run: python -m pip install -r requirements.txt
+      - name: P2B exact probability and structural regression
+        run: python -m unittest discover -s tests -p 'test_portfolio_benchmark_v030_p2b.py' -v
+      - name: Source-audited full-history P2B smoke
+        run: |
+          python -m lotto7x7.portfolio_benchmark_v030 --pool-size 128 --random-portfolios 32 --iid-reps 3 --seed 649 --out results/v030_p2b_ci_smoke.json
+          git diff --exit-code
