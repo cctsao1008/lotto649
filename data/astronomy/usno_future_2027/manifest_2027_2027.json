@@ -1,0 +1,48 @@
+{
+  "events": 55,
+  "events_csv_path": "usno_events_2027_2027.csv",
+  "events_csv_sha256": "d4f4b02f1a03160c3bf6cf948f1f67ead4290635d4b2c9511bd43bf4b5d4165d",
+  "failed_sources": 0,
+  "institution": "United States Naval Observatory",
+  "limitations": [
+    "USNO seasons API provides the four equinoxes/solstices plus perihelion/aphelion: NOT all 24 Chinese solar terms.",
+    "Moon-phase dates do NOT constitute an official Chinese lunar calendar or leap-month assignment.",
+    "USNO timestamps are UTC and converted to Asia/Taipei; these are not verified lottery draw times.",
+    "No predictive relationship between astronomy and lottery outcomes is established."
+  ],
+  "moon_phase_events": 49,
+  "schema": "lotto649.usno.astronomy.v1",
+  "seasons_and_apsides_events": 6,
+  "source_docs": "https://aa.usno.navy.mil/data/api.html",
+  "source_records": [
+    {
+      "acquisition": "downloaded",
+      "event_count": 49,
+      "kind": "moon_phases",
+      "path": "raw/moon_phases/2027.json",
+      "sha256": "cd7746fc328f88e6279d0869dfb8b16d50bf87a7cd457ac67b0732f50007c560",
+      "size_bytes": 6183,
+      "status": "ok",
+      "url": "https://aa.usno.navy.mil/api/moon/phases/year?year=2027",
+      "year": 2027
+    },
+    {
+      "acquisition": "downloaded",
+      "event_count": 6,
+      "kind": "seasons",
+      "path": "raw/seasons/2027.json",
+      "sha256": "1a0c001621026c30979abb78c5036f43b9234b1000640db588a12cffbc0f6310",
+      "size_bytes": 827,
+      "status": "ok",
+      "url": "https://aa.usno.navy.mil/api/seasons?year=2027",
+      "year": 2027
+    }
+  ],
+  "successful_sources": 2,
+  "timezone_input": "UTC",
+  "timezone_output": "Asia/Taipei UTC+08:00",
+  "years": [
+    2027,
+    2027
+  ]
+}
