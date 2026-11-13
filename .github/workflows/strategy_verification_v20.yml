@@ -47,6 +47,37 @@ jobs:
               assert c['decision'] in ('EXACT_FULL_LEXICOGRAPHIC_OPTIMUM_IN_SOURCE','EXACT_TOTAL_BUT_JOINT_TIEBREAKER_UNRESOLVED','VALID_FULL_SOURCE_TOTAL_UPPER_GAP_UNRESOLVED')
           print('PASS v2.0 full source mathematical bound audit',len(r['cases']),'cases')
           PY
+          python - <<'PY'
+          import json
+          r=json.load(open('results/strategy_v20_full_source_bounds.json'))
+          counts={(649,160000):27256,(649,320000):54651,
+                  (20261111,160000):27185,(20261111,320000):54333,
+                  (20261112,160000):27053,(20261112,320000):54179}
+          groups={(649,160000):[4447,1266,805,388],
+                  (649,320000):[9019,2419,1603,782],
+                  (20261111,160000):[4555,1177,823,402],
+                  (20261111,320000):[9099,2343,1641,787],
+                  (20261112,160000):[4431,1175,773,422],
+                  (20261112,320000):[8963,2371,1577,802]}
+          assert set(counts)=={(x['seed'],x['raw_unique_sample']) for x in r['cases']}
+          for row in r['cases']:
+              k=(row['seed'],row['raw_unique_sample'])
+              c=row['certificate']
+              assert row['qualified_count']==counts[k]
+              assert c['reduction']['group_sizes']==groups[k]
+              assert c['reduction']['partitions']==[70216,74304,102976,107008]
+              assert c['reduction']['partition_caps']==[7364,9553,13128,13504]
+              assert [v['exact_max_coupled_total'] for v in c['coupled_ticket_upper']['per_class_caps']]==[45381,47570,51145,51521]
+              assert c['decision']=='EXACT_FULL_LEXICOGRAPHIC_OPTIMUM_IN_SOURCE'
+              assert c['full_lexicographic_exact'] and c['primary_exact']
+              assert c['feasible_witness']['rank_sums']==[48644,49240,54184,43549]
+              assert c['feasible_witness']['quality']==[43549,195617,43549,54184]
+              assert c['exact_feasible_total_lower']==c['exact_total_upper']==195617
+              assert c['integer_total_upper_gap']==0
+              assert c['exact_joint_tiebreak_upper']==54184 and c['joint_upper_gap']==0
+              assert c['disjoint_pair_upper'] is None
+          print('PASS v2.0 full qualified source: exact coupled bound 195617, zero gap, 6/6 certified')
+          PY
           git diff --exit-code
       - name: Archive write-once exact bound evidence
         if: always()
