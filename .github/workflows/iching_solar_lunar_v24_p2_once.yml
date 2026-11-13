@@ -1,0 +1,85 @@
+name: Lotto649 v2.4 P2 USNO Solar Lunar Hexagram Frozen Archive
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/iching_solar_lunar_v24_p2_once.yml'
+      - 'lotto7x7/iching_solar_lunar_v24_p2.py'
+      - 'tests/test_iching_solar_lunar_v24_p2.py'
+      - 'docs/iching_solar_lunar_v24_p2.md'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate 15 experimental mapping and USNO-source tests
+        run: python -m unittest discover -s tests -p 'test_iching_solar_lunar_v24_p2.py' -v
+      - name: Produce or verify frozen P2 2498 historical source join
+        run: |
+          if test -e data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv; then
+            # Rerun from immutable USNO + P0/P1 in a temporary directory.
+            python -m lotto7x7.iching_solar_lunar_v24_p2 --out-dir "$RUNNER_TEMP/v24_p2_regression"
+            cmp "$RUNNER_TEMP/v24_p2_regression/v24_p2_solar_lunar_hexagram_draw_context_2498.csv" data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv
+            # Audit has only portable paths/hashes so it is byte-reproducible.
+            cmp "$RUNNER_TEMP/v24_p2_regression/v24_p2_solar_lunar_hexagram_audit_2498.json" data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json
+          else
+            python -m lotto7x7.iching_solar_lunar_v24_p2 --out-dir data/research/v24_iching_p2
+          fi
+      - name: Independently verify P2 integrity and append-only isolation
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          root=Path('data/research/v24_iching_p2')
+          csvfile=root/'v24_p2_solar_lunar_hexagram_draw_context_2498.csv'
+          audit=json.loads((root/'v24_p2_solar_lunar_hexagram_audit_2498.json').read_text('utf-8'))
+          rows=list(csv.DictReader(csvfile.open(encoding='utf-8',newline='')))
+          assert len(rows)==2498 and len({x['draw_id'] for x in rows})==2498
+          assert (rows[0]['date'],rows[0]['draw_id'])==('2004-01-05','93000001')
+          assert (rows[-1]['date'],rows[-1]['draw_id'])==('2026-11-10','115000104')
+          assert [rows[-1][f'n{i}'] for i in range(1,7)]==['11','23','30','32','40','41']
+          assert rows[-1]['bonus']=='28'
+          assert hashlib.sha256(csvfile.read_bytes()).hexdigest()==audit['output_csv_sha256']
+          assert audit['frozen_draws']==2498
+          assert audit['pair_mapped']+audit['pair_missing']==2498
+          assert audit['solar_mapped']==2476 and audit['lunar_mapped']==2493
+          assert audit['pair_mapped']==2476 and audit['pair_missing']==22
+          assert sum(audit['astronomical_hexagram_histogram'].values())==audit['pair_mapped']
+          assert audit['source_sha256']['usno_original_json_files']==46
+          assert audit['source_sha256']['p1_context_sha256']=='53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1'
+          assert all(r['mapping_version']==audit['mapping_version'] for r in rows)
+          for r in rows:
+            if r['astronomy_pair_mapped']=='true':
+              code=int(r['astronomical_hexagram_code'])
+              assert 0<=code<=63
+              assert code&7==int(r['astronomical_lower_trigram_code'])
+              assert code>>3==int(r['astronomical_upper_trigram_code'])
+              assert int(r['hamming_distance_OUTCOME_ONLY'])==(code^int(r['same_draw_hexagram_code_OUTCOME_ONLY'])).bit_count()
+            else:
+              assert r['astronomical_hexagram_code']=='' and r['hamming_distance_OUTCOME_ONLY']==''
+          print('PASS: 2498 verified draws; 2476 sky64 pairs; 46 USNO source hashes; P0/P1 unchanged')
+          PY
+          git diff --exit-code -- data/csv data/bin prospective data/research/v24 data/research/v24_iching data/research/v24_usno
+      - name: Commit only the two immutable P2 research artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo 'P2 archive already complete'
+          else
+            git commit -m 'data(v2.4 P2): archive 2498 USNO solar-lunar Gray hexagram contexts and SHA audit'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
