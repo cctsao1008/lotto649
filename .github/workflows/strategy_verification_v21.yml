@@ -1,0 +1,57 @@
+name: M0 Strategy Verification v2.1 (Full 6/49 Universe)
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v21.py'
+      - 'tests/test_strategy_verification_v21.py'
+      - '.github/workflows/strategy_verification_v21.yml'
+  workflow_dispatch:
+jobs:
+  full-universe-optimization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install fixed-compatible minimal numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Negative, unit and small-universe oracle tests
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v21.py' -v
+      - name: Independent full 13983816-combination source and mathematical optimality audit
+        run: |
+          python -m lotto7x7.strategy_verification_v21 \
+            --csv-root data/csv --bin-root data/bin \
+            --batch-size 60000 --max-witness-nodes 2000000 \
+            --out results/strategy_v21_full_universe.json
+          python - <<'PY'
+          import json
+          r=json.load(open('results/strategy_v21_full_universe.json'))
+          s=r['source_gate'];u=r['universe']
+          assert s['v12_checks']==152
+          assert s['frozen_reference_candidates']==13704
+          assert s['reference_rescoring']=='PASS_ALL_13704_RANKS_AND_SHAPES'
+          assert s['rank_axes_sha256']=='18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'
+          assert u['full_legal_six_tuples']==13983816
+          assert u['independent_fair_joint_theory_sha256']=='31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a'
+          assert u['qualified_candidates']>1000000
+          assert u['qualified_candidates']<=u['four_positive_before_frozen_exclusions']<=u['pre_shape_positive_candidates']<=u['full_legal_six_tuples']
+          assert len(u['top_classes'])==4 if 'top_classes' in u else u['decision']=='UNIVERSE_SHAPE_TOP_FOUR_NOT_STRICT'
+          assert u.get('best_feasible_quality') is not None
+          if u['decision']=='EXACT_FULL_UNIVERSE_LEXICOGRAPHIC_OPTIMUM':
+              assert u['primary_certified'] and u['total_certified'] and u['joint_tiebreak_certified']
+              assert u['total_upper_minus_best_feasible']==0
+          else:
+              print('FULL-UNIVERSE AUDIT PASS; exact optimization remains explicitly UNRESOLVED:',u['decision'])
+          print('FULL-UNIVERSE REPRODUCIBLE AUDIT PASS')
+          PY
+          git diff --exit-code
+      - name: Archive exhaustive evidence even if the optimum remains unresolved
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v21-full-universe-audit
+          path: results/strategy_v21_full_universe.json
+          retention-days: 30
+          if-no-files-found: warn

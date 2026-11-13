@@ -1,0 +1,74 @@
+# Strategy Verification v2.1 — Full 6/49 Universe Optimization
+
+## Research question
+
+Can the mathematically certified v2.0 four-block lexicographic optimum from six independently sampled qualified sources be extended to **the entire C(49,6) = 13,983,816 legal six-number universe**, without changing any historical source, percentile rank scale, positive-gain selection rule, Shape taxonomy, or search objective?
+
+This is a finite combinatorial optimization study, **not a statistical test for future lottery predictability**. The performance objective is an internal retrospective deficit/shape score, not a return forecast.
+
+## Frozen inputs and source gate
+
+- Historical prefix: first **2,497** official draws through 2026-11-06 and draw #115000103, pinned SHA-256 `d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8`.
+- Run the original v1.2 independently recreated M0 input/score/search verification; **152** checks must pass.
+- Four standardized positive-gain features: **Sum, Log Product, Joint Sum×Log, Shape taxonomy**. Use the frozen historical score functions and the unchanged ordered **13,704** reference gains for `bisect_left` rank positions, SHA-256 `18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b`.
+- Every ticket must have six distinct values in 1…49; selectable candidates must satisfy all four strictly positive original gain requirements and the unchanged original immutable selection-exclusion contract. **No new filtering objective, refitting, or paid-ticket analysis.**
+- The four selected six-number tickets must have **24 distinct numbers** and **four different Shape partition codes**.
+- Portfolio quality is exactly **lexicographic `(min(Sum,Log,Joint,Shape), Total, Shape, Joint)`** calculated from the original integer reference ranks.
+
+## Exhaustive bounded-memory enumeration
+
+The v2.1 scorer streams `itertools.combinations(range(1,50),6)` once, in fixed-size chunks, so no materialization of 14 million Python tickets is needed. The cheap Sum, Log and Joint eligibility checks precede vectorized eight-neighbor Shape graph classification. Scoring is independently recomputed using the frozen tables and cross-checked against **all original 13,704** ticket/Shape/rank records.
+
+For every batch:
+
+1. Count and digest **all** legal candidate six-tuples in canonical order, irrespective of eligibility.
+2. Recompute Sum×Log fair-theory frequency counts, including rejected candidates. The final independent empirical stream must match the original exact full theoretical joint histogram SHA-256 `31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a`.
+3. For qualifying candidates, calculate **all four gain/rank values** on the original fixed scale and group by Shape partition.
+4. Retain only (a) each Shape group's maximum Shape rank, (b) the maximum **same-ticket coupled four-block total** among candidates achieving that group's Shape maximum, and (c) every six-number candidate tied at that coupled maximum. This is a **lossless bound representation** for the first two lexicographic objectives.
+
+If the scan visits fewer than **13,983,816** combinations, has an extra item after the final combination, or fails the complete fair joint SHA, **no full-universe optimality certificate may be produced**. The test-only `allow_partial` flag returns explicitly noncertifying metadata.
+
+## Exact upper-bound logic
+
+Let `c_i` be the Shape-rank maximum within partition `i` over **all** qualifying six-tuples. A valid four-ticket portfolio has four distinct partitions, so
+
+`Maximin <= ShapeTotal <= sum(top_four(c_i)) = P`.
+
+**Only if** a legal witness reaches `P` and the fourth-largest Shape cap is strictly larger than the fifth can every primary-optimal portfolio be restricted to the four mandatory top partitions and tickets that individually achieve their Shape caps.
+
+Within each mandatory partition let
+
+`U_i = max {SumRank(t)+LogRank(t)+JointRank(t)+ShapeRank(t) : qualified(t), partition(t)=i, ShapeRank(t)=c_i}`.
+
+For **every** legal primary-optimal portfolio,
+
+`TotalRank <= sum_i U_i`.
+
+The bound is exact integer arithmetic on **the same ticket's joint feature vector**; it cannot falsely mix incompatible per-axis maxima. Number overlap constraints can only lower the feasible maximum, so this is always an upper bound.
+
+To certify a complete lexicographic optimum, a legal set of four disjoint tickets must **simultaneously attain** the primary bound, the coupled Total upper bound, and the classwise upper on Joint rank **conditional on attaining coupled Total**. If any condition is not met, the report provides the best feasible witness and conservative nonzero gap; it does **not** assert global optimality.
+
+A bounded deterministic search among the exact per-partition coupled Total ties may find such a witness. A timeout/node-budget exhaustion does not imply no better portfolio exists.
+
+## Reproducible CLI and CI
+
+```powershell
+python -m unittest discover -s tests -p 'test_strategy_verification_v21.py' -v
+
+python -m lotto7x7.strategy_verification_v21 `
+  --csv-root data/csv --bin-root data/bin `
+  --batch-size 60000 `
+  --out results/strategy_v21_full_universe.json
+```
+
+GitHub workflow: `.github/workflows/strategy_verification_v21.yml`. The report is **write-once**, stored under `results/`, and uploaded as a workflow artifact. Regeneration must never modify original CSV/bin inputs, historical M0/predictive seals, or previous reports.
+
+## Three separate conclusions
+
+| Verification level | Exact decision criterion |
+| --- | --- |
+| Source and scoring compliance | Original v1.2 152 checks + all 13,704 rank/Shape parity + complete fair joint histogram hash |
+| Universe primary optimum | Legal witness reaches the strict top-four-partition Shape maximum |
+| Universe full lexicographic optimum | Legal witness also reaches per-class **coupled same-ticket Total** and conditional Joint upper bounds |
+
+**Scope limitation:** Even a proven finite-score global optimum over all 6/49 tickets cannot establish more likely future draws under fair IID rules; an internal deficit-repair objective remains descriptive/decision-rule-based rather than predictive unless validated prospectively.
