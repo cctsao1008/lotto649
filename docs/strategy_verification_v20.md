@@ -94,9 +94,9 @@ a global certificate over all `C(49,6)=13,983,816` ticket possibilities.
 
 ## Observed GitHub CI result — 2026-11-13
 
-[Original validated CI run 43342243064](https://github.com/cctsao1008/lotto649/actions/runs/43342243064/job/131613072247) **PASS**, **10/10 adversarial and independent integer tests** and the complete six-case source-audited experiment. Original historical data audit and M0 replay checks **152/152 PASS**; reference rank axes `18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b` and reference rescoring of all **13,704** candidates exactly match the original frozen history. Original source cutoff: **2,497** draws through **2026-11-06**.
+[Original validated CI run 43342243064](https://github.com/cctsao1008/lotto649/actions/runs/43342682525/job/131614531074) **PASS**, **10/10 adversarial and independent integer tests** and the complete six-case source-audited experiment. Original historical data audit and M0 replay checks **152/152 PASS**; reference rank axes `18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b` and reference rescoring of all **13,704** candidates exactly match the original frozen history. Original source cutoff: **2,497** draws through **2026-11-06**.
 
-Actions artifact `strategy-v20-full-qualified-bounds` (ID **14000076518**, 30-day retention); archived `strategy_v20_full_source_bounds.json` SHA256 **`fbc47c3b58b10fbcc998bcbaa131bd07f1a90deb16cb2a81631283881ac82046`**.
+Actions artifact `strategy-v20-full-qualified-bounds` (final ID **13999449200**, 30-day retention); archived `strategy_v20_full_source_bounds.json` SHA256 **`fbc47c3b58b10fbcc998bcbaa131bd07f1a90deb16cb2a81631283881ac82046`**.
 
 ### Six original-source-qualified candidate sets
 
@@ -128,3 +128,7 @@ Since a legal witness attains the primary Shape-class upper **43,549**, the coup
 **Important scope distinctions:** We have a complete optimality certificate **inside each original independent-seed sampled qualified source** (27k–55k legal positive candidates), using **the original 13,704-point empirical rank scale**. We have **not** established the same upper bound over all `C(49,6)=13,983,816` six-number candidates nor under re-fitted scoring. None of this proves next-draw prediction, expected payout improvement or any statistical correction mechanism in a fair lottery.
 
 **Decision:** `V20_FULL_SOURCE_BOUND_AUDIT_PASS / EXACT_FULL_LEXICOGRAPHIC_OPTIMUM_IN_SOURCE (6/6)`. The previous `4,444` conservative *source* bound gap is now **closed exactly to zero** under these locked assumptions.
+
+### Final regression-locked outcome
+
+[Final GitHub CI 43342682525](https://github.com/cctsao1008/lotto649/actions/runs/43342682525/job/131614531074) **PASS** after adding the source-identity, six candidate-source counts, per-class coupled upper maxima, known legal portfolio rank sums, independent final Joint cap, and **zero integer upper gap** to the CI's write-once verification assertions. 10/10 regression tests and all six complete-source certificates pass again. The final archived JSON SHA256 is still **`fbc47c3b58b10fbcc998bcbaa131bd07f1a90deb16cb2a81631283881ac82046`**, demonstrating byte-identical full reports across both runs.
