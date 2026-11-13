@@ -1,0 +1,157 @@
+{
+  "daily_missing_beginning_of_2004": {
+    "last_aphelion_at_taipei": 187,
+    "last_moon_phase": 7,
+    "last_new_moon_at_taipei": 21,
+    "last_perihelion_at_taipei": 4,
+    "last_season_marker": 80
+  },
+  "daily_output": "/home/runner/work/lotto649/lotto649/data/research/v24_usno/v24_usno_daily_features_2004_2026.csv",
+  "daily_output_sha256": "cd062ffd9d10fcd12df70835f039a7987df46e946ce041e203775d21edbde348",
+  "days": 8401,
+  "draw_output": "/home/runner/work/lotto649/lotto649/data/research/v24_usno/v24_usno_draw_context_2498.csv",
+  "draw_output_sha256": "230b7824d40a82197e0e25010e542dca17562fa6369d53c0520517a7e316d631",
+  "frozen_draws_count": 2498,
+  "frozen_draws_missing": {
+    "last_aphelion_at_taipei": 53,
+    "last_moon_phase": 1,
+    "last_new_moon_at_taipei": 5,
+    "last_perihelion_at_taipei": 0,
+    "last_season_marker": 22
+  },
+  "lotto_source_csv_sha256": [
+    {
+      "rows_in_file": 104,
+      "sha256": "b43cbf7b38143bfcbfd32b98bb4f6113ccae877820cf89177d41e763d02a7233",
+      "year": 2004
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "2c146b9499ca1249f0bebdd124d3470404dc15c20cbb32c05f8a46eee6fb62db",
+      "year": 2005
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "91125575151294efc20a997fdc3c7fc130d0d176fa72d013275686fd81072a4e",
+      "year": 2006
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "b6503e85235650a6a6f59fe850e57c700f7b79b1508ae1f02e37df201cfa8860",
+      "year": 2007
+    },
+    {
+      "rows_in_file": 105,
+      "sha256": "6d854d89ab1cd5cce5a80cb36fe1a6b3cf3e01a0f5744a33f9f5ce52da510e9d",
+      "year": 2008
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "b549fc17a4361cfef6473d3e5faf84aeb400e33817296045ece64e7cfb0e9ea2",
+      "year": 2009
+    },
+    {
+      "rows_in_file": 105,
+      "sha256": "7b38b592b9ecb36740ec1ebc5657946ca4224b3b594a16d494d55c771cd3ed8d",
+      "year": 2010
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "b7b4906f804f85a6d952f40a872724c9c042c4b8dd0967d2131a2d2e185bcaee",
+      "year": 2011
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "da9ab3abb30264177c2082237d7cd964455c6ca935fe99f415032cca4d1ad5dd",
+      "year": 2012
+    },
+    {
+      "rows_in_file": 108,
+      "sha256": "8f9a139820e217d1a94065af06987e1fe798f7fdcd8f622efc58ce5387a917ff",
+      "year": 2013
+    },
+    {
+      "rows_in_file": 108,
+      "sha256": "4b35c791926af43a50068e812562ea121cd954e0871e8aa179f1bd5a51ee2ec8",
+      "year": 2014
+    },
+    {
+      "rows_in_file": 109,
+      "sha256": "2fca19a7ddd1787856bae81059d9a4f49196fa48a763c5dbcfb554efca9ef10a",
+      "year": 2015
+    },
+    {
+      "rows_in_file": 111,
+      "sha256": "66804e9c863b1bf61e3e41318563041e949d461c29e4402799a5af9ca993abde",
+      "year": 2016
+    },
+    {
+      "rows_in_file": 108,
+      "sha256": "38272362cb6beb06a2018a87d74d260080847d2f441f1dceb8d4d47e193e8d53",
+      "year": 2017
+    },
+    {
+      "rows_in_file": 108,
+      "sha256": "a1789fc36a95084d6e40536b10cf1bec7aefbe69260deb12a6ff31a479d5a167",
+      "year": 2018
+    },
+    {
+      "rows_in_file": 112,
+      "sha256": "859b251772b84324ef469e661eb515e44f35cc02043938d263a7e78a9afc2cb2",
+      "year": 2019
+    },
+    {
+      "rows_in_file": 112,
+      "sha256": "87cf014bccf4ec2c291e537c81b0708d1a07e7ad5f6520c675e31db2bc5218df",
+      "year": 2020
+    },
+    {
+      "rows_in_file": 114,
+      "sha256": "50a14e9c0a4dda3efbf51450601e04d8d2f31704c96fc594865cb0c2a8d5d8e6",
+      "year": 2021
+    },
+    {
+      "rows_in_file": 114,
+      "sha256": "6f85e8007df36669fa2e0b1160e2036fc63a1bd998341fd342fd6e5059dd42b8",
+      "year": 2022
+    },
+    {
+      "rows_in_file": 116,
+      "sha256": "9068658074283a492c2584a00b54d3e33d0b0372bda5cf5cdb51f1ed99f2b8b1",
+      "year": 2023
+    },
+    {
+      "rows_in_file": 118,
+      "sha256": "d3d7804771ef1e06b33d8402c30a8bfa582c7f674059add19775a7b4973cf41e",
+      "year": 2024
+    },
+    {
+      "rows_in_file": 118,
+      "sha256": "a4c0c006a590f5d3bc3150f8b6274d125bcc25beb62d4463e487eb9b7be7785f",
+      "year": 2025
+    },
+    {
+      "rows_in_file": 104,
+      "sha256": "4c6c2daff044a5f23521e8b1c0fbbd796a3be0cfaef928052c2160e70cd6cae2",
+      "year": 2026
+    }
+  ],
+  "notes": [
+    "No CWA data, lunar-calendar date labels, or lunar leap month imputation.",
+    "USNO provides 4 quarter-year markers (2 equinoxes, 2 solstices), NOT 24 solar terms.",
+    "Entries requiring an event before Jan 2004 are blank; no 2003 time is fabricated.",
+    "Only prior events at/before local noon are used; no future lottery outcomes or same-draw hexagrams.",
+    "Date-level astronomy does not imply statistical predictability of fair Lotto649 draws."
+  ],
+  "reference_clock": "12:00 Asia/Taipei assumption, not verified draw time",
+  "schema": "lotto649.usno.daily.v1",
+  "source": "USNO official API ONLY",
+  "source_events": 1276,
+  "source_original_json_count": 46,
+  "source_usno_csv_sha256": "f084a9248725cecbef257d23963b2660f2152e2bfce2f12054fd89337e33f6df",
+  "source_year_range": [
+    2004,
+    2026
+  ],
+  "source_zip_sha256": "f8035acf829f6cccb700e75791ebb07b388a2d44d249a54d79a36dd744f4d4b3"
+}
