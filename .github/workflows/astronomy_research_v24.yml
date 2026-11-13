@@ -1,0 +1,74 @@
+name: Lotto649 v2.4 P0 One-Time Astronomy and Hexagram Dataset Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'lotto7x7/astronomy_research_v24.py'
+      - 'tests/test_astronomy_research_v24.py'
+      - 'docs/astronomy_hexagram_v24_p0.md'
+      - '.github/workflows/astronomy_research_v24.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  historical-data-foundation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deterministic astronomy library and original audit dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2' 'ephem>=4.2,<5'
+      - name: 12 source, hexagram, leap-month and no-imputation regression tests
+        run: python -m unittest discover -s tests -p 'test_astronomy_research_v24.py' -v
+      - name: Build the 2498-row historical audited one-time research dataset
+        run: |
+          python -m lotto7x7.astronomy_research_v24 \
+            --csv-root data/csv --bin-root data/bin \
+            --out-csv results/v24_astronomy_hexagram_2498.csv \
+            --out-json results/v24_astronomy_hexagram_2498_report.json
+          python - <<'PY'
+          from pathlib import Path
+          from hashlib import sha256
+          import csv,json
+          r=json.loads(Path('results/v24_astronomy_hexagram_2498_report.json').read_text('utf-8'))
+          assert r['schema']=='lotto649.astronomy_hexagram.v2.4.p0'
+          assert r['rows']==2498
+          assert r['latest_draw_id']==115000104 and r['last_date']=='2026-11-10'
+          assert r['source_archive_gate']['total_draws']>=2498
+          assert r['hexagram']['theoretical_count_total']==13983816
+          assert len(r['hexagram']['categories'])==64
+          assert r['hexagram']['theoretical_min']==134596
+          assert r['hexagram']['theoretical_max']==296010
+          assert r['cwa_calendar']['matched_draws']==0
+          assert r['cwa_calendar']['raw_rows']==0
+          assert r['cwa_calendar']['authenticity'].startswith('NO_CWA_FILE_SUPPLIED')
+          assert sum(r['per_year_draw_count'].values())==2498
+          assert len(r['per_year_draw_count'])==23
+          raw=Path('results/v24_astronomy_hexagram_2498.csv').read_bytes()
+          assert sha256(raw).hexdigest()==r['output_csv_sha256']
+          rows=list(csv.DictReader(raw.decode('utf-8').splitlines()))
+          assert len(rows)==2498
+          assert len({x['draw_id'] for x in rows})==2498
+          assert all(x['astronomy_provenance']=='PYEPHEM_CALCULATED_LOCAL_NOON_NOT_CWA_OBSERVED' for x in rows)
+          assert all(x['cwa_calendar_provenance']=='NOT_AVAILABLE' and not x['cwa_lunar_day'] for x in rows)
+          assert all(0<=int(x['hexagram_code'])<64 for x in rows)
+          assert all(x['astronomy_reference_time_local'].endswith('+08:00') for x in rows)
+          print('V24 P0 AUDIT PASS; 2498 date-aligned archived draws; exact 64-state fair theory; astronomy COMPUTED; CWA official not yet ingested')
+          PY
+          git diff --exit-code
+      - name: Archive one-time historic data products
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v24-astronomy-hexagram-p0-history-2498
+          path: |
+            results/v24_astronomy_hexagram_2498.csv
+            results/v24_astronomy_hexagram_2498_report.json
+          retention-days: 30
+          if-no-files-found: warn
