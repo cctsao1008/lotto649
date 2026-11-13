@@ -19,7 +19,6 @@ from pathlib import Path
 from . import iching_gua_qi_v24_p1 as p1
 from . import iching_solar_lunar_v24_p2 as p2
 from . import iching_hexagram_association_v24_p2a as p2a
-from . import prospective_validation_v23 as v23
 
 SCHEMA = 'lotto649.v2.4.p3.usno_parity_eprocess.v1'
 SEAL_SCHEMA = 'lotto649.v2.4.p3.future_sky_and_model_seal.v1'
@@ -289,7 +288,7 @@ def load_seal_and_sky(*,seal_path:Path, sky_path:Path,
 
 def verified_future_100(csv_root:Path,bin_root:Path,evidence_root:Path)->tuple[list[dict],dict,list[dict]]:
     """Reuse v2.3 trusted independent evidence gate, limited to our first 100 events."""
-    from .draw_ingestion_m2 import audit_source, _from_csv_bytes
+    from .draw_ingestion_m2 import audit_source, _from_csv_bytes, normalize_draw
     from .official_draw_evidence_m2 import verify_local_evidence
     from scripts.export_lotto649_csv import generate_yearly_csv
 
@@ -303,7 +302,27 @@ def verified_future_100(csv_root:Path,bin_root:Path,evidence_root:Path)->tuple[l
                                       'main':[11,23,30,32,40,41],'bonus':28}:
         raise ValueError('original official 2498-draw anchor changed')
     future=[x for x in all_rows if x['draw_id']>=FIRST_ID][:HORIZON]
-    v23._check_contiguous_future(future)
+    # Equivalent strict chronological identity audit to the frozen v2.3 trial,
+    # but directly on M2 canonical records without importing v2.3's optional
+    # NumPy-dependent prize/coverage engine.
+    prev_id=None
+    prev_day=None
+    for i,row in enumerate(future):
+        normalized=normalize_draw(row)
+        if normalized!=row:
+            raise ValueError('M2 normalization changed a future draw')
+        day=date.fromisoformat(row['date'])
+        if i==0 and (row['draw_id'],row['date'])!=(FIRST_ID,FIRST_DATE):
+            raise ValueError('cannot start at a different future official draw')
+        if i>0:
+            old_year=prev_id//1000000
+            new_year=row['draw_id']//1000000
+            contiguous=(new_year==old_year and row['draw_id']==prev_id+1) or (
+                new_year==old_year+1 and row['draw_id']==new_year*1000000+1)
+            if not contiguous or day<=prev_day:
+                raise ValueError('gap or reordered future draw in research series')
+        prev_id=row['draw_id']
+        prev_day=day
     proofs=[]
     for r in future:
         e=verify_local_evidence(r['draw_id'],evidence_root)
