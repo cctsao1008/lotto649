@@ -195,7 +195,7 @@ def analyze_pairwise_results(event_pairs:list[tuple[bool,bool]],scores:list[floa
             'future_draw_higher_score_fraction':avg,
             'future_draw_score_minus_fair_pairwise_null':avg-0.5,
             'score_two_sided_azuma_hoeffding_p_bound':azuma_p,
-            'score_inference':'bounded conditional exchangeable fair control; conservative martingale tail bound'}
+            'score_inference':'nominal bounded fair-control Hoeffding diagnostic; seeded pseudorandom controls require Monte Carlo qualification'}
 
 
 def run_walkforward(*, csv_root:Path,bin_root:Path,train_min:int=TRAIN_MIN,
@@ -294,7 +294,8 @@ def run_walkforward(*, csv_root:Path,bin_root:Path,train_min:int=TRAIN_MIN,
             'folds':folds,'aggregate':aggregate,
             'limitations':['Historical walk-forward is exploratory: these dates/model families were examined when rules were developed.',
                            'The M0-inspired per-prefix 40k candidate rank refit is a BOUNDED selection policy, not the exact v2.1 frozen global optimizer.',
-                           'The primary score test compares realized drawn ticket repair preference against independent fair ticket scores, not an identified full combinatorial predictive probability model.',
+                           'The primary score test compares realized drawn ticket repair preference against pseudorandom fair-control ticket scores, not a normalized next-draw probability model.',
+                           'The Hoeffding p-value is a nominal Monte Carlo diagnostic under an ideal randomized-control interpretation; fixed pseudorandom seeds make it unsuitable as an exact conditional or confirmatory p-value.',
                            'M0 historical training is strictly expanding; exact 6/49 fair theory and score formulas are independent of future outcomes.',
                            'Both four-ticket strategies have mathematically identical IID prize probabilities for every fold.',
                            'Any historical score difference requires a separate, pre-outcome future-only study and familywise multiple-testing control.',
