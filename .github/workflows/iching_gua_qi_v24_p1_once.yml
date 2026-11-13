@@ -1,0 +1,72 @@
+name: Lotto649 v2.4 P1 USNO Twelve Gua Qi Frozen Research Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/iching_gua_qi_v24_p1_once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Package existing USNO sources for exact offline tests (no download)
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+          root=Path('data/astronomy/usno_official')
+          with ZipFile('_usno_official_test.zip','w',ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file(): z.write(p,(Path('usno_official') / p.relative_to(root)).as_posix())
+          PY
+      - name: Execute all 15 deterministic and official-source tests
+        run: python -m unittest discover -s tests -p test_iching_gua_qi_v24_p1.py -v
+      - name: Generate and independently verify original 2498 Lotto649 draw join
+        run: |
+          python -m lotto7x7.iching_gua_qi_v24_p1 --out-dir data/research/v24_iching
+          python - <<'PY'
+          import csv,json,hashlib
+          from pathlib import Path
+          folder=Path('data/research/v24_iching')
+          p=folder/'v24_p1_gua_qi_draw_context_2498.csv'
+          m=json.loads((folder/'v24_p1_gua_qi_audit_2498.json').read_text(encoding='utf-8'))
+          rows=list(csv.DictReader(p.open('r',encoding='utf-8',newline='')))
+          assert len(rows)==2498 and len({r['draw_id'] for r in rows})==2498
+          assert m['frozen_draws']==2498 and sum(m['state_coverage'].values()) == m['solar_mapped']
+          assert m['solar_mapped'] + m['solar_missing']==2498
+          assert m['moon_mapped'] + m['moon_missing']==2498
+          assert m['source_sha256']['usno_original_json_files']==46
+          assert m['source_sha256']['usno_event_csv_sha256']=='f084a9248725cecbef257d23963b2660f2152e2bfce2f12054fd89337e33f6df'
+          assert m['source_sha256']['v24_p0_draw_sha256']=='d4ae60f416d4381317a1dd1fbbf225a0198a79b802cf883db78dce4f6fa6f3cd'
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==m['output_csv_sha256']
+          assert rows[0]['date']=='2004-01-05' and rows[0]['draw_id']=='93000001'
+          assert rows[-1]['date']=='2026-11-10' and rows[-1]['draw_id']=='115000104'
+          assert rows[-1]['n1']=='11' and rows[-1]['bonus']=='28'
+          assert all(r['mapping_version']==m['rule_version'] for r in rows)
+          assert all(r['astronomy_known_without_outcome']=='true' for r in rows)
+          print('PASS: 2498 unique source-audited draws; 46 USNO JSON hashes; P1 output hash and provenance verified')
+          print('COVERAGE:',m['solar_mapped'],m['solar_missing'],m['moon_mapped'],m['moon_missing'])
+          PY
+      - name: Stage only the two new P1 research snapshots
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv data/research/v24_iching/v24_p1_gua_qi_audit_2498.json
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo 'P1 artifacts already committed'
+          else
+            git commit -m 'data(v2.4 P1): archive 2498 USNO twelve Gua Qi draw states and SHA audit'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
