@@ -70,3 +70,16 @@ Later, after reviewing and archiving source evidence, use a fresh output name an
 - Statistical acceptance: **PENDING** until 200 newly observed verified future events; E≥20 is **REVIEW_ONLY**. There is no automatic `PREDICTIVE_GO` state anywhere in this module.
 - No retrospective reassignment or selective sample filtering; the original B is a **static full-universe score optimizer** rather than a time-varying recalibrated forecast.
 - Under the fair IID null, all legal six-number tickets have identical next-draw probability `1/C(49,6)`. Improvement in historical repair score never directly implies improved next-draw or payout probability.
+
+## First immutable publication and observed initial CI status
+
+The original pre-target-draw seal and all selection/monitoring rules were **first published at Git commit [`c273cacedac76675222a7501dc351a292829f44a`](https://github.com/cctsao1008/lotto649/commit/c273cacedac76675222a7501dc351a292829f44a)**, GitHub committer timestamp **2026-11-13 03:02:14 UTC = 2026-11-13 11:02:14 Asia/Taipei**, four full calendar days before the first target **2026-11-17 draw #115000106**. The seal Git blob SHA-1 **`f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be`** is independently checked by the evaluator, tests and Actions `git rev-parse HEAD:...`. **Do not modify or replace its Git blob.**
+
+[Initial preregistration GitHub Actions run **43356218299**](https://github.com/cctsao1008/lotto649/actions/runs/43356218299/job/131658774019) **PASS**:
+- **12/12** adversarial/unit tests and exact prize-profile parity of the sealed history-conditioned portfolio versus fixed-seed history-blind control.
+- Entire canonical original archive checked, including the authoritative first 2,498-draw BIN/history manifest.
+- **0** source-verified eligible prospective targets, **200** still pending (no outcomes fabricated, scored, or backfilled).
+- Anytime e-process **`E=1`**, terminal discordance p-value **`null`**, **`PENDING_NO_PREDICTIVE_GO`**, zero purchases.
+- Initial read-only GitHub Actions artifact **`strategy-v23-presealed-pending-200` ID `14005583400`** (30-day retention), file `v23_prospective_ci_pending.json`.
+
+The fixed code and plan were verified **before any eligible future outcome**. Future implementations may repair evaluator bugs under separate tracked commits without retrospectively modifying the freeze, changing the 200-draw population, or reclassifying observed outcomes. An evaluation without two saved publisher snapshots is ineligible for inclusion.
