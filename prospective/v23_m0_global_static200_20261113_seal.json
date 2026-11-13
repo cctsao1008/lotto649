@@ -1,0 +1,137 @@
+{
+  "created_for": "Git commit and SHA1 byte seal strictly before first eligible future draw 2026-11-17; never revise this document after publication.",
+  "experiment_id": "v23-m0-full-universe-shadow-20261113",
+  "prospective_protocol": {
+    "anytime_valid_monitor": {
+      "A_only_factor": "7/10",
+      "B_only_factor": "13/10",
+      "arithmetic": "Exact positive integers: E=13^Bonly*7^Aonly/10^(Bonly+Aonly). No floating-point threshold comparison.",
+      "both_or_neither_factor": "1",
+      "early_result": "E>=20 triggers MANUAL_EVIDENCE_REVIEW_ONLY, never automatic GO or inference about lottery mechanism.",
+      "familywise_caveat": "Threshold 20 applies to this single predeclared process, not to the family of already studied lottery strategies or prior concurrent shadow studies.",
+      "p_alternative_B_only_given_discordance": "13/20",
+      "p_fair_B_only_given_discordance": "1/2",
+      "review_threshold_e_value": "20",
+      "type": "ONE_SIDED_FIXED_BETTING_LIKELIHOOD_RATIO_ON_DISCORDANT_SIGNS"
+    },
+    "early_stopping": "No early termination of data collection; partial outputs must remain PENDING or REVIEW_ONLY. Never make betting recommendations.",
+    "first_draw_date": "2026-11-17",
+    "first_draw_id": 115000106,
+    "future_research_changes": "Separate Git manifest and distinct study identifier required; never edit original seal or append a hypothesis post-outcome.",
+    "horizon_consecutive_official_draws": 200,
+    "interpretation": "In a fair IID Lotto649 each fixed legal six-number ticket has chance 1/C(49,6); a higher historical repair score is not itself a predictive likelihood.",
+    "later_date_schedule": "The next 199 official 6/49 draws in strictly ascending chronological order; validate ROC draw IDs and dates including year rollover; no retrospective event selection.",
+    "observation_source": "Append-only canonical CSV/BIN history AND two independently captured immutable publisher-page snapshots per admitted target draw; refuse missing or inconsistent sources.",
+    "one_primary_test_only": true,
+    "paired_contrast": "B_ONLY minus A_ONLY across the same fixed 200 future draws. Under IID, P(B_ONLY)=P(A_ONLY) because individual official prize coverage is identical.",
+    "primary_endpoint": "Per official draw, whether >=1 of four pairwise-disjoint six-number tickets wins any of the eight official prize tiers using main six and special.",
+    "primary_hypothesis": "B has a higher award-bearing draw rate than history-blind A.",
+    "terminal_rule": "After exactly 200 source-verified prospective draws, report B-only/A-only, observed paired rate difference, exact one-sided discordance test and terminal E; never change 200 or tune alternative p after viewing outcomes."
+  },
+  "schema": "lotto649.v2.3.prospective.fixed_m0_full_universe.v1",
+  "selection": {
+    "distinct_numbers_per_arm": 24,
+    "fixed_until_end": true,
+    "history_blind_control": {
+      "label": "A",
+      "rule": "Random(20261113).shuffle(list(range(1,50))); take sorted blocks [0:6], [6:12], [12:18], [18:24]. RNG seed fixed before first target; no history input.",
+      "seed": 20261113,
+      "tickets": [
+        [
+          19,
+          23,
+          25,
+          31,
+          36,
+          49
+        ],
+        [
+          6,
+          28,
+          32,
+          35,
+          39,
+          42
+        ],
+        [
+          3,
+          11,
+          13,
+          15,
+          18,
+          37
+        ],
+        [
+          10,
+          14,
+          17,
+          40,
+          43,
+          45
+        ]
+      ]
+    },
+    "history_optimized_strategy": {
+      "cutoff_date": "2026-11-06",
+      "cutoff_draw_id": 115000103,
+      "cutoff_prefix_sha256": "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8",
+      "label": "B",
+      "rule": "Freeze exact v2.1 four-ticket witness, independently certified global maximum under original frozen 2497-draw M0 Sum/Log/Joint/Shape rank objective. No subsequent reoptimization.",
+      "tickets": [
+        [
+          9,
+          30,
+          33,
+          35,
+          38,
+          41
+        ],
+        [
+          10,
+          26,
+          29,
+          36,
+          42,
+          43
+        ],
+        [
+          11,
+          21,
+          31,
+          37,
+          40,
+          46
+        ],
+        [
+          12,
+          24,
+          27,
+          32,
+          44,
+          47
+        ]
+      ],
+      "v21_certified_quality": [
+        43549,
+        195617,
+        43549,
+        54184
+      ],
+      "v21_commit": "80d403ca70a56e0d336696e50880c2ad2cb4e9ec",
+      "v21_result_json_sha256": "9daf72152925a7a873418155b3f194bfbdce6e4cd37174ddc52e5d68ab811b86"
+    },
+    "purchases_authorized": false,
+    "same_exact_iid_prize_profile_required": true,
+    "tickets_per_arm_per_draw": 4
+  },
+  "source_baseline": {
+    "draw_115000105_policy": "Bridge draw before prospective start; never evaluated; not used to retune or choose either portfolio.",
+    "history_bin_first_2498_sha256": "57de2ead78147f998b7cac22dfbd94461a6af38584ee106d6a1a26c1dd97f3b8",
+    "image_bin_first_2498_sha256": "9069034085cfd901405dbfba0f0993c6e1fd8b1494ecea87c20681b52fe808b9",
+    "last_archived_draw_count_at_seal": 2498,
+    "last_archived_draw_date_at_seal": "2026-11-10",
+    "last_archived_draw_id_at_seal": 115000104,
+    "source_manifest_sha256_at_seal": "003ed03eda889952654b679859f2d465ffb7349c7f005a6df3aa4436be3d54a3"
+  },
+  "study_type": "PROSPECTIVE_STATIC_FROZEN_SHADOW_NO_REAL_WAGERS"
+}

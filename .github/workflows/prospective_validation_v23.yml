@@ -1,0 +1,72 @@
+name: Lotto649 v2.3 Precommitted Static200 Prospective Shadow
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'prospective/v23_m0_global_static200_20261113_seal.json'
+      - 'lotto7x7/prospective_validation_v23.py'
+      - 'tests/test_prospective_validation_v23.py'
+      - 'docs/prospective_validation_v23.md'
+      - '.github/workflows/prospective_validation_v23.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-seal-and-current-pending:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install standard audit dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Validate immutable seal, arithmetic and independent negative cases
+        run: |
+          python -m unittest discover -s tests -p 'test_prospective_validation_v23.py' -v
+          git ls-files --eol prospective/v23_m0_global_static200_20261113_seal.json
+          python - <<'PY'
+          import subprocess
+          from lotto7x7.prospective_validation_v23 import SEAL_BLOB_SHA1
+          sha=subprocess.check_output(['git','rev-parse','HEAD:prospective/v23_m0_global_static200_20261113_seal.json'],text=True).strip()
+          assert sha==SEAL_BLOB_SHA1,(sha,SEAL_BLOB_SHA1)
+          print('V23 IMMUTABLE SEALED GIT BLOB PASS',sha)
+          PY
+      - name: Admit only two-source-verified future drawings; zero eligible is PENDING
+        run: |
+          python -m lotto7x7.prospective_validation_v23 \
+            --seal prospective/v23_m0_global_static200_20261113_seal.json \
+            --csv-root data/csv --bin-root data/bin \
+            --evidence-root data/private/lotto649-source \
+            --out results/v23_prospective_ci_pending.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/v23_prospective_ci_pending.json').read_text())
+          assert r['schema']=='lotto649.v2.3.prospective.static200.evaluation.v1'
+          assert r['seal_git_blob_sha1']=='f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be'
+          assert r['source_archive_gate']['status']=='PASS_ARCHIVE_INTEGRITY_AND_SINGLE_PUBLISHED_DRAW_CROSSCHECK'
+          assert r['fair_full_award_profile_parity']
+          assert abs(r['iid_theoretical_any_prize_per_draw_equal']-.1227314589619088)<1e-15
+          assert r['planned_draws']==200
+          assert r['observed_draw_count']==0 and r['pending_draw_count']==200
+          assert r['status']=='PENDING_NO_PREDICTIVE_GO'
+          assert r['terminal_one_sided_discordance_p'] is None
+          assert r['anytime_e_process']['numerator']=='1'
+          assert r['anytime_e_process']['denominator']=='1'
+          assert not r['predictive_go'] and not r['actual_wagers_placed']
+          print('V23 INITIAL SOURCE GATE PENDING PASS — no future results invented')
+          PY
+          git diff --exit-code
+      - name: Archive read-only initial pending evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v23-presealed-pending-200
+          path: results/v23_prospective_ci_pending.json
+          retention-days: 30
+          if-no-files-found: warn
