@@ -1,0 +1,90 @@
+name: Lotto649 v2.4 P3 One-Time USNO Future Sky Preregistration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/iching_prospective_v24_p3_once.yml'
+      - 'lotto7x7/iching_prospective_v24_p3.py'
+      - 'tests/test_iching_prospective_v24_p3.py'
+      - 'docs/iching_prospective_v24_p3.md'
+
+permissions:
+  contents: write
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify static 100-draw design and 17 adversarial unit tests
+        run: python -m unittest discover -s tests -p 'test_iching_prospective_v24_p3.py' -v
+      - name: One-time USNO 2027 official source archive (separate from 2004-2026)
+        run: |
+          python scripts/fetch_usno_astronomy.py \
+            --start-year 2027 --end-year 2027 \
+            --out-dir data/astronomy/usno_future_2027 --retries 4
+      - name: Freeze 2026-11-17 to 2027-11-30 sky states and immutable model seal
+        run: |
+          if [ -f prospective/v24_p3_usno_hexagram_static100_20261114_seal.json ]; then
+            echo 'Original sealed files already exist; verify read-only in the next step'
+          else
+            python -m lotto7x7.iching_prospective_v24_p3 freeze
+          fi
+      - name: Independent frozen astronomy source and future sky audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib
+          from lotto7x7.iching_prospective_v24_p3 import (load_seal_and_sky,
+               SKY_START, SKY_END, FIRST_ID, FIRST_DATE, HORIZON)
+          old=Path('data/astronomy/usno_official')
+          future=Path('data/astronomy/usno_future_2027')
+          sealfile=Path('prospective/v24_p3_usno_hexagram_static100_20261114_seal.json')
+          tablefile=Path('prospective/v24_p3_sky_calendar_20261114.csv')
+          seal,sky=load_seal_and_sky(seal_path=sealfile,sky_path=tablefile,
+                    old_root=old,future_root=future)
+          assert len(sky)==(SKY_END-SKY_START).days+1
+          assert seal['horizon_consecutive_verified_draws']==HORIZON==100
+          assert seal['first_eligible_draw']=={'draw_id':FIRST_ID,'date':FIRST_DATE}
+          assert seal['source_hashes']['future_2027']['event_count'] >= 54
+          assert len(seal['source_hashes']['future_2027']['raw_json_sha256'])==2
+          assert seal['sky_table_sha256']==hashlib.sha256(tablefile.read_bytes()).hexdigest()
+          print('P3 FROZEN source/hash/calendar: PASS, sky days',len(sky))
+          print('SEAL SHA256',hashlib.sha256(sealfile.read_bytes()).hexdigest())
+          PY
+      - name: Audit real source history and initial strictly pending 0/100 state
+        run: |
+          python -m lotto7x7.iching_prospective_v24_p3 evaluate \
+            --out results/v24_p3_pending_000.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/v24_p3_pending_000.json')
+          j=json.loads(p.read_text('utf-8'))
+          assert j['observed_draw_count']==0, 'Pre-draw CI cannot ingest any future results'
+          assert j['pending_draw_count']==100 and j['status']=='PENDING_NO_PREDICTIVE_GO'
+          assert j['anytime_e_process']['e_numerator']=='1'
+          assert j['anytime_e_process']['e_denominator']=='1'
+          assert not j['predictive_go'] and not j['actual_wagers_placed']
+          print('PASS: no future outcomes ingested; 100 waiting; E exactly 1')
+          PY
+      - name: Commit astronomy-only future source and pre-draw 100-issue sealed protocol
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/astronomy/usno_future_2027/ \
+             prospective/v24_p3_sky_calendar_20261114.csv \
+             prospective/v24_p3_usno_hexagram_static100_20261114_seal.json
+          if git diff --cached --quiet; then
+            echo 'P3 frozen sources and seal already present; no mutation'
+          else
+            git commit -m 'data(v2.4 P3): preseal 100-draw USNO future sky and independent 2027 source'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
