@@ -1,11 +1,11 @@
 {
   "dataset": "lotto649.appended-verified.v2",
   "source_site": "https://2019.biga.com.tw/",
-  "cutoff": "2026-11-10",
+  "cutoff": "2026-11-13",
   "downloaded_at_utc": "2026-11-07T19:15:12.852043+00:00",
-  "total_draws": 2498,
+  "total_draws": 2499,
   "first_draw_id": 93000001,
-  "last_draw_id": 115000104,
+  "last_draw_id": 115000105,
   "id_rule": "ROC year * 1,000,000 + annual sequence; raw 6-digit source IDs expanded",
   "history_format": "L649HIS1, <II7B: id, YYYYMMDD, 6 sorted numbers, bonus",
   "image_format": "L649IMG2, <I49B: id and six-hot 7x7 bitmap",
@@ -159,19 +159,19 @@
     "2023": 116,
     "2024": 118,
     "2025": 118,
-    "2026": 104
+    "2026": 105
   },
   "files": {
     "lotto649_history_v1.bin": {
-      "bytes": 37486,
-      "sha256": "57de2ead78147f998b7cac22dfbd94461a6af38584ee106d6a1a26c1dd97f3b8"
+      "bytes": 37501,
+      "sha256": "b82414583fb0f7d265897e0ee32f0e2890eed60516035445bcf83d082569b8a7"
     },
     "lotto649_images_v2.bin": {
-      "bytes": 132410,
-      "sha256": "9069034085cfd901405dbfba0f0993c6e1fd8b1494ecea87c20681b52fe808b9"
+      "bytes": 132463,
+      "sha256": "1022e946817e9350a06a53816088012ef18ff0f500b182d011bfaf69b9fe4905"
     }
   },
-  "limitations": "First 2497 draws retain original Biga third-party source pages and recorded 2026-11-06 hashes. #115000104 appended from independent CNA and H8 records; not downloaded directly from Taiwan Lottery official operator.",
+  "limitations": "First 2497 draws retain original Biga snapshot; #115000104 corroborated by CNA and H8 (not operator-direct); #115000105 confirmed from CTBC official results and prize table.",
   "original_source_snapshot": {
     "dataset": "lotto649.single-source.biga.v1",
     "cutoff": "2026-11-06",
@@ -202,6 +202,27 @@
         {
           "name": "H8 Lottery Results",
           "url": "https://www.h8.com.tw/web/biglotto.jhtml?lang=zh-TW&rwd=1"
+        }
+      ]
+    },
+    {
+      "draw_id": 115000105,
+      "date": "2026-11-13",
+      "main": [
+        7,
+        8,
+        13,
+        15,
+        25,
+        46
+      ],
+      "bonus": 43,
+      "source_status": "OFFICIAL_CTBC_CONFIRMED",
+      "sources": [
+        {
+          "name": "CTBC Lottery official results",
+          "url": "https://lotto.ctbcbank.com/result_all.htm",
+          "verified_at_local": "2026-11-14 Asia/Taipei"
         }
       ]
     }
