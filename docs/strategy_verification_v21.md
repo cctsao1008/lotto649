@@ -72,3 +72,31 @@ GitHub workflow: `.github/workflows/strategy_verification_v21.yml`. The report i
 | Universe full lexicographic optimum | Legal witness also reaches per-class **coupled same-ticket Total** and conditional Joint upper bounds |
 
 **Scope limitation:** Even a proven finite-score global optimum over all 6/49 tickets cannot establish more likely future draws under fair IID rules; an internal deficit-repair objective remains descriptive/decision-rule-based rather than predictive unless validated prospectively.
+
+## Observed verified CI outcome — 2026-11-13
+
+The initial full-universe CI run [43349868754](https://github.com/cctsao1008/lotto649/actions/runs/43349868754/job/131638033244) **PASS**, 10/10 adversarial and small-oracle tests. Its exact exhaustive output provides the following *measured* findings; final regression-locked CI reference is recorded below once available.
+
+| Gate | Observed count or value |
+| --- | ---: |
+| Exact legal six-tuples exhaustively scanned | **13,983,816** |
+| Sum/Log/Joint strictly positive, before Shape | **3,262,114** |
+| All four gain blocks positive, before original eligibility exclusions | **2,384,983** |
+| Frozen positive-qualified candidates under original strategy | **2,384,976** |
+| Distinct positive-qualified Shape partition classes | **5** |
+| Fifth-best Shape partition rank cap | **6,624** |
+| Highest four distinct Shape partition rank caps | **13,504 / 13,128 / 9,553 / 7,364** |
+| Exact Shape primary upper | **43,549** |
+| Coupled per-class Total maxima | **51,521 / 51,145 / 47,570 / 45,381** |
+| Exact Total Rank upper | **195,617** |
+| Exact conditional Joint upper | **54,184** |
+| Independently validated 24-disjoint research witness | **[Maximin 43,549; Total 195,617; Shape 43,549; Joint 54,184]** |
+| Final lexicographic optimization gap | **0** |
+
+**Mathematical proof:** Because the fourth-best partition's Shape cap 7,364 strictly exceeds the fifth 6,624, any portfolio whose Maximin reaches 43,549 must use one cap-attaining candidate in each of those four classes. Full-universe streaming evaluated every eligible candidate in each class and identified the maximum **coupled same-ticket** four-block rank. The sum of those four maxima is exactly 195,617; a legal four-ticket portfolio with 24 distinct numbers attains this total, as well as the primary and conditional Joint caps. Thus no better full-lexicographic portfolio exists **within the frozen four-positive-qualified selection universe**.
+
+The streaming code also independently recomputed the **full 13,983,816-combination theoretical Sum×Log histogram** and obtained the original expected SHA256 `31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a`, independently confirming complete coverage of the same mathematical 6/49 support.
+
+The complete-enumeration SHA256 over canonical six raw bytes is `962b66c4670f65aa7a13d48967a8ca125e8ded2cec5187b6d7c7cbcd71891a21`; the qualified-score-stream SHA256 is `2f2d9fe0f3b837072a5336985524c7e78b962f4ae55717ab7f9ec2b1da7442c4`. The initial report JSON SHA256 is `b644db7497985db0bd0646b9eeed407250fb8127723e0c8033f6fc9be633c202`.
+
+**Critical scope:** This is a complete optimization certificate **given the original frozen 2,497-draw scoring rule, 13,704-reference percentile positions, four-positive screening and Shape/24-distinct-number constraints**. No claim about independent fair-draw probabilities, prospective prediction, or maximizing expected lottery payout is supported. This is a final objective/implementation milestone, not evidence of a statistically exploitable mechanism.
