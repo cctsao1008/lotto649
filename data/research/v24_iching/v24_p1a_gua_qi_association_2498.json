@@ -1,0 +1,244 @@
+{
+  "analysis_draws": 2476,
+  "bonferroni_0_05_significant_endpoints": [],
+  "decision": "EXPLORATORY_ASSOCIATION_SCREEN_NO_EVIDENCE",
+  "fair_6of49": {
+    "moments": {
+      "odd": {
+        "mean": 3.061224489795918,
+        "variance": 1.3431903373594336
+      },
+      "shape_L1_full_distribution": {
+        "counts_by_number_of_components_1_to_6": [
+          58620,
+          669462,
+          2775454,
+          5093678,
+          4166304,
+          1220298
+        ],
+        "probabilities": [
+          0.004191988796191254,
+          0.047874056695254,
+          0.19847615271825658,
+          0.3642552218936519,
+          0.2979375586749711,
+          0.08726502122167511
+        ]
+      },
+      "shape_component_mean": {
+        "mean": 4.165667368620983,
+        "variance": 1.0472522452008648
+      },
+      "sum": {
+        "mean": 150,
+        "variance": 1075.0
+      }
+    },
+    "odd_theory": "K~Hypergeometric(N=49,K=25,n=6)",
+    "shape_theory": "existing v0.16 exhaustive enumeration, C(49,6)=13,983,816",
+    "sum_theory": "E[S]=150; Var(S)=1075, six without replacement from 1..49",
+    "universe": 13983816
+  },
+  "input_frozen": {
+    "mapped_rows": 2476,
+    "source_rows": 2498,
+    "source_sha256": "53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1",
+    "unmapped_by_year": {
+      "2004": 22
+    }
+  },
+  "limitations": [
+    "Only 2,476 of 2,498 historical draws have P1 seasonal states; 22 early-2004 inputs lack the preceding 2003 solstice.",
+    "Fixed USNO seasonal states are pre-draw/date-known; outcomes are used only in retrospective statistical tests.",
+    "Exact fair theoretical moments and L1 counts are baselines, not evidence of a physical astronomy effect.",
+    "Conditional permutation within year x weekday is exploratory; it does not correct for every time-varying technical change.",
+    "P1 mapping and feature families were discussed after seeing older history; never claim pre-registered out-of-sample confirmation.",
+    "Twelve per-state descriptive z scores are NOT separate inferential discoveries; four family-level endpoints receive Bonferroni adjustment.",
+    "Even a statistically significant retrospective association would require later prospective validation to support prediction.",
+    "No new or modified tickets, lottery source files, P1 source CSV, or prospective seals."
+  ],
+  "mapping_version": "usno_quarter_anchor_centered_12state_half_up_v1",
+  "output_states_csv_sha256": "9577c8cf21511577658b724ac63e4f644836ea9aab09dc06e877481e4fe68fff",
+  "reference_clock": "Taipei date at 12:00 (not independently verified drawing time)",
+  "schema": "lotto649.iching_guaqi_association.v2.4.p1a",
+  "shape_taxonomy": "shape8-graph-partition-cardinal-diagonal-v1:L1",
+  "state_counts": {
+    "0_Fu": 187,
+    "10_Bo": 196,
+    "11_Kun": 191,
+    "1_Lin": 229,
+    "2_Tai": 256,
+    "3_Da_Zhuang": 195,
+    "4_Guai": 203,
+    "5_Qian": 203,
+    "6_Gou": 205,
+    "7_Dun": 205,
+    "8_Pi": 206,
+    "9_Guan": 200
+  },
+  "tests": {
+    "effect_sizes": {
+      "eta_squared": {
+        "odd": 0.00592864385188372,
+        "shape_component_mean": 0.003916870338042021,
+        "sum": 0.004733481658957227
+      },
+      "shape_L1_cramers_v": 0.060339404917439284,
+      "shape_L1_observed_counts_by_state": [
+        [
+          3,
+          9,
+          35,
+          73,
+          55,
+          12
+        ],
+        [
+          2,
+          12,
+          49,
+          74,
+          66,
+          26
+        ],
+        [
+          1,
+          8,
+          56,
+          91,
+          73,
+          27
+        ],
+        [
+          2,
+          11,
+          37,
+          73,
+          51,
+          21
+        ],
+        [
+          2,
+          11,
+          34,
+          69,
+          62,
+          25
+        ],
+        [
+          0,
+          11,
+          44,
+          67,
+          59,
+          22
+        ],
+        [
+          0,
+          14,
+          35,
+          74,
+          63,
+          19
+        ],
+        [
+          0,
+          11,
+          35,
+          71,
+          65,
+          23
+        ],
+        [
+          0,
+          10,
+          44,
+          75,
+          60,
+          17
+        ],
+        [
+          1,
+          13,
+          41,
+          74,
+          58,
+          13
+        ],
+        [
+          4,
+          7,
+          35,
+          64,
+          64,
+          22
+        ],
+        [
+          0,
+          15,
+          39,
+          73,
+          51,
+          13
+        ]
+      ],
+      "total_count_by_state": [
+        187,
+        229,
+        256,
+        195,
+        203,
+        203,
+        205,
+        205,
+        206,
+        200,
+        196,
+        191
+      ]
+    },
+    "endpoints": {
+      "odd": {
+        "bonferroni_four_families_p": 0.716,
+        "null_statistic_max": 32.31054228638015,
+        "null_statistic_mean": 10.89957888010078,
+        "observed_statistic": 14.821031714080583,
+        "permutation_p": 0.179,
+        "permutation_upper_tail_hits": 715
+      },
+      "shape_L1_full_distribution": {
+        "bonferroni_four_families_p": 1.0,
+        "null_statistic_max": 106.0122204652074,
+        "null_statistic_mean": 54.55892402975082,
+        "observed_statistic": 45.07364606808882,
+        "permutation_p": 0.82075,
+        "permutation_upper_tail_hits": 3282
+      },
+      "shape_component_mean": {
+        "bonferroni_four_families_p": 1.0,
+        "null_statistic_max": 45.02096581862903,
+        "null_statistic_mean": 11.767735087854083,
+        "observed_statistic": 10.34065413213802,
+        "permutation_p": 0.5535,
+        "permutation_upper_tail_hits": 2213
+      },
+      "sum": {
+        "bonferroni_four_families_p": 1.0,
+        "null_statistic_max": 38.83955233322243,
+        "null_statistic_mean": 11.918377272045069,
+        "observed_statistic": 11.824522540977506,
+        "permutation_p": 0.46325,
+        "permutation_upper_tail_hits": 1852
+      }
+    },
+    "familywise_control": "Bonferroni across four predeclared global endpoints; conditional permutations account for 12 seasonal states jointly",
+    "interpretation": "exploratory retrospective association conditional on year and weekday; not predictive evidence",
+    "n_strata": 112,
+    "replicates": 3999,
+    "seed": 649,
+    "strata": "year_x_weekday_iso",
+    "stratum_size_max": 53,
+    "stratum_size_min": 1
+  }
+}
