@@ -55,6 +55,12 @@ jobs:
           assert u['primary_certified'] and u['total_certified'] and u['joint_tiebreak_certified']
           assert u['total_upper_minus_best_feasible']==0
           assert 'exclusion_counterfactual' in u
+          c=u['exclusion_counterfactual']
+          assert c['original_frozen_exclusions_examined']==12
+          assert c['four_positive_excluded_candidates']==7
+          assert c['unsafe_envelope_cases']==[]
+          assert c['same_optimum_even_without_original_exclusions']
+          assert not c['could_expand_full_universe_best_class_envelope']
           assert u['qualified_candidates']<=u['four_positive_before_frozen_exclusions']<=u['pre_shape_positive_candidates']<=u['full_legal_six_tuples']
           assert len(u['top_classes'])==4 if 'top_classes' in u else u['decision']=='UNIVERSE_SHAPE_TOP_FOUR_NOT_STRICT'
           assert u.get('best_feasible_quality') is not None
