@@ -22,10 +22,12 @@ def fake_ref(rows):
     return {
         'axes':[np.asarray(a,dtype=np.float64) for a in axes],
         'cuts':np.asarray([0,10**11,10**12],dtype=np.int64),
-        'sum_num':np.ones(259,dtype=np.int64),
-        'log_num':np.ones(2,dtype=np.int64),
-        'joint_num':np.ones(518,dtype=np.int64),
-        'sum_den':1.0,'log_den':1.0,'joint_den':1.0,
+        'sum_positive':np.ones(259,dtype=bool),
+        'log_positive':np.ones(2,dtype=bool),
+        'joint_positive':np.ones(518,dtype=bool),
+        'sum_score':np.ones(259,dtype=np.float64),
+        'log_score':np.ones(2,dtype=np.float64),
+        'joint_score':np.ones(518,dtype=np.float64),
         'shape_tables':gain,'shape_sd':{x:1. for x in gain},
         'edge_cache':{},'joint_cols':2,
     }
