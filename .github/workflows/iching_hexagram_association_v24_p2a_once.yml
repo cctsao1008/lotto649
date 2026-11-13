@@ -1,0 +1,80 @@
+name: Lotto649 v2.4 P2A Solar-Lunar 64-Hexagram Association (One-Time)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/iching_hexagram_association_v24_p2a_once.yml'
+      - 'lotto7x7/iching_hexagram_association_v24_p2a.py'
+      - 'tests/test_iching_hexagram_association_v24_p2a.py'
+      - 'docs/iching_hexagram_association_v24_p2a.md'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout immutable source archive
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Prepare standard-library Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 15 synthetic/adversarial no-leak tests
+        run: python -m unittest discover -s tests -p 'test_iching_hexagram_association_v24_p2a.py' -v
+      - name: Run full P2A conditional randomization on real 2498 archived draws
+        run: |
+          if test -e data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json; then
+            # Immutable-output regression; do NOT overwrite frozen results.
+            python -m lotto7x7.iching_hexagram_association_v24_p2a --out-dir "$RUNNER_TEMP/v24_iching_p2a_verify"
+            cmp "$RUNNER_TEMP/v24_iching_p2a_verify/v24_p2a_hexagram_association_2498.json" data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json
+            cmp "$RUNNER_TEMP/v24_iching_p2a_verify/v24_p2a_hexagram_association_2498_states.csv" data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498_states.csv
+          else
+            python -m lotto7x7.iching_hexagram_association_v24_p2a --out-dir data/research/v24_iching_p2a
+          fi
+      - name: Fail closed on data, family correction and outcome labels
+        run: |
+          python - <<'PY'
+          import csv, json, hashlib
+          from pathlib import Path
+          root=Path('data/research/v24_iching_p2a')
+          p=root/'v24_p2a_hexagram_association_2498.json'
+          audit=json.loads(p.read_text(encoding='utf-8'))
+          assert audit['schema']=='lotto649.iching_hexagram_association.v2.4.p2a'
+          assert audit['source']['frozen_source_csv_sha256']=='a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39'
+          assert audit['analysis_draws']==2476 and audit['frozen_draws']==2498
+          assert audit['source']['missing']==22 and audit['mapped_sky_hexagram_states']==64
+          assert audit['simulation_replicates']==3999 and audit['seed']==240649
+          assert len(audit['endpoints'])==6 and audit['no_causal_or_predictive_claim'] is True
+          assert audit['decision'] in ('EXPLORATORY_ASSOCIATION_NO_EVIDENCE','EXPLORATORY_ASSOCIATION_SIGNAL_REQUIRES_INDEPENDENT_CONFIRMATION')
+          assert len(audit['fair_6of49_theory']['outcome_parity_hexagram_exact_masses_by_code_0_to_63'])==64
+          assert sum(audit['fair_6of49_theory']['outcome_parity_hexagram_exact_masses_by_code_0_to_63'])==13983816
+          assert audit['fair_6of49_theory']['parity_mass_not_uniform']
+          assert sum(y['mapped'] for y in audit['source']['coverage_by_year'].values())==2476
+          assert sum(y['unmapped'] for y in audit['source']['coverage_by_year'].values())==22
+          states=root/'v24_p2a_hexagram_association_2498_states.csv'
+          assert hashlib.sha256(states.read_bytes()).hexdigest()==audit['states_csv_sha256']
+          rows=list(csv.DictReader(states.open('r',encoding='utf-8',newline='')))
+          assert len(rows)==64 and sum(int(z['draw_count']) for z in rows)==2476
+          assert {int(z['astronomical_hexagram_code']) for z in rows}==set(range(64))
+          for v in audit['endpoints'].values():
+            p=v['permutation_p_plus_one']
+            assert .00025 <= p <= 1 and abs(v['bonferroni_six_global_p']-min(1,6*p)) < 1e-12
+          print('PASS: exact USNO SHA, 2498 inputs/2476 mapped, 6 calibrated global endpoints, 64 states, plus-one and Bonferroni')
+          PY
+      - name: Commit only new P2A frozen research report and descriptive states
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498_states.csv
+          if git diff --cached --quiet; then
+            echo 'Exact frozen P2A results already archived'
+          else
+            git commit -m 'data(v2.4 P2A): archive six-test conditional USNO hexagram association audit'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
