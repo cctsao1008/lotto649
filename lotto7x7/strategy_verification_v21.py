@@ -50,21 +50,25 @@ def _validate_reference(reference:dict)->dict:
     ref={
         'axes':[np.asarray(x,dtype=np.float64) for x in axes],
         'cuts':cuts,
-        'sum_num':np.asarray(reference['sum_gain_numerators'],dtype=np.int64),
-        'log_num':np.asarray(reference['log_gain_numerators'],dtype=np.int64),
-        'joint_num':np.asarray(reference['joint_gain_numerators'],dtype=np.int64),
-        'sum_den':reference['sum_denominator']*reference['sum_sd'],
-        'log_den':reference['log_denominator']*reference['log_sd'],
-        'joint_den':reference['joint_denominator']*reference['joint_sd'],
+        # Exact gain numerator magnitudes exceed signed int64. Preserve their
+        # mathematically exact Python-int signs, and compute reference gains
+        # using the identical sequential x / denominator / sd evaluation
+        # employed by the original v1.2 score tables. Never overflow to int64.
+        'sum_positive':np.asarray([x>0 for x in reference['sum_gain_numerators']],dtype=bool),
+        'log_positive':np.asarray([x>0 for x in reference['log_gain_numerators']],dtype=bool),
+        'joint_positive':np.asarray([x>0 for x in reference['joint_gain_numerators']],dtype=bool),
+        'sum_score':np.asarray([x/reference['sum_denominator']/reference['sum_sd'] for x in reference['sum_gain_numerators']],dtype=np.float64),
+        'log_score':np.asarray([x/reference['log_denominator']/reference['log_sd'] for x in reference['log_gain_numerators']],dtype=np.float64),
+        'joint_score':np.asarray([x/reference['joint_denominator']/reference['joint_sd'] for x in reference['joint_gain_numerators']],dtype=np.float64),
         'shape_tables':reference['shape_gain_tables'],
         'shape_sd':reference['shape_sd'],
         'edge_cache':{},
         'joint_cols':len(cuts)-1,
         'rank_axes_sha':sha,
     }
-    if (len(ref['sum_num'])!=259 or len(ref['log_num'])!=ref['joint_cols'] or
-        len(ref['joint_num'])!=259*ref['joint_cols'] or
-        min(ref[x] for x in ('sum_den','log_den','joint_den'))<=0):
+    if (len(ref['sum_positive'])!=259 or len(ref['log_positive'])!=ref['joint_cols'] or
+        len(ref['joint_positive'])!=259*ref['joint_cols'] or
+        not all(np.isfinite(ref[x]).all() for x in ('sum_score','log_score','joint_score'))):
         raise ValueError('inconsistent frozen score dimensions')
     return ref
 
@@ -93,7 +97,7 @@ def score_batch(numbers:np.ndarray, ref:dict, *, disallow:set[tuple[int,...]]=OL
     if np.any(l<0) or np.any(l>=ref['joint_cols']):
         raise AssertionError('sum/log bins outside original support')
     j=s*ref['joint_cols']+l
-    pre=(ref['sum_num'][s]>0)&(ref['log_num'][l]>0)&(ref['joint_num'][j]>0)
+    pre=ref['sum_positive'][s]&ref['log_positive'][l]&ref['joint_positive'][j]
     chosen=a[pre]; sis=s[pre]; lis=l[pre]; jis=j[pre]
     pre_count=int(np.count_nonzero(pre))
     if not len(chosen):
@@ -125,8 +129,8 @@ def score_batch(numbers:np.ndarray, ref:dict, *, disallow:set[tuple[int,...]]=OL
     nums=chosen[ids]
     parts=cats['partition'][ids].astype(np.int32)
     ranks=np.empty((len(nums),4),dtype=np.int32)
-    gains=[ref['sum_num'][sis[ids]]/ref['sum_den'],ref['log_num'][lis[ids]]/ref['log_den'],
-           ref['joint_num'][jis[ids]]/ref['joint_den'],sg[ids]]
+    gains=[ref['sum_score'][sis[ids]],ref['log_score'][lis[ids]],
+           ref['joint_score'][jis[ids]],sg[ids]]
     for k in range(4):
         ranks[:,k]=np.searchsorted(ref['axes'][k],gains[k],side='left').astype(np.int32)
     details={'raw_count':len(a),'triple_positive':pre_count,
