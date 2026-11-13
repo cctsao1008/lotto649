@@ -1,0 +1,61 @@
+name: M0 v2.2 Chronological Out-of-Sample Falsification
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_validation_v22.py'
+      - 'tests/test_strategy_validation_v22.py'
+      - '.github/workflows/strategy_validation_v22.yml'
+  workflow_dispatch:
+jobs:
+  historical-walkforward:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Independent negative and parity regression tests
+        run: python -m unittest discover -s tests -p 'test_strategy_validation_v22.py' -v
+      - name: Chronological prefix-only repair feature scoring and award parity
+        run: |
+          python -m lotto7x7.strategy_validation_v22 \
+            --csv-root data/csv --bin-root data/bin \
+            --train-min 1850 --horizon 25 --stride 50 --folds 13 \
+            --candidate-raw 40000 --pool-cap 1000 --restarts 6 --fair-controls 16 \
+            --out results/v22_walkforward_exploratory.json
+          python - <<'PY'
+          import json
+          r=json.load(open('results/v22_walkforward_exploratory.json'))
+          assert r['schema']=='lotto649.strategy_validation.v2.2.chronological_exploratory.v1'
+          assert r['decision'] in ('EXPLORATORY_SIGNAL_ONLY_NOT_PROSPECTIVE','EXPLORATORY_PREDICTIVE_NO_GO')
+          assert r['source_gate']['prefix_draws']==2497
+          assert r['source_gate']['prefix_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
+          assert r['source_gate']['theory_full_universe_count']==13983816
+          assert r['source_gate']['bonus_verified_against_independent_csv_loader']
+          assert len(r['folds'])==13
+          assert r['aggregate']['draws']==325
+          assert r['aggregate']['comparable_ticket_exposure_each_arm']==1300
+          assert r['aggregate']['both_arms_same_theoretical_award_profile']
+          assert abs(r['aggregate']['fair_iid_any_award_probability_both']-.1227314589619088)<1e-15
+          assert r['folds'][0]['train_draws']==1850 and r['folds'][-1]['train_draws']==2450
+          assert all(f['test_draws']==25 for f in r['folds'])
+          assert all(f['train_end_id']<f['test_start_id']<=f['test_end_id'] for f in r['folds'])
+          assert all(r['folds'][i]['test_end_id']<r['folds'][i+1]['test_start_id'] for i in range(12))
+          assert all(len({v for t in f['history_based_tickets'] for v in t})==24 for f in r['folds'])
+          assert all(len({v for t in f['history_blind_tickets'] for v in t})==24 for f in r['folds'])
+          assert 0<=r['aggregate']['paired_exact_two_sided_p_exploratory']<=1
+          assert 0<=r['aggregate']['score_two_sided_azuma_hoeffding_p_bound']<=1
+          print('V22 NO-LEAKAGE STRATEGY EXECUTION AND EXACT COVERAGE PARITY PASS')
+          PY
+          git diff --exit-code
+      - name: Archive append-only exploratory results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v22-expanding-walkforward
+          path: results/v22_walkforward_exploratory.json
+          retention-days: 30
+          if-no-files-found: warn
