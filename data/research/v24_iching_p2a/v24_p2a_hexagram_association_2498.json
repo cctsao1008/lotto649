@@ -1,0 +1,319 @@
+{
+  "alpha_familywise": 0.05,
+  "analysis_draws": 2476,
+  "bonferroni_significant_endpoints": [],
+  "calendar_strata": 112,
+  "decision": "EXPLORATORY_ASSOCIATION_NO_EVIDENCE",
+  "endpoint_preregistration_note": "P2A is an exploratory successor chosen after inspecting P1A; six tests fixed before inspecting P2A outcomes, not an independent holdout",
+  "endpoints": {
+    "hamming_distance_mean_two_sided": {
+      "bonferroni_six_global_p": 1.0,
+      "null_exceedances": 935,
+      "null_mean": 0.019241852030887994,
+      "null_sd": 0.0145355953318075,
+      "permutation_p_plus_one": 0.234,
+      "significant_at_fwer_0_05": false,
+      "statistic": 0.029368736095087004,
+      "statistic_definition": "abs(observed mean XOR distance - stratum-conditional null mean)"
+    },
+    "odd_count_by_sky_64": {
+      "bonferroni_six_global_p": 1.0,
+      "null_exceedances": 2754,
+      "null_mean": 61.30737279442095,
+      "null_sd": 10.942541082155596,
+      "permutation_p_plus_one": 0.68875,
+      "significant_at_fwer_0_05": false,
+      "statistic": 55.43893478352509,
+      "statistic_definition": "64-state squared centered group odd count / (group_n * exact fair variance)"
+    },
+    "outcome_hexagram_64x64": {
+      "bonferroni_six_global_p": 0.3345,
+      "null_exceedances": 222,
+      "null_mean": 3877.3102130621073,
+      "null_sd": 86.22177273918248,
+      "permutation_p_plus_one": 0.05575,
+      "significant_at_fwer_0_05": false,
+      "statistic": 4019.4337399486526,
+      "statistic_definition": "sparse conditional Pearson 64x64; permutation not asymptotic chi-square"
+    },
+    "shape_L1_64x6": {
+      "bonferroni_six_global_p": 0.7935000000000001,
+      "null_exceedances": 528,
+      "null_mean": 306.9811226375682,
+      "null_sd": 24.51895951556261,
+      "permutation_p_plus_one": 0.13225,
+      "significant_at_fwer_0_05": false,
+      "statistic": 335.01980048424247,
+      "statistic_definition": "sparse conditional Pearson 64x6; permutation not asymptotic chi-square"
+    },
+    "shape_L1_mean_by_sky_64": {
+      "bonferroni_six_global_p": 1.0,
+      "null_exceedances": 1737,
+      "null_mean": 65.20328604890875,
+      "null_sd": 11.425684589390785,
+      "permutation_p_plus_one": 0.4345,
+      "significant_at_fwer_0_05": false,
+      "statistic": 66.47384841379379,
+      "statistic_definition": "64-state squared centered graph-component sum / (group_n * exact fair variance)"
+    },
+    "sum_by_sky_64": {
+      "bonferroni_six_global_p": 1.0,
+      "null_exceedances": 1473,
+      "null_mean": 61.487765556373645,
+      "null_sd": 10.766832438597742,
+      "permutation_p_plus_one": 0.3685,
+      "significant_at_fwer_0_05": false,
+      "statistic": 64.51898625530569,
+      "statistic_definition": "64-state squared centered group sum / (group_n * exact fair variance)"
+    }
+  },
+  "fair_6of49_theory": {
+    "legal_universe": 13983816,
+    "odd_count": {
+      "mean": 3.061224489795918,
+      "variance": 1.3431903373594336
+    },
+    "outcome_parity_hexagram_exact_masses_by_code_0_to_63": [
+      134596,
+      177100,
+      177100,
+      177100,
+      177100,
+      230230,
+      177100,
+      177100,
+      177100,
+      230230,
+      230230,
+      230230,
+      177100,
+      230230,
+      177100,
+      177100,
+      177100,
+      230230,
+      230230,
+      230230,
+      230230,
+      296010,
+      230230,
+      230230,
+      177100,
+      230230,
+      230230,
+      230230,
+      177100,
+      230230,
+      177100,
+      177100,
+      177100,
+      230230,
+      230230,
+      230230,
+      230230,
+      296010,
+      230230,
+      230230,
+      230230,
+      296010,
+      296010,
+      296010,
+      230230,
+      296010,
+      230230,
+      230230,
+      177100,
+      230230,
+      230230,
+      230230,
+      230230,
+      296010,
+      230230,
+      230230,
+      177100,
+      230230,
+      230230,
+      230230,
+      177100,
+      230230,
+      177100,
+      177100
+    ],
+    "parity_mass_max": 296010,
+    "parity_mass_min": 134596,
+    "parity_mass_not_uniform": true,
+    "shape_L1_components": {
+      "exact_universe_counts_components_1_to_6": [
+        58620,
+        669462,
+        2775454,
+        5093678,
+        4166304,
+        1220298
+      ],
+      "mean": 4.165667368620983,
+      "variance": 1.0472522452008648
+    },
+    "sum": {
+      "mean": 150,
+      "variance": 1075.0
+    }
+  },
+  "frozen_draws": 2498,
+  "limitations": [
+    "Six global tests are correlated; Bonferroni remains valid but conservative.",
+    "64x64 tables are sparse, so Pearson statistics are permutation-calibrated; power may be low.",
+    "Permutation within calendar year and draw weekday conditions on observed outcomes; it does not test whether overall lottery distributions match theoretical IID by itself.",
+    "Year×weekday stratification reduces calendar/regime confounding but cannot rule out every time-dependent nuisance; analyses are retrospective and exploratory.",
+    "USNO solar/lunar phase bins are experimental time partitions, not authenticated traditional Chinese six-line divination or actual lunar phase angles.",
+    "The historical draw time is not verified; astronomical state is sampled at 12:00 Asia/Taipei.",
+    "The 22 missing sky states in early 2004 are excluded without extrapolating 2003 events.",
+    "Same-draw parity code, hamming, sum, odd count and shape are outcome-only analysis targets, not future-known predictors.",
+    "P1A exploratory screen already inspected overlapping historical observations; a significant P2A result would require future-only independent confirmation.",
+    "No individual state-level p-values, forecast, candidate tickets or buying decisions are produced."
+  ],
+  "mapped_sky_hexagram_states": 64,
+  "method": "conditional_permutation_fixed_year_and_weekday_6_endpoint_Bonferroni",
+  "no_causal_or_predictive_claim": true,
+  "null": "IID fair Lotto649 outcomes independent of prespecified astronomical sky states; conditional on observed outcome multisets within year×weekday strata",
+  "observed_summary": {
+    "fair_iid_exact_parity_mass_weighted_hamming_expected": 3.001623634364205,
+    "observed_overall_mean_hamming": 2.980210016155089,
+    "observed_overall_mean_odd_count": 3.0807754442649435,
+    "observed_overall_mean_shape_L1_components": 4.167205169628433,
+    "observed_overall_mean_sum": 150.0880452342488,
+    "sky_state_max_draws": 57,
+    "sky_state_min_draws": 32,
+    "state_count": 64
+  },
+  "p_value_resolution": 0.00025,
+  "schema": "lotto649.iching_hexagram_association.v2.4.p2a",
+  "seed": 240649,
+  "simulation_replicates": 3999,
+  "source": {
+    "coverage_by_year": {
+      "2004": {
+        "input_rows": 104,
+        "mapped": 82,
+        "unmapped": 22
+      },
+      "2005": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2006": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2007": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2008": {
+        "input_rows": 105,
+        "mapped": 105,
+        "unmapped": 0
+      },
+      "2009": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2010": {
+        "input_rows": 105,
+        "mapped": 105,
+        "unmapped": 0
+      },
+      "2011": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2012": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      },
+      "2013": {
+        "input_rows": 108,
+        "mapped": 108,
+        "unmapped": 0
+      },
+      "2014": {
+        "input_rows": 108,
+        "mapped": 108,
+        "unmapped": 0
+      },
+      "2015": {
+        "input_rows": 109,
+        "mapped": 109,
+        "unmapped": 0
+      },
+      "2016": {
+        "input_rows": 111,
+        "mapped": 111,
+        "unmapped": 0
+      },
+      "2017": {
+        "input_rows": 108,
+        "mapped": 108,
+        "unmapped": 0
+      },
+      "2018": {
+        "input_rows": 108,
+        "mapped": 108,
+        "unmapped": 0
+      },
+      "2019": {
+        "input_rows": 112,
+        "mapped": 112,
+        "unmapped": 0
+      },
+      "2020": {
+        "input_rows": 112,
+        "mapped": 112,
+        "unmapped": 0
+      },
+      "2021": {
+        "input_rows": 114,
+        "mapped": 114,
+        "unmapped": 0
+      },
+      "2022": {
+        "input_rows": 114,
+        "mapped": 114,
+        "unmapped": 0
+      },
+      "2023": {
+        "input_rows": 116,
+        "mapped": 116,
+        "unmapped": 0
+      },
+      "2024": {
+        "input_rows": 118,
+        "mapped": 118,
+        "unmapped": 0
+      },
+      "2025": {
+        "input_rows": 118,
+        "mapped": 118,
+        "unmapped": 0
+      },
+      "2026": {
+        "input_rows": 104,
+        "mapped": 104,
+        "unmapped": 0
+      }
+    },
+    "frozen_audit_sha256": "e630adc7b289ff702e2f3dfe10c5fc25e5532e721a96c6ff22c6c38093f3266f",
+    "frozen_source_csv_sha256": "a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39",
+    "mapped": 2476,
+    "mapping_version": "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1",
+    "missing": 22
+  },
+  "states_csv": "v24_p2a_hexagram_association_2498_states.csv",
+  "states_csv_sha256": "b80afdfdce954ff1c9546bc8dacbd17af2fe266537137dd34df1631e08efe2b0"
+}
