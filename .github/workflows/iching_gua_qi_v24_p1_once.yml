@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/iching_gua_qi_v24_p1_once.yml'
+      - 'lotto7x7/iching_gua_qi_v24_p1.py'
+      - 'tests/test_iching_gua_qi_v24_p1.py'
+      - 'docs/iching_gua_qi_v24_p1.md'
 
 permissions:
   contents: write
@@ -30,11 +33,19 @@ jobs:
               for p in sorted(root.rglob('*')):
                   if p.is_file(): z.write(p,(Path('usno_official') / p.relative_to(root)).as_posix())
           PY
-      - name: Execute all 15 deterministic and official-source tests
+      - name: Execute all 16 deterministic and official-source tests
         run: python -m unittest discover -s tests -p test_iching_gua_qi_v24_p1.py -v
       - name: Generate and independently verify original 2498 Lotto649 draw join
         run: |
-          python -m lotto7x7.iching_gua_qi_v24_p1 --out-dir data/research/v24_iching
+          if test -e data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv; then
+            # Read-only regression: independently regenerate in a temporary
+            # directory and byte-compare both immutable archived artifacts.
+            python -m lotto7x7.iching_gua_qi_v24_p1 --out-dir "$RUNNER_TEMP/v24_iching_regression"
+            cmp "$RUNNER_TEMP/v24_iching_regression/v24_p1_gua_qi_draw_context_2498.csv" data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv
+            cmp "$RUNNER_TEMP/v24_iching_regression/v24_p1_gua_qi_audit_2498.json" data/research/v24_iching/v24_p1_gua_qi_audit_2498.json
+          else
+            python -m lotto7x7.iching_gua_qi_v24_p1 --out-dir data/research/v24_iching
+          fi
           python - <<'PY'
           import csv,json,hashlib
           from pathlib import Path

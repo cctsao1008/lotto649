@@ -66,6 +66,18 @@ class TestSeasonalStates(unittest.TestCase):
         self.assertEqual(solar_state(self.a[0][0]-timedelta(days=1),self.a),{})
         self.assertEqual(solar_state(self.a[-1][0]+timedelta(days=1),self.a),{})
 
+    def test_solar_anchor_at_exact_local_noon(self):
+        arr=[(at("2025-12-21T12:00+08:00"),"winter_solstice"),
+             (at("2026-03-20T12:00+08:00"),"spring_equinox"),
+             (at("2026-06-21T12:00+08:00"),"summer_solstice")]
+        when=arr[1][0]
+        at_event=solar_state(when,arr)
+        just_before=solar_state(when-timedelta(microseconds=1),arr)
+        self.assertEqual(at_event["solar_anchor_start"],"spring_equinox")
+        self.assertEqual(just_before["solar_anchor_end"],"spring_equinox")
+        self.assertEqual(at_event["seasonal_state_12"],"3")
+        self.assertEqual(just_before["seasonal_state_12"],"3")
+
     def test_boolean_policy_at_noon(self):
         boundary=at("2026-03-20T23:00+08:00")
         row=solar_state(at("2026-03-20T12:00+08:00"),self.a)

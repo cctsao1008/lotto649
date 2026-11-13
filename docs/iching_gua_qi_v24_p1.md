@@ -67,7 +67,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7.iching_gua_qi_v24_p1 --out-dir results/v24_iching_p1_local
 ```
 
-For local use, test ZIP-dependent cases skip if `_usno_official_test.zip` is not present, but the CLI always re-verifies all 46 USNO JSON files and all SHA-256 source gates. The dedicated one-time GitHub Actions job builds the transient ZIP itself and executes all 15 tests, and then creates the *versioned, immutable* `data/research/v24_iching/` CSV and audit JSON.
+For local use, test ZIP-dependent cases skip if `_usno_official_test.zip` is not present, but the CLI always re-verifies all 46 USNO JSON files and all SHA-256 source gates. The dedicated GitHub Actions job builds the transient ZIP itself and executes all 16 tests. Its first successful run created the *versioned, immutable* `data/research/v24_iching/` CSV and audit JSON. Subsequent changes to the P1 implementation/tests/documentation trigger **read-only byte-for-byte regeneration and comparison** in a temporary directory, never rewriting the frozen research artifacts or downloading new data.
 
 Do not write over pre-existing output files. The CLI uses `open('x')` for final artifacts. The one-time workflow only stages the two P1 artifacts; no original data, original research seal, or current ticket is rewritten.
 
