@@ -1,0 +1,58 @@
+name: Lotto649 Strategy Verification v2.0 Full Qualified Source
+on:
+  push:
+    paths:
+      - 'lotto7x7/strategy_verification_v20.py'
+      - 'lotto7x7/strategy_verification_v12.py'
+      - 'lotto7x7/strategy_verification_v19.py'
+      - 'tests/test_strategy_verification_v20.py'
+      - '.github/workflows/strategy_verification_v20.yml'
+  workflow_dispatch:
+jobs:
+  full-source-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install reproducible minimal numerical dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+      - name: Run coupled-ticket, pairwise incompatibility and fail-closed unit tests
+        run: python -m unittest discover -s tests -p 'test_strategy_verification_v20.py' -v
+      - name: Full original source gate and six new qualified source bounds
+        run: |
+          python -m lotto7x7.strategy_verification_v20 \
+            --csv-root data/csv --bin-root data/bin \
+            --seeds 649 20261111 20261112 \
+            --raw-sizes 160000 320000 --pair-chunk 256 \
+            --out results/strategy_v20_full_source_bounds.json
+          python - <<'PY'
+          import json
+          r=json.load(open('results/strategy_v20_full_source_bounds.json'))
+          assert r['decision']=='V20_FULL_SOURCE_BOUND_AUDIT_PASS'
+          assert r['source_gate']['checks']==152
+          assert r['source_gate']['reference_qualified']==13704
+          assert r['source_gate']['exact_reference_rank_parity']
+          assert r['source_gate']['reference_score_axes_sha256']=='18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'
+          assert len(r['cases'])==6
+          for x in r['cases']:
+              c=x['certificate']
+              assert c['primary_exact']
+              assert c['reduction']['primary_upper']==43549
+              assert c['exact_total_upper']>=c['exact_feasible_total_lower']
+              assert c['coupled_ticket_upper']['exact_integer_total_upper']<=200061
+              assert c['feasible_witness']['quality'][0]==43549
+              assert c['decision'] in ('EXACT_FULL_LEXICOGRAPHIC_OPTIMUM_IN_SOURCE','EXACT_TOTAL_BUT_JOINT_TIEBREAKER_UNRESOLVED','VALID_FULL_SOURCE_TOTAL_UPPER_GAP_UNRESOLVED')
+          print('PASS v2.0 full source mathematical bound audit',len(r['cases']),'cases')
+          PY
+          git diff --exit-code
+      - name: Archive write-once exact bound evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strategy-v20-full-qualified-bounds
+          path: results/strategy_v20_full_source_bounds.json
+          retention-days: 30
+          if-no-files-found: error
