@@ -309,6 +309,39 @@ def scan_full_universe(ref:dict,baseline:list[dict],*,batch_size:int=60000,
     return result
 
 
+def check_frozen_exclusion_counterfactual(ref:dict,full:dict)->dict:
+    """Bound effect of contract-only exclusions on the ALL positive-score universe.
+
+    No current strategy exclusion is changed. If the seven historically frozen
+    exceptions cannot increase the mandatory class shape/total/joint envelopes,
+    the same exact optimum also holds when those exceptions are admitted as
+    otherwise ordinary four-positive candidates. This audits the strength of
+    the full-universe claim without altering source rules or tracking tickets.
+    """
+    rows=np.asarray(sorted(OLD_TICKETS),dtype=np.uint8)
+    vals,ranks,parts,detail=score_batch(rows,ref,disallow=set())
+    mandatory={int(g['part']):g for g in full.get('top_classes',[])}
+    fourth=min((int(g['shape_rank_cap']) for g in mandatory.values()),default=-1)
+    risks=[]
+    for nums,score,part in zip(vals,ranks,parts):
+        p=int(part); sh=int(score[3]); total=int(score.sum());joint=int(score[2]);
+        cap=mandatory.get(p)
+        violates=(sh>=fourth if cap is None else
+                  sh>cap['shape_rank_cap'] or
+                  (sh==cap['shape_rank_cap'] and
+                   (total>cap['maximum_coupled_ticket_total'] or
+                    (total==cap['maximum_coupled_ticket_total'] and
+                     joint>cap['joint_rank_max_among_total_ties']))))
+        if violates:risks.append({'part':p,'shape_rank':sh,'coupled_rank':total,'joint_rank':joint})
+    return {'original_frozen_exclusions_examined':len(rows),
+            'four_positive_excluded_candidates':len(vals),
+            'could_expand_full_universe_best_class_envelope':bool(risks),
+            'unsafe_envelope_cases':risks,
+            'same_optimum_even_without_original_exclusions':not bool(risks) and
+                 full.get('decision')=='EXACT_FULL_UNIVERSE_LEXICOGRAPHIC_OPTIMUM',
+            'note':'Counterfactual mathematical envelope check only; original frozen eligibility contract is unchanged.'}
+
+
 def run_universe_audit(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
                        batch_size:int=60000,max_witness_nodes:int=2_000_000,progress=None)->dict:
     gate=verify_full_m0(csv_root=csv_root,bin_root=bin_root,manifest_path=manifest,
@@ -337,6 +370,7 @@ def run_universe_audit(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
         raise AssertionError('FAIL_CLOSED_PREVIOUS_SOURCE_WITNESS_DRIFT')
     full=scan_full_universe(ref,baseline,batch_size=batch_size,
                             max_witness_nodes=max_witness_nodes,progress=progress)
+    full['exclusion_counterfactual']=check_frozen_exclusion_counterfactual(ref,full)
     decision=full['decision']
     return {'schema':SCHEMA,
             'decision':decision,
