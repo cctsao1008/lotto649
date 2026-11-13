@@ -1,0 +1,299 @@
+{
+  "astronomy_fields_are_pre_outcome": true,
+  "coverage_by_year": {
+    "2004": {
+      "moon_mapped": 99,
+      "moon_missing": 5,
+      "rows": 104,
+      "solar_mapped": 82,
+      "solar_missing": 22
+    },
+    "2005": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2006": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2007": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2008": {
+      "moon_mapped": 105,
+      "moon_missing": 0,
+      "rows": 105,
+      "solar_mapped": 105,
+      "solar_missing": 0
+    },
+    "2009": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2010": {
+      "moon_mapped": 105,
+      "moon_missing": 0,
+      "rows": 105,
+      "solar_mapped": 105,
+      "solar_missing": 0
+    },
+    "2011": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2012": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    },
+    "2013": {
+      "moon_mapped": 108,
+      "moon_missing": 0,
+      "rows": 108,
+      "solar_mapped": 108,
+      "solar_missing": 0
+    },
+    "2014": {
+      "moon_mapped": 108,
+      "moon_missing": 0,
+      "rows": 108,
+      "solar_mapped": 108,
+      "solar_missing": 0
+    },
+    "2015": {
+      "moon_mapped": 109,
+      "moon_missing": 0,
+      "rows": 109,
+      "solar_mapped": 109,
+      "solar_missing": 0
+    },
+    "2016": {
+      "moon_mapped": 111,
+      "moon_missing": 0,
+      "rows": 111,
+      "solar_mapped": 111,
+      "solar_missing": 0
+    },
+    "2017": {
+      "moon_mapped": 108,
+      "moon_missing": 0,
+      "rows": 108,
+      "solar_mapped": 108,
+      "solar_missing": 0
+    },
+    "2018": {
+      "moon_mapped": 108,
+      "moon_missing": 0,
+      "rows": 108,
+      "solar_mapped": 108,
+      "solar_missing": 0
+    },
+    "2019": {
+      "moon_mapped": 112,
+      "moon_missing": 0,
+      "rows": 112,
+      "solar_mapped": 112,
+      "solar_missing": 0
+    },
+    "2020": {
+      "moon_mapped": 112,
+      "moon_missing": 0,
+      "rows": 112,
+      "solar_mapped": 112,
+      "solar_missing": 0
+    },
+    "2021": {
+      "moon_mapped": 114,
+      "moon_missing": 0,
+      "rows": 114,
+      "solar_mapped": 114,
+      "solar_missing": 0
+    },
+    "2022": {
+      "moon_mapped": 114,
+      "moon_missing": 0,
+      "rows": 114,
+      "solar_mapped": 114,
+      "solar_missing": 0
+    },
+    "2023": {
+      "moon_mapped": 116,
+      "moon_missing": 0,
+      "rows": 116,
+      "solar_mapped": 116,
+      "solar_missing": 0
+    },
+    "2024": {
+      "moon_mapped": 118,
+      "moon_missing": 0,
+      "rows": 118,
+      "solar_mapped": 118,
+      "solar_missing": 0
+    },
+    "2025": {
+      "moon_mapped": 118,
+      "moon_missing": 0,
+      "rows": 118,
+      "solar_mapped": 118,
+      "solar_missing": 0
+    },
+    "2026": {
+      "moon_mapped": 104,
+      "moon_missing": 0,
+      "rows": 104,
+      "solar_mapped": 104,
+      "solar_missing": 0
+    }
+  },
+  "frozen_draws": 2498,
+  "limitations": [
+    "Twelve seasonal states are a versioned interpolation approximation, not traditional precise gua-qi dating or a complete 24-term calendar",
+    "USNO astronomy is not a Chinese traditional leap-month calendar",
+    "No evidence of predictability; astronomical variables may be correlated with calendar or draw schedule",
+    "Same-draw outcome hexagram and Hamming distance are not prospective predictors"
+  ],
+  "missing_source_boundary_policy": "No 2003 winter solstice or pre-Jan-2004 new moon: missing; no fabricated event times",
+  "moon_mapped": 2493,
+  "moon_mapping": "time fraction from previous USNO astronomical new moon to next USNO new moon; NOT lunar date/month and NOT a new 64-state model",
+  "moon_missing": 5,
+  "output_csv": "data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv",
+  "output_csv_sha256": "53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1",
+  "reference_at": "12:00 Asia/Taipei (UTC+08:00) local-date assumption, not actual draw time",
+  "rule_version": "usno_quarter_anchor_centered_12state_half_up_v1",
+  "same_draw_labels_are_OUTCOME_ONLY": true,
+  "schema": "lotto649.iching_guaqi.v2.4.p1",
+  "season_chinese_names": [
+    "復",
+    "臨",
+    "泰",
+    "大壯",
+    "夬",
+    "乾",
+    "姤",
+    "遯",
+    "否",
+    "觀",
+    "剝",
+    "坤"
+  ],
+  "season_mapping": "winter solstice center=Fu(0), spring equinox center=Da_Zhuang(3), summer solstice center=Gou(6), autumn equinox center=Guan(9); linear interpolation across adjacent USNO quarter events; nearest of 12 equally spaced state centers; exact half boundaries round forward",
+  "season_names": [
+    "Fu",
+    "Lin",
+    "Tai",
+    "Da_Zhuang",
+    "Guai",
+    "Qian",
+    "Gou",
+    "Dun",
+    "Pi",
+    "Guan",
+    "Bo",
+    "Kun"
+  ],
+  "season_sixbit_codes_bottom_to_top": [
+    1,
+    3,
+    7,
+    15,
+    31,
+    63,
+    62,
+    60,
+    56,
+    48,
+    32,
+    0
+  ],
+  "solar_mapped": 2476,
+  "solar_missing": 22,
+  "source_provenance": "USNO ONLY; USNO 46 original JSON sources, 1276 events",
+  "source_sha256": {
+    "usno_draw_sha256": "230b7824d40a82197e0e25010e542dca17562fa6369d53c0520517a7e316d631",
+    "usno_event_csv_sha256": "f084a9248725cecbef257d23963b2660f2152e2bfce2f12054fd89337e33f6df",
+    "usno_manifest_sha256": "225c587219fa70c4875ab61a97c6e77adc8709fdbca128981270edd55689edcf",
+    "usno_original_json_files": 46,
+    "usno_original_json_sha256": {
+      "2004/moon_phases": "b4c118294833fd52ca149442650ada128caeb86d7215fe33cf488b221b8f361c",
+      "2004/seasons": "8706cbe011a5b028d433c36aa9b5f60f67a995ac5a9bf7505228e46180d80a57",
+      "2005/moon_phases": "f86034fcfb4d806be5e92e4ad9bc44902404c88d3eeba6ea70bafae1aa1b4d3a",
+      "2005/seasons": "2ba855d51fd33ddc8063749abfee096bb6f6dd0908fa07b6e161590394a704d5",
+      "2006/moon_phases": "17efe1e15572391b0684416c08d6a1c17973d075b1d66ea143e9c230d8f943ab",
+      "2006/seasons": "a5b93eaa50c4d739a1f1ab6b898e1e93f829367edd12f4bab270c7b066384fdf",
+      "2007/moon_phases": "ae686181d1ff1fd3779c67b7a92cf5e908977b1f8a9822eb16138026ed9698d3",
+      "2007/seasons": "32dd38c95f5bb5c9ca219c5cf511305ac5cdc1977e162ce088d42530e7c0b4e7",
+      "2008/moon_phases": "73c3f0a499ada6bfadba4db60ef4ac5342290a0b730a49af297b90a5e157d827",
+      "2008/seasons": "ac3afafb791f33094f586de69ab7de8e0f803443be8fbe1a790c410d94c47378",
+      "2009/moon_phases": "6afb2926685dafe22c6ca763a1724e1f5e4e44adf792bc5c8114678672a20683",
+      "2009/seasons": "e277fe17d810f07eaf1d0725ff2b99e706ac35fb7a0e2c9ec93b5687182850a1",
+      "2010/moon_phases": "57f9b052b1662da86cb18db254c13d37e71b0b66a1cc6011e1a1ae6907c7ff7b",
+      "2010/seasons": "631cdb53cc8eeea1996803e22c4891140be3a2d2f7ab29fa03496de749b98949",
+      "2011/moon_phases": "c48c4f5de5fa3ca393cdf0dabe8478f910111f181b44edaa927efbf6727a27ec",
+      "2011/seasons": "e0f0f0af53a71796352d88f454acfc7770358ee90d1861511c0d7666437f02a7",
+      "2012/moon_phases": "f433dd3aed98dd7deff790312f1a09760854603e9d66bdf7daa039c4c0d2c9a2",
+      "2012/seasons": "d071642d9fe3c47ae655afe8278b8429c7d1e32cb6cdf9a3569f14a32ff0a9f5",
+      "2013/moon_phases": "b78f0c9079f8e3f8ec4ca806b95e4942591d190e9b7a9ecfadc5201ea9cbb3d0",
+      "2013/seasons": "34e35cc76722855685a45d56525dcd25e60a0af0bec9806da5664a68c14cffc2",
+      "2014/moon_phases": "e9cd03572272c806ee5e7a683d018e359842b754541dd781d890cd05a475e651",
+      "2014/seasons": "3620bd316627d065a0f014ec416bed829f04cc381c0a21de8d4b2203dcd1dfb4",
+      "2015/moon_phases": "f0460ac64cc2bdb2275b17b24492104f1f69438fa0bcf6a88545e5850cfb5679",
+      "2015/seasons": "565b9e06aed4db61d9d9f98f558eb1e1d170d462ad55f8c71417580b4d88dadd",
+      "2016/moon_phases": "a47ed828438ac1287866fed6a2ade257cfc0a73eab824913b9cb5b9eef5f36ee",
+      "2016/seasons": "6f8e499662da26e6a8eadabd1d9f7d8becabf0530b86b06182d2a45db961a0b3",
+      "2017/moon_phases": "f08874ffa61ab86115648fca7e1d68739750b716955740ea3b942f58bd182e35",
+      "2017/seasons": "74dbfbf75c73c61baf1aaa7e0a3e30bf066bb96501b7d2a526460ff1831c97c8",
+      "2018/moon_phases": "e798ab36778c0a2fcf9aeb1c86ff7e8ae25e2d62cd9e0295c69f2ffcdb280a17",
+      "2018/seasons": "92c20dfb68e7aa18efbd43ef6a2bb4dbaeac988aef08603a7da02e425af8d14f",
+      "2019/moon_phases": "95d22decb3e9bd10b04687445111dcb337222c84c53d7f6698269f18bb0ee3f3",
+      "2019/seasons": "e615e091b36071222ef0be72807f485be2ea52098be6620c8202a9f454c1c6d3",
+      "2020/moon_phases": "72adc18cb37bd426d200c7a90d929c47263eb0c4accf08ddddcad246657f8352",
+      "2020/seasons": "2de80d81ac35eadd684f4ebe523a1118712b9e406fb04c0922bebccc1dccdf23",
+      "2021/moon_phases": "bd7383849a4261675e91b07f1131e9caf9d0b41e0872f863417f241908be6852",
+      "2021/seasons": "ca0cecf0de895a192b0ec2699ddb3caa71edbd4a617fae4a934817ae7d208846",
+      "2022/moon_phases": "90e0532a5c55d763882cd6ccde0aaf25f2a0778d9b60418110f2abaec612e692",
+      "2022/seasons": "088dde435f2ed68b91ce1069d048cad77b0ca53d3578dddccd8f4f68d0d07f85",
+      "2023/moon_phases": "795e8a33cd0e3a4e864b1774d95e2fd220a18e9054441ac5b2c50477a860d644",
+      "2023/seasons": "765f4ca9242d60295f11cce55cdba6ad18a65fd7dfef229995db84c1efff7d11",
+      "2024/moon_phases": "64107d6828e5d1cb8b3e7ff0c0fc9e147aaf4bc873db6640f2d104fb8e31ebf5",
+      "2024/seasons": "cc5db8e2f8689609980816701ad77063e45b58b604caf82068116b1ba87ba8b6",
+      "2025/moon_phases": "1a1a557547cf93950aa5408d8a8bd70e316316923c1d39a05f6497d98d4e6aae",
+      "2025/seasons": "1305c8ecd2af78c845d483effa5c120bfaed0f6ff5cf8f081e6ec04cb0e175ae",
+      "2026/moon_phases": "8e063694ffbf6cb49a650875f4bf1df6c361f955c63886c9fccfbe8aec084fa8",
+      "2026/seasons": "6d62dcd6de55cc5b9cf94df813844bda6750a2438098256e6826e56bcf5c22c4"
+    },
+    "v24_p0_draw_sha256": "d4ae60f416d4381317a1dd1fbbf225a0198a79b802cf883db78dce4f6fa6f3cd",
+    "v24_p0_report_sha256": "e077db6d8563354c423d336193912596c3d37612fe6b5df43ba4a3da7f8aa0fa"
+  },
+  "state_coverage": {
+    "0": 187,
+    "1": 229,
+    "10": 196,
+    "11": 191,
+    "2": 256,
+    "3": 195,
+    "4": 203,
+    "5": 203,
+    "6": 205,
+    "7": 205,
+    "8": 206,
+    "9": 200
+  }
+}
