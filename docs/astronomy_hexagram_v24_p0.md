@@ -75,3 +75,9 @@ To join an **independently acquired** official CWA A-A0087-001 raw CSV in a *new
 ## Research follow-up: no signal-mining until data coverage is reviewed
 
 A responsible next-stage analysis must (1) quantify CWA raw year coverage and any lunar leap-day ambiguity, (2) separate astronomic features known before drawing from labels computed from the winning draw, (3) control for the calendar's fixed Tuesday/Friday draw schedule and game regime changes, (4) compare exact conditional-IID null distributions rather than uniform 64-state assumptions, and (5) use held-out future outcomes for any predictive claim. These are planned *research questions*, **not evidence that cosmology or I Ching affects a fair draw**.
+
+## Committed canonical research snapshot
+
+Generated P0 artifacts are committed permanently under `data/research/v24/`, not only stored as temporary 30-day GitHub Actions artifacts. The 2,498-row, 37-column [CSV](../data/research/v24/v24_astronomy_hexagram_2498.csv) covers archived draws through 2026-11-10 / #115000104; its exact SHA-256 is `d4ae60f416d4381317a1dd1fbbf225a0198a79b802cf883db78dce4f6fa6f3cd`. The accompanying [audit report JSON](../data/research/v24/v24_astronomy_hexagram_2498_report.json) records matching `output_csv_sha256` and data provenance.
+
+**Scope:** Astronomical features are **PyEphem-calculated local-noon values**, not official CWA observations. CWA lunar calendar fields are intentionally missing (`matched_draws=0`), pending retrieval and verification of original official CWA files. Preserve this exact snapshot; any later authenticated CWA augmentation should be separately versioned. Historical draw inputs and existing v2.3 seals have not been changed.

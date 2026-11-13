@@ -1,0 +1,577 @@
+{
+  "cwa_calendar": {
+    "authenticity": "NO_CWA_FILE_SUPPLIED_NO_CWA_VALUES_SYNTHESIZED",
+    "dataset_id": "A-A0087-001",
+    "matched_draws": 0,
+    "per_year_matched": {},
+    "raw_bytes_sha256": null,
+    "raw_rows": 0,
+    "reference": "https://data.gov.tw/dataset/157677",
+    "unmatched_draws": 2498
+  },
+  "decision": "DATASET_BUILD_PASS_CWA_PARTIAL_OR_PENDING",
+  "earliest_draw_id": 93000001,
+  "ephemeris": {
+    "engine": "PyEphem",
+    "time_assumption": "local_noon_date_only",
+    "version_note": "calculated via library at 12:00 Asia/Taipei, not CWA measurement or draw time"
+  },
+  "first_date": "2004-01-05",
+  "hexagram": {
+    "categories": [
+      {
+        "binary_bottom_to_top": "000000",
+        "hexagram_code": 0,
+        "historical_draw_count": 22,
+        "theory_combinations": 134596,
+        "theory_probability": 0.009625126646403243
+      },
+      {
+        "binary_bottom_to_top": "100000",
+        "hexagram_code": 1,
+        "historical_draw_count": 33,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "010000",
+        "hexagram_code": 2,
+        "historical_draw_count": 34,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "110000",
+        "hexagram_code": 3,
+        "historical_draw_count": 37,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "001000",
+        "hexagram_code": 4,
+        "historical_draw_count": 33,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "101000",
+        "hexagram_code": 5,
+        "historical_draw_count": 46,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "011000",
+        "hexagram_code": 6,
+        "historical_draw_count": 32,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "111000",
+        "hexagram_code": 7,
+        "historical_draw_count": 25,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "000100",
+        "hexagram_code": 8,
+        "historical_draw_count": 30,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100100",
+        "hexagram_code": 9,
+        "historical_draw_count": 31,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010100",
+        "hexagram_code": 10,
+        "historical_draw_count": 48,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110100",
+        "hexagram_code": 11,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001100",
+        "hexagram_code": 12,
+        "historical_draw_count": 21,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "101100",
+        "hexagram_code": 13,
+        "historical_draw_count": 48,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "011100",
+        "hexagram_code": 14,
+        "historical_draw_count": 38,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "111100",
+        "hexagram_code": 15,
+        "historical_draw_count": 31,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "000010",
+        "hexagram_code": 16,
+        "historical_draw_count": 38,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100010",
+        "hexagram_code": 17,
+        "historical_draw_count": 35,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010010",
+        "hexagram_code": 18,
+        "historical_draw_count": 30,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110010",
+        "hexagram_code": 19,
+        "historical_draw_count": 36,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001010",
+        "hexagram_code": 20,
+        "historical_draw_count": 36,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "101010",
+        "hexagram_code": 21,
+        "historical_draw_count": 50,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "011010",
+        "hexagram_code": 22,
+        "historical_draw_count": 35,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "111010",
+        "hexagram_code": 23,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "000110",
+        "hexagram_code": 24,
+        "historical_draw_count": 31,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100110",
+        "hexagram_code": 25,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010110",
+        "hexagram_code": 26,
+        "historical_draw_count": 51,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110110",
+        "hexagram_code": 27,
+        "historical_draw_count": 29,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001110",
+        "hexagram_code": 28,
+        "historical_draw_count": 23,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "101110",
+        "hexagram_code": 29,
+        "historical_draw_count": 49,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "011110",
+        "hexagram_code": 30,
+        "historical_draw_count": 36,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "111110",
+        "hexagram_code": 31,
+        "historical_draw_count": 33,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "000001",
+        "hexagram_code": 32,
+        "historical_draw_count": 35,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100001",
+        "hexagram_code": 33,
+        "historical_draw_count": 35,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010001",
+        "hexagram_code": 34,
+        "historical_draw_count": 37,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110001",
+        "hexagram_code": 35,
+        "historical_draw_count": 38,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001001",
+        "hexagram_code": 36,
+        "historical_draw_count": 50,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "101001",
+        "hexagram_code": 37,
+        "historical_draw_count": 55,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "011001",
+        "hexagram_code": 38,
+        "historical_draw_count": 38,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "111001",
+        "hexagram_code": 39,
+        "historical_draw_count": 52,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "000101",
+        "hexagram_code": 40,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "100101",
+        "hexagram_code": 41,
+        "historical_draw_count": 62,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "010101",
+        "hexagram_code": 42,
+        "historical_draw_count": 57,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "110101",
+        "hexagram_code": 43,
+        "historical_draw_count": 51,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "001101",
+        "hexagram_code": 44,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "101101",
+        "hexagram_code": 45,
+        "historical_draw_count": 50,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "011101",
+        "hexagram_code": 46,
+        "historical_draw_count": 39,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "111101",
+        "hexagram_code": 47,
+        "historical_draw_count": 41,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "000011",
+        "hexagram_code": 48,
+        "historical_draw_count": 27,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100011",
+        "hexagram_code": 49,
+        "historical_draw_count": 34,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010011",
+        "hexagram_code": 50,
+        "historical_draw_count": 41,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110011",
+        "hexagram_code": 51,
+        "historical_draw_count": 53,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001011",
+        "hexagram_code": 52,
+        "historical_draw_count": 49,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "101011",
+        "hexagram_code": 53,
+        "historical_draw_count": 55,
+        "theory_combinations": 296010,
+        "theory_probability": 0.02116804168475901
+      },
+      {
+        "binary_bottom_to_top": "011011",
+        "hexagram_code": 54,
+        "historical_draw_count": 40,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "111011",
+        "hexagram_code": 55,
+        "historical_draw_count": 47,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "000111",
+        "hexagram_code": 56,
+        "historical_draw_count": 27,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "100111",
+        "hexagram_code": 57,
+        "historical_draw_count": 38,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "010111",
+        "hexagram_code": 58,
+        "historical_draw_count": 56,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "110111",
+        "hexagram_code": 59,
+        "historical_draw_count": 36,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "001111",
+        "hexagram_code": 60,
+        "historical_draw_count": 30,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "101111",
+        "hexagram_code": 61,
+        "historical_draw_count": 37,
+        "theory_combinations": 230230,
+        "theory_probability": 0.01646403242147923
+      },
+      {
+        "binary_bottom_to_top": "011111",
+        "hexagram_code": 62,
+        "historical_draw_count": 33,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      },
+      {
+        "binary_bottom_to_top": "111111",
+        "hexagram_code": 63,
+        "historical_draw_count": 34,
+        "theory_combinations": 177100,
+        "theory_probability": 0.012664640324214792
+      }
+    ],
+    "encoding": "ascending_6_numbers_bottom_to_top_odd_yang_even_yin_v1",
+    "source": "observed historical main six numbers after drawing; target/leakage-sensitive",
+    "theoretical_count_total": 13983816,
+    "theoretical_max": 296010,
+    "theoretical_min": 134596,
+    "theoretical_universe_size": 13983816
+  },
+  "last_date": "2026-11-10",
+  "latest_draw_id": 115000104,
+  "output_csv_sha256": "d4ae60f416d4381317a1dd1fbbf225a0198a79b802cf883db78dce4f6fa6f3cd",
+  "per_year_draw_count": {
+    "2004": 104,
+    "2005": 104,
+    "2006": 104,
+    "2007": 104,
+    "2008": 105,
+    "2009": 104,
+    "2010": 105,
+    "2011": 104,
+    "2012": 104,
+    "2013": 108,
+    "2014": 108,
+    "2015": 109,
+    "2016": 111,
+    "2017": 108,
+    "2018": 108,
+    "2019": 112,
+    "2020": 112,
+    "2021": 114,
+    "2022": 114,
+    "2023": 116,
+    "2024": 118,
+    "2025": 118,
+    "2026": 104
+  },
+  "rows": 2498,
+  "schema": "lotto649.astronomy_hexagram.v2.4.p0",
+  "source_archive_gate": {
+    "annual_counts": {
+      "2004": 104,
+      "2005": 104,
+      "2006": 104,
+      "2007": 104,
+      "2008": 105,
+      "2009": 104,
+      "2010": 105,
+      "2011": 104,
+      "2012": 104,
+      "2013": 108,
+      "2014": 108,
+      "2015": 109,
+      "2016": 111,
+      "2017": 108,
+      "2018": 108,
+      "2019": 112,
+      "2020": 112,
+      "2021": 114,
+      "2022": 114,
+      "2023": 116,
+      "2024": 118,
+      "2025": 118,
+      "2026": 104
+    },
+    "annual_csv_files": 23,
+    "crosscheck": {
+      "anchor": {
+        "bonus": 28,
+        "date": "2026-11-10",
+        "draw_id": 115000104,
+        "main": [
+          11,
+          23,
+          30,
+          32,
+          40,
+          41
+        ]
+      },
+      "exact_match": true,
+      "source": {
+        "attestation": "INDEPENDENT_PUBLISHED_RESULT_MANUALLY_REVIEWED_NOT_LIVE_RETRIEVED",
+        "publisher": "CTBC Bank Taiwan Lottery results publication",
+        "review_date": "2026-11-11",
+        "url": "https://lotto.ctbcbank.com/result_all.htm"
+      }
+    },
+    "first_draw_id": 93000001,
+    "last_date": "2026-11-10",
+    "last_draw_id": 115000104,
+    "schema": "lotto649.m2.draw_source_audit.v1",
+    "source_authenticity_scope": "One independently published CTBC 2026-11-10 draw manually crosschecked; other historic rows remain source-archive consistent but are NOT individually certified against official Taiwan Lottery downloads.",
+    "source_fingerprints": {
+      "history_bin_sha256": "57de2ead78147f998b7cac22dfbd94461a6af38584ee106d6a1a26c1dd97f3b8",
+      "image_bin_sha256": "9069034085cfd901405dbfba0f0993c6e1fd8b1494ecea87c20681b52fe808b9",
+      "manifest_sha256": "003ed03eda889952654b679859f2d465ffb7349c7f005a6df3aa4436be3d54a3"
+    },
+    "status": "PASS_ARCHIVE_INTEGRITY_AND_SINGLE_PUBLISHED_DRAW_CROSSCHECK",
+    "total_draws": 2498
+  },
+  "warnings": [
+    "No relationship to extra winning probability is established.",
+    "Do not use same-draw hexagram_code/changed_lines as a pre-draw predictor.",
+    "No unspecified weather-station climate data is imputed.",
+    "Solar terms are approximate noon-longitude bins, not exact CWA published transition times.",
+    "CWA data are only included if a separate locally archived CSV is supplied and verified."
+  ]
+}
