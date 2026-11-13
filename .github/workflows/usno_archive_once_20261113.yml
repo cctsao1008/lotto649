@@ -1,0 +1,95 @@
+name: USNO 2004-2026 One-time Permanent Data Archive
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/usno_archive_once_20261113.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  archive-usno-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout immutable source repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Prepare Python (standard library only)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download 2004-2026 original USNO JSON (46 files)
+        run: python scripts/fetch_usno_astronomy.py --start-year 2004 --end-year 2026 --retries 4
+      - name: Verify archival bytes match prevalidated source event digest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/astronomy/usno_official/manifest_2004_2026.json')
+          m=json.loads(p.read_text(encoding='utf-8'))
+          assert m['successful_sources']==46, m['successful_sources']
+          assert m['failed_sources']==0, m['failed_sources']
+          assert m['events']==1276, m['events']
+          assert m['events_csv_sha256']=='f084a9248725cecbef257d23963b2660f2152e2bfce2f12054fd89337e33f6df', 'USNO source bytes differ from uploaded archive: abort rather than committing a different snapshot'
+          assert len(m['source_records'])==46
+          assert len({(v['year'],v['kind']) for v in m['source_records']})==46
+          assert all(v['status']=='ok' for v in m['source_records'])
+          print('PASS: 46 raw sources/1276 events match the 2026-11-13 uploaded USNO snapshot')
+          PY
+      - name: Repackage validated raw sources into transient input ZIP
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          root=Path('data/astronomy/usno_official')
+          with ZipFile('usno_official_verified_workflow_input.zip','w',ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file():
+                      z.write(p,arcname=(Path('usno_official')/p.relative_to(root)).as_posix())
+          PY
+      - name: Generate permanent 8401-day and 2498-draw research snapshots
+        run: |
+          python scripts/build_usno_features.py \
+            --usno-zip usno_official_verified_workflow_input.zip \
+            --csv-root data/csv \
+            --out-dir data/research/v24_usno
+      - name: Independent frozen source and output SHA gate
+        run: |
+          python - <<'PY'
+          import csv,json,hashlib
+          from pathlib import Path
+          root=Path('data/research/v24_usno')
+          p=root/'v24_usno_daily_features_2004_2026.csv'
+          expected='cd062ffd9d10fcd12df70835f039a7987df46e946ce041e203775d21edbde348'
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==expected, 'daily features differ from uploaded snapshot'
+          rows=list(csv.DictReader(p.open(encoding='utf-8',newline='')))
+          assert len(rows)==8401 and rows[0]['date']=='2004-01-01' and rows[-1]['date']=='2026-12-31'
+          draws=root/'v24_usno_draw_context_2498.csv'
+          r=list(csv.DictReader(draws.open(encoding='utf-8',newline='')))
+          assert len(r)==2498 and len({v['draw_id'] for v in r})==2498
+          assert (r[0]['draw_id'],r[0]['date'])==('93000001','2004-01-05')
+          assert (r[-1]['draw_id'],r[-1]['date'])==('115000104','2026-11-10')
+          m=json.loads((root/'v24_usno_data_audit_2004_2026.json').read_text('utf-8'))
+          assert m['frozen_draws_count']==2498 and m['source_events']==1276
+          assert m['daily_output_sha256']==expected
+          print('PASS: daily 8401, historical draws 2498, SHA and date anchors')
+          PY
+      - name: Commit verified USNO raw data and date-aligned research CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            data/astronomy/usno_official/raw \
+            data/astronomy/usno_official/manifest_2004_2026.json \
+            data/astronomy/usno_official/usno_events_2004_2026.csv \
+            data/research/v24_usno/
+          if git diff --cached --quiet; then
+            echo "USNO data already committed; no changes"
+          else
+            git commit -m "data(v2.4): permanently archive verified 2004-2026 USNO JSON and 2498-draw research features"
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
