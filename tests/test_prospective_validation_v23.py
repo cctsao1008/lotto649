@@ -30,11 +30,15 @@ class V23FixedProspectiveTests(unittest.TestCase):
 
     def test_01_sha_is_a_real_git_blob_sha_and_immutable(self):
         raw=Path(SEAL_PATH).read_bytes()
-        self.assertEqual(_git_blob_sha1(raw),SEAL_BLOB_SHA1)
-        self.assertEqual(_canonical_seal_bytes(raw),raw)
-        with self.assertRaises(ValueError): _canonical_seal_bytes(raw.replace(b'200',b'201',1))
-        self.assertEqual(_canonical_seal_bytes(raw.replace(b'\n',b'\r\n')),raw)
-        with self.assertRaises(ValueError): _canonical_seal_bytes(raw.replace(b'\n',b'\r',1))
+        canonical=_canonical_seal_bytes(raw)
+        # Windows Git may check out an LF Git blob as CRLF in the working tree.
+        # Verify the canonical committed bytes, never a platform-specific raw
+        # working-tree representation. Do not rewrite the sealed manifest.
+        self.assertIn(raw,(canonical,canonical.replace(b'\n',b'\r\n')))
+        self.assertEqual(_git_blob_sha1(canonical),SEAL_BLOB_SHA1)
+        with self.assertRaises(ValueError): _canonical_seal_bytes(canonical.replace(b'200',b'201',1))
+        self.assertEqual(_canonical_seal_bytes(canonical.replace(b'\n',b'\r\n')),canonical)
+        with self.assertRaises(ValueError): _canonical_seal_bytes(canonical.replace(b'\n',b'\r',1))
 
     def test_02_exact_v21_witness_and_rng_control_match_seal(self):
         self.assertEqual(self.meta['arms']['B'],EXPECTED_B)
