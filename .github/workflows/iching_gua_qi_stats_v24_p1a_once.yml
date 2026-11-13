@@ -1,0 +1,78 @@
+name: Lotto649 v2.4 P1A Twelve Gua Qi Historical Association Null Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/iching_gua_qi_stats_v24_p1a_once.yml'
+      - 'lotto7x7/iching_gua_qi_stats_v24_p1a.py'
+      - 'tests/test_iching_gua_qi_stats_v24_p1a.py'
+      - 'docs/iching_gua_qi_v24_p1a_stats.md'
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 16 deterministic negative, invariance, and permutation tests
+        run: python -m unittest discover -s tests -p 'test_iching_gua_qi_stats_v24_p1a.py' -v
+      - name: Run pinned archived 2498-draw / 2476-state study
+        run: |
+          if test -e data/research/v24_iching/v24_p1a_gua_qi_association_2498.json; then
+            python -m lotto7x7.iching_gua_qi_stats_v24_p1a --out-dir "$RUNNER_TEMP/iching_p1a_regression" --reps 3999 --seed 649
+            cmp "$RUNNER_TEMP/iching_p1a_regression/v24_p1a_gua_qi_association_2498.json" data/research/v24_iching/v24_p1a_gua_qi_association_2498.json
+            cmp "$RUNNER_TEMP/iching_p1a_regression/v24_p1a_gua_qi_association_2498_states.csv" data/research/v24_iching/v24_p1a_gua_qi_association_2498_states.csv
+          else
+            python -m lotto7x7.iching_gua_qi_stats_v24_p1a --out-dir data/research/v24_iching --reps 3999 --seed 649
+          fi
+      - name: Independently validate count, source hash, familywise correction and output
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv,hashlib,json
+          root=Path('data/research/v24_iching')
+          p=root/'v24_p1a_gua_qi_association_2498.json'
+          c=root/'v24_p1a_gua_qi_association_2498_states.csv'
+          x=json.loads(p.read_text(encoding='utf-8'))
+          rows=list(csv.DictReader(c.open(encoding='utf-8',newline='')))
+          src=root/'v24_p1_gua_qi_draw_context_2498.csv'
+          assert hashlib.sha256(src.read_bytes()).hexdigest()=='53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1'
+          assert x['input_frozen']['source_rows']==2498 and x['analysis_draws']==2476
+          assert x['input_frozen']['unmapped_by_year']=={'2004':22}
+          assert len(rows)==12 and sum(int(r['draws']) for r in rows)==2476
+          assert {int(r['state_12']) for r in rows}==set(range(12))
+          assert x['tests']['replicates']==3999 and x['tests']['seed']==649
+          assert x['tests']['n_strata']>=23
+          assert hashlib.sha256(c.read_bytes()).hexdigest()==x['output_states_csv_sha256']
+          assert len(x['tests']['endpoints'])==4
+          assert x['fair_6of49']['universe']==13983816
+          assert x['fair_6of49']['moments']['sum']['mean']==150
+          assert x['fair_6of49']['moments']['sum']['variance']==1075
+          for result in x['tests']['endpoints'].values():
+              assert result['permutation_p']>0
+              assert abs(result['bonferroni_four_families_p']-min(1,4*result['permutation_p']))<1e-14
+          print('PASS: original source SHA, all 12 groups, 2476 mapped draws, four exact-baseline familywise permutation tests')
+          print('DECISION:', x['decision'])
+          PY
+      - name: Commit only immutable P1A research outputs (if new)
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            data/research/v24_iching/v24_p1a_gua_qi_association_2498.json \
+            data/research/v24_iching/v24_p1a_gua_qi_association_2498_states.csv
+          if git diff --cached --quiet; then
+            echo 'P1A results already archived; unchanged'
+          else
+            git commit -m 'data(v2.4 P1A): archive 2476-draw Gua Qi association study and calibrated permutation results'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          fi
