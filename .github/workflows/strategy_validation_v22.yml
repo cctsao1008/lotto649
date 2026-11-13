@@ -50,6 +50,20 @@ jobs:
           assert 0<=r['aggregate']['score_two_sided_azuma_hoeffding_p_bound']<=1
           print('V22 NO-LEAKAGE STRATEGY EXECUTION AND EXACT COVERAGE PARITY PASS')
           PY
+          python - <<'PY'
+          import json
+          r=json.load(open('results/v22_walkforward_exploratory.json'))
+          a=r['aggregate']
+          assert r['decision']=='EXPLORATORY_PREDICTIVE_NO_GO'
+          assert (a['history_blind_any_award'],a['history_based_any_award'])==(37,47)
+          assert (a['history_blind_only'],a['history_based_only'],a['both_awarded'],a['neither_awarded'])==(32,42,5,246)
+          assert abs(a['paired_exact_two_sided_p_exploratory']-.29541328065567013)<1e-15
+          assert abs(a['future_draw_higher_score_fraction']-.5041346153846153)<1e-15
+          assert a['score_two_sided_azuma_hoeffding_p_bound']==1.0
+          assert 'pseudorandom' in a['score_inference']
+          assert all(0<=f['outcome']['future_draw_higher_score_fraction']<=1 for f in r['folds'])
+          print('V22 REPRODUCIBILITY PASS: 325 chronological holdouts, NO_GO and qualified inference')
+          PY
           git diff --exit-code
       - name: Archive append-only exploratory results
         if: always()
