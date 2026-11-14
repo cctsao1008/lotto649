@@ -1,9 +1,9 @@
-"""End-to-end source integrity for appended draw #115000104 (2026-11-10).
+"""Regression: the original #115000104 append survives all *later* appends.
 
-Exactly one new record in annual CSV, 15-byte history BIN and 53-byte
-image BIN; first 2497 draws must be reproducible byte-for-byte after
-restoring the historical 2497-record header count. Immutable research
-cutoff / P3f seal still evaluates the new draw *after* the model cutoff.
+The first 2497 historical BIN records are byte-for-byte pinned; original
+#115000104 remains the first post-cutoff record. Extra future draws cannot
+change the original date, numbers, special ball, source attribution or seal.
+This is an archived-CSV regression, NOT independent publisher authentication.
 """
 from __future__ import annotations
 
@@ -37,16 +37,16 @@ IROW=struct.Struct("<I49B")
 def _read_binary(path,magic,record):
     raw=path.read_bytes()
     actual_magic,n,width=HEADER.unpack_from(raw)
-    assert (actual_magic,n,width)==(magic,2498,record.size)
+    assert actual_magic==magic and n>=2498 and width==record.size
     assert len(raw)==HEADER.size+n*record.size
     return raw
 
 
 def test_20261110_exact_csv_record_and_date_id_nonoverlap():
     rows=list(csv.DictReader((CSV/"lotto649_2026.csv").open(encoding="utf-8-sig",newline="")))
-    assert len(rows)==104
-    assert [int(row["draw_id"]) for row in rows]==list(range(115000001,115000105))
-    row=rows[-1]
+    assert len(rows)>=104
+    assert [int(row["draw_id"]) for row in rows]==list(range(115000001,115000001+len(rows)))
+    row=rows[103]
     assert row["date"]=="2026/11/10"
     assert int(row["draw_id"])==DRAW[0]
     assert tuple(int(row[f"n{i}"]) for i in range(1,7))==DRAW[2]
@@ -60,7 +60,7 @@ def test_history_v1_bin_only_one_appended_record_original_2497_unchanged():
     raw=_read_binary(HISTORY,b"L649HIS1",HROW)
     record=HROW.unpack_from(raw,16+2497*HROW.size)
     assert record==(DRAW[0],DRAW[1],*DRAW[2],DRAW[3])
-    restored=bytearray(raw[:-HROW.size])
+    restored=bytearray(raw[:HEADER.size+2497*HROW.size])
     struct.pack_into("<I",restored,8,2497)
     assert sha256(restored).hexdigest()==OLD_HISTORY_SHA256
 
@@ -72,7 +72,7 @@ def test_image_v2_bin_only_one_appended_record_original_2497_unchanged():
     assert all(p in (0,1) for p in pixels)
     assert sum(pixels)==6
     assert tuple(i+1 for i,p in enumerate(pixels) if p)==DRAW[2]
-    restored=bytearray(raw[:-IROW.size])
+    restored=bytearray(raw[:HEADER.size+2497*IROW.size])
     struct.pack_into("<I",restored,8,2497)
     assert sha256(restored).hexdigest()==OLD_IMAGE_SHA256
 
@@ -80,17 +80,17 @@ def test_image_v2_bin_only_one_appended_record_original_2497_unchanged():
 def test_manifest_matches_binary_checksums_and_independent_20261110_provenance():
     manifest=json.loads(SOURCE.read_text(encoding="utf-8"))
     assert manifest["dataset"]=="lotto649.appended-verified.v2"
-    assert manifest["cutoff"]=="2026-11-10"
-    assert manifest["total_draws"]==2498
+    assert manifest["cutoff"]>="2026-11-10"
+    assert manifest["total_draws"]>=2498
     assert manifest["first_draw_id"]==93000001
-    assert manifest["last_draw_id"]==DRAW[0]
-    assert manifest["by_year"]["2026"]==104
-    assert sum(manifest["by_year"].values())==2498
+    assert manifest["last_draw_id"]>=DRAW[0]
+    assert manifest["by_year"]["2026"]>=104
+    assert sum(manifest["by_year"].values())==manifest["total_draws"]
     old=manifest["original_source_snapshot"]
     assert (old["total_draws"],old["last_draw_id"],old["cutoff"]) == (
         2497,115000103,"2026-11-06")
     assert old["prefix_sha256"]==ORIGINAL_PREFIX_SHA256
-    assert len(manifest["appended_draws"])==1
+    assert len(manifest["appended_draws"])==manifest["total_draws"]-2497
     append=manifest["appended_draws"][0]
     assert append["draw_id"]==DRAW[0] and append["date"]=="2026-11-10"
     assert append["main"]==list(DRAW[2]) and append["bonus"]==DRAW[3]
@@ -115,8 +115,8 @@ def test_all_23_annual_csvs_byte_match_history_and_images_without_network():
     sys.modules[spec.name]=module
     spec.loader.exec_module(module)
     counts=module.export(BIN,CSV,verify=True)
-    assert sum(counts.values())==2498
-    assert counts[2026]==104
+    assert sum(counts.values())==json.loads(SOURCE.read_text("utf-8"))["total_draws"]
+    assert counts[2026]>=104
     assert len(counts)==23
 
 
@@ -126,17 +126,20 @@ def test_original_research_prefix_sha_unchanged_and_prospective_one_draw_observe
     assert source["historical_draws"]==2497
     assert source["last_draw_id"]==115000103
     assert source["analysis_input_sha256"]==ORIGINAL_PREFIX_SHA256
-    assert source["post_cutoff_rows_excluded"]==1
+    assert source["post_cutoff_rows_excluded"]==json.loads(SOURCE.read_text("utf-8"))["total_draws"]-2497
     seal,provenance=load_frozen_seal()
     observed=read_verified_history(CSV,seal)
-    assert observed==[{"draw_id":DRAW[0],"date":"2026-11-10",
-                       "main":list(DRAW[2]),"bonus":DRAW[3]}]
+    assert observed[0]=={"draw_id":DRAW[0],"date":"2026-11-10",
+                         "main":list(DRAW[2]),"bonus":DRAW[3]}
+    assert [x["draw_id"] for x in observed] == list(range(115000104,115000104+len(observed)))
     graded=evaluate_frozen_future(seal,observed,provenance)
-    assert graded["observed_draws"]==1
-    assert graded["pending_draws"]==9
-    assert graded["earliest_missing_draw"]==115000105
+    assert graded["observed_draws"]==len(observed)
+    assert graded["pending_draws"]==10-len(observed)
+    assert graded["earliest_missing_draw"]==115000104+len(observed)
     assert graded["final_exact_one_sided_binomial_tests"] is None
     assert graded["two_P2_policy_bonferroni_upper_tail_p"] is None
     assert graded["status_per_draw"][0]["actual_main"]==list(DRAW[2])
     assert graded["status_per_draw"][0]["actual_bonus"]==DRAW[3]
-    assert all(record["status"]=="PENDING" for record in graded["status_per_draw"][1:])
+    assert all(record["status"]=="PENDING" for record in graded["status_per_draw"][len(observed):])
+    # This historical evaluator reads the CSV only. It does NOT certify two
+    # independently archived publisher pages; no prospective GO may rely on it.
