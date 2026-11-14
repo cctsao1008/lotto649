@@ -1,0 +1,36 @@
+name: Lotto649 Research Knowledge & Evidence Integrity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lotto7x7/research_governance.py'
+      - 'research/evidence_registry_v1.json'
+      - 'docs/research_knowledge_system.md'
+      - 'docs/research_hypothesis_template.md'
+      - 'docs/research_evidence_index.md'
+      - 'docs/RESEARCH_INDEX.md'
+      - 'tests/test_research_governance.py'
+      - '.github/workflows/research_governance_v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synthetic adversarial registry regression tests
+        run: python -m unittest discover -s tests -p 'test_research_governance.py' -v
+      - name: Verify recorded original Git blobs and evidence-stage guards
+        run: python -m lotto7x7.research_governance verify
+      - name: Confirm source/seal directory was not modified by verification
+        run: |
+          git diff --exit-code
+          git status --porcelain

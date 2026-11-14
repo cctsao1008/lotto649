@@ -1,0 +1,302 @@
+{
+  "schema": "lotto649.research.evidence_registry.v1",
+  "entries": [
+    {
+      "id": "fair-shape-exact-v016",
+      "issue": 31,
+      "domain": "probability",
+      "evidence_stage": "STRUCTURAL_THEOREM",
+      "research_decision": "PROVEN_MATHEMATICALLY",
+      "sample_size": 13983816,
+      "planned_future_draws": 0,
+      "source_cutoff": "Full uniform 6/49 universe, not a draw-date sample",
+      "model_version": "shape8-graph-partition-cardinal-diagonal-v1",
+      "method": "Exact 7x7 graph class enumeration",
+      "null_model": "Uniform 6 of 49 without replacement",
+      "multiple_testing": "NOT_APPLICABLE",
+      "primary_endpoint": "Exact shape class masses",
+      "artifacts": [
+        {
+          "role": "mathematical_proof",
+          "path": "docs/shape_taxonomy_complete_universe_p1.md",
+          "git_blob_sha1": "0c9e07d01617895b759a06c3dce910590e0ad24e"
+        }
+      ],
+      "evidence_commit": null,
+      "ci_run": null,
+      "result_summary": "L1 counts sum to 13,983,816; this is a structural theorem, not predictive skill.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "geometry-incremental-h2-v031",
+      "issue": 31,
+      "domain": "geometry",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "sample_size": 200,
+      "planned_future_draws": 0,
+      "source_cutoff": "Original archived 2498-draw research, historical targets",
+      "model_version": "v0.31 H2 frozen geometry vs compressed categorical M0",
+      "method": "Chronological proper-score ablation",
+      "null_model": "Matched full fair-IID retraining and controls",
+      "multiple_testing": "Familywise maximum over four contrasts",
+      "primary_endpoint": "Incremental per-number Brier improvement",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "docs/incremental_geometry_v031_h2_results_20261112.md",
+          "git_blob_sha1": "29e990c906f52e3267967264c1702eab5e080973"
+        }
+      ],
+      "evidence_commit": "5587cc532e8b39d532fc3906db5dffffb6cb2779",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43148547133",
+      "result_summary": "Primary Brier gain -0.0002140645; matched p=0.575. No incremental predictive evidence.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "iching-p1a-20261113",
+      "issue": 34,
+      "domain": "iching",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "sample_size": 2476,
+      "planned_future_draws": 0,
+      "source_cutoff": "2004-2026, through 2026-11-10/#115000104",
+      "model_version": "usno_quarter_anchor_centered_12state_half_up_v1",
+      "method": "Twelve seasonal Gua Qi historical association screen",
+      "null_model": "Within-calendar-year/weekday outcome exchangeability",
+      "multiple_testing": "Bonferroni across four global tests",
+      "primary_endpoint": "Sum, odds and 7x7 L1 shape",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v24_iching/v24_p1a_gua_qi_association_2498.json",
+          "git_blob_sha1": "c78b10e470c26abf38eeeefe6c89507eead37c02"
+        }
+      ],
+      "evidence_commit": "fcf501e8c0542e7e0b89f4a723751272345dc82e",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43406897791",
+      "result_summary": "2476/2498 mapped; four corrected association tests NO_EVIDENCE.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "iching-p2a-20261114",
+      "issue": 36,
+      "domain": "iching",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "sample_size": 2476,
+      "planned_future_draws": 0,
+      "source_cutoff": "2004-2026, through 2026-11-10/#115000104",
+      "model_version": "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1",
+      "method": "64-state solar/lunar Gray-code association screen",
+      "null_model": "Conditional year/weekday permutation and fair 6/49 parity mass",
+      "multiple_testing": "Bonferroni over six global endpoints",
+      "primary_endpoint": "64x64 outcome/sky parity, Hamming, sum, odd and L1",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json",
+          "git_blob_sha1": "9e61a36f1cb1ccd0f2098665b5883212c6b67e8d"
+        }
+      ],
+      "evidence_commit": "a4cd631074cedbc4013fdfbfed947549cc0cb0aa",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43469516373",
+      "result_summary": "Smallest raw p=0.05575, corrected p=0.3345; NO_EVIDENCE.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "iching-p3-static100-20261114",
+      "issue": 37,
+      "domain": "iching",
+      "evidence_stage": "PROSPECTIVE_PRESEALED",
+      "research_decision": "PENDING",
+      "sample_size": 0,
+      "planned_future_draws": 100,
+      "source_cutoff": "First eligible future #115000106, 2026-11-17",
+      "model_version": "v2.4 P3 solar/lunar 64-hexagram original seal",
+      "method": "Future-only exact-rational dual-direction Hamming e-process",
+      "null_model": "Fair IID nonuniform 64 parity-class masses",
+      "multiple_testing": "One primary mixture e-process; E>=20 review only",
+      "primary_endpoint": "Fixed 100-draw e-process",
+      "artifacts": [
+        {
+          "role": "seal",
+          "path": "prospective/v24_p3_usno_hexagram_static100_20261114_seal.json",
+          "git_blob_sha1": "abf4963adf339d11f5bddd75b91ee5409abf82f1"
+        }
+      ],
+      "evidence_commit": "cbc7580027618870e7e051fae46282420bc94eca",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43476172128",
+      "result_summary": "Initial original seal 0/100 verified future draws; inference PENDING.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "m0-v23-static200-20261113",
+      "issue": 32,
+      "domain": "portfolio",
+      "evidence_stage": "PROSPECTIVE_PRESEALED",
+      "research_decision": "PENDING",
+      "sample_size": 0,
+      "planned_future_draws": 200,
+      "source_cutoff": "First eligible future #115000106, 2026-11-17",
+      "model_version": "v2.3 static exact M0 versus history-blind control",
+      "method": "Future-only paired exact-prize coverage and one-sided e-process",
+      "null_model": "Equal exact fair IID any-award probabilities per fixed arm",
+      "multiple_testing": "Single fixed study E>=20 review only",
+      "primary_endpoint": "B-only vs A-only prize-bearing official draws",
+      "artifacts": [
+        {
+          "role": "seal",
+          "path": "prospective/v23_m0_global_static200_20261113_seal.json",
+          "git_blob_sha1": "f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be"
+        }
+      ],
+      "evidence_commit": "c273cacedac76675222a7501dc351a292829f44a",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43356218299",
+      "result_summary": "Original shadow preregistration has 0/200 evaluated future events; PENDING.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "m0-walkforward-v22",
+      "issue": 32,
+      "domain": "portfolio",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "sample_size": 325,
+      "planned_future_draws": 0,
+      "source_cutoff": "Original 2497-draw historical study through 2026-11-06/#115000103",
+      "model_version": "v2.2 bounded fold-local M0-inspired selector",
+      "method": "13-fold expanding walkforward historical A/B comparison",
+      "null_model": "Fair IID exact equal official prize coverage",
+      "multiple_testing": "Paired exact discordance, retrospective exploratory",
+      "primary_endpoint": "Any-prize event rate difference between fixed A and B",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "docs/strategy_validation_v22.md",
+          "git_blob_sha1": "543008dc3087cc897a1106c804a72525e0d0ed78"
+        }
+      ],
+      "evidence_commit": "6d1b93283d1312f8e433083045d3c39c3b56b7ec",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43353682252",
+      "result_summary": "325 targets: A=37 B=47 prize-bearing outcomes, paired p=0.295413; NO_GO.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "martingale-deficit-v030",
+      "issue": 32,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "sample_size": 2498,
+      "planned_future_draws": 0,
+      "source_cutoff": "2004-2026 frozen research through 2026-11-10",
+      "model_version": "v0.30 martingale distribution dynamics",
+      "method": "Exact conditional expectation plus calibrated IID null histories",
+      "null_model": "Fair IID centered martingale increments",
+      "multiple_testing": "Two endpoints with matched null calibration",
+      "primary_endpoint": "Historical deficit alignment and energy",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "docs/distribution_dynamics_v030_p0_p1.md",
+          "git_blob_sha1": "4314e05aad5997a10e31ee0109073c603a5c2bcc"
+        }
+      ],
+      "evidence_commit": null,
+      "ci_run": null,
+      "result_summary": "Historical deficit correction force not demonstrated (alignment p=0.450, energy p=0.255).",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
+      "id": "usno-source-2004-2026",
+      "issue": 33,
+      "domain": "source_engineering",
+      "evidence_stage": "SOURCE_ARCHIVE",
+      "research_decision": "VERIFIED_SOURCE",
+      "sample_size": 1276,
+      "planned_future_draws": 0,
+      "source_cutoff": "USNO source years 2004-2026, 46 original yearly JSON files",
+      "model_version": "USNO original seasonal and lunar events archive v1",
+      "method": "Frozen source-record SHA256 manifests and event timestamps",
+      "null_model": "NOT_APPLICABLE — source archive only",
+      "multiple_testing": "NOT_APPLICABLE",
+      "primary_endpoint": "Astronomical event integrity",
+      "artifacts": [
+        {
+          "role": "source",
+          "path": "data/astronomy/usno_official/manifest_2004_2026.json",
+          "git_blob_sha1": "757b02de076fc1539cd65d6caa420e6da3a906a1"
+        }
+      ],
+      "evidence_commit": "fcc2ef9c092ac7e551309e8bc872945dba340f0d",
+      "ci_run": null,
+      "result_summary": "46 official JSON sources, 1276 events archived; no prediction claim.",
+      "research_question": "Does the stated study support its declared result within its original evidence scope?",
+      "hypothesis": "The reported method tests the defined mathematical, descriptive or empirical proposition without outcome leakage.",
+      "engineering_status": "PASS",
+      "limitations": [
+        "These evidence tiers do not automatically establish future lottery predictability or increased odds."
+      ],
+      "next_action": "Keep the original frozen artifact and follow the separately versioned, evidence-gated next study.",
+      "evidence_as_of": "2026-11-14"
+    }
+  ]
+}
