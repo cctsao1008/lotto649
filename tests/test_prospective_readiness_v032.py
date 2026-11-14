@@ -56,7 +56,7 @@ class ProspectiveReadinessTests(unittest.TestCase):
                               [13,14,15,16,17,18],[19,20,21,22,23,24]]}}
         p.check_ticket_arms(good,1)
         bad=copy.deepcopy(good)
-        bad["A"]["tickets"][1][-1]=6
+        bad["A"]["tickets"][1][-1]=13
         with self.assertRaisesRegex(ValueError,"disjoint"):
             p.check_ticket_arms(bad,1)
         bad=copy.deepcopy(good)
