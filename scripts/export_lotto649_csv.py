@@ -22,6 +22,7 @@ import os
 from pathlib import Path
 import struct
 import tempfile
+from urllib.parse import urlsplit
 
 HEAD = struct.Struct("<8sII")
 HISTORY = struct.Struct("<II7B")
@@ -45,6 +46,44 @@ def _checked_binary(path: Path, *, magic: bytes, record: struct.Struct,
         raise ValueError(f"{path}: invalid record count or byte length")
     return memoryview(payload)
 
+
+
+def valid_appended_source_provenance(reference: object) -> bool:
+    """Public, descriptive source metadata; NOT two preserved publisher pages.
+
+    Accept the original independently corroborated non-operator source class,
+    or an operator-official result checked against a second independent host.
+    Neither class alone is sufficient for prospective statistical admission.
+    """
+    if not isinstance(reference, dict):
+        return False
+    status = reference.get("source_status")
+    nonofficial = "CORROBORATED_BY_INDEPENDENT_NON_OFFICIAL_SOURCES"
+    operator = "OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED"
+    if status not in (nonofficial, operator):
+        return False
+    sources = reference.get("sources")
+    if not isinstance(sources, list) or len(sources) < 2:
+        return False
+    hosts = []
+    for row in sources:
+        if not isinstance(row, dict) or not isinstance(row.get("name"), str) or not row["name"].strip():
+            return False
+        uri = row.get("url")
+        if not isinstance(uri, str):
+            return False
+        parsed = urlsplit(uri)
+        if (parsed.scheme != "https" or not parsed.hostname
+                or parsed.username is not None or parsed.password is not None):
+            return False
+        hosts.append(parsed.hostname.lower())
+    if len(set(hosts)) != len(hosts):
+        return False
+    if status == operator and "lotto.ctbcbank.com" not in hosts:
+        return False
+    if status == nonofficial and "lotto.ctbcbank.com" in hosts:
+        return False
+    return True
 
 def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes], dict[int, int]]:
     """Validate both BINs and produce all CSV bytes in memory before any writes."""
@@ -139,12 +178,7 @@ def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes],
                     or reference.get("date") != day.isoformat()
                     or reference.get("main") != list(main)
                     or reference.get("bonus") != special
-                    or reference.get("source_status") !=
-                        "CORROBORATED_BY_INDEPENDENT_NON_OFFICIAL_SOURCES"
-                    or not isinstance(reference.get("sources"), list)
-                    or len(reference["sources"]) < 2
-                    or any(not row.get("name") or not row.get("url")
-                           for row in reference["sources"])):
+                    or not valid_appended_source_provenance(reference)):
                 raise ValueError(f"appended source provenance/actual BIN disagree at index {position}")
         if (manifest["cutoff"] != flattened[-1][0].isoformat()
                 or manifest["last_draw_id"] != flattened[-1][1]):

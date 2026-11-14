@@ -171,7 +171,7 @@
       "sha256": "1022e946817e9350a06a53816088012ef18ff0f500b182d011bfaf69b9fe4905"
     }
   },
-  "limitations": "First 2497 draws retain original Biga snapshot; #115000104 corroborated by CNA and H8 (not operator-direct); #115000105 confirmed from CTBC official results and prize table.",
+  "limitations": "First 2497 draws retain original Biga snapshot; #115000104 corroborated by CNA and H8 (not operator-direct); #115000105 CTBC official result cross-checked with dated CNA publication. Source URLs alone are not archived independent publisher page evidence for prospective statistical scoring.",
   "original_source_snapshot": {
     "dataset": "lotto649.single-source.biga.v1",
     "cutoff": "2026-11-06",
@@ -217,12 +217,17 @@
         46
       ],
       "bonus": 43,
-      "source_status": "OFFICIAL_CTBC_CONFIRMED",
+      "source_status": "OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED",
       "sources": [
         {
           "name": "CTBC Lottery official results",
           "url": "https://lotto.ctbcbank.com/result_all.htm",
           "verified_at_local": "2026-11-14 Asia/Taipei"
+        },
+        {
+          "name": "Central News Agency",
+          "url": "https://www.cna.com.tw/news/ahel/202611130302.aspx",
+          "published_at_local": "2026-11-13 20:55 Asia/Taipei"
         }
       ]
     }

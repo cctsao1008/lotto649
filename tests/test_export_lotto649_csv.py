@@ -135,5 +135,28 @@ class TestYearlyCsvExport(unittest.TestCase):
             module.export(self.bin, self.csv)
 
 
+    def test_real_115000105_operator_plus_independent_publication(self):
+        """Preserve the actual verified source class without relaxing two-host gate."""
+        root = Path(__file__).resolve().parents[1]
+        m = json.loads((root / "data/bin/lotto649_source_manifest.json").read_text("utf-8"))
+        r = next(x for x in m["appended_draws"] if x["draw_id"] == 115000105)
+        self.assertEqual(r["source_status"], "OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED")
+        self.assertEqual([7, 8, 13, 15, 25, 46], r["main"])
+        self.assertEqual(43, r["bonus"])
+        self.assertTrue(module.valid_appended_source_provenance(r))
+        broken = json.loads(json.dumps(r))
+        broken["sources"] = broken["sources"][:1]
+        self.assertFalse(module.valid_appended_source_provenance(broken))
+        broken = json.loads(json.dumps(r))
+        broken["sources"][1]["url"] = "https://lotto.ctbcbank.com/other"
+        self.assertFalse(module.valid_appended_source_provenance(broken))
+        broken = json.loads(json.dumps(r))
+        broken["sources"][0]["url"] = "https://example.com/official-imposter"
+        self.assertFalse(module.valid_appended_source_provenance(broken))
+        broken = json.loads(json.dumps(r))
+        broken["sources"][1]["url"] = "http://www.cna.com.tw/not-https"
+        self.assertFalse(module.valid_appended_source_provenance(broken))
+
+
 if __name__ == "__main__":
     unittest.main()

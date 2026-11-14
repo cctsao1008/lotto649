@@ -16,11 +16,11 @@ class TestDrawIngestionM2(unittest.TestCase):
 
     @staticmethod
     def example_stage(audit):
-        future = {"draw_id": 115000105, "date": "2026-11-13",
+        future = {"draw_id": 115000106, "date": "2026-11-17",
                   "main": [1, 9, 17, 22, 39, 48], "bonus": 3}
         def source(publisher, kind, hostname, checksum):
             return {"publisher": publisher, "kind": kind,
-                    "url": f"https://{hostname}/lotto/2026-11-13",
+                    "url": f"https://{hostname}/lotto/2026-11-17",
                     "page_sha256": checksum,
                     "observed_draw": future.copy()}
         return {
@@ -37,10 +37,10 @@ class TestDrawIngestionM2(unittest.TestCase):
         result = self._audit()
         self.assertEqual("PASS_ARCHIVE_INTEGRITY_AND_SINGLE_PUBLISHED_DRAW_CROSSCHECK",
                          result["status"])
-        self.assertEqual(2498, result["total_draws"])
+        self.assertEqual(2499, result["total_draws"])
         self.assertEqual(23, result["annual_csv_files"])
-        self.assertEqual(115000104, result["last_draw_id"])
-        self.assertEqual("2026-11-10", result["last_date"])
+        self.assertEqual(115000105, result["last_draw_id"])
+        self.assertEqual("2026-11-13", result["last_date"])
         self.assertTrue(result["crosscheck"]["exact_match"])
         self.assertEqual([11, 23, 30, 32, 40, 41],
                          result["crosscheck"]["anchor"]["main"])
@@ -88,7 +88,7 @@ class TestDrawIngestionM2(unittest.TestCase):
         stage = self.example_stage(audit)
         result = m2.validate_staged_batch(stage, audit)
         self.assertEqual(1, result["staged_draws"])
-        self.assertEqual(115000105, result["first_staged_draw"]["draw_id"])
+        self.assertEqual(115000106, result["first_staged_draw"]["draw_id"])
         self.assertFalse(result["ready_to_mutate_archive"])
         self.assertIn("SOURCE_PAGES_NOT_FETCHED", result["status"])
         self.assertIsInstance(json.dumps(result), str)
@@ -149,8 +149,8 @@ class TestDrawIngestionM2(unittest.TestCase):
         audit = self._audit()
         stage = self.example_stage(audit)
         next_row = json.loads(json.dumps(stage["records"][0]))
-        next_row["draw"]["draw_id"] = 115000106
-        next_row["draw"]["date"] = "2026-11-17"
+        next_row["draw"]["draw_id"] = 115000107
+        next_row["draw"]["date"] = "2026-11-20"
         next_row["draw"]["main"] = [2, 6, 14, 22, 39, 47]
         next_row["draw"]["bonus"] = 9
         for source in next_row["sources"]:
