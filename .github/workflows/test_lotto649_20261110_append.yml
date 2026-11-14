@@ -42,13 +42,13 @@ jobs:
           import json
           from pathlib import Path
           r=json.loads(Path('/tmp/v027_p3f_20261110_check.json').read_text())
-          assert r['observed_draws']==1 and r['pending_draws']==9
-          assert r['earliest_missing_draw']==115000105
+          assert 1 <= r['observed_draws'] < 10 and r['pending_draws']==10-r['observed_draws']
+          assert r['earliest_missing_draw']==115000104+r['observed_draws']
           assert r['final_exact_one_sided_binomial_tests'] is None
           assert r['status_per_draw'][0]['actual_main']==[11,23,30,32,40,41]
           assert r['status_per_draw'][0]['actual_bonus']==28
           assert r['source']['input_prefix_sha256']=='d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8'
-          print('[PASS] 1/10 observed from draw #115000104, 9/10 PENDING; immutable research SHA256 unchanged')
+          print('[PASS] original #115000104 unchanged; future archive prefix remains descriptive/PENDING, not independent two-page evidence')
           PY
       - uses: actions/upload-artifact@v4
         with:

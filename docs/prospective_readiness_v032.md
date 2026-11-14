@@ -21,11 +21,11 @@ These are **four research protocols**, not four independent confirmations. P5A's
 
 ## Explicit archive-versus-evidence boundary
 
-The standard-library tool \`lotto7x7.prospective_readiness_v032\` calls the existing M2 full source integrity audit, including 23 annual CSVs, history/image BIN and source manifest with the pinned 2,498-draw baseline. It then reads the already validated original four seals.
+The standard-library tool `lotto7x7.prospective_readiness_v032` calls the existing M2 full source integrity audit, including 23 annual CSVs, history/image BIN and source manifest with the pinned 2,498-draw baseline. It then reads the already validated original four seals.
 
 **A draw existing in the public CSV/BIN archive is NOT an authenticated prospective trial.** The original evaluators (not this tool) require two saved, independently obtained matching publisher-page evidence snapshots *for each draw* to admit it for scoring.
 
-This preflight **never** inspects the private evidence directory and never evaluates any prizes, Hamming distance, odds, post-draw results, p-values or e-values. It reports only how many target slots are already archived, not source-qualified. It therefore never describes archive rows as \`verified prospective outcomes\`.
+This preflight **never** inspects the private evidence directory and never evaluates any prizes, Hamming distance, odds, post-draw results, p-values or e-values. It reports only how many target slots are already archived, not source-qualified. It therefore never describes archive rows as `verified prospective outcomes`.
 
 ### Snapshot read from the canonical archive as of 2026-11-14
 
@@ -52,16 +52,24 @@ This tool makes no changes to the original studies' multiplicity, stopping rules
 
 On the repository root, with Python 3.12; no NumPy/SciPy/AI dependencies:
 
-\`\`\`powershell
+```powershell
 python -m unittest discover -s tests -p 'test_prospective_readiness_v032.py' -v
 
 python -m lotto7x7.prospective_readiness_v032 --expected-last-id 115000105 --expected-draws 2499 --out results/v032_preflight_20261114.json
-\`\`\`
+```
 
-The \`--expected\` flags intentionally pin **this particular November 14 snapshot**. For future new draw archives, rerun using a **new report path** and omit the snapshot-only constraints. The module rejects all attempts to overwrite an existing report and cannot write outside the ignored \`results/\` directory.
+The `--expected` flags intentionally pin **this particular November 14 snapshot**. For future new draw archives, rerun using a **new report path** and omit the snapshot-only constraints. The module rejects all attempts to overwrite an existing report and cannot write outside the ignored `results/` directory.
 
-The small [GitHub Actions workflow](../.github/workflows/prospective_readiness_v032.yml) runs adversarial tests and validates the authentic source archive; its JSON report is a read-only Actions artifact. It never fetches or scores new numbers. The original retrospective \`NO_EVIDENCE\`, prospective \`PENDING\` and frozen files are not changed.
+The small [GitHub Actions workflow](../.github/workflows/prospective_readiness_v032.yml) runs adversarial tests and validates the authentic source archive; its JSON report is a read-only Actions artifact. It never fetches or scores new numbers. The original retrospective `NO_EVIDENCE`, prospective `PENDING` and frozen files are not changed.
 
 ## Research gate
 
 **Engineering result:** a passing preflight means the current original seals and source archive are consistent with the stated protocol, *not* that any lottery advantage exists. The first #115000106 prospective event is **2026-11-17**. After independently sourced future data arrive, score them only through each study's own original evaluator with strict append-only evidence. Do not create alternative new hypotheses in response to early outcomes.
+
+## 2026-11-14 provenance hardening / regression follow-up
+
+The first integration run correctly **failed closed**: the #115000105 appendix had one source-status label (`OFFICIAL_CTBC_CONFIRMED`) and only one URL, whereas the original M2 source gate required two distinct publisher sources. The matching **07 08 13 15 25 46 + 43** is published by both the [CTBC lottery results page](https://lotto.ctbcbank.com/result_all.htm) and the independently dated [CNA report](https://www.cna.com.tw/news/ahel/202611130302.aspx).
+
+A separate, reviewed correction [commit `572cb70`](https://github.com/cctsao1008/lotto649/commit/572cb70228de6c29cddf9ba4cab52fe61bf0e418) records both links and labels the status `OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED`. The exporter now requires **at least two HTTPS sources on different hosts**, including the official CTBC hostname for this category. It does not change #115000105 numbers, any source BIN/CSV draw fields or the original 2,498-record sealed prefix.
+
+Older tests had also hardcoded the then-current 2,498-record total. These have been updated to verify the original 2,497/2,498 prefixes by their original hashes while allowing later sequential appends. **A referenced URL does not constitute an independently archived publisher-page snapshot**, so this metadata repair does **not** admit #115000105 to P5A statistics; the original M2/M4 evidence gates remain separate.

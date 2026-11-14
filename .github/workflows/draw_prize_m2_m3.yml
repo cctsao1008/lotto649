@@ -42,10 +42,16 @@ jobs:
           from pathlib import Path
           m2=json.loads(Path('results/m2_ci_source.json').read_text())
           m3=json.loads(Path('results/m3_ci_prize.json').read_text())
-          assert m2['total_draws'] == 2498
+          assert m2['total_draws'] >= 2499
           assert m2['annual_csv_files'] == 23
           assert m2['crosscheck']['exact_match'] is True
-          assert m2['source_fingerprints']['manifest_sha256'] == '003ed03eda889952654b679859f2d465ffb7349c7f005a6df3aa4436be3d54a3'
+          from hashlib import sha256
+          # The old 2498 prefix is pinned internally by M2; the current
+          # append-only manifest hash is allowed to evolve as draws arrive.
+          raw=Path('data/bin/lotto649_source_manifest.json').read_bytes()
+          canonical=raw.replace(b'\r\n',b'\n')
+          assert m2['source_fingerprints']['manifest_sha256'] == sha256(canonical).hexdigest()
+          assert m2['last_draw_id'] >= 115000105
           assert m3['source_gate']['source_fingerprints'] == m2['source_fingerprints']
           assert len(m3['prize_verification']['official_tier_matrix']) == 8
           assert len(m3['prize_verification']['shadow_arms']) == 2
