@@ -7,6 +7,7 @@ The Git blob hashes pin *original artifacts*, so later source append operations 
 | Experiment | Domain | Evidence tier | Scientific decision | Engineering | Quantity* | Source |
 | --- | --- | --- | --- | --- | ---: | --- |
 | coverage-four-ticket-burnside-v026 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 2957 | [mathematical_proof](../docs/coverage_burnside_independent_v026.md) |
+| exact-covariance-v025-163-20261115 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 13983816 | [mathematical_proof](../data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json) |
 | fair-shape-exact-v016 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 13983816 | [mathematical_proof](../docs/shape_taxonomy_complete_universe_p1.md) |
 | geometry-incremental-h2-v031 | geometry | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 200 | [report](../docs/incremental_geometry_v031_h2_results_20261112.md) |
 | iching-p1a-20261113 | iching | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2476 | [report](../data/research/v24_iching/v24_p1a_gua_qi_association_2498.json) |

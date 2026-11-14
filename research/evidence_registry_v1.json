@@ -37,6 +37,42 @@
       "evidence_as_of": "2026-11-15"
     },
     {
+      "id": "exact-covariance-v025-163-20261115",
+      "issue": 8,
+      "domain": "probability",
+      "evidence_stage": "STRUCTURAL_THEOREM",
+      "research_decision": "PROVEN_MATHEMATICALLY",
+      "engineering_status": "PASS",
+      "research_question": "Can all 163 exact-fair 6/49 feature covariance entries, including 49 number memberships, Sum/OddCount/Span, L1/L2/L3 taxonomy, be calculated as exact rational numbers without Monte Carlo approximation?",
+      "hypothesis": "Exhaustive independent L3 scalar graph census and exact analytic number/extrema identities will agree with the pinned v0.16 full-universe shape fixture, yielding 13,366 exact upper-triangle second moments over all C(49,6) tickets.",
+      "source_cutoff": "Fair mathematical universe of all 13,983,816 6-of-49 combinations (not a historical draw cutoff)",
+      "sample_size": 13983816,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 P0 full 163-feature exact population covariance — scalar C++ census + Python integer reconstruction",
+      "null_model": "Exact IID uniform 6/49 finite-population combinatorial reference, sampling without replacement within each six-number ticket",
+      "multiple_testing": "NOT_APPLICABLE — exact theoretical integer moment enumeration, no empirical hypothesis test",
+      "primary_endpoint": "All 13,366 integer upper-triangle raw moments and exact rational covariance for 163 features, validated against original complete 6/11/94 taxonomy",
+      "result_summary": "All 13,983,816 legal combinations enumerated. 163 features and 13,366 upper-triangle exact raw moments. Exact original v0.16 94 L3 plus 11 L2 and 6 L1 class counts match; number marginal C(48,5), span mean 250/7 and Sum variance 1075 independently verified. CI eight tests PASS. This confirms a theoretical reference only, not forecast skill.",
+      "method": "Standalone C++17 six-vertex BFS full universe with 94 sufficient-statistic rows, independent Python hypergeometric/extrema moments, exact L3→L2→L1 nesting and original SHA-pinned v0.16 class fixture; no history outcomes.",
+      "limitations": [
+        "The exact 163x163 matrix is singular from number size, Sum/OddCount linear dependence and nested Shape one-hots. Downstream covariance inverse requires a declared and validated regularization or dimensional reduction.",
+        "The existing v0.25 MC-estimated covariance and its historical optimizer/selections are not silently changed or reevaluated by this reference-only work.",
+        "Exact fair-IID covariance is a mathematical null, not evidence that the lottery is physically fair, that historical deficits must compensate, or that any candidate ticket becomes more likely to win.",
+        "All full-dimensional Monte Carlo-versus-exact optimizer comparisons, Pareto tradeoffs and prospective evidence within #8 remain separately pending."
+      ],
+      "next_action": "Run a matched fixed-budget comparison of existing MC covariance and new exact theory with stable ridge/rank handling and whole-pipeline IID null. Do not use already observed historical outcomes as new prospective confirmation.",
+      "artifacts": [
+        {
+          "role": "mathematical_proof",
+          "path": "data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json",
+          "git_blob_sha1": "69a6a313597b0bd6ca9ccb7aa20d4ff724921bb3"
+        }
+      ],
+      "evidence_commit": "f6eda2a08d1678c4ba93d4b91e7e99221b9a6631",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43641451552",
+      "evidence_as_of": "2026-11-15"
+    },
+    {
       "id": "fair-shape-exact-v016",
       "issue": 31,
       "domain": "probability",
