@@ -2,6 +2,41 @@
   "schema": "lotto649.research.evidence_registry.v1",
   "entries": [
     {
+      "id": "coverage-four-ticket-burnside-v026",
+      "issue": 8,
+      "domain": "probability",
+      "evidence_stage": "STRUCTURAL_THEOREM",
+      "research_decision": "PROVEN_MATHEMATICALLY",
+      "engineering_status": "PASS",
+      "source_cutoff": "No historical draws required: exact four 6-number tickets from 1..49, 15 membership masks, S4 symmetry",
+      "sample_size": 2957,
+      "planned_future_draws": 0,
+      "model_version": "v0.26 independent Burnside+partition-lattice Mobius structural-class certificate",
+      "method": "Exact S4 fixed-point integer DP on 15 nonzero mask orbit classes, 15 partition Möbius inverse, Burnside quotient",
+      "null_model": "Uniform legal-ticket combinatorial universe (mathematical structure only; no draw-time null inference)",
+      "multiple_testing": "NOT_APPLICABLE — exact integer structural theorem",
+      "primary_endpoint": "Independent 2,957 valid unlabeled membership structures, from 52,450 labeled nonnegative and 50,985 labeled distinct-bet solutions",
+      "result_summary": "Independent identity fixed 50,985, full 24-permutation fixed-point numerator 70,968 and 70,968/24=2,957; validates original structural count, not independently official-prize optimum nor forecast.",
+      "artifacts": [
+        {
+          "role": "mathematical_proof",
+          "path": "docs/coverage_burnside_independent_v026.md",
+          "git_blob_sha1": "fe9f70aab1a2cd1d60bdf8a918866dc4b214a5ea"
+        }
+      ],
+      "evidence_commit": "4e80df25755f585f551eb44f9d37b17cf739e027",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43633776372",
+      "research_question": "Can a mathematically independent S4 Burnside and Mobius integer-DP certificate verify that the original exact four-ticket overlap structure classifier has exactly 2957 distinct unlabeled classes?",
+      "hypothesis": "Fixed points of S4 on legal 15-mask degree-six vectors, corrected for equal ticket rows via partition-lattice Mobius, must give exactly the same 2957 structural orbits as the original enumerator.",
+      "limitations": [
+        "Confirms only the structural-class count; not an independent re-implementation of official eight-tier prize scoring for each class or of global optimality.",
+        "Structural exactness cannot imply a future lottery prediction advantage, a larger jackpot chance for a fixed ticket, or a change to any already bought selection.",
+        "Full v0.25 multivariate covariance, Pareto and future-only objectives in Issue #8 remain open."
+      ],
+      "next_action": "Reuse this independent count to strengthen four-ticket class enumeration audits; continue genuinely distinct unfinished #8 objectives without modifying source data or pre-draw seals.",
+      "evidence_as_of": "2026-11-15"
+    },
+    {
       "id": "fair-shape-exact-v016",
       "issue": 31,
       "domain": "probability",
