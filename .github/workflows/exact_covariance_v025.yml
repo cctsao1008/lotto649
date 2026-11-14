@@ -1,0 +1,77 @@
+name: Lotto649 v0.25 Full Exact 163-Feature Covariance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lotto7x7/exact_covariance_v025.cpp'
+      - 'lotto7x7/exact_covariance_v025.py'
+      - 'tests/test_exact_covariance_v025.py'
+      - 'docs/full_exact_covariance_v025.md'
+      - '.github/workflows/exact_covariance_v025.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  exhaustive-theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original v0.16 taxonomy and exact mathematical invariants
+        run: python -m unittest discover -s tests -p 'test_exact_covariance_v025.py' -v
+      - name: Exhaustive legal-universe census and full covariance
+        shell: bash
+        run: |
+          mkdir -p results
+          g++ -O3 -std=c++17 -Wall -Wextra -Werror lotto7x7/exact_covariance_v025.cpp -o results/v025_exact_census
+          ./results/v025_exact_census > results/v025_exact_census.tsv
+          python -m lotto7x7.exact_covariance_v025 --census-tsv results/v025_exact_census.tsv --fixture tests/fixtures/p1_exact_universe_v1.json --out results/v025_full_163_exact_covariance.json
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib
+          j=json.loads(Path('results/v025_full_163_exact_covariance.json').read_text())
+          assert j['universe']==13983816 and j['feature_count']==163
+          assert sum(map(len,j['raw_second_moment_upper']))==13366
+          assert j['census_tsv_sha256']==hashlib.sha256(Path('results/v025_exact_census.tsv').read_bytes()).hexdigest()
+          assert j['research_decision']=='EXACT_THEORETICAL_COVARIANCE_ONLY_NO_PREDICTIVE_CLAIM'
+          print('PASS: full 163x163 exact covariance, no historical data, no prediction')
+          PY
+          git diff --exit-code -- data/csv data/bin prospective
+      - name: Commit write-once immutable theory report
+        shell: bash
+        run: |
+          set -eu
+          dir=data/research/v025_exact_covariance
+          mkdir -p "$dir"
+          for item in \
+              "results/v025_exact_census.tsv $dir/v025_l3_sufficient_stats_13983816.tsv" \
+              "results/v025_full_163_exact_covariance.json $dir/v025_full_163_exact_covariance_13983816.json"; do
+            set -- $item
+            if [ -f "$2" ]; then
+              cmp "$1" "$2" || { echo "ERROR: stored theoretical report differs"; exit 1; }
+            else
+              cp "$1" "$2"
+            fi
+          done
+          git add -- "$dir/v025_l3_sufficient_stats_13983816.tsv" "$dir/v025_full_163_exact_covariance_13983816.json"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'data(v0.25): archive 163-feature exact covariance reference (#8)'
+            git -c http.version=HTTP/1.1 push origin HEAD:main
+          else
+            echo 'Exact theory archive matches existing immutable files'
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v025-full-exact-163-covariance
+          path: |
+            results/v025_exact_census.tsv
+            results/v025_full_163_exact_covariance.json
+          retention-days: 30
