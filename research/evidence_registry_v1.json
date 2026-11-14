@@ -266,6 +266,42 @@
       "evidence_as_of": "2026-11-14"
     },
     {
+      "id": "prospective-readiness-v032-20261114",
+      "issue": 32,
+      "domain": "source_engineering",
+      "evidence_stage": "DESCRIPTIVE",
+      "research_decision": "DESCRIPTIVE_COMPLETE",
+      "engineering_status": "PASS",
+      "source_cutoff": "Source-archive 2499 draws through 2026-11-13/#115000105; original 2498 prefix remains pinned",
+      "sample_size": 2499,
+      "planned_future_draws": 0,
+      "model_version": "v0.32 P3 four-protocol readiness audit",
+      "method": "Original Git blob seals + M2 full CSV/BIN provenance audit, no future outcomes scored",
+      "null_model": "NOT_APPLICABLE — engineering read-only source/protocol integrity",
+      "multiple_testing": "No test performed; two individually valid threshold-20 e-processes have union bound at most 0.10 (not 0.05) before including other studies",
+      "primary_endpoint": "Distinguish source-archived target slots from two-publisher-source-verified research observations",
+      "result_summary": "Four seals pass; P3f 2/10 and P5A 1/9 target slots archived ONLY; v23 M0 0/200 and I Ching P3 0/100 archived; zero trial outcomes admitted by preflight.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "docs/prospective_readiness_v032.md",
+          "git_blob_sha1": "c253cab743b62573b36f271e9db66d904826fd02"
+        }
+      ],
+      "evidence_commit": "338dc8e327d0ecf0be5f8ed59a315e9a76171617",
+      "ci_run": "https://github.com/cctsao1008/lotto649/actions/runs/43611602991",
+      "research_question": "Are the four original pre-draw protocols and the latest append-only archive intact without prematurely admitting any targets for statistical scoring?",
+      "hypothesis": "Original seals, future sky table and pre-append draw prefix remain unchanged; archived records alone are insufficient for prospective evaluation until matching independent publisher-page evidence is reviewed.",
+      "limitations": [
+        "This is a source/protocol readiness record, not evidence for prediction or for the physical fairness of the draw machine.",
+        "The verifier intentionally never reads publisher-page evidence bundles; all archived-only counts are NOT scored future trials.",
+        "Source metadata references are not immutable independent publisher-page snapshots; original per-study evaluators are required.",
+        "The two-study union bound is conditional on the individual e-process assumptions and excludes P3f/P5A and other studies."
+      ],
+      "next_action": "Keep the four original model seals unchanged; for each future draw, verify two publisher page snapshots and use the study-specific append-only evaluator.",
+      "evidence_as_of": "2026-11-14"
+    },
+    {
       "id": "usno-source-2004-2026",
       "issue": 33,
       "domain": "source_engineering",
