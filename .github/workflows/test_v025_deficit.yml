@@ -11,6 +11,7 @@ on:
       - "lotto7x7/matched_covariance_walkforward_v025.py"
       - "lotto7x7/exact_covariance_v025.py"
       - "lotto7x7/portfolio_pareto_v025.py"
+      - "lotto7x7/portfolio_validation_v025.py"
       - "lotto7x7/multivariate_calibration_v025.py"
       - "lotto7x7/coverage_v06.py"
       - "data/research/v025_exact_covariance/**"
@@ -29,6 +30,7 @@ on:
       - "tests/test_matched_covariance_walkforward_v025.py"
       - "tests/test_exact_covariance_v025.py"
       - "tests/test_portfolio_pareto_v025.py"
+      - "tests/test_portfolio_validation_v025.py"
       - "tests/test_multivariate_calibration_v025.py"
       - "tests/test_official_prize_v026.py"
       - "tests/test_coverage_strategy_v026.py"
@@ -53,7 +55,7 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --upgrade pytest numpy scipy
       - name: Run standalone covariance and CSV-integrity regression tests
-        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py tests/test_matched_covariance_v025.py tests/test_matched_covariance_walkforward_v025.py tests/test_exact_covariance_v025.py tests/test_portfolio_pareto_v025.py tests/test_multivariate_calibration_v025.py tests/test_official_prize_v026.py tests/test_coverage_strategy_v026.py tests/test_coverage_global_research_v026.py tests/test_coverage_exhaustive_v026.py tests/test_strategy_ab_v026.py tests/test_strategy_ab_iid_calibration_v026.py
+        run: python -m pytest -q tests/test_deficit_compensation_v025.py tests/test_shape_deficit_v025.py tests/test_multivariate_audit_v025.py tests/test_multivariate_robustness_v025.py tests/test_matched_covariance_v025.py tests/test_matched_covariance_walkforward_v025.py tests/test_exact_covariance_v025.py tests/test_portfolio_pareto_v025.py tests/test_portfolio_validation_v025.py tests/test_multivariate_calibration_v025.py tests/test_official_prize_v026.py tests/test_coverage_strategy_v026.py tests/test_coverage_global_research_v026.py tests/test_coverage_exhaustive_v026.py tests/test_strategy_ab_v026.py tests/test_strategy_ab_iid_calibration_v026.py
       - name: Real annual CSV smoke audit (cutoff before Nov 10)
         run: |
           python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json

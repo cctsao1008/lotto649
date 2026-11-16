@@ -18,6 +18,7 @@ The Git blob hashes pin *original artifacts*, so later source append operations 
 | martingale-deficit-v030 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2498 | [report](../docs/distribution_dynamics_v030_p0_p1.md) |
 | matched-covariance-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2497 | [report](../data/research/v025_exact_covariance/v025_matched_covariance_20261116.json) |
 | matched-covariance-walkforward-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 200 | [report](../data/research/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json) |
+| multivariate-calibration-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2497 | [report](../data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json) |
 | portfolio-pareto-v025-20261116 | portfolio | DESCRIPTIVE | DESCRIPTIVE_COMPLETE | PASS | 2497 | [report](../data/research/v025_exact_covariance/v025_portfolio_pareto_20261116.json) |
 | prospective-readiness-v032-20261114 | source_engineering | DESCRIPTIVE | DESCRIPTIVE_COMPLETE | PASS | 2499 | [report](../docs/prospective_readiness_v032.md) |
 | usno-source-2004-2026 | source_engineering | SOURCE_ARCHIVE | VERIFIED_SOURCE | PASS | 1276 | [source](../data/astronomy/usno_official/manifest_2004_2026.json) |

@@ -407,6 +407,40 @@
       "evidence_as_of": "2026-11-16"
     },
     {
+      "id": "multivariate-calibration-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Are covariance-aware distance, maximal residual or entropy atypical after finite-sample fair-IID calibration?",
+      "hypothesis": "At least one prespecified endpoint differs from finite-sample fair-IID expectations after familywise correction.",
+      "source_cutoff": "2026-11-06 / 115000103; 2,497 historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 finite-sample multivariate covariance and entropy audit v1",
+      "null_model": "1,999 full fair-IID 6/49 histories; separate 199-replay primary size check",
+      "multiple_testing": "Bonferroni across 40 exploratory endpoints using full history and four time blocks",
+      "primary_endpoint": "N times ridge-whitened squared distance from the exact fair feature mean",
+      "result_summary": "Primary raw p=0.089. Minimum family-adjusted p=0.44. The primary size diagnostic rejected 9/199 fair histories at nominal 5%.",
+      "method": "Exact population covariance and fair categorical masses, standardized ridge 0.25, chronological segment-matched IID replay, and bias estimates for plug-in entropy.",
+      "limitations": [
+        "The historical archive has been examined in prior research.",
+        "The size check conditions on one finite null reference, and the adjusted test targets the declared feature family only."
+      ],
+      "next_action": "Use a prospective design only after the eligibility, exact cross-arm discordance and power checks have been recorded.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json",
+          "git_blob_sha1": "436e24724fb4d351c933593a3d59aea2fb50b06e"
+        }
+      ],
+      "evidence_commit": "cf5650bc9b6fe1067241c09a0b2a3f94421510a7",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
       "id": "portfolio-pareto-v025-20261116",
       "issue": 8,
       "domain": "portfolio",

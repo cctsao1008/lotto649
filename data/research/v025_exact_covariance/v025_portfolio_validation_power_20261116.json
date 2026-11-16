@@ -1,0 +1,102 @@
+{
+  "schema": "lotto649.v025.portfolio_validation_power.v1",
+  "status": "DESIGN_ONLY",
+  "candidate_pool_sha256": "99c3afd70c4e86b0e87a5ddcd04e60a7ab6beb856cd1fe464d5a49caa96c51a6",
+  "pareto_report_sha256": "0787190fe633f6078cb598c3a88fb0c0954bd1f012b591a19022115fbeecea93",
+  "repair_pool_indices": [
+    19,
+    98,
+    253,
+    274
+  ],
+  "control_pool_indices": [
+    0,
+    1,
+    9,
+    17
+  ],
+  "comparison": "best evaluated repair at coverage floors vs history-blind v0.21 coverage",
+  "paired_award_counts": {
+    "repair_only": 59980697,
+    "control_only": 59980697,
+    "both": 13818231,
+    "neither": 467524463,
+    "total": 601304088
+  },
+  "iid_discordance_probability": 0.19950204296632024,
+  "power_assumption": "Independent paired outcomes, discordance rate fixed at fair IID",
+  "checkpoints": [
+    {
+      "draws": 100,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.05212400852711006,
+        "0.02": 0.08031817195451592,
+        "0.03": 0.11894765909362441,
+        "0.05": 0.2327713964462833
+      }
+    },
+    {
+      "draws": 200,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.07029334744762708,
+        "0.02": 0.12340669204482432,
+        "0.03": 0.20014473576440484,
+        "0.05": 0.4209904707241809
+      }
+    },
+    {
+      "draws": 400,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.09449268388131776,
+        "0.02": 0.19326723721442973,
+        "0.03": 0.33864554045829576,
+        "0.05": 0.6893579360155259
+      }
+    },
+    {
+      "draws": 800,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.13769669640928014,
+        "0.02": 0.32395712114170605,
+        "0.03": 0.5715583617618835,
+        "0.05": 0.9291437552371067
+      }
+    },
+    {
+      "draws": 1600,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.21012377826384837,
+        "0.02": 0.5364115302978466,
+        "0.03": 0.8396494946252231,
+        "0.05": 0.9975824819412284
+      }
+    },
+    {
+      "draws": 3200,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.33796474435717394,
+        "0.02": 0.8027537235489903,
+        "0.03": 0.9832878733641602,
+        "0.05": 0.9999987504741443
+      }
+    },
+    {
+      "draws": 6400,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.5473086961728129,
+        "0.02": 0.9722245718908602,
+        "0.03": 0.9998998270319713,
+        "0.05": 0.9999999999999144
+      }
+    },
+    {
+      "draws": 12800,
+      "power_by_absolute_incidence_gain": {
+        "0.01": 0.8076580635885723,
+        "0.02": 0.9996739192807735,
+        "0.03": 0.9999999987415137,
+        "0.05": 1.0
+      }
+    }
+  ]
+}
