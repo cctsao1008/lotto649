@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+
+python -m unittest discover -s research/tests -p 'test_strategy_verification_v21.py' -v
+
+python -m lotto7x7.strategy_verification_v21 \
+  --csv-root data/csv --bin-root data/bin \
+  --batch-size 60000 --max-witness-nodes 2000000 \
+  --out results/strategy_v21_full_universe.json
+python - <<'PY'
+import json
+r=json.load(open('results/strategy_v21_full_universe.json'))
+s=r['source_gate'];u=r['universe']
+assert s['v12_checks']==152
+assert s['frozen_reference_candidates']==13704
+assert s['reference_rescoring']=='PASS_ALL_13704_RANKS_AND_SHAPES'
+assert s['rank_axes_sha256']=='18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'
+assert u['full_legal_six_tuples']==13983816
+assert u['independent_fair_joint_theory_sha256']=='31136d04347ff7b84fa7b5d17e7d009068b784e46f43f1d49aa058bc7fcd422a'
+assert u['qualified_candidates']==2384976
+assert u['pre_shape_positive_candidates']==3262114
+assert u['four_positive_before_frozen_exclusions']==2384983
+assert u['frozen_exclusions_in_eligible']==7
+assert u['distinct_shape_partitions']==5
+assert u['fifth_class_shape_cap']==6624
+assert u['primary_upper']==43549
+assert u['total_coupled_upper_given_primary']==195617
+assert u['joint_upper_given_primary_and_total']==54184
+assert u['best_feasible_quality']==[43549,195617,43549,54184]
+assert u['best_feasible_rank_sums']==[48644,49240,54184,43549]
+assert u['raw_enumeration_sha256']=='962b66c4670f65aa7a13d48967a8ca125e8ded2cec5187b6d7c7cbcd71891a21'
+assert u['qualified_enumeration_sha256']=='2f2d9fe0f3b837072a5336985524c7e78b962f4ae55717ab7f9ec2b1da7442c4'
+assert [g['part'] for g in u['top_classes']]==[107008,102976,74304,70216]
+assert [g['shape_rank_cap'] for g in u['top_classes']]==[13504,13128,9553,7364]
+assert [g['maximum_coupled_ticket_total'] for g in u['top_classes']]==[51521,51145,47570,45381]
+assert u['decision']=='EXACT_FULL_UNIVERSE_LEXICOGRAPHIC_OPTIMUM'
+assert u['primary_certified'] and u['total_certified'] and u['joint_tiebreak_certified']
+assert u['total_upper_minus_best_feasible']==0
+assert 'exclusion_counterfactual' in u
+c=u['exclusion_counterfactual']
+assert c['original_frozen_exclusions_examined']==12
+assert c['four_positive_excluded_candidates']==7
+assert c['unsafe_envelope_cases']==[]
+assert c['same_optimum_even_without_original_exclusions']
+assert not c['could_expand_full_universe_best_class_envelope']
+assert u['qualified_candidates']<=u['four_positive_before_frozen_exclusions']<=u['pre_shape_positive_candidates']<=u['full_legal_six_tuples']
+assert len(u['top_classes'])==4 if 'top_classes' in u else u['decision']=='UNIVERSE_SHAPE_TOP_FOUR_NOT_STRICT'
+assert u.get('best_feasible_quality') is not None
+if u['decision']=='EXACT_FULL_UNIVERSE_LEXICOGRAPHIC_OPTIMUM':
+    assert u['primary_certified'] and u['total_certified'] and u['joint_tiebreak_certified']
+    assert u['total_upper_minus_best_feasible']==0
+else:
+    print('FULL-UNIVERSE AUDIT PASS; exact optimization remains explicitly UNRESOLVED:',u['decision'])
+print('FULL-UNIVERSE REPRODUCIBLE AUDIT PASS')
+PY
+git diff --exit-code
+if [[ -f 'results/strategy_v21_full_universe.json' ]]; then cp -- 'results/strategy_v21_full_universe.json' "$LEGACY_ARTIFACT_DIR/"; fi

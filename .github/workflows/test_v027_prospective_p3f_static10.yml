@@ -3,10 +3,10 @@ name: v0.27 P3f prospectively sealed static ten-draw shadow test
 on:
   pull_request:
     paths:
-      - "prospective/v027_p3f_static10_20261110_seal.json"
-      - "prospective/README.md"
+      - "research/prospective/v027_p3f_static10_20261110_seal.json"
+      - "research/prospective/README.md"
       - "research/lotto7x7/prospective/prospective_p3f_static10_v027.py"
-      - "tests/prospective/test_prospective_p3f_static10_v027.py"
+      - "research/tests/prospective/test_prospective_p3f_static10_v027.py"
       - ".github/workflows/test_v027_prospective_p3f_static10.yml"
   workflow_dispatch:
 
@@ -24,11 +24,11 @@ jobs:
       - name: Compile and test fixed pre-draw seal, no-lookahead and official prize logic
         run: |
           python -m py_compile research/lotto7x7/prospective/prospective_p3f_static10_v027.py
-          python -m pytest -q tests/prospective/test_prospective_p3f_static10_v027.py
+          python -m pytest -q research/tests/prospective/test_prospective_p3f_static10_v027.py
       - name: Audit original fixed history and report only available future results
         run: |
           python -m lotto7x7.prospective_p3f_static10_v027 \
-            --seal prospective/v027_p3f_static10_20261110_seal.json \
+            --seal research/prospective/v027_p3f_static10_20261110_seal.json \
             --csv-dir data/csv \
             --out /tmp/v027_p3f_initial_shadow.json \
             --md-out /tmp/v027_p3f_initial_shadow.md

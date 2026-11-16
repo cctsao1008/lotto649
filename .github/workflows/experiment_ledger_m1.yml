@@ -7,10 +7,10 @@ on:
     paths:
       - "research/lotto7x7/experiment_ledger.py"
       - "research/lotto7x7/experiment_runner.py"
-      - "experiments/configs/**"
-      - "tests/test_experiment_ledger_m1.py"
-      - "experiments/ledger_registry_v1.json"
-      - "docs/experiment_ledger_m1.md"
+      - "research/experiments/configs/**"
+      - "research/tests/test_experiment_ledger_m1.py"
+      - "research/experiments/ledger_registry_v1.json"
+      - "research/docs/experiment_ledger_m1.md"
       - ".github/workflows/experiment_ledger_m1.yml"
 
 permissions:
@@ -27,5 +27,5 @@ jobs:
           python-version: "3.12"
       - name: M1 regression tests and public anchor verification
         run: |
-          python -m unittest discover -s tests -p 'test_experiment_ledger_m1.py' -v
+          python -m unittest discover -s research/tests -p 'test_experiment_ledger_m1.py' -v
           python -m lotto7x7.experiment_ledger verify

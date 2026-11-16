@@ -34,7 +34,7 @@ from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
 
 SCHEMA = "lotto7x7.prospective.v0.27.p3f.static10.v1"
 REPORT_SCHEMA = "lotto7x7.prospective.v0.27.p3f.static10.report.v1"
-SEAL = Path("prospective/v027_p3f_static10_20261110_seal.json")
+SEAL = Path("research/prospective/v027_p3f_static10_20261110_seal.json")
 
 # Git blob pinned by the PRE-FIRST-DRAW commit ae15748a88e7aad334d68354b04338fa71d6bfdf.
 # Do not update this to retroactively accept changed tickets or a changed schedule.

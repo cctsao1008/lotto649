@@ -27,7 +27,7 @@ from lotto7x7.legacy.strategy.strategy_verification_v14 import (
 )
 
 SCHEMA = "lotto649.strategy_verification.v1.5"
-SOURCE_CPP = Path(__file__).resolve().parents[4] / "tools" / "lexicographic_enumerator_v15.cpp"
+SOURCE_CPP = Path(__file__).resolve().parents[3] / "tools" / "lexicographic_enumerator_v15.cpp"
 EXPECTED_REDUCED_COUNT = 893
 KNOWN_NUMERIC_OPTIMUM_TOTAL = 192715
 KNOWN_NUMERIC_OPTIMUM_JOINT = 52895
@@ -175,8 +175,8 @@ def main(argv:list[str]|None=None)->int:
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--csv-root',type=Path,default=Path('data/csv'))
     p.add_argument('--bin-root',type=Path,default=Path('data/bin'))
-    p.add_argument('--manifest',type=Path,default=Path('experiments/v028_m0_four_block_candidates_20261110.json'))
-    p.add_argument('--golden',type=Path,default=Path('tests/fixtures/v028_m0_original_ci_golden_v12.json'))
+    p.add_argument('--manifest',type=Path,default=Path('research/experiments/v028_m0_four_block_candidates_20261110.json'))
+    p.add_argument('--golden',type=Path,default=Path('research/tests/fixtures/v028_m0_original_ci_golden_v12.json'))
     p.add_argument('--cxx',default='g++')
     p.add_argument('--out',type=Path,required=True)
     args=p.parse_args(argv)

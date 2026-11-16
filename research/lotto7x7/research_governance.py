@@ -13,7 +13,7 @@ from typing import Any
 
 SCHEMA = "lotto649.research.evidence_registry.v1"
 REGISTRY = Path("research/evidence_registry_v1.json")
-INDEX = Path("docs/research_evidence_index.md")
+INDEX = Path("research/docs/research_evidence_index.md")
 STAGES = {"SOURCE_ARCHIVE", "STRUCTURAL_THEOREM", "DESCRIPTIVE",
           "EXPLORATORY_RETROSPECTIVE", "PROSPECTIVE_PRESEALED", "PROSPECTIVE_EVALUATED"}
 DECISIONS = {"VERIFIED_SOURCE", "PROVEN_MATHEMATICALLY", "DESCRIPTIVE_COMPLETE",
@@ -168,7 +168,7 @@ def render_index(entries: list[dict]) -> str:
     B = chr(96)
     lines = [
         "# Lotto649 — Research Evidence Index", "",
-        f"This index is generated from [{B}research/evidence_registry_v1.json{B}](../research/evidence_registry_v1.json).",
+        f"This index is generated from [{B}research/evidence_registry_v1.json{B}](../evidence_registry_v1.json).",
         "It describes **recorded evidence at the listed snapshot dates**, not a live status feed or a proof of lottery predictability.",
         "The Git blob hashes pin *original artifacts*, so later source append operations do not silently rewrite historical experiments.",
         "",
@@ -179,7 +179,7 @@ def render_index(entries: list[dict]) -> str:
         a = e["artifacts"][0]
         values = [e["id"],e["domain"],e["evidence_stage"],e["research_decision"],
                   e["engineering_status"],str(e["sample_size"]),
-                  f"[{a['role']}](../{a['path']})"]
+                  f"[{a['role']}](../../{a['path']})"]
         if any("|" in x or "\n" in x for x in values):
             fail("unsafe Markdown table delimiter")
         lines.append("| " + " | ".join(values) + " |")
@@ -199,7 +199,7 @@ def render_index(entries: list[dict]) -> str:
         "", "## Validation", "",
         f"{B}{B}{B}powershell",
         "python -m lotto7x7.research_governance verify",
-        "python -m unittest discover -s tests -p 'test_research_governance.py' -v",
+        "python -m unittest discover -s research/tests -p 'test_research_governance.py' -v",
         f"{B}{B}{B}", "",
     ])
     return "\n".join(lines)

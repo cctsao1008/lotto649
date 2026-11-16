@@ -6,11 +6,11 @@ on:
     paths:
       - 'research/lotto7x7/research_governance.py'
       - 'research/evidence_registry_v1.json'
-      - 'docs/research_knowledge_system.md'
-      - 'docs/research_hypothesis_template.md'
-      - 'docs/research_evidence_index.md'
-      - 'docs/research_index.md'
-      - 'tests/test_research_governance.py'
+      - 'research/docs/research_knowledge_system.md'
+      - 'research/docs/research_hypothesis_template.md'
+      - 'research/docs/research_evidence_index.md'
+      - 'research/docs/research_index.md'
+      - 'research/tests/test_research_governance.py'
       - '.github/workflows/research_governance_v1.yml'
   workflow_dispatch:
 
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Synthetic adversarial registry regression tests
-        run: python -m unittest discover -s tests -p 'test_research_governance.py' -v
+        run: python -m unittest discover -s research/tests -p 'test_research_governance.py' -v
       - name: Verify recorded original Git blobs and evidence-stage guards
         run: python -m lotto7x7.research_governance verify
       - name: Confirm source/seal directory was not modified by verification

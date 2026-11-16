@@ -310,8 +310,8 @@ def write_new(path: Path, text: str) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="One-time P1A 12 Gua Qi x historical fair Lotto649 exploratory association test")
-    p.add_argument("--source", type=Path, default=Path("data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv"))
-    p.add_argument("--out-dir", type=Path, default=Path("data/research/v24_iching"))
+    p.add_argument("--source", type=Path, default=Path("research/artifacts/v24_iching/v24_p1_gua_qi_draw_context_2498.csv"))
+    p.add_argument("--out-dir", type=Path, default=Path("research/artifacts/v24_iching"))
     p.add_argument("--reps", type=int, default=N_REPS)
     p.add_argument("--seed", type=int, default=SEED)
     args = p.parse_args(argv)

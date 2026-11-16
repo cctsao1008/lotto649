@@ -30,7 +30,7 @@ from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
 from lotto7x7.legacy.image.shape_predictive_v017 import _baseline_tables
 from lotto7x7.portfolio.unified_selection_v021 import coverage_select, frozen_shape_scores
 
-FREEZE = Path("docs/prospective_freeze_20261108.json")
+FREEZE = Path("research/prospective/prospective_freeze_20261108.json")
 PASSES = 3
 THRESHOLDS = ("3", "4", "5")
 FLOOR_FRACTIONS = ((1, 1), (999, 1000), (99, 100))

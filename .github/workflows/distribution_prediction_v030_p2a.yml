@@ -4,8 +4,8 @@ on:
   push:
     paths:
       - 'research/lotto7x7/statistics/distribution_prediction_v030.py'
-      - 'tests/statistics/test_distribution_prediction_v030_p2.py'
-      - 'docs/studies/statistics/distribution_prediction_v030_p2.md'
+      - 'research/tests/statistics/test_distribution_prediction_v030_p2.py'
+      - 'research/docs/studies/statistics/distribution_prediction_v030_p2.md'
       - '.github/workflows/distribution_prediction_v030_p2a.yml'
   workflow_dispatch:
 
@@ -21,9 +21,9 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Run v0.30 P0/P1/P2A regressions
         run: |
-          python -m unittest discover -s tests -p 'test_distribution_dynamics_v030_p0.py' -v
-          python -m unittest discover -s tests -p 'test_conditional_monte_carlo_v030_p1.py' -v
-          python -m unittest discover -s tests -p 'test_distribution_prediction_v030_p2.py' -v
+          python -m unittest discover -s research/tests -p 'test_distribution_dynamics_v030_p0.py' -v
+          python -m unittest discover -s research/tests -p 'test_conditional_monte_carlo_v030_p1.py' -v
+          python -m unittest discover -s research/tests -p 'test_distribution_prediction_v030_p2.py' -v
       - name: Run source-audited P2A smoke
         run: |
           python -m lotto7x7.distribution_prediction_v030 --start-draw 500 --step 10 --references 16 --iid-reps 3 --seed 649 --out results/v030_p2a_ci_smoke.json

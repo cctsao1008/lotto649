@@ -18,7 +18,7 @@ PUBLIC_SCHEMA = "lotto649.public_experiment_registry.v1"
 PAID_SCHEMA = "lotto649.private_paid_registration.v1"
 ENTRY_SCHEMA = "lotto649.private_ledger_entry.v1"
 RESEARCH_CONFIG_SCHEMA = "lotto649.research_config.v1"
-DEFAULT_REGISTRY = Path("experiments/ledger_registry_v1.json")
+DEFAULT_REGISTRY = Path("research/experiments/ledger_registry_v1.json")
 DEFAULT_PRIVATE_DIR = Path("data/private/experiment-ledger")
 _ID = re.compile(r"[a-z0-9][a-z0-9_-]{2,79}\Z")
 _SHA1 = re.compile(r"[0-9a-f]{40}\Z")
@@ -153,10 +153,16 @@ def validate_research_config(config: object) -> None:
              "invalid research parameter: ridge")
 
 
+def _registry_root(registry_path: Path) -> Path:
+    """Resolve repository-relative entries in current and earlier registries."""
+    parent = registry_path.resolve().parent.parent
+    return parent.parent if parent.name == "research" else parent
+
+
 def _public_artifacts(registry_path: Path) -> list[tuple[dict, dict]]:
     """Return metadata with the exact contents validated against its Git blob."""
     registry_path = Path(registry_path)
-    root = registry_path.resolve().parent.parent
+    root = _registry_root(registry_path)
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
     _object_keys(registry, {"schema", "entries"}, "public registry")
     _require(registry["schema"] == PUBLIC_SCHEMA, "invalid public registry schema")
@@ -197,8 +203,8 @@ def _public_artifacts(registry_path: Path) -> list[tuple[dict, dict]]:
             _require(source.get("status") == "DESCRIPTIVE_CANDIDATE_ONLY_NOT_A_PAID_TICKET",
                      "candidate reference misclassified")
         else:
-            _require(artifact.is_relative_to(root / "experiments/configs"),
-                     "research configuration must be under experiments/configs")
+            _require(artifact.is_relative_to(registry_path.resolve().parent / "configs"),
+                     "research configuration must be under the registry configs directory")
             validate_research_config(source)
         verified.append((item, source))
     return verified

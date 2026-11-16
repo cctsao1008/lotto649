@@ -9,7 +9,7 @@ def read(path):
 def main():
     lunar=read("data/astronomy/cwa_pdf_lunar_daily_2023_2024.csv")
     events=read("data/astronomy/cwa_pdf_events_2023_2024.csv")
-    draws=read("data/research/v24_cwa/cwa_draw_context_2023_2024.csv")
+    draws=read("research/artifacts/v24_cwa/cwa_draw_context_2023_2024.csv")
     assert len(lunar)==731 and len({x["date"] for x in lunar})==731
     assert len(events)==149 and len({x["event_at_local"] for x in events})==149
     assert sum(e["event_kind"]=="solar_term" for e in events)==49

@@ -24,13 +24,13 @@ class Study:
     kind: str
 
 STUDIES = (
-    Study("v027_p3f_static10", "prospective/v027_p3f_static10_20261110_seal.json",
+    Study("v027_p3f_static10", "research/prospective/v027_p3f_static10_20261110_seal.json",
           "b7dec534a44b1ec08d575a4f2e48e5c3580e76d1", 115000104, "2026-11-10", 10, "fixed"),
-    Study("v029_p5a_static9", "prospective/v029_p5a_static9_20261113_seal.json",
+    Study("v029_p5a_static9", "research/prospective/v029_p5a_static9_20261113_seal.json",
           "546c7352fd0a98a42959b333e51498ef7c56cf9d", 115000105, "2026-11-13", 9, "fixed"),
-    Study("v23_m0_static200", "prospective/v23_m0_global_static200_20261113_seal.json",
+    Study("v23_m0_static200", "research/prospective/v23_m0_global_static200_20261113_seal.json",
           "f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be", 115000106, "2026-11-17", 200, "rolling"),
-    Study("v24_p3_iching_static100", "prospective/v24_p3_usno_hexagram_static100_20261114_seal.json",
+    Study("v24_p3_iching_static100", "research/prospective/v24_p3_usno_hexagram_static100_20261114_seal.json",
           "abf4963adf339d11f5bddd75b91ee5409abf82f1", 115000106, "2026-11-17", 100, "rolling"),
 )
 REPORT_SCHEMA = "lotto649.v032.prospective_readiness.v1"
@@ -150,7 +150,7 @@ def check_study(root: Path, study: Study) -> dict:
         path = seal["sky_table_path"]
         if path != "prospective/v24_p3_sky_calendar_20261114.csv" or \
                 seal["sky_table_sha256"] != EXPECTED_SKY_SHA256 or \
-                sha256((root / path).read_bytes()).hexdigest() != EXPECTED_SKY_SHA256:
+                sha256((root / "research" / path).read_bytes()).hexdigest() != EXPECTED_SKY_SHA256:
             raise ValueError("P3 pre-draw sky table SHA256 drift")
         schedule = []
     else:

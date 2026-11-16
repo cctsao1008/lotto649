@@ -5,10 +5,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'prospective/v23_m0_global_static200_20261113_seal.json'
+      - 'research/prospective/v23_m0_global_static200_20261113_seal.json'
       - 'research/lotto7x7/prospective/prospective_validation_v23.py'
-      - 'tests/prospective/test_prospective_validation_v23.py'
-      - 'docs/studies/prospective/prospective_validation_v23.md'
+      - 'research/tests/prospective/test_prospective_validation_v23.py'
+      - 'research/docs/studies/prospective/prospective_validation_v23.md'
       - '.github/workflows/prospective_validation_v23.yml'
 
 permissions:
@@ -27,19 +27,19 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'numpy>=1.26,<3' 'scipy>=1.12,<2'
       - name: Validate immutable seal, arithmetic and independent negative cases
         run: |
-          python -m unittest discover -s tests -p 'test_prospective_validation_v23.py' -v
-          git ls-files --eol prospective/v23_m0_global_static200_20261113_seal.json
+          python -m unittest discover -s research/tests -p 'test_prospective_validation_v23.py' -v
+          git ls-files --eol research/prospective/v23_m0_global_static200_20261113_seal.json
           python - <<'PY'
           import subprocess
           from lotto7x7.prospective_validation_v23 import SEAL_BLOB_SHA1
-          sha=subprocess.check_output(['git','rev-parse','HEAD:prospective/v23_m0_global_static200_20261113_seal.json'],text=True).strip()
+          sha=subprocess.check_output(['git','rev-parse','HEAD:research/prospective/v23_m0_global_static200_20261113_seal.json'],text=True).strip()
           assert sha==SEAL_BLOB_SHA1,(sha,SEAL_BLOB_SHA1)
           print('V23 IMMUTABLE SEALED GIT BLOB PASS',sha)
           PY
       - name: Admit only two-source-verified future drawings; zero eligible is PENDING
         run: |
           python -m lotto7x7.prospective_validation_v23 \
-            --seal prospective/v23_m0_global_static200_20261113_seal.json \
+            --seal research/prospective/v23_m0_global_static200_20261113_seal.json \
             --csv-root data/csv --bin-root data/bin \
             --evidence-root data/private/lotto649-source \
             --out results/v23_prospective_ci_pending.json

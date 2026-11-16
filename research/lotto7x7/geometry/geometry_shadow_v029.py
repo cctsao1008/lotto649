@@ -12,8 +12,8 @@ import json
 from math import isclose
 from pathlib import Path
 
-SEAL_PATH = Path("prospective/v029_p5a_static9_20261113_seal.json")
-ORIGINAL_PATH = Path("prospective/v027_p3f_static10_20261110_seal.json")
+SEAL_PATH = Path("research/prospective/v029_p5a_static9_20261113_seal.json")
+ORIGINAL_PATH = Path("research/prospective/v027_p3f_static10_20261110_seal.json")
 SCHEMA = "lotto649.geometry.v0.29.p5a.shadow.static9.v1"
 EXPERIMENT_ID = "v029-p5a-geometry-shadow-static9-20261113"
 ORIGINAL_BLOB_SHA1 = "b7dec534a44b1ec08d575a4f2e48e5c3580e76d1"

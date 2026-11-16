@@ -11,7 +11,7 @@ def configure_parsers(action):
     p=action.add_parser('shape-select-unified',help='v0.21 uniform candidate pool, exact portfolio coverage and frozen exploratory shape comparison')
     p.add_argument('--catalog',type=Path,default=Path('results/v015_v016_p1_shape_catalog.npz'))
     p.add_argument('--universe',type=Path,default=Path('results/v015_v016_p1_shape_catalog_universe.json'))
-    p.add_argument('--freeze',type=Path,default=Path('docs/prospective_freeze_20261108.json'))
+    p.add_argument('--freeze',type=Path,default=Path('research/prospective/prospective_freeze_20261108.json'))
     p.add_argument('--pool-size',type=int,default=100)
     p.add_argument('--tickets',type=int,default=5)
     p.add_argument('--objective',choices=OBJECTIVES,default='3plus')

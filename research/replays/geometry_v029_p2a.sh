@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,<2"
+
+python -m unittest discover -s research/tests -p 'test_geometry_v029_p0.py' -v
+python -m unittest discover -s research/tests -p 'test_geometry_theory_v029_p1.py' -v
+python -m unittest discover -s research/tests -p 'test_geometry_convergence_v029_p2a.py' -v
+
+python -m lotto7x7.geometry_convergence_v029 \
+  --csv-root data/csv --bin-root data/bin \
+  --iid-reps 199 --seed 649 \
+  --out results/v029_p2a_ci_convergence.json
+python - <<'PY'
+import json
+from pathlib import Path
+j=json.loads(Path("results/v029_p2a_ci_convergence.json").read_text())
+assert j["source_gate"]["status"] == "PASS_REPOSITORY_MANIFEST_CSV_AND_BOTH_BINS"
+assert j["number_of_draws"] >= 2498
+assert len(j["mapping_ids"]) == 4 and len(j["region_names"]) == 10
+assert j["geometry_definition_sha256"] == "5aa5f2820c3287fde1d548de8c90a46b1aed95ed0b7b0f8b9a84c2ea39c82f47"
+p=j["whole_pipeline_iid_control"]
+assert p["replicates"] == 199
+assert 0 < p["primary_empirical_p"] <= 1
+assert 0 < p["secondary_empirical_p"] <= 1
+assert j["decision"] == "EXPLORATORY_DESCRIPTIVE_ONLY_NOT_PREDICTIVE"
+print("PASS: P2A historical integrity and whole-search IID negative control")
+print("observed", "max_abs_z",j["observed"]["max_abs_z"],"max_tv",j["observed"]["max_tv"])
+print("familywise p", "mean",p["primary_empirical_p"],"TV",p["secondary_empirical_p"])
+print("two-endpoint Bonferroni",p["primary_bonferroni_two_endpoint_p"],p["secondary_bonferroni_two_endpoint_p"])
+PY
+if [[ -f 'results/v029_p2a_ci_convergence.json' ]]; then cp -- 'results/v029_p2a_ci_convergence.json' "$LEGACY_ARTIFACT_DIR/"; fi

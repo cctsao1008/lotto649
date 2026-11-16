@@ -22,7 +22,7 @@ the published PDF URL but is **not byte-level authenticated provenance**.
   year/month/day/leap labels *derived* from official PDF lunar month first-day
   boundaries and checked against the printed calendar. This is NOT a raw CWA
   A-A0087-001 daily export. In 2025, lunar month 6 is followed by leap month 6.
-- `data/research/v24_cwa/cwa_draw_context_2025_2026.csv`: 222 date-aligned
+- `research/artifacts/v24_cwa/cwa_draw_context_2025_2026.csv`: 222 date-aligned
   historical draws (2025:118, 2026:104 through #115000104), **no draw result
   numbers** duplicated and no future draws added. Source draw files are read-only.
 
@@ -49,7 +49,7 @@ draw was before/after a transition occurring later that same date.
 - Obtain the three original CWA CSV exports (A-A0087-001/002/003), record
   SHA-256 and year coverage, and compare against the PDF-derived reference.
   For 2004–2024, find authenticated historical CWA archive sources first.
-- The old `data/research/v24` 2,498-draw baseline and v2.3 prospective
+- The old `research/artifacts/v24` 2,498-draw baseline and v2.3 prospective
   seals remain untouched. This import is a separate additive layer.
 - No statistical relationship or prediction advantage is implied by lunar
   date, solar term, moon phase, or hexagram. New tests require time-split

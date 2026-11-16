@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
+
+python -m unittest discover -s research/tests -p 'test_strategy_verification_v19.py' -v
+
+python -m lotto7x7.strategy_verification_v19 \
+  --csv-root data/csv --bin-root data/bin \
+  --seeds 649 20261111 20261112 \
+  --raw-sizes 80000 160000 320000 \
+  --pool-cap 2000 --restarts 6 \
+  --out results/strategy_v19_score_saturation.json
+python - <<'PY'
+import json
+r=json.load(open('results/strategy_v19_score_saturation.json'))
+assert r['decision']=='V19_FROZEN_SCORE_SATURATION_AUDIT_PASS'
+assert r['source_gate']['original_152_checks']==152
+assert r['source_gate']['original_qualified']==13704
+assert r['source_gate']['reference_axes_sha256']=='18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'
+assert len(r['studies'])==9
+assert all(len(s['policies'])==3 for s in r['studies'])
+assert all(a['raw_qualified_source_envelope']['status'] in ('EXACT_LEXICOGRAPHIC_CERTIFIED_BY_CLASS_CAPS','VALID_UPPER_GAP_UNRESOLVED','PRIMARY_BOUND_NOT_ATTAINED','NOT_CERTIFIABLE_CLASS_BOUND_TIE') for s in r['studies'] for a in s['policies'])
+print('PASS score saturation and reference envelope audit')
+PY
+python - <<'PY'
+import json
+r=json.load(open('results/strategy_v19_score_saturation.json'))
+assert [x['distinct_gain_values'] for x in r['frozen_reference_resolution']]==[115,17,355,16]
+assert [x['top_equal_gain_count'] for x in r['frozen_reference_resolution']]==[432,1394,158,200]
+assert all(x['strictly_above_reference_max']==0 and x['rank_at_empirical_ceiling']==0 for s in r['studies'] for x in s['per_axis_source_saturation'])
+high=[s for s in r['studies'] if s['raw_unique_count']==320000]
+assert [(s['seed'],s['qualified_count']) for s in high]==[(649,54651),(20261111,54333),(20261112,54179)]
+assert [s['per_axis_source_saturation'][0]['candidates_in_gain_alias_rank_buckets'] for s in high]==[170,146,171]
+assert [s['per_axis_source_saturation'][2]['candidates_in_gain_alias_rank_buckets'] for s in high]==[1549,1228,1205]
+for s in r['studies']:
+    if s['raw_unique_count']>=160000:
+        best=next(a for a in s['policies'] if a['policy']=='ranked')
+        e=best['raw_qualified_source_envelope']
+        assert e['status']=='VALID_UPPER_GAP_UNRESOLVED'
+        assert e['componentwise_block_upper']==[53088,49240,54184,43549]
+        assert e['total_upper_minus_feasible']==4444
+        assert best['feasible_quality']==[43549,195617,43549,54184]
+print('PASS v1.9 regression-locked diagnosis: low resolution, no strict clipping, 4,444 conservative source upper gap')
+PY
+git diff --exit-code
+if [[ -f 'results/strategy_v19_score_saturation.json' ]]; then cp -- 'results/strategy_v19_score_saturation.json' "$LEGACY_ARTIFACT_DIR/"; fi

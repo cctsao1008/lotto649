@@ -470,9 +470,9 @@ def build_report(source: Path, audit: Path, *, reps: int, seed: int) -> tuple[di
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Exploratory P2A 64-state astronomical hexagram association, not lottery prediction")
-    parser.add_argument("--p2-source", type=Path, default=Path("data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv"))
-    parser.add_argument("--p2-audit", type=Path, default=Path("data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json"))
-    parser.add_argument("--out-dir", type=Path, default=Path("data/research/v24_iching_p2a"))
+    parser.add_argument("--p2-source", type=Path, default=Path("research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv"))
+    parser.add_argument("--p2-audit", type=Path, default=Path("research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json"))
+    parser.add_argument("--out-dir", type=Path, default=Path("research/artifacts/v24_iching_p2a"))
     parser.add_argument("--reps", type=int, default=N_REPS)
     parser.add_argument("--seed", type=int, default=SEED)
     args = parser.parse_args(argv)

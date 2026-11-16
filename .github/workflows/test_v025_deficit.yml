@@ -14,7 +14,7 @@ on:
       - "research/lotto7x7/portfolio/portfolio_validation_v025.py"
       - "research/lotto7x7/portfolio/multivariate_calibration_v025.py"
       - "research/lotto7x7/coverage_v06.py"
-      - "data/research/v025_exact_covariance/**"
+      - "research/artifacts/v025_exact_covariance/**"
       - "data/reference/shape_class_counts.json"
       - "research/lotto7x7/portfolio/official_prize_v026.py"
       - "research/lotto7x7/portfolio/coverage_strategy_v026.py"
@@ -22,22 +22,22 @@ on:
       - "research/lotto7x7/portfolio/coverage_exhaustive_v026.py"
       - "research/lotto7x7/portfolio/strategy_ab_v026.py"
       - "research/lotto7x7/portfolio/strategy_ab_iid_calibration_v026.py"
-      - "tests/portfolio/test_deficit_compensation_v025.py"
-      - "tests/portfolio/test_shape_deficit_v025.py"
-      - "tests/portfolio/test_multivariate_audit_v025.py"
-      - "tests/portfolio/test_multivariate_robustness_v025.py"
-      - "tests/portfolio/test_matched_covariance_v025.py"
-      - "tests/portfolio/test_matched_covariance_walkforward_v025.py"
-      - "tests/portfolio/test_exact_covariance_v025.py"
-      - "tests/portfolio/test_portfolio_pareto_v025.py"
-      - "tests/portfolio/test_portfolio_validation_v025.py"
-      - "tests/portfolio/test_multivariate_calibration_v025.py"
-      - "tests/portfolio/test_official_prize_v026.py"
-      - "tests/portfolio/test_coverage_strategy_v026.py"
-      - "tests/portfolio/test_coverage_global_research_v026.py"
-      - "tests/portfolio/test_coverage_exhaustive_v026.py"
-      - "tests/portfolio/test_strategy_ab_v026.py"
-      - "tests/portfolio/test_strategy_ab_iid_calibration_v026.py"
+      - "research/tests/portfolio/test_deficit_compensation_v025.py"
+      - "research/tests/portfolio/test_shape_deficit_v025.py"
+      - "research/tests/portfolio/test_multivariate_audit_v025.py"
+      - "research/tests/portfolio/test_multivariate_robustness_v025.py"
+      - "research/tests/portfolio/test_matched_covariance_v025.py"
+      - "research/tests/portfolio/test_matched_covariance_walkforward_v025.py"
+      - "research/tests/portfolio/test_exact_covariance_v025.py"
+      - "research/tests/portfolio/test_portfolio_pareto_v025.py"
+      - "research/tests/portfolio/test_portfolio_validation_v025.py"
+      - "research/tests/portfolio/test_multivariate_calibration_v025.py"
+      - "research/tests/portfolio/test_official_prize_v026.py"
+      - "research/tests/portfolio/test_coverage_strategy_v026.py"
+      - "research/tests/portfolio/test_coverage_global_research_v026.py"
+      - "research/tests/portfolio/test_coverage_exhaustive_v026.py"
+      - "research/tests/portfolio/test_strategy_ab_v026.py"
+      - "research/tests/portfolio/test_strategy_ab_iid_calibration_v026.py"
       - "lotto7x7/__main__.py"
       - "research/lotto7x7/legacy/cli.py"
       - ".github/workflows/test_v025_deficit.yml"
@@ -56,7 +56,7 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --upgrade pytest numpy scipy
       - name: Run standalone covariance and CSV-integrity regression tests
-        run: python -m pytest -q tests/portfolio/test_deficit_compensation_v025.py tests/portfolio/test_shape_deficit_v025.py tests/portfolio/test_multivariate_audit_v025.py tests/portfolio/test_multivariate_robustness_v025.py tests/portfolio/test_matched_covariance_v025.py tests/portfolio/test_matched_covariance_walkforward_v025.py tests/portfolio/test_exact_covariance_v025.py tests/portfolio/test_portfolio_pareto_v025.py tests/portfolio/test_portfolio_validation_v025.py tests/portfolio/test_multivariate_calibration_v025.py tests/portfolio/test_official_prize_v026.py tests/portfolio/test_coverage_strategy_v026.py tests/portfolio/test_coverage_global_research_v026.py tests/portfolio/test_coverage_exhaustive_v026.py tests/portfolio/test_strategy_ab_v026.py tests/portfolio/test_strategy_ab_iid_calibration_v026.py
+        run: python -m pytest -q research/tests/portfolio/test_deficit_compensation_v025.py research/tests/portfolio/test_shape_deficit_v025.py research/tests/portfolio/test_multivariate_audit_v025.py research/tests/portfolio/test_multivariate_robustness_v025.py research/tests/portfolio/test_matched_covariance_v025.py research/tests/portfolio/test_matched_covariance_walkforward_v025.py research/tests/portfolio/test_exact_covariance_v025.py research/tests/portfolio/test_portfolio_pareto_v025.py research/tests/portfolio/test_portfolio_validation_v025.py research/tests/portfolio/test_multivariate_calibration_v025.py research/tests/portfolio/test_official_prize_v026.py research/tests/portfolio/test_coverage_strategy_v026.py research/tests/portfolio/test_coverage_global_research_v026.py research/tests/portfolio/test_coverage_exhaustive_v026.py research/tests/portfolio/test_strategy_ab_v026.py research/tests/portfolio/test_strategy_ab_iid_calibration_v026.py
       - name: Real annual CSV smoke audit (cutoff before Nov 10)
         run: |
           python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv --cutoff 2026-11-06 --pool-size 80 --seed 649 --out /tmp/v025_real_smoke.json

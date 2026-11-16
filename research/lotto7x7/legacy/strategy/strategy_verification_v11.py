@@ -291,7 +291,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--selection-report', type=Path, required=True)
     parser.add_argument('--m0-manifest', type=Path,
-                        default=Path('experiments/v028_m0_four_block_candidates_20261110.json'))
+                        default=Path('research/experiments/v028_m0_four_block_candidates_20261110.json'))
     parser.add_argument('--csv-root', type=Path, default=Path('data/csv'))
     parser.add_argument('--bin-root', type=Path, default=Path('data/bin'))
     parser.add_argument('--out', type=Path, required=True)

@@ -31,7 +31,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_draw_append_preview_m2.py' -v
           python -m unittest discover -s tests -p 'test_official_draw_evidence_m2.py' -v
-          python -m unittest discover -s tests -p 'test_prospective_evaluation_m4.py' -v
+          python -m unittest discover -s research/tests -p 'test_prospective_evaluation_m4.py' -v
       - name: Recheck the pinned archive prefix and pending P5A status
         run: |
           python - <<'PY'

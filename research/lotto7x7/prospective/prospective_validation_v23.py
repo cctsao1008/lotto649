@@ -22,7 +22,7 @@ from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage, priz
 
 SCHEMA = 'lotto649.v2.3.prospective.fixed_m0_full_universe.v1'
 REPORT_SCHEMA = 'lotto649.v2.3.prospective.static200.evaluation.v1'
-SEAL_PATH = Path('prospective/v23_m0_global_static200_20261113_seal.json')
+SEAL_PATH = Path('research/prospective/v23_m0_global_static200_20261113_seal.json')
 SEAL_BLOB_SHA1 = 'f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be'
 FIRST_ID = 115000106
 FIRST_DAY = '2026-11-17'

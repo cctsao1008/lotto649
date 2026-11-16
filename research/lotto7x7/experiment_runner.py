@@ -8,7 +8,7 @@ import struct
 from pathlib import Path
 
 from .experiment_ledger import (
-    DEFAULT_REGISTRY, _canonical, _public_artifacts,
+    DEFAULT_REGISTRY, _canonical, _public_artifacts, _registry_root,
 )
 
 
@@ -23,7 +23,7 @@ def run_experiment(experiment_id: str, registry_path: Path = DEFAULT_REGISTRY,
     if registration is None:
         raise ValueError(f"no registered research configuration: {experiment_id}")
     entry, config = registration
-    root = registry_path.parent.parent
+    root = _registry_root(registry_path)
     report_root = (root / "results").resolve()
     output = output.resolve()
     if (not output.is_relative_to(report_root) or output == report_root

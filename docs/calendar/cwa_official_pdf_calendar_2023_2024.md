@@ -20,7 +20,7 @@ Treat the data as human-transcribed, publicly auditable research input.
   solar terms, 49+50 major moon-phase events, and two boundary events from 2022)
 - `data/astronomy/cwa_pdf_lunar_daily_2023_2024.csv` (731 Gregorian days,
   inclusive 2023-01-01–2024-12-31).
-- `data/research/v24_cwa/cwa_draw_context_2023_2024.csv` (234 historical draws:
+- `research/artifacts/v24_cwa/cwa_draw_context_2023_2024.csv` (234 historical draws:
   2023: 116 and 2024: 118, all date-aligned to the immutable source archive).
 - `data/astronomy/cwa_pdf_historical_source_inventory_2004_2026.csv`
   records the verified public URL status and import progress for every year.

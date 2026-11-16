@@ -13,7 +13,7 @@ def read(path):
 def main():
     days = read("data/astronomy/cwa_pdf_lunar_daily_2025_2026.csv")
     events = read("data/astronomy/cwa_pdf_events_2025_2026.csv")
-    draws = read("data/research/v24_cwa/cwa_draw_context_2025_2026.csv")
+    draws = read("research/artifacts/v24_cwa/cwa_draw_context_2025_2026.csv")
     assert len(days) == 730 and len({r["date"] for r in days}) == 730
     assert len(events) == 149 and len({e["event_at_local"] for e in events}) == 149
     assert len(draws) == 222 and len({r["draw_id"] for r in draws}) == 222

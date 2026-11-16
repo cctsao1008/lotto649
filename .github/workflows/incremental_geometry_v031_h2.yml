@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - 'research/lotto7x7/geometry/incremental_geometry_v031.py'
-      - 'tests/geometry/test_incremental_geometry_v031.py'
+      - 'research/tests/geometry/test_incremental_geometry_v031.py'
       - 'research/lotto7x7/experiment_runner.py'
-      - 'experiments/configs/v031-h2-geometry-ci.json'
-      - 'experiments/ledger_registry_v1.json'
-      - 'docs/studies/geometry/incremental_geometry_v031_h2.md'
+      - 'research/experiments/configs/v031-h2-geometry-ci.json'
+      - 'research/experiments/ledger_registry_v1.json'
+      - 'research/docs/studies/geometry/incremental_geometry_v031_h2.md'
       - '.github/workflows/incremental_geometry_v031_h2.yml'
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
       - name: H2 frozen ablation regressions
         run: |
           mkdir -p results
-          python -m unittest discover -s tests -p 'test_incremental_geometry_v031.py' -v
+          python -m unittest discover -s research/tests -p 'test_incremental_geometry_v031.py' -v
       - name: Source-audited real-history H2 pilot
         run: |
           python -m lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_ci_pilot.json

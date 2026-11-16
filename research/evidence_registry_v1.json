@@ -20,7 +20,7 @@
       "artifacts": [
         {
           "role": "mathematical_proof",
-          "path": "docs/studies/portfolio/coverage_burnside_independent_v026.md",
+          "path": "research/docs/studies/portfolio/coverage_burnside_independent_v026.md",
           "git_blob_sha1": "fe9f70aab1a2cd1d60bdf8a918866dc4b214a5ea"
         }
       ],
@@ -64,7 +64,7 @@
       "artifacts": [
         {
           "role": "mathematical_proof",
-          "path": "data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json",
+          "path": "research/artifacts/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json",
           "git_blob_sha1": "69a6a313597b0bd6ca9ccb7aa20d4ff724921bb3"
         }
       ],
@@ -89,7 +89,7 @@
       "artifacts": [
         {
           "role": "mathematical_proof",
-          "path": "docs/studies/geometry/shape_taxonomy_complete_universe_p1.md",
+          "path": "research/docs/studies/geometry/shape_taxonomy_complete_universe_p1.md",
           "git_blob_sha1": "0c9e07d01617895b759a06c3dce910590e0ad24e"
         }
       ],
@@ -122,7 +122,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/studies/geometry/incremental_geometry_v031_h2_results_20261112.md",
+          "path": "research/docs/studies/geometry/incremental_geometry_v031_h2_results_20261112.md",
           "git_blob_sha1": "29e990c906f52e3267967264c1702eab5e080973"
         }
       ],
@@ -155,7 +155,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v24_iching/v24_p1a_gua_qi_association_2498.json",
+          "path": "research/artifacts/v24_iching/v24_p1a_gua_qi_association_2498.json",
           "git_blob_sha1": "c78b10e470c26abf38eeeefe6c89507eead37c02"
         }
       ],
@@ -188,7 +188,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json",
+          "path": "research/artifacts/v24_iching_p2a/v24_p2a_hexagram_association_2498.json",
           "git_blob_sha1": "9e61a36f1cb1ccd0f2098665b5883212c6b67e8d"
         }
       ],
@@ -221,7 +221,7 @@
       "artifacts": [
         {
           "role": "seal",
-          "path": "prospective/v24_p3_usno_hexagram_static100_20261114_seal.json",
+          "path": "research/prospective/v24_p3_usno_hexagram_static100_20261114_seal.json",
           "git_blob_sha1": "abf4963adf339d11f5bddd75b91ee5409abf82f1"
         }
       ],
@@ -254,7 +254,7 @@
       "artifacts": [
         {
           "role": "seal",
-          "path": "prospective/v23_m0_global_static200_20261113_seal.json",
+          "path": "research/prospective/v23_m0_global_static200_20261113_seal.json",
           "git_blob_sha1": "f02a94b37bc2287f89cfbc6dd7f6ab2daa4d16be"
         }
       ],
@@ -287,7 +287,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/archive/strategy_validation_v22.md",
+          "path": "research/docs/archive/strategy_validation_v22.md",
           "git_blob_sha1": "543008dc3087cc897a1106c804a72525e0d0ed78"
         }
       ],
@@ -320,7 +320,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/studies/statistics/distribution_dynamics_v030_p0_p1.md",
+          "path": "research/docs/studies/statistics/distribution_dynamics_v030_p0_p1.md",
           "git_blob_sha1": "4314e05aad5997a10e31ee0109073c603a5c2bcc"
         }
       ],
@@ -363,7 +363,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v025_exact_covariance/v025_matched_covariance_20261116.json",
+          "path": "research/artifacts/v025_exact_covariance/v025_matched_covariance_20261116.json",
           "git_blob_sha1": "7e04d2e3debf46edb4c5f52b34d3372eba3388e8"
         }
       ],
@@ -398,7 +398,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json",
+          "path": "research/artifacts/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json",
           "git_blob_sha1": "f44642c17d713ddb86a92aec222930ced79f96f7"
         }
       ],
@@ -432,7 +432,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json",
+          "path": "research/artifacts/v025_exact_covariance/v025_multivariate_calibration_20261116.json",
           "git_blob_sha1": "436e24724fb4d351c933593a3d59aea2fb50b06e"
         }
       ],
@@ -466,7 +466,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "data/research/v025_exact_covariance/v025_portfolio_pareto_20261116.json",
+          "path": "research/artifacts/v025_exact_covariance/v025_portfolio_pareto_20261116.json",
           "git_blob_sha1": "2482b5c8a5b8a1b15e2bcd0728b1349ecc5a9faa"
         }
       ],
@@ -493,7 +493,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/prospective_readiness_v032.md",
+          "path": "research/docs/prospective_readiness_v032.md",
           "git_blob_sha1": "c253cab743b62573b36f271e9db66d904826fd02"
         }
       ],

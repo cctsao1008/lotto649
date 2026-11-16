@@ -25,7 +25,7 @@ def configure_parsers(action):
 
 
 def _common(p):
-    p.add_argument('--freeze',type=Path,default=Path('docs/prospective_freeze_20261108.json'))
+    p.add_argument('--freeze',type=Path,default=Path('research/prospective/prospective_freeze_20261108.json'))
     p.add_argument('--catalog',type=Path,default=Path('results/v015_v016_p1_shape_catalog.npz'))
     p.add_argument('--universe',type=Path,default=Path('results/v015_v016_p1_shape_catalog_universe.json'))
 

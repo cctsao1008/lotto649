@@ -14,26 +14,31 @@ each band before returning the requested number of combinations.
 | `data/astronomy/`, `data/reference/` | Calendar snapshots and exact shape reference |
 | `research/lotto7x7/` | Versioned implementations grouped by research domain |
 | `research/evidence_registry_v1.json` | Registry of research evidence |
+| `research/experiments/` | Experiment registry, settings, and registered candidate artifacts |
+| `research/prospective/` | Preserved pre-draw protocols and related artifacts |
+| `research/artifacts/` | Research snapshots and published results |
+| `research/docs/`, `research/replays/` | Research notes and replay entry points |
+| `research/tools/`, `research/tests/` | Research utilities and domain tests |
 | `lotto7x7/` | Compatibility imports and historical CLI entry points |
 | `tests/strategy/` | Selection, archive integration, and CLI tests |
 | `docs/operations/` | Data formats and maintenance |
-| `docs/calendar/`, `docs/studies/`, `docs/archive/` | Calendar provenance, studies, and historical documentation |
+| `docs/calendar/` | Calendar data provenance for the main strategy |
 
 Run the main pipeline with `python -m lotto649 select --help`. Historical
 command names remain available with `python -m lotto7x7 research --help`.
-Run the full test suite with `python -m pytest -q`.
+Run the full test suite with `python -m pytest -q tests research/tests`.
 
 ## CI and historical replays
 
 `research_regression.yml` runs domain regression groups. From its GitHub Actions
-page, choose a `replay` ID from `scripts/legacy-regression/cases.json` to
+page, choose a `replay` ID from `research/replays/cases.json` to
 repeat an archived end-to-end experiment, or choose `all` to run the full
 matrix. Replays can take several minutes each and keep their former validation
 commands and report assertions. Run one locally from the repository root:
 
 ```bash
 export LEGACY_ARTIFACT_DIR="$(mktemp -d)"
-bash scripts/legacy-regression/coverage_burnside_v026.sh
+bash research/replays/coverage_burnside_v026.sh
 ```
 
 Original workflow definitions are retained under `.github/legacy-workflows/`
@@ -43,9 +48,18 @@ tests now run in the M2/M3 integrity workflow and the shared regression suite.
 The multi-job v0.27 P3e replay retains its separate manual sharding and aggregation workflow.
 The v0.25 foundation workflow remains independent for its exact covariance, joint coverage, and retrospective research checks.
 
+## Frozen artifact paths
+
+Registries reference the current paths and keep the original blob hashes.
+Sealed documents and published evidence retain their original bytes, including
+any embedded historical paths. The prospective readiness audit resolves the
+sealed sky-table reference in the current layout and verifies its original
+SHA-256. Use the commit and original path recorded by the study when
+inspecting its initial publication in Git history.
+
 ## Register a parameter-only research experiment
 
-Use `experiments/configs/<experiment_id>.json` with the hypothesis, supported
+Use `research/experiments/configs/<experiment_id>.json` with the hypothesis, supported
 engine, historical prefix and all run parameters. Add a `RESEARCH_CONFIG`
 entry with the same ID, path and `git hash-object <file>` to the M1 public
 registry, then run:

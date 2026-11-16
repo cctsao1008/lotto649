@@ -253,12 +253,12 @@ def main(argv=None) -> int:
     parser.add_argument("--events", type=Path, default=Path("data/astronomy/usno_official/usno_events_2004_2026.csv"))
     parser.add_argument("--manifest", type=Path, default=Path("data/astronomy/usno_official/manifest_2004_2026.json"))
     parser.add_argument("--raw-dir", type=Path, default=Path("data/astronomy/usno_official/raw"))
-    parser.add_argument("--draw-context", type=Path, default=Path("data/research/v24_usno/v24_usno_draw_context_2498.csv"))
-    parser.add_argument("--postdraw", type=Path, default=Path("data/research/v24/v24_astronomy_hexagram_2498.csv"))
-    parser.add_argument("--postdraw-report", type=Path, default=Path("data/research/v24/v24_astronomy_hexagram_2498_report.json"))
-    parser.add_argument("--p1-context", type=Path, default=Path("data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv"))
-    parser.add_argument("--p1-report", type=Path, default=Path("data/research/v24_iching/v24_p1_gua_qi_audit_2498.json"))
-    parser.add_argument("--out-dir", type=Path, default=Path("data/research/v24_iching_p2"))
+    parser.add_argument("--draw-context", type=Path, default=Path("research/artifacts/v24_usno/v24_usno_draw_context_2498.csv"))
+    parser.add_argument("--postdraw", type=Path, default=Path("research/artifacts/v24/v24_astronomy_hexagram_2498.csv"))
+    parser.add_argument("--postdraw-report", type=Path, default=Path("research/artifacts/v24/v24_astronomy_hexagram_2498_report.json"))
+    parser.add_argument("--p1-context", type=Path, default=Path("research/artifacts/v24_iching/v24_p1_gua_qi_draw_context_2498.csv"))
+    parser.add_argument("--p1-report", type=Path, default=Path("research/artifacts/v24_iching/v24_p1_gua_qi_audit_2498.json"))
+    parser.add_argument("--out-dir", type=Path, default=Path("research/artifacts/v24_iching_p2"))
     args = parser.parse_args(argv)
     result = generate(events_file=args.events, manifest_file=args.manifest, raw_dir=args.raw_dir,
                       draw_file=args.draw_context, postdraw_file=args.postdraw,

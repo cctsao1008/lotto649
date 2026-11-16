@@ -18,7 +18,7 @@ def configure_parsers(action):
     p.add_argument('--out',type=Path,default=Path('results/v019_prospective_freeze.json'))
 
     p=action.add_parser('shape-prospective-update',help='Evaluate all *new* draws since a sealed preregistered baseline')
-    p.add_argument('--freeze',type=Path,default=Path('docs/prospective_freeze_20261108.json'))
+    p.add_argument('--freeze',type=Path,default=Path('research/prospective/prospective_freeze_20261108.json'))
     p.add_argument('--catalog',type=Path,default=Path('results/v015_v016_p1_shape_catalog.npz'))
     p.add_argument('--universe',type=Path,default=Path('results/v015_v016_p1_shape_catalog_universe.json'))
     p.add_argument('--csv',nargs='*',default=[],help='One or more year CSV paths, directories, or quoted wildcard patterns; must have draw_id,n1..n6, and date for future draws')

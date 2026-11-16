@@ -5,11 +5,11 @@ on:
   push:
     branches: [main]
     paths:
-      - "prospective/v029_p5a_static9_20261113_seal.json"
-      - "experiments/ledger_registry_v1.json"
+      - "research/prospective/v029_p5a_static9_20261113_seal.json"
+      - "research/experiments/ledger_registry_v1.json"
       - "research/lotto7x7/geometry/geometry_shadow_v029.py"
-      - "tests/geometry/test_geometry_shadow_v029_p5a.py"
-      - "docs/studies/geometry/geometric_shadow_v029_p5a.md"
+      - "research/tests/geometry/test_geometry_shadow_v029_p5a.py"
+      - "research/docs/studies/geometry/geometric_shadow_v029_p5a.md"
       - ".github/workflows/geometry_v029_p5a.yml"
 
 permissions:
@@ -29,4 +29,4 @@ jobs:
       - name: Verify future-only nine-draw P5A shadow seal
         run: python -m lotto7x7.geometry_shadow_v029
       - name: Run shadow immutability regressions
-        run: python -m unittest discover -s tests -p 'test_geometry_shadow_v029_p5a.py' -v
+        run: python -m unittest discover -s research/tests -p 'test_geometry_shadow_v029_p5a.py' -v

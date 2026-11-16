@@ -33,7 +33,7 @@ FIRST_NULL_SEED = 1650
 CONSTRAINT = "reference-3plus"
 SCORE_TOLERANCE = 1e-12
 FIXTURE = Path("data/reference/shape_class_counts.json")
-EXACT = Path("data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json")
+EXACT = Path("research/artifacts/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json")
 ARMS = ("legacy_mc", "matched_mc", "exact")
 
 
