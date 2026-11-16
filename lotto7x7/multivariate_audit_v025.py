@@ -12,6 +12,7 @@ from hashlib import sha256
 import json
 from math import comb, isfinite
 from pathlib import Path
+from random import Random
 
 import numpy as np
 
@@ -83,6 +84,33 @@ def iid_tickets(count, seed):
     return out
 
 
+def sample_covariance(catalog, samples, seed):
+    x = encode_features(iid_tickets(samples, seed), catalog)
+    return np.cov(x, rowvar=False, ddof=1)
+
+
+def covariance_model(names, theory, catalog, covariance, variance, ridge, metadata):
+    sd = np.sqrt(variance)
+    corr = covariance / np.outer(sd, sd)
+    # Absent MC categories can have zero covariance. The ridge still gives
+    # a positive definite metric.
+    regularized = (corr + corr.T) / 2 + ridge * np.eye(len(names))
+    eig, basis = np.linalg.eigh(regularized)
+    if eig.min() <= 0:
+        raise AssertionError("regularization failed")
+    return {
+        "names": names, "theory": theory, "sd": sd,
+        "basis": basis, "eigenvalues": eig, "catalog": catalog,
+        "meta": {
+            **metadata,
+            "ridge": ridge, "dimension": len(names),
+            "smallest_eigenvalue": float(eig.min()),
+            "largest_eigenvalue": float(eig.max()),
+            "condition_number": float(eig.max() / eig.min()),
+        },
+    }
+
+
 def fair_covariance(baseline, *, samples=8192, seed=649, ridge=0.25):
     """IID-estimated correlation, regularized in standardized coordinates.
 
@@ -97,8 +125,11 @@ def fair_covariance(baseline, *, samples=8192, seed=649, ridge=0.25):
     if not isfinite(ridge) or ridge <= 0:
         raise ValueError("ridge must be positive finite")
     names, theory, catalog = registry(baseline)
-    x = encode_features(iid_tickets(samples, seed), catalog)
-    covariance = np.cov(x, rowvar=False, ddof=1)
+    covariance = sample_covariance(catalog, samples, seed)
+    return legacy_covariance_model(names, theory, catalog, covariance, samples, seed, ridge)
+
+
+def legacy_covariance_model(names, theory, catalog, covariance, samples, seed, ridge):
     variance = np.diag(covariance).copy()
     # Tiny theoretical categories may have zero simulated occurrences.
     # Stabilize with exact Bernoulli variance for the shape indicators.
@@ -108,28 +139,11 @@ def fair_covariance(baseline, *, samples=8192, seed=649, ridge=0.25):
     # Number indicators and physical features must have nonzero variance.
     if np.any(variance <= 0) or not np.isfinite(variance).all():
         raise ValueError("nonpositive simulated variance")
-    sd = np.sqrt(variance)
-    corr = covariance / np.outer(sd, sd)
-    # diag(corr) may be zero for rare classes absent from MC; identity
-    # regularization still guarantees positive definiteness.
-    regularized = (corr + corr.T) / 2 + ridge * np.eye(len(names))
-    eig, basis = np.linalg.eigh(regularized)
-    if eig.min() <= 0:
-        raise AssertionError("regularization failed")
-    return {
-        "names": names, "theory": theory, "sd": sd,
-        "basis": basis, "eigenvalues": eig,
-        "meta": {
-            "source": "independent uniform legal 6/49 Monte Carlo",
-            "moments": "exact marginal means; MC estimated cross-covariance",
-            "samples": samples, "seed": seed, "ridge": ridge,
-            "dimension": len(names),
-            "smallest_eigenvalue": float(eig.min()),
-            "largest_eigenvalue": float(eig.max()),
-            "condition_number": float(eig.max() / eig.min()),
-        },
-        "catalog": catalog,
-    }
+    return covariance_model(names, theory, catalog, covariance, variance, ridge, {
+        "source": "independent uniform legal 6/49 Monte Carlo",
+        "moments": "exact marginal means; MC estimated cross-covariance",
+        "samples": samples, "seed": seed,
+    })
 
 
 def distance(average, model):
@@ -157,6 +171,18 @@ def portfolio_audit(records, model, tickets):
 
 
 
+def candidate_pool(pool_size, seed):
+    rng = Random(seed)
+    tickets = []
+    seen = set()
+    while len(tickets) < pool_size:
+        row = tuple(sorted(rng.sample(range(1, 50), 6)))
+        if row not in seen:
+            seen.add(row)
+            tickets.append(row)
+    return tickets
+
+
 def select_multivariate_portfolio(records, model, *, pool_size=300,
                                   seed=649, coverage_constraint="reference-3plus"):
     """Bounded covariance-aware four-ticket joint search.
@@ -170,15 +196,7 @@ def select_multivariate_portfolio(records, model, *, pool_size=300,
         raise ValueError("pool size must be in 4..5000")
     if not isinstance(seed, int) or seed < 0:
         raise ValueError("seed must be nonnegative")
-    from random import Random
-    rng = Random(seed)
-    tickets = []
-    seen = set()
-    while len(tickets) < pool_size:
-        row = tuple(sorted(rng.sample(range(1, 50), 6)))
-        if row not in seen:
-            seen.add(row)
-            tickets.append(row)
+    tickets = candidate_pool(pool_size, seed)
     history = encode_features([r[2] for r in records], model["catalog"])
     candidates = encode_features(tickets, model["catalog"])
     n = len(history)
