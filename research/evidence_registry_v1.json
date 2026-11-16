@@ -337,6 +337,41 @@
       "evidence_as_of": "2026-11-14"
     },
     {
+      "id": "matched-covariance-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Does replacing sample covariance with exact fair-IID covariance produce an unusually large gain in the same four-ticket descriptive repair search?",
+      "hypothesis": "The exact-covariance-selected portfolio has a lower common exact post-augmentation distance than the matched-MC-selected portfolio, by more than typically found when both selectors run on fair-IID histories.",
+      "source_cutoff": "2026-11-06 / draw 115000103; 2,497 chronological historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 fixed-budget exact versus MC covariance benchmark v1",
+      "null_model": "99 independent histories of 2,497 IID uniform 6/49 draws, paired across all three covariance arms",
+      "multiple_testing": "One predeclared primary contrast within the retrospective benchmark; the legacy contrast and within-arm gains are diagnostic",
+      "primary_endpoint": "Common exact post-augmentation distance of matched MC portfolio minus distance of Exact portfolio",
+      "result_summary": "All three models selected the same four tickets. Primary gain 0.0, 89/99 paired IID gains at least as large, add-one upper-tail p=0.90. The legacy result reproduced the prior observed and null mean gains.",
+      "method": "Common 163-feature registry, exact means, fixed 300-ticket pool, selector seed 649, ridge 0.25 and bounded legacy search. Shared exact scaling isolates covariance; legacy scaling is included for reproduction.",
+      "limitations": [
+        "Retrospective descriptive objective under one cutoff, one candidate pool and one fixed 8,192-ticket covariance sample.",
+        "Bounded search does not certify global optimality, and the 99 conditional IID replicates limit tail resolution.",
+        "The experiment has no future outcomes or predictive endpoint."
+      ],
+      "next_action": "Use versioned independent cutoffs or a predeclared no-lookahead walk-forward when testing selection robustness, and keep future-only forecast evaluation tied to an independent endpoint.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_matched_covariance_20261116.json",
+          "git_blob_sha1": "7e04d2e3debf46edb4c5f52b34d3372eba3388e8"
+        }
+      ],
+      "evidence_commit": "e9c6518f8e4086efaac6b3f635f7ee6ae42ccc77",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
       "id": "prospective-readiness-v032-20261114",
       "issue": 32,
       "domain": "source_engineering",
