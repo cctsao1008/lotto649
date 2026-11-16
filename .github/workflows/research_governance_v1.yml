@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'lotto7x7/research_governance.py'
+      - 'research/lotto7x7/research_governance.py'
       - 'research/evidence_registry_v1.json'
       - 'docs/research_knowledge_system.md'
       - 'docs/research_hypothesis_template.md'
       - 'docs/research_evidence_index.md'
-      - 'docs/RESEARCH_INDEX.md'
+      - 'docs/research_index.md'
       - 'tests/test_research_governance.py'
       - '.github/workflows/research_governance_v1.yml'
   workflow_dispatch:

@@ -3,7 +3,7 @@ set -euo pipefail
 
 python -m pip install --upgrade pytest numpy
 
-python -m py_compile lotto7x7/portfolio/log_product_v027.py
+python -m py_compile research/lotto7x7/portfolio/log_product_v027.py
 python -m pytest -q tests/portfolio/test_distribution_repair_v027.py tests/portfolio/test_distribution_repair_scoring_v027.py tests/portfolio/test_distribution_repair_portfolio_v027.py tests/portfolio/test_log_product_v027.py
 
 python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 \

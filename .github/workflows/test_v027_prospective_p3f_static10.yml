@@ -5,7 +5,7 @@ on:
     paths:
       - "prospective/v027_p3f_static10_20261110_seal.json"
       - "prospective/README.md"
-      - "lotto7x7/prospective/prospective_p3f_static10_v027.py"
+      - "research/lotto7x7/prospective/prospective_p3f_static10_v027.py"
       - "tests/prospective/test_prospective_p3f_static10_v027.py"
       - ".github/workflows/test_v027_prospective_p3f_static10.yml"
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy
       - name: Compile and test fixed pre-draw seal, no-lookahead and official prize logic
         run: |
-          python -m py_compile lotto7x7/prospective/prospective_p3f_static10_v027.py
+          python -m py_compile research/lotto7x7/prospective/prospective_p3f_static10_v027.py
           python -m pytest -q tests/prospective/test_prospective_p3f_static10_v027.py
       - name: Audit original fixed history and report only available future results
         run: |

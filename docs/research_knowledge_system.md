@@ -12,10 +12,10 @@ This is a governance framework for reproducible research, **not** a prediction s
 
 - [Current evidence index](research_evidence_index.md): original observed, negative and pending research states.
 - [Machine-readable evidence registry](../research/evidence_registry_v1.json): stable IDs, original Git blob hashes and scientific decisions.
-- [Historical research consolidation](research_issue_consolidation_20261112.md): preserved original 2026-11-12 knowledge snapshot.
+- [Historical research consolidation](archive/research_issue_consolidation_20261112.md): preserved original 2026-11-12 knowledge snapshot.
 - [New hypothesis checklist](research_hypothesis_template.md): new proposal and pre-registration requirements.
 - [M1 Experiment Ledger](experiment_ledger_m1.md): original authoritative *separate* public seal identity and private paid-ticket record management.
-- [Research navigation hub](RESEARCH_INDEX.md).
+- [Research navigation hub](research_index.md).
 - [Issue #38](https://github.com/cctsao1008/lotto649/issues/38): governance workstream.
 
 ## Knowledge architecture

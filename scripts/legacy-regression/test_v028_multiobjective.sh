@@ -3,7 +3,7 @@ set -euo pipefail
 
 python -m pip install --upgrade pytest numpy scipy
 
-python -m py_compile lotto7x7/portfolio/multiobjective_v028.py
+python -m py_compile research/lotto7x7/portfolio/multiobjective_v028.py
 python -m pytest -q tests/portfolio/test_multiobjective_v028.py
 
 python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_s0.json --md-out /tmp/v028_s0.md

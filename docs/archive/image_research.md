@@ -2,7 +2,7 @@
 
 This is a historical README snapshot. Versions, results and branch references describe the repository at the time of each study. See the [current README](../../README.md) for the selection pipeline.
 
-See [repository layout and research reproducibility](../repository_layout.md) for module locations, legacy CI replays and M1 experiment configurations.
+See [repository layout and research reproducibility](../architecture.md) for module locations, legacy CI replays and M1 experiment configurations.
 
 This repository begins **from scratch** with one problem: represent each Lotto649 draw as a **7×7 image containing exactly six active pixels**, study image shapes and their temporal order, and test whether a causal forecast resembles the next drawing more closely than an IID random outcome would.
 
@@ -14,12 +14,12 @@ The current 2004–2026 dataset contains **2,498** Lotto649 draws through **2026
 
 ## Fresh implementation
 
-- `lotto7x7/bin_dataset.py`: convert original Lotto649 yearly CSVs into BIN v2, with versioned header, 53-byte image records, strict validation, and byte-for-byte CSV verification.
-- `lotto7x7/core.py`: reversible six-number ↔ 7×7 bitmap; sequential, snake and preseeded permutation mappings; full FFT and DCT roundtrip; geometric similarity with D4 rotations, translations, row/column occupancy and low-frequency DCT; conditional fair-IID baseline.
-- `lotto7x7/learning.py`: **trainable image learning** with a 2D CNN per historical frame, recurrent GRU across frames, D4/translation-tolerant shape loss (image autocorrelation), auxiliary pixel reconstruction and six-active-point constraint; trained 7×7 image output with six brightest pixels selected. This does not import the retired six-of-49 logit decoder.
-- `lotto7x7/legacy/image/models.py`: simple image-only causal controls (`previous`, `centroid_motion`, `temporal_analog`) and image-output diversity diagnostics; these are *non-neural baselines*, not the new learning model.
-- `lotto7x7/legacy/image/research.py`: BIN v2 image importer (default; normalized NumPy files only as optional comparison); chronological train/validation/evaluation splits; conditional-IID-adjusted similarity; within-year time-order shuffling; validation-only method selection and per-draw JSON audit.
-- `lotto7x7/diagnostics.py`: three-arm image-learning diagnostic (normal-order CNN+GRU, per-context time-shuffled CNN+GRU, and history-free trainable template); quantifies continuous logits, Top-6 collapse, latent variability, and paired IID-adjusted scores.
+- `research/lotto7x7/bin_dataset.py`: convert original Lotto649 yearly CSVs into BIN v2, with versioned header, 53-byte image records, strict validation, and byte-for-byte CSV verification.
+- `research/lotto7x7/core.py`: reversible six-number ↔ 7×7 bitmap; sequential, snake and preseeded permutation mappings; full FFT and DCT roundtrip; geometric similarity with D4 rotations, translations, row/column occupancy and low-frequency DCT; conditional fair-IID baseline.
+- `research/lotto7x7/learning.py`: **trainable image learning** with a 2D CNN per historical frame, recurrent GRU across frames, D4/translation-tolerant shape loss (image autocorrelation), auxiliary pixel reconstruction and six-active-point constraint; trained 7×7 image output with six brightest pixels selected. This does not import the retired six-of-49 logit decoder.
+- `research/lotto7x7/legacy/image/models.py`: simple image-only causal controls (`previous`, `centroid_motion`, `temporal_analog`) and image-output diversity diagnostics; these are *non-neural baselines*, not the new learning model.
+- `research/lotto7x7/legacy/image/research.py`: BIN v2 image importer (default; normalized NumPy files only as optional comparison); chronological train/validation/evaluation splits; conditional-IID-adjusted similarity; within-year time-order shuffling; validation-only method selection and per-draw JSON audit.
+- `research/lotto7x7/diagnostics.py`: three-arm image-learning diagnostic (normal-order CNN+GRU, per-context time-shuffled CNN+GRU, and history-free trainable template); quantifies continuous logits, Top-6 collapse, latent variability, and paired IID-adjusted scores.
 - `lotto7x7/__main__.py`: five commands: `check`, `learn`, `diagnose`, `replay`, and `gallery`.
 - `tests/`: tests written **only for this newly designed 7×7 project**.
 
@@ -88,7 +88,7 @@ The `learn` command **optimizes trainable CNN and GRU parameters** on the first 
 `results/learned_image_weights.pt` is a newly trained state dictionary. Only load weights from a trusted source using the corresponding architecture and safe framework loading settings. `results/learned_replay.json` contains per-draw output masks and adjusted similarity; the HTML gallery draws observed/predicted 7×7 images.
 
 The new test suite includes **67 tests** (31 image-core tests, 15 BIN format tests,
-7 BIN model-integration tests, and 14 collapse/temporal-diagnostic tests), including synthetic pattern learning, differentiable gradient flow, chronology and future leakage controls, DCT/FFT reversibility, visual similarity, and report generation. No old 169-case suite is retained. See [BIN v2 layout](../data_bin_format_v2.md).
+7 BIN model-integration tests, and 14 collapse/temporal-diagnostic tests), including synthetic pattern learning, differentiable gradient flow, chronology and future leakage controls, DCT/FFT reversibility, visual similarity, and report generation. No old 169-case suite is retained. See [BIN v2 layout](../operations/data_bin_format_v2.md).
 
 ## Canonical 7×7 image BIN v2
 
@@ -143,7 +143,7 @@ contains each model's validation loss history, validation and retrospective
 adjusted similarity, the 437 per-draw predictions and logit diagnostics.
 **Do not tune on historical test scores and call it prospective performance**:
 the dates have already been inspected. More varied images do not necessarily
-imply predictive value. See `docs/image_learning_diagnostics_v02.md`.
+imply predictive value. See `docs/archive/image_learning_diagnostics_v02.md`.
 
 ## Image Loss Alignment v0.3 — frozen v0.2 comparator
 
@@ -167,9 +167,9 @@ The three arms are `original_v02` (unaltered v0.2 shape loss with positive-weigh
 `balanced_bce` (same shape/mass loss, unweighted BCE), and `projected_six_mass`
 (same CNN/GRU and six-logit decoder; differentiable per-sample soft mass exactly six).
 
-New module: [`lotto7x7/legacy/image/loss_study_v03.py`](../../lotto7x7/legacy/image/loss_study_v03.py).
+New module: [`research/lotto7x7/legacy/image/loss_study_v03.py`](../../research/lotto7x7/legacy/image/loss_study_v03.py).
 See the full preregistered control, loss and uncertainty details in
-[`docs/image_loss_alignment_v03.md`](../image_loss_alignment_v03.md).
+[`docs/archive/image_loss_alignment_v03.md`](image_loss_alignment_v03.md).
 Historical evaluations are **exploratory**, since the targets were inspected
 in prior versions. Increasing image variety is not evidence of lottery predictability.
 
@@ -198,7 +198,7 @@ $py = '.\.venv\Scripts\python.exe'
 This audit is intentionally CPU-only: CPU was faster than RTX 4060 for the
 current small network in one measured run. The 2023–2026 historical evaluation
 data have already been inspected; this audit is exploratory rather than blind.
-See [v0.4 experiment protocol](../predictability_audit_v04.md).
+See [v0.4 experiment protocol](predictability_audit_v04.md).
 
 ## v0.5: image structure, dynamics and image-only representation learning
 
@@ -227,7 +227,7 @@ $py = '.\.venv\Scripts\python.exe'
 The new code leaves archived v0.2 / v0.3 / v0.4 models and historical data
 unchanged. Historical evaluation data have been inspected previously, so these
 are **exploratory studies**, not prospective evidence of a lottery edge.
-See [v0.5 experiment protocol](../image_structure_and_temporal_v05.md).
+See [v0.5 experiment protocol](image_structure_and_temporal_v05.md).
 
 ## v0.5.1: Visual Image Dynamics (image-first)
 
@@ -263,7 +263,7 @@ $py = '.\.venv\Scripts\python.exe'
 ```
 
 These are **retrospective exploratory** plots, not a demonstration of an edge.
-See [v0.5.1 methodology](../visual_image_dynamics_v051.md).
+See [v0.5.1 methodology](visual_image_dynamics_v051.md).
 
 ## v0.6 Phase 1: Image Shape Engine and 100-combination candidate pool
 
@@ -294,7 +294,7 @@ separate random preview combinations. This version does not retrain AI or
 implement the later Random / Shape-Diverse / Coverage-Optimized comparison.
 The preserved historical files and v0.2–v0.5.1 models are unchanged.
 
-See [v0.6 Phase 1 methodology](../shape_pool_v06_phase1.md).
+See [v0.6 Phase 1 methodology](../studies/geometry/shape_pool_v06_phase1.md).
 Under an independent fair draw, even a graph-derived K-combination pool
 has complete six-number coverage exactly K / C(49,6).
 
@@ -316,7 +316,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
 ```
 
-Read [the Phase 2–3 methodology](../shape_pool_v06_phase2.md).
+Read [the Phase 2–3 methodology](../studies/geometry/shape_pool_v06_phase2.md).
 A 100-combination research pool is not 100 purchased tickets; five distinct
 bets have exactly **5 / 13,983,816** probability of all six main numbers in a
 fair independent draw, regardless of selection strategy.
@@ -343,7 +343,7 @@ The sample scored draw ID and numbers above are **placeholders**, not verified
 results. Snapshot and scoring files use exclusive creation to avoid overwrites.
 A local hash/timestamp cannot independently prove pre-draw existence; publish
 the commitment externally before a draw to support blind evaluation.
-See [v0.7 methods and safeguards](../baseline_blind_v07.md).
+See [v0.7 methods and safeguards](baseline_blind_v07.md).
 
 
 ## v0.7.1 — Statistical Robustness Audit (S1 vs B1)
@@ -368,7 +368,7 @@ bootstrapped over draws. Holm correction in a sweep covers all seed × N ×
 strategy comparisons in that invocation; neither this nor the retrospective
 analysis corrects for previous experiments or proves future predictive skill.
 
-See [v0.7.1 statistical methodology](../statistical_robustness_v071.md).
+See [v0.7.1 statistical methodology](../studies/statistics/statistical_robustness_v071.md).
 
 ## v0.7.2 — Full-History GPU Scenario-Coverage Replay
 
@@ -397,7 +397,7 @@ $py = '.\.venv\Scripts\python.exe'
 # After interruption, repeat the full command with --resume.
 ```
 
-Documentation: [v0.7.2 full-history GPU methodology](../full_history_gpu_v072.md).
+Documentation: [v0.7.2 full-history GPU methodology](full_history_gpu_v072.md).
 A CPU-only PyTorch build cannot use CUDA; select a compatible PyTorch build
 using the official PyTorch Start Locally installer if the `gpu-check` command
 reports CUDA unavailable. Historical replay remains exploratory, not prospective
@@ -429,7 +429,7 @@ Results are retrospective/exploratory, not an official source cross-check or
 prospective evidence of a lottery prediction edge. Audit result files are
 exclusive-create and tied to the input report SHA256.
 
-[Full command examples and statistical limitations](../full_history_independent_audit_v073.md).
+[Full command examples and statistical limitations](full_history_independent_audit_v073.md).
 
 
 ## v0.8 — GPU Causal Probability Research
@@ -458,7 +458,7 @@ comparable to this one-ticket forecast metric. A marginal sum of six does not
 create a valid six-number joint probability model or demonstrate empirical
 calibration. All historical results remain exploratory, not prospective proof.
 
-See [v0.8 research protocol](../gpu_probability_research_v08.md).
+See [v0.8 research protocol](gpu_probability_research_v08.md).
 
 
 ## v0.8.1 — Audit existing GPU probability results without rerunning training
@@ -474,7 +474,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m lotto7x7 predict-audit --report results/probability_v08_full.json --out results/probability_v081_audit.json
 ```
 
-Read [the v0.8.1 score-audit protocol](../probability_audit_v081.md).
+Read [the v0.8.1 score-audit protocol](probability_audit_v081.md).
 This retrospective analysis cannot establish a predictive edge; source BIN
 independent verification is a separate step.
 
@@ -504,7 +504,7 @@ Feature discovery is **not** a trained number-selection model and provides no
 established forecasting advantage. The current 2,497 records allocate a 1,997
 record discovery prefix and a 500 record held-out suffix for this experiment;
 old v0.8 studies have already inspected that suffix, so genuinely prospective
-validation remains essential. See [v0.9 method and controls](../multi_domain_feature_discovery_v09.md).
+validation remains essential. See [v0.9 method and controls](multi_domain_feature_discovery_v09.md).
 
 
 ## v0.10 — GPU Deep Feature Discovery
@@ -532,7 +532,7 @@ The `.pt` checkpoint persists the fitted CNN/GRU weights for future
 feature-conditioned ticket research **without rerunning this training**; it is
 not a validated live selector. Only the 13 new tests were run in isolated
 synthetic local verification, not the prior full suite or real RTX 4060 data.
-See [v0.10 protocol](../gpu_deep_feature_discovery_v010.md).
+See [v0.10 protocol](gpu_deep_feature_discovery_v010.md).
 
 
 ## v0.11 — 7×7 Image Classification and Quantification (No Period Search)
@@ -563,7 +563,7 @@ $py = '.\.venv\Scripts\python.exe'
 
 Each run creates JSON, CSV and an **offline HTML gallery** with colored 7×7
 class representatives. Existing outputs are not overwritten. Read the
-[v0.11 research and classification protocol](../image_classification_v011.md).
+[v0.11 research and classification protocol](image_classification_v011.md).
 
 ## v0.12 — Natural 7×7 Image Clustering and Similarity Galleries
 
@@ -606,7 +606,7 @@ git pull --ff-only origin main
 Each run creates JSON, CSV, and offline HTML files using the output stem;
 previous reports are preserved. The 15 newly added tests passed locally;
 previous test suites and GPU predictive backtests were not re-executed.
-[Details, scientific limits, and controls](../natural_clustering_v012.md).
+[Details, scientific limits, and controls](natural_clustering_v012.md).
 
 ## v0.13 — GPU Pairwise Image Similarity (Exact Six-Point Matching)
 
@@ -646,7 +646,7 @@ full distance matrices**. Existing files are never intentionally overwritten.
 The only locally run checks were **16 new v0.13 unit tests** and a
 128-historical-draw integration analysis (CPU because the execution container
 has no CUDA GPU); the full 2,497-draw CUDA run must be performed separately.
-[Full method, controls and interpretation](../gpu_pairwise_image_similarity_v013.md).
+[Full method, controls and interpretation](gpu_pairwise_image_similarity_v013.md).
 
 ## v0.14 — Gaussian Shape Distribution & Density-Based Classification
 
@@ -692,7 +692,7 @@ The output is a **descriptive classification**, not a forecast. Only the
 new v0.14 tests (14 PASS) and a cached-real-data CPU experiment were run;
 old GPU backtests and old suites were not repeated.
 
-Read [the Gaussian shape analysis protocol](../gaussian_shape_distribution_v014.md).
+Read [the Gaussian shape analysis protocol](../studies/geometry/gaussian_shape_distribution_v014.md).
 
 ## v0.14.1 — P0 Gaussian Shape Validation (Batch 1 complete)
 
@@ -738,7 +738,7 @@ significance claim is justified from just one full-size IID replicate.
 **Development checks:** 20 new tests passed and a full historical-distance
 CPU integration smoke test succeeded. **Research acceptance** requires
 running the above complete CUDA experiment and reviewing its outputs.
-[Detailed P0 protocol, interpretation limits and smoke settings](../gaussian_model_validation_p0_v0141.md).
+[Detailed P0 protocol, interpretation limits and smoke settings](../studies/geometry/gaussian_model_validation_p0_v0141.md).
 
 ## v0.15 + v0.16 — P1 Batch 2: Exact Shape Catalog
 
@@ -787,7 +787,7 @@ No historical distances, CNN checkpoints or P0 results were changed.
 **Caution:** Negative shape-distance silhouettes for graph taxonomy indicate
 these are interpretable countable structural codes, not guaranteed natural
 Euclidean clusters. KDE sample modes lack exact all-universe probabilities.
-[Research methods and full output specification](../shape_taxonomy_complete_universe_p1.md).
+[Research methods and full output specification](../studies/geometry/shape_taxonomy_complete_universe_p1.md).
 
 ## v0.17 + v0.18 — P2 Batch 3: Predictive Validation + Shape Explorer
 
@@ -849,7 +849,7 @@ coupled IID sequences and 128 independent ticket-draw simulations.
 historical class-forecast log-gains against IID were negative. Some ticket
 overlap differences arose in this one history but not reliably significant.
 No verified advantage in future fair 6/49 outcomes has been established.
-See [P2 research protocol and limitations](../shape_p2_predictive_validation_explorer.md).
+See [P2 research protocol and limitations](../studies/geometry/shape_p2_predictive_validation_explorer.md).
 
 ## v0.19 — Future-only Prospective Validation (P3)
 
@@ -906,7 +906,7 @@ before new outcomes.
 HTML from the complete current-history scan verified. Only **future**
 draws with externally verified sources can provide prospective evidence.
 
-[Detailed study design, statistical justification and update protocol](../prospective_validation_v019.md).
+[Detailed study design, statistical justification and update protocol](../studies/prospective/prospective_validation_v019.md).
 
 ## v0.20 — Pre-Draw Commitments and Post-Draw Source Audit
 
@@ -965,7 +965,7 @@ integrity audit**, not an endorsement of lottery prediction or betting.
 the initial sealed snapshot. First post-draw audit currently correctly
 returns `AWAITING_DRAW` and contains zero new outcomes.
 
-[Full verification and evidence limitations](../pre_draw_commitment_v020.md).
+[Full verification and evidence limitations](../studies/prospective/pre_draw_commitment_v020.md).
 
 ## v0.21 — Unified Number Selection Engine
 
@@ -1021,7 +1021,7 @@ does not establish predictive superiority; it is one seeded candidate
 portfolio comparison, not a prospective test.
 
 [Detailed design, exact probability definition, objective trade-offs and
-validation](../unified_selection_v021.md).
+validation](../studies/portfolio/unified_selection_v021.md).
 
 ## v0.22 — Timed Historical Exact-Hit Benchmark (20-minute local experiment)
 
@@ -1075,7 +1075,7 @@ uniform guesses at ranks 4,278 and 9,627. In the *same* candidate pool,
 in-sample L3 shape ordering moved those ranks to 3,786 and 1. Three
 10000-ticket trials had five historical hit events total; a separate
 last-500-target check gave one hit in three trials.
-[Full methodology and limitations](../historical_guess_benchmark_v022.md).
+[Full methodology and limitations](historical_guess_benchmark_v022.md).
 
 ## v0.22.1 — Quiet Historical Hit Watch (Fix)
 
@@ -1119,7 +1119,7 @@ sets (shape rank #1 and #3,786; uniform ranks #9,627 and #4,278).
 **97 selected old+new tests PASS**, including simulated timers, silent-no-hit,
 Ctrl+C audit persistence, total 10,000 cap and Windows CLI flags.
 
-[Correction details, statistical meaning and CLI](../historical_guess_watch_v0221.md).
+[Correction details, statistical meaning and CLI](historical_guess_watch_v0221.md).
 
 ## v0.22.2 — Unlimited Fast Historical Hit Stream (Ctrl+C Stop)
 
@@ -1173,7 +1173,7 @@ versus later-history, but the archive has already been explored.
 Ctrl+C signal interrupted an unlimited execution normally and preserved
 `84/590000=0.014237%` summary (the measurement is test-environment-specific).
 
-[Detailed design, statistics, exact numerator/denominator and limitations](../historical_hit_stream_v0222.md).
+[Detailed design, statistics, exact numerator/denominator and limitations](historical_hit_stream_v0222.md).
 
 ## v0.23 — Chronological Holdout Early-Hit Efficiency
 
@@ -1228,7 +1228,7 @@ Shape in 144 nonempty pools versus Uniform in 155.
 **39 selected v0.22.2 + v0.23 tests PASS**. Outputs checked for
 independent CSV-to-JSON sum consistency.
 
-[Methodology, caveats, report schema and reproducibility](../early_hit_efficiency_v023.md).
+[Methodology, caveats, report schema and reproducibility](early_hit_efficiency_v023.md).
 
 ## v0.24 — Temporal Image & Signal Analysis (P0–P5)
 
@@ -1287,4 +1287,4 @@ an independently verified official-source prospective validation.
 
 **Tests:** 22/22 new v0.24 PASS, 43/43 combined v0.23+v0.24 PASS;
 full 200 IID / 1000-bootstrap local preliminary computation completed.
-See [full methodology, CLI, output schema and caveats](../temporal_image_signal_v024.md).
+See [full methodology, CLI, output schema and caveats](../studies/statistics/temporal_image_signal_v024.md).

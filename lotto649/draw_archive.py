@@ -1,0 +1,173 @@
+"""Read and verify the paired Lotto649 draw archives."""
+from collections import defaultdict
+from datetime import date, datetime
+import hashlib
+import json
+from pathlib import Path
+import struct
+from urllib.parse import urlsplit
+
+
+HEAD = struct.Struct("<8sII")
+HISTORY = struct.Struct("<II7B")
+IMAGE = struct.Struct("<I49B")
+DEFAULT_BIN = Path("data/bin")
+
+
+def _checked_binary(path: Path, *, magic: bytes, record: struct.Struct,
+                    sha256: str) -> memoryview:
+    payload = path.read_bytes()
+    if hashlib.sha256(payload).hexdigest() != sha256:
+        raise ValueError(f"{path}: SHA-256 differs from source manifest")
+    if len(payload) < HEAD.size:
+        raise ValueError(f"{path}: truncated header")
+    stored_magic, count, record_bytes = HEAD.unpack_from(payload)
+    if stored_magic != magic or record_bytes != record.size:
+        raise ValueError(f"{path}: unsupported binary version or record width")
+    if count < 1 or len(payload) != HEAD.size + count * record_bytes:
+        raise ValueError(f"{path}: invalid record count or byte length")
+    return memoryview(payload)
+
+
+
+def valid_appended_source_provenance(reference: object) -> bool:
+    """Public, descriptive source metadata; NOT two preserved publisher pages.
+
+    Accept the original independently corroborated non-operator source class,
+    or an operator-official result checked against a second independent host.
+    Neither class alone is sufficient for prospective statistical admission.
+    """
+    if not isinstance(reference, dict):
+        return False
+    status = reference.get("source_status")
+    nonofficial = "CORROBORATED_BY_INDEPENDENT_NON_OFFICIAL_SOURCES"
+    operator = "OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED"
+    if status not in (nonofficial, operator):
+        return False
+    sources = reference.get("sources")
+    if not isinstance(sources, list) or len(sources) < 2:
+        return False
+    hosts = []
+    for row in sources:
+        if not isinstance(row, dict) or not isinstance(row.get("name"), str) or not row["name"].strip():
+            return False
+        uri = row.get("url")
+        if not isinstance(uri, str):
+            return False
+        parsed = urlsplit(uri)
+        if (parsed.scheme != "https" or not parsed.hostname
+                or parsed.username is not None or parsed.password is not None):
+            return False
+        hosts.append(parsed.hostname.lower())
+    if len(set(hosts)) != len(hosts):
+        return False
+    if status == operator and "lotto.ctbcbank.com" not in hosts:
+        return False
+    if status == nonofficial and "lotto.ctbcbank.com" in hosts:
+        return False
+    return True
+
+def read_verified_draws(bin_dir: Path = DEFAULT_BIN) -> dict[int, list[tuple[date, int, tuple[int, ...], int]]]:
+    """Read the chronological draw archive and verify both BINs and their provenance."""
+    bin_dir = Path(bin_dir)
+    manifest = json.loads((bin_dir / "lotto649_source_manifest.json").read_text("utf-8"))
+    dataset = manifest.get("dataset")
+    if dataset not in ("lotto649.single-source.biga.v1",
+                       "lotto649.appended-verified.v2"):
+        raise ValueError("unexpected source dataset; expected Biga v1 or source-audited appended v2")
+    files = manifest["files"]
+    history = _checked_binary(
+        bin_dir / "lotto649_history_v1.bin",
+        magic=b"L649HIS1", record=HISTORY,
+        sha256=files["lotto649_history_v1.bin"]["sha256"]
+    )
+    images = _checked_binary(
+        bin_dir / "lotto649_images_v2.bin",
+        magic=b"L649IMG2", record=IMAGE,
+        sha256=files["lotto649_images_v2.bin"]["sha256"]
+    )
+    count = HEAD.unpack_from(history)[1]
+    if count != HEAD.unpack_from(images)[1] or count != manifest["total_draws"]:
+        raise ValueError("history / image / manifest draw counts disagree")
+    by_year: dict[int, list[tuple[date, int, tuple[int, ...], int]]] = defaultdict(list)
+    previous_id, previous_date = 0, None
+
+    for index in range(count):
+        h = HISTORY.unpack_from(history, HEAD.size + index * HISTORY.size)
+        image = IMAGE.unpack_from(images, HEAD.size + index * IMAGE.size)
+        draw_id, yyyymmdd, *balls = h
+        main, special = tuple(balls[:6]), balls[6]
+        try:
+            draw_date = datetime.strptime(str(yyyymmdd), "%Y%m%d").date()
+        except ValueError as exc:
+            raise ValueError(f"invalid date {yyyymmdd} at record {index}") from exc
+        year = draw_date.year
+        roc = year - 1911
+        if not 2004 <= year <= 2026 or draw_id // 1000000 != roc:
+            raise ValueError(f"draw ID / date year mismatch: {draw_id} / {yyyymmdd}")
+        if draw_id <= previous_id or (previous_date is not None and draw_date <= previous_date):
+            raise ValueError(f"duplicate or unordered draw: {draw_id}")
+        if len(main) != 6 or tuple(sorted(set(main))) != main or any(
+            not 1 <= n <= 49 for n in (*main, special)
+        ) or special in main:
+            raise ValueError(f"invalid main/special numbers at {draw_id}")
+        if image[0] != draw_id or tuple(image[1:]) != tuple(
+            1 if n in main else 0 for n in range(1, 50)
+        ):
+            raise ValueError(f"history/image BIN mismatch at draw {draw_id}")
+        by_year[year].append((draw_date, draw_id, main, special))
+        previous_id, previous_date = draw_id, draw_date
+
+    actual_counts = {year: len(rows) for year, rows in sorted(by_year.items())}
+    expected_counts = {int(year): int(n) for year, n in manifest["by_year"].items()}
+    if actual_counts != expected_counts:
+        raise ValueError(f"annual counts disagree with manifest: {actual_counts}")
+    if (previous_id != manifest["last_draw_id"] or
+            next(iter(by_year.values()))[0][1] != manifest["first_draw_id"]):
+        raise ValueError("first/last draw ID differs from manifest")
+
+    # v2 is not a single-source Biga snapshot: every appended row MUST
+    # have independently recorded provenance and match actual binary fields.
+    # The entire original Biga segment must remain untouched and ordered.
+    if dataset == "lotto649.appended-verified.v2":
+        baseline = manifest.get("original_source_snapshot", {})
+        original_count = baseline.get("total_draws")
+        if (original_count != 2497
+                or baseline.get("dataset") != "lotto649.single-source.biga.v1"
+                or baseline.get("cutoff") != "2026-11-06"
+                or baseline.get("last_draw_id") != 115000103
+                or baseline.get("prefix_sha256") !=
+                    "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8"):
+            raise ValueError("original historical Biga frozen-source anchor differs")
+        flattened = [
+            (day, ident, main, special)
+            for year_rows in by_year.values()
+            for day, ident, main, special in year_rows
+        ]
+        if (len(flattened) <= original_count or
+                flattened[original_count - 1][:2] !=
+                    (date(2026, 11, 6), 115000103)):
+            raise ValueError("original Biga terminal draw has changed or no append")
+        appended = manifest.get("appended_draws")
+        if (not isinstance(appended, list)
+                or len(appended) != count - original_count):
+            raise ValueError("all appended draws require 1:1 provenance records")
+        for position, (reference, actual) in enumerate(
+                zip(appended, flattened[original_count:]), start=original_count):
+            day, ident, main, special = actual
+            if (not isinstance(reference, dict)
+                    or reference.get("draw_id") != ident
+                    or reference.get("date") != day.isoformat()
+                    or reference.get("main") != list(main)
+                    or reference.get("bonus") != special
+                    or not valid_appended_source_provenance(reference)):
+                raise ValueError(f"appended source provenance/actual BIN disagree at index {position}")
+        if (manifest["cutoff"] != flattened[-1][0].isoformat()
+                or manifest["last_draw_id"] != flattened[-1][1]):
+            raise ValueError("appended manifest final cutoff/period mismatch")
+
+    for year, draws in by_year.items():
+        sequence = [draw_id % 1000000 for _, draw_id, _, _ in draws]
+        if sequence != list(range(1, len(draws) + 1)):
+            raise ValueError(f"missing or duplicate annual sequence: {year}")
+    return dict(by_year)

@@ -5,14 +5,14 @@ on:
   push:
     branches: [main]
     paths:
-      - "lotto7x7/statistics/distribution_dynamics_v030.py"
-      - "lotto7x7/statistics/conditional_monte_carlo_v030.py"
+      - "research/lotto7x7/statistics/distribution_dynamics_v030.py"
+      - "research/lotto7x7/statistics/conditional_monte_carlo_v030.py"
       - "tests/statistics/test_distribution_dynamics_v030_p0.py"
       - "tests/statistics/test_conditional_monte_carlo_v030_p1.py"
-      - "docs/distribution_dynamics_v030_p0_p1.md"
+      - "docs/studies/statistics/distribution_dynamics_v030_p0_p1.md"
       - ".github/workflows/distribution_v030_p0_p1.yml"
-      - "lotto7x7/geometry/geometry_repair_v029.py"
-      - "lotto7x7/geometry/geometry_redundancy_v029.py"
+      - "research/lotto7x7/geometry/geometry_repair_v029.py"
+      - "research/lotto7x7/geometry/geometry_redundancy_v029.py"
 
 permissions:
   contents: read

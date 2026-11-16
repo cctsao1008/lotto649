@@ -6,9 +6,9 @@ on:
     branches: [main]
     paths:
       - 'prospective/v23_m0_global_static200_20261113_seal.json'
-      - 'lotto7x7/prospective/prospective_validation_v23.py'
+      - 'research/lotto7x7/prospective/prospective_validation_v23.py'
       - 'tests/prospective/test_prospective_validation_v23.py'
-      - 'docs/prospective_validation_v23.md'
+      - 'docs/studies/prospective/prospective_validation_v23.md'
       - '.github/workflows/prospective_validation_v23.yml'
 
 permissions:

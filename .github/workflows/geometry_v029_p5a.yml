@@ -7,9 +7,9 @@ on:
     paths:
       - "prospective/v029_p5a_static9_20261113_seal.json"
       - "experiments/ledger_registry_v1.json"
-      - "lotto7x7/geometry/geometry_shadow_v029.py"
+      - "research/lotto7x7/geometry/geometry_shadow_v029.py"
       - "tests/geometry/test_geometry_shadow_v029_p5a.py"
-      - "docs/geometric_shadow_v029_p5a.md"
+      - "docs/studies/geometry/geometric_shadow_v029_p5a.md"
       - ".github/workflows/geometry_v029_p5a.yml"
 
 permissions:

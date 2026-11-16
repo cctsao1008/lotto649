@@ -5,13 +5,13 @@ on:
   push:
     branches: [main]
     paths:
-      - "lotto7x7/official_draw_evidence_m2.py"
-      - "lotto7x7/prospective_evaluation_m4.py"
+      - "research/lotto7x7/official_draw_evidence_m2.py"
+      - "research/lotto7x7/prospective_evaluation_m4.py"
       - "tests/test_official_draw_evidence_m2.py"
       - "tests/test_prospective_evaluation_m4.py"
       - "tests/_archive_fixture.py"
       - "tests/fixtures/archive_115000104/**"
-      - "docs/source_evidence_prospective_m2_m4.md"
+      - "docs/operations/source_evidence_prospective_m2_m4.md"
       - ".github/workflows/source_evidence_prospective_m2_m4.yml"
 
 permissions:

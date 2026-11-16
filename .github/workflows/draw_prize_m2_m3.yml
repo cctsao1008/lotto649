@@ -12,15 +12,15 @@ on:
   push:
     branches: [main]
     paths:
-      - "lotto7x7/draw_ingestion_m2.py"
-      - "lotto7x7/prize_engine_m3.py"
+      - "research/lotto7x7/draw_ingestion_m2.py"
+      - "research/lotto7x7/prize_engine_m3.py"
       - "tests/test_draw_ingestion_m2.py"
       - "tests/test_prize_engine_m3.py"
       - "data/csv/lotto649_2026.csv"
       - "data/bin/**"
       - "scripts/export_lotto649_csv.py"
       - "tests/legacy/test_lotto649_append_20261110.py"
-      - "docs/draw_ingestion_prize_m2_m3.md"
+      - "docs/operations/draw_ingestion_prize_m2_m3.md"
       - ".github/workflows/draw_prize_m2_m3.yml"
 
 permissions:

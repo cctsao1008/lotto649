@@ -3,11 +3,11 @@ name: v0.30 P2B Portfolio Benchmark
 on:
   push:
     paths:
-      - 'lotto7x7/portfolio/portfolio_benchmark_v030.py'
-      - 'lotto7x7/portfolio/portfolio_prize_v030.py'
+      - 'research/lotto7x7/portfolio/portfolio_benchmark_v030.py'
+      - 'research/lotto7x7/portfolio/portfolio_prize_v030.py'
       - 'tests/portfolio/test_portfolio_benchmark_v030_p2b.py'
       - 'tests/portfolio/test_portfolio_prize_v030.py'
-      - 'docs/portfolio_benchmark_v030_p2b.md'
+      - 'docs/studies/portfolio/portfolio_benchmark_v030_p2b.md'
       - '.github/workflows/portfolio_benchmark_v030_p2b.yml'
   workflow_dispatch:
 

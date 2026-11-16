@@ -35,7 +35,7 @@ class LossAlignmentTests(unittest.TestCase):
             "learning.py": "41718499b9e8095b501099a8c009eaa903922d6d05e7a38edafd1e66d9b169e2",
             "diagnostics.py": "9ad0048ec7575679e13d4a425330996c4ad09c1bee6eed2218bc85c0960a3811",
         }
-        root = Path(__file__).resolve().parents[3] / "lotto7x7"
+        root = Path(__file__).resolve().parents[3] / "research/lotto7x7"
         for name, original_sha in expected.items():
             text = (root / name).read_text(encoding="utf-8").replace("\r\n", "\n")
             actual_sha = hashlib.sha256(text.encode("utf-8")).hexdigest()

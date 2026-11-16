@@ -20,7 +20,7 @@
       "artifacts": [
         {
           "role": "mathematical_proof",
-          "path": "docs/coverage_burnside_independent_v026.md",
+          "path": "docs/studies/portfolio/coverage_burnside_independent_v026.md",
           "git_blob_sha1": "fe9f70aab1a2cd1d60bdf8a918866dc4b214a5ea"
         }
       ],
@@ -89,7 +89,7 @@
       "artifacts": [
         {
           "role": "mathematical_proof",
-          "path": "docs/shape_taxonomy_complete_universe_p1.md",
+          "path": "docs/studies/geometry/shape_taxonomy_complete_universe_p1.md",
           "git_blob_sha1": "0c9e07d01617895b759a06c3dce910590e0ad24e"
         }
       ],
@@ -122,7 +122,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/incremental_geometry_v031_h2_results_20261112.md",
+          "path": "docs/studies/geometry/incremental_geometry_v031_h2_results_20261112.md",
           "git_blob_sha1": "29e990c906f52e3267967264c1702eab5e080973"
         }
       ],
@@ -287,7 +287,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/strategy_validation_v22.md",
+          "path": "docs/archive/strategy_validation_v22.md",
           "git_blob_sha1": "543008dc3087cc897a1106c804a72525e0d0ed78"
         }
       ],
@@ -320,7 +320,7 @@
       "artifacts": [
         {
           "role": "report",
-          "path": "docs/distribution_dynamics_v030_p0_p1.md",
+          "path": "docs/studies/statistics/distribution_dynamics_v030_p0_p1.md",
           "git_blob_sha1": "4314e05aad5997a10e31ee0109073c603a5c2bcc"
         }
       ],

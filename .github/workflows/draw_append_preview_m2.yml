@@ -5,12 +5,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "lotto7x7/draw_append_preview_m2.py"
-      - "lotto7x7/official_draw_evidence_m2.py"
+      - "research/lotto7x7/draw_append_preview_m2.py"
+      - "research/lotto7x7/official_draw_evidence_m2.py"
       - "tests/test_draw_append_preview_m2.py"
       - "tests/_archive_fixture.py"
       - "tests/fixtures/archive_115000104/**"
-      - "docs/draw_append_preview_m2.md"
+      - "docs/operations/draw_append_preview_m2.md"
       - ".github/workflows/draw_append_preview_m2.yml"
 
 permissions:

@@ -6,16 +6,16 @@ The Git blob hashes pin *original artifacts*, so later source append operations 
 
 | Experiment | Domain | Evidence tier | Scientific decision | Engineering | Quantity* | Source |
 | --- | --- | --- | --- | --- | ---: | --- |
-| coverage-four-ticket-burnside-v026 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 2957 | [mathematical_proof](../docs/coverage_burnside_independent_v026.md) |
+| coverage-four-ticket-burnside-v026 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 2957 | [mathematical_proof](../docs/studies/portfolio/coverage_burnside_independent_v026.md) |
 | exact-covariance-v025-163-20261115 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 13983816 | [mathematical_proof](../data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json) |
-| fair-shape-exact-v016 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 13983816 | [mathematical_proof](../docs/shape_taxonomy_complete_universe_p1.md) |
-| geometry-incremental-h2-v031 | geometry | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 200 | [report](../docs/incremental_geometry_v031_h2_results_20261112.md) |
+| fair-shape-exact-v016 | probability | STRUCTURAL_THEOREM | PROVEN_MATHEMATICALLY | PASS | 13983816 | [mathematical_proof](../docs/studies/geometry/shape_taxonomy_complete_universe_p1.md) |
+| geometry-incremental-h2-v031 | geometry | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 200 | [report](../docs/studies/geometry/incremental_geometry_v031_h2_results_20261112.md) |
 | iching-p1a-20261113 | iching | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2476 | [report](../data/research/v24_iching/v24_p1a_gua_qi_association_2498.json) |
 | iching-p2a-20261114 | iching | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2476 | [report](../data/research/v24_iching_p2a/v24_p2a_hexagram_association_2498.json) |
 | iching-p3-static100-20261114 | iching | PROSPECTIVE_PRESEALED | PENDING | PASS | 0 | [seal](../prospective/v24_p3_usno_hexagram_static100_20261114_seal.json) |
 | m0-v23-static200-20261113 | portfolio | PROSPECTIVE_PRESEALED | PENDING | PASS | 0 | [seal](../prospective/v23_m0_global_static200_20261113_seal.json) |
-| m0-walkforward-v22 | portfolio | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 325 | [report](../docs/strategy_validation_v22.md) |
-| martingale-deficit-v030 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2498 | [report](../docs/distribution_dynamics_v030_p0_p1.md) |
+| m0-walkforward-v22 | portfolio | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 325 | [report](../docs/archive/strategy_validation_v22.md) |
+| martingale-deficit-v030 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2498 | [report](../docs/studies/statistics/distribution_dynamics_v030_p0_p1.md) |
 | matched-covariance-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2497 | [report](../data/research/v025_exact_covariance/v025_matched_covariance_20261116.json) |
 | matched-covariance-walkforward-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 200 | [report](../data/research/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json) |
 | multivariate-calibration-v025-20261116 | statistics | EXPLORATORY_RETROSPECTIVE | NO_EVIDENCE | PASS | 2497 | [report](../data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json) |

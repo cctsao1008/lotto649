@@ -13,7 +13,7 @@ jobs:
       - run: python -m pip install pytest numpy
       - name: Run P3e and cumulative P0-P3d tests
         run: |
-          python -m py_compile lotto7x7/portfolio/log_product_p3d_legacy_replay_v027.py lotto7x7/portfolio/log_product_p3e_merge_v027.py
+          python -m py_compile research/lotto7x7/portfolio/log_product_p3d_legacy_replay_v027.py research/lotto7x7/portfolio/log_product_p3e_merge_v027.py
           python -m pytest -q \
             tests/portfolio/test_distribution_repair_v027.py tests/portfolio/test_distribution_repair_scoring_v027.py \
             tests/portfolio/test_distribution_repair_portfolio_v027.py tests/portfolio/test_log_product_v027.py \

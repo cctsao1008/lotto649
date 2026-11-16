@@ -1,0 +1,36 @@
+name: Lotto649 Selection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lotto649/**'
+      - 'config/strategy.json'
+      - 'data/bin/**'
+      - 'data/astronomy/**'
+      - 'data/reference/**'
+      - 'tests/strategy/**'
+      - '.github/workflows/selection.yml'
+  pull_request:
+    paths:
+      - 'lotto649/**'
+      - 'config/strategy.json'
+      - 'data/bin/**'
+      - 'data/astronomy/**'
+      - 'data/reference/**'
+      - 'tests/strategy/**'
+      - '.github/workflows/selection.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  strategy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'pytest>=8,<10' 'numpy>=1.26,<3'
+      - run: python -m pytest -q tests/strategy
