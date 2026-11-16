@@ -10,7 +10,7 @@ predictability.
 
 ## Reproducibility and scope
 
-- Code: `lotto7x7/iching_gua_qi_stats_v24_p1a.py`; methodology:
+- Code: `lotto7x7/astronomy/iching_gua_qi_stats_v24_p1a.py`; methodology:
   `docs/iching_gua_qi_v24_p1a_stats.md`.
 - Research source: `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`
   frozen SHA256 `53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1`.

@@ -61,7 +61,7 @@ python -m lotto7x7.strategy_verification_v21 `
   --out results/strategy_v21_full_universe.json
 ```
 
-GitHub workflow: `.github/workflows/strategy_verification_v21.yml`. The report is **write-once**, stored under `results/`, and uploaded as a workflow artifact. Regeneration must never modify original CSV/bin inputs, historical M0/predictive seals, or previous reports.
+GitHub workflow: `.github/workflows/regression_legacy.yml` with replay `strategy_verification_v21`. The report is **write-once**, stored under `results/`, and uploaded as a workflow artifact. Regeneration must never modify original CSV/bin inputs, historical M0/predictive seals, or previous reports.
 
 ## Three separate conclusions
 

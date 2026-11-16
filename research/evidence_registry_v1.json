@@ -337,6 +337,144 @@
       "evidence_as_of": "2026-11-14"
     },
     {
+      "id": "matched-covariance-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Does replacing sample covariance with exact fair-IID covariance produce an unusually large gain in the same four-ticket descriptive repair search?",
+      "hypothesis": "The exact-covariance-selected portfolio has a lower common exact post-augmentation distance than the matched-MC-selected portfolio, by more than typically found when both selectors run on fair-IID histories.",
+      "source_cutoff": "2026-11-06 / draw 115000103; 2,497 chronological historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 fixed-budget exact versus MC covariance benchmark v1",
+      "null_model": "99 independent histories of 2,497 IID uniform 6/49 draws, paired across all three covariance arms",
+      "multiple_testing": "One predeclared primary contrast within the retrospective benchmark; the legacy contrast and within-arm gains are diagnostic",
+      "primary_endpoint": "Common exact post-augmentation distance of matched MC portfolio minus distance of Exact portfolio",
+      "result_summary": "All three models selected the same four tickets. Primary gain 0.0, 89/99 paired IID gains at least as large, add-one upper-tail p=0.90. The legacy result reproduced the prior observed and null mean gains.",
+      "method": "Common 163-feature registry, exact means, fixed 300-ticket pool, selector seed 649, ridge 0.25 and bounded legacy search. Shared exact scaling isolates covariance; legacy scaling is included for reproduction.",
+      "limitations": [
+        "Retrospective descriptive objective under one cutoff, one candidate pool and one fixed 8,192-ticket covariance sample.",
+        "Bounded search does not certify global optimality, and the 99 conditional IID replicates limit tail resolution.",
+        "The experiment has no future outcomes or predictive endpoint."
+      ],
+      "next_action": "Use versioned independent cutoffs or a predeclared no-lookahead walk-forward when testing selection robustness, and keep future-only forecast evaluation tied to an independent endpoint.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_matched_covariance_20261116.json",
+          "git_blob_sha1": "7e04d2e3debf46edb4c5f52b34d3372eba3388e8"
+        }
+      ],
+      "evidence_commit": "e9c6518f8e4086efaac6b3f635f7ee6ae42ccc77",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
+      "id": "matched-covariance-walkforward-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Does Exact covariance improve holdout award incidence compared with Matched MC at identical fair-IID official prize coverage?",
+      "hypothesis": "Exact wins on more held-out draws than Matched MC by an amount unusually large under whole-pipeline IID replay.",
+      "source_cutoff": "Source through 2026-11-06 / 115000103; holdouts 2020-11-13 to 2022-08-05 / 109000099 to 111000072",
+      "sample_size": 200,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 paired covariance walk-forward v1",
+      "null_model": "99 IID six-main-plus-special histories, with all three optimizers rerun in each of the eight folds",
+      "multiple_testing": "One primary Exact minus Matched MC upper-tail contrast; other arms and absolute effect are diagnostic",
+      "primary_endpoint": "Number of holdout draws with any eight-tier award for Exact minus Matched MC",
+      "result_summary": "Exact 22/200, Matched MC and Legacy MC 25/200 each, history-blind baseline 22/200. Observed primary delta -3 draws, empirical upper-tail p=0.91. Exact and Matched MC selected identical portfolios in seven of eight folds.",
+      "method": "Expanding chronological prefixes, eight disjoint 25-draw holdouts, common legacy candidate pool and search, exact disjoint coverage parity, shared exact scaling in the primary contrast, verified bonus scoring.",
+      "limitations": [
+        "The original historical fold scheme and outcomes have been used for prior research.",
+        "One bounded optimizer, one fixed sample covariance, one timeline, 200 tested draws and 99 paired null replays limit inference.",
+        "All four arms have identical theoretical fair-IID award incidence. Prospective prediction requires separately frozen evidence."
+      ],
+      "next_action": "Use a separately specified unseen prospective evaluation if a future covariance strategy has a prespecified discriminating endpoint.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json",
+          "git_blob_sha1": "f44642c17d713ddb86a92aec222930ced79f96f7"
+        }
+      ],
+      "evidence_commit": "067dd138c73426b0e6c879832da8218d87609319",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
+      "id": "multivariate-calibration-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Are covariance-aware distance, maximal residual or entropy atypical after finite-sample fair-IID calibration?",
+      "hypothesis": "At least one prespecified endpoint differs from finite-sample fair-IID expectations after familywise correction.",
+      "source_cutoff": "2026-11-06 / 115000103; 2,497 historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 finite-sample multivariate covariance and entropy audit v1",
+      "null_model": "1,999 full fair-IID 6/49 histories; separate 199-replay primary size check",
+      "multiple_testing": "Bonferroni across 40 exploratory endpoints using full history and four time blocks",
+      "primary_endpoint": "N times ridge-whitened squared distance from the exact fair feature mean",
+      "result_summary": "Primary raw p=0.089. Minimum family-adjusted p=0.44. The primary size diagnostic rejected 9/199 fair histories at nominal 5%.",
+      "method": "Exact population covariance and fair categorical masses, standardized ridge 0.25, chronological segment-matched IID replay, and bias estimates for plug-in entropy.",
+      "limitations": [
+        "The historical archive has been examined in prior research.",
+        "The size check conditions on one finite null reference, and the adjusted test targets the declared feature family only."
+      ],
+      "next_action": "Use a prospective design only after the eligibility, exact cross-arm discordance and power checks have been recorded.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json",
+          "git_blob_sha1": "436e24724fb4d351c933593a3d59aea2fb50b06e"
+        }
+      ],
+      "evidence_commit": "cf5650bc9b6fe1067241c09a0b2a3f94421510a7",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
+      "id": "portfolio-pareto-v025-20261116",
+      "issue": 8,
+      "domain": "portfolio",
+      "evidence_stage": "DESCRIPTIVE",
+      "research_decision": "DESCRIPTIVE_COMPLETE",
+      "engineering_status": "PASS",
+      "research_question": "How do exact fair main-ball threshold coverage and historical covariance-aware repair trade off in a fixed four-ticket search?",
+      "hypothesis": "Some portfolios improve historical repair at lower coverage, while exact coverage maxima can be certified independently by overlap structure.",
+      "source_cutoff": "2026-11-06 / 115000103; 2,497 historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 joint coverage and exact covariance Pareto v1",
+      "null_model": "Uniform six-of-49 finite universe; separate exact special-ball prize calculation",
+      "multiple_testing": "Objective enumeration and descriptive ranking; no statistical hypothesis test",
+      "primary_endpoint": "Nondominated vectors across bounded historical repair searches, and exact 3+/4+/5+ coverage maxima across all 2,957 structural orbits",
+      "result_summary": "Six matched-pool strategies, 6,781 evaluated complete portfolios and 22 frontier vectors. The disjoint orbit uniquely maximizes the three main-ball coverage thresholds jointly. Independent full enumeration matched the joint DP on two generated portfolios.",
+      "method": "300-ticket seeded pool, fixed budget, deterministic one-ticket swaps, exact population covariance with ridge 0.25, and membership-mask counts checked against full-universe enumeration.",
+      "limitations": [
+        "The repair frontier covers evaluated portfolios only and uses one historical cutoff.",
+        "Exact structural maxima describe the fair mathematical model. No outcome prediction was evaluated."
+      ],
+      "next_action": "Complete remaining finite-sample descriptive calibration and retain independent prospective protocol requirements.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_portfolio_pareto_20261116.json",
+          "git_blob_sha1": "2482b5c8a5b8a1b15e2bcd0728b1349ecc5a9faa"
+        }
+      ],
+      "evidence_commit": "df44d3b8569ccd52cb26c54d8e9eaa1a6429f3f5",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
       "id": "prospective-readiness-v032-20261114",
       "issue": 32,
       "domain": "source_engineering",

@@ -31,7 +31,7 @@ The enumerator is intentionally independent of SciPy's `milp`, `linprog` and the
 
 ## Execute
 
-On GitHub Actions, run the dedicated `.github/workflows/strategy_verification_v15.yml` workflow. With a C++17 compiler available locally:
+On GitHub Actions, run the dedicated `.github/workflows/regression_legacy.yml` with replay `strategy_verification_v15` workflow. With a C++17 compiler available locally:
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'

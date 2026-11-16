@@ -1,0 +1,19 @@
+{
+  "schema": "lotto649.research_config.v1",
+  "experiment_id": "v031-h2-geometry-ci",
+  "engine": "incremental-geometry-h2",
+  "hypothesis": "Adding exact geometry features improves chronological marginal Brier score over the fixed M0 proxy.",
+  "source": {
+    "draws": 2499,
+    "last_draw_id": 115000105,
+    "history_bin_sha256": "b82414583fb0f7d265897e0ee32f0e2890eed60516035445bcf83d082569b8a7",
+    "image_bin_sha256": "1022e946817e9350a06a53816088012ef18ff0f500b182d011bfaf69b9fe4905"
+  },
+  "parameters": {
+    "start_draw": 500,
+    "step": 10,
+    "iid_reps": 39,
+    "seed": 649,
+    "ridge": 64
+  }
+}

@@ -52,7 +52,7 @@ edge or justify physical compensation of past lottery deviations.
 Run from repository root, with Python 3.12+ and GCC C++17:
 
     mkdir -p results
-    g++ -O3 -std=c++17 -Wall -Wextra -Werror lotto7x7/exact_covariance_v025.cpp -o results/v025_exact_census
+    g++ -O3 -std=c++17 -Wall -Wextra -Werror lotto7x7/portfolio/exact_covariance_v025.cpp -o results/v025_exact_census
     ./results/v025_exact_census > results/v025_exact_census.tsv
     python -m lotto7x7.exact_covariance_v025 --census-tsv results/v025_exact_census.tsv --fixture tests/fixtures/p1_exact_universe_v1.json --out results/v025_full_163_exact_covariance.json
     python -m unittest discover -s tests -p test_exact_covariance_v025.py -v

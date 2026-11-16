@@ -5,7 +5,7 @@
 ## Dependencies and non-negotiable source boundaries
 
 - Use **USNO only**: `data/astronomy/usno_official/raw/{moon_phases,seasons}/YYYY.json` (46 original authenticated-by-SHA source responses); `usno_events_2004_2026.csv` (1,276 normalized events); its manifest; 23 years 2004–2026.
-- Reuse locked v2.4 P1 solar/year interpolation and USNO new-moon intervals (do not reinterpret prior P1 results): `lotto7x7/iching_gua_qi_v24_p1.py`, `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`.
+- Reuse locked v2.4 P1 solar/year interpolation and USNO new-moon intervals (do not reinterpret prior P1 results): `lotto7x7/astronomy/iching_gua_qi_v24_p1.py`, `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`.
 - Frozen P1 output CSV SHA-256: `53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1`. P1A tests reported **NO EVIDENCE** for association; P2 does not revise those results.
 - Read-only frozen historical outcomes: v2.4 P0 `data/research/v24/v24_astronomy_hexagram_2498.csv` and `data/research/v24_usno/v24_usno_draw_context_2498.csv`. All original `data/csv`, `data/bin`, previously purchased tickets, all prospective seals, and P0/P1/P1A research snapshots remain unchanged.
 
@@ -60,7 +60,7 @@ The six actual numbers, special, `same_draw_hexagram_code_OUTCOME_ONLY`, and `ha
 
 - `data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv`: 2,498 draws with 8-sector features and outcome columns explicitly separated.
 - `data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json`: mapping version, 64-code histogram, sector histograms, coverage by year, frozen input SHA-256, output SHA-256, limitations and no forecast claim.
-- `lotto7x7/iching_solar_lunar_v24_p2.py`, `tests/test_iching_solar_lunar_v24_p2.py`: stdlib-only implementation and exact-boundary tests.
+- `lotto7x7/astronomy/iching_solar_lunar_v24_p2.py`, `tests/test_iching_solar_lunar_v24_p2.py`: stdlib-only implementation and exact-boundary tests.
 - `.github/workflows/iching_solar_lunar_v24_p2_once.yml`: one-time CI/integration archive, exact read-only regression on rerun; no recurring new-draw downloads.
 
 Windows PowerShell from repo root:

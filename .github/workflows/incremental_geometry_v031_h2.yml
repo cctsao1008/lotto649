@@ -3,8 +3,11 @@ name: v0.31 H2 Incremental Geometry Proper Scores
 on:
   push:
     paths:
-      - 'lotto7x7/incremental_geometry_v031.py'
-      - 'tests/test_incremental_geometry_v031.py'
+      - 'lotto7x7/geometry/incremental_geometry_v031.py'
+      - 'tests/geometry/test_incremental_geometry_v031.py'
+      - 'lotto7x7/experiment_runner.py'
+      - 'experiments/configs/v031-h2-geometry-ci.json'
+      - 'experiments/ledger_registry_v1.json'
       - 'docs/incremental_geometry_v031_h2.md'
       - '.github/workflows/incremental_geometry_v031_h2.yml'
   workflow_dispatch:
@@ -25,7 +28,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_incremental_geometry_v031.py' -v
       - name: Source-audited real-history H2 pilot
         run: |
-          python -m lotto7x7.incremental_geometry_v031 --start-draw 500 --step 10 --iid-reps 39 --seed 649 --ridge 64 --out results/v031_h2_ci_pilot.json
+          python -m lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_ci_pilot.json
           git diff --exit-code
       - name: Publish research-only report
         uses: actions/upload-artifact@v4

@@ -8,6 +8,7 @@ import unittest
 from lotto7x7 import draw_append_preview_m2 as preview
 from lotto7x7 import prospective_evaluation_m4 as m4
 from lotto7x7 import official_draw_evidence_m2 as evidence
+from tests._archive_fixture import pre_p5a_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 CURRENT = ROOT / "data"
@@ -66,46 +67,48 @@ class TestDrawAppendPreviewM2(unittest.TestCase):
                 evidence.verify_local_evidence(115000105, p)
 
     def test_full_verified_preview_does_not_mutate_current_archive(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "results") as scratch:
+            self._assert_full_verified_preview(Path(scratch))
+
+    def _assert_full_verified_preview(self, temp):
+        csv_root, bin_root = pre_p5a_archive(temp)
         original = [
-            CURRENT / "bin/lotto649_history_v1.bin",
-            CURRENT / "bin/lotto649_images_v2.bin",
-            CURRENT / "bin/lotto649_source_manifest.json",
-            CURRENT / "csv/lotto649_2026.csv",
+            bin_root / "lotto649_history_v1.bin",
+            bin_root / "lotto649_images_v2.bin",
+            bin_root / "lotto649_source_manifest.json",
+            csv_root / "lotto649_2026.csv",
         ]
         fingerprints = [sha256(p.read_bytes()).hexdigest() for p in original]
-        with tempfile.TemporaryDirectory(dir=ROOT / "results") as scratch:
-            # Destination itself must be nested under ignored results.
-            temp = Path(scratch)
-            evidence_root = temp / "proof"
-            make_fake_source_files(evidence_root)
-            candidate = temp / "new-archive"
-            result = preview.build_preview(
-                115000105, candidate, csv_root=CURRENT / "csv",
-                bin_root=CURRENT / "bin", evidence_root=evidence_root,
-            )
-            self.assertEqual(2499, result["new_draw_count"])
-            self.assertFalse(result["active_repository_files_changed"])
-            self.assertFalse(result["ready_to_commit_to_main"])
-            self.assertTrue((candidate / "data/bin/lotto649_history_v1.bin").is_file())
-            self.assertTrue((candidate / "data/bin/lotto649_images_v2.bin").is_file())
-            self.assertTrue((candidate / "data/csv/lotto649_2026.csv").is_file())
-            self.assertEqual(104 + 1,
-                len((candidate / "data/csv/lotto649_2026.csv").read_text().splitlines()) - 1)
-            drawn, gate = m4.read_archived_verified_prefix(
-                candidate / "data/csv", candidate / "data/bin",
-                candidate / "evidence",
-            )
-            self.assertEqual([NEXT_DRAW], drawn)
-            self.assertEqual(1, gate["admitted_draws"])
-            evaluation = m4.evaluate_verified_rows(drawn)
-            self.assertEqual(1, evaluation["observed_draw_count"])
-            self.assertEqual(8, evaluation["pending_draw_count"])
-            self.assertIsNone(evaluation["final_one_sided_exact_p"])
-            with self.assertRaises(FileExistsError):
-                preview.build_preview(115000105, candidate,
-                                      csv_root=CURRENT / "csv",
-                                      bin_root=CURRENT / "bin",
-                                      evidence_root=evidence_root)
+        evidence_root = temp / "proof"
+        make_fake_source_files(evidence_root)
+        candidate = temp / "new-archive"
+        result = preview.build_preview(
+            115000105, candidate, csv_root=csv_root,
+            bin_root=bin_root, evidence_root=evidence_root,
+        )
+        self.assertEqual(2499, result["new_draw_count"])
+        self.assertFalse(result["active_repository_files_changed"])
+        self.assertFalse(result["ready_to_commit_to_main"])
+        self.assertTrue((candidate / "data/bin/lotto649_history_v1.bin").is_file())
+        self.assertTrue((candidate / "data/bin/lotto649_images_v2.bin").is_file())
+        self.assertTrue((candidate / "data/csv/lotto649_2026.csv").is_file())
+        self.assertEqual(104 + 1,
+            len((candidate / "data/csv/lotto649_2026.csv").read_text().splitlines()) - 1)
+        drawn, gate = m4.read_archived_verified_prefix(
+            candidate / "data/csv", candidate / "data/bin",
+            candidate / "evidence",
+        )
+        self.assertEqual([NEXT_DRAW], drawn)
+        self.assertEqual(1, gate["admitted_draws"])
+        evaluation = m4.evaluate_verified_rows(drawn)
+        self.assertEqual(1, evaluation["observed_draw_count"])
+        self.assertEqual(8, evaluation["pending_draw_count"])
+        self.assertIsNone(evaluation["final_one_sided_exact_p"])
+        with self.assertRaises(FileExistsError):
+            preview.build_preview(115000105, candidate,
+                                  csv_root=csv_root,
+                                  bin_root=bin_root,
+                                  evidence_root=evidence_root)
         self.assertEqual(fingerprints, [
             sha256(p.read_bytes()).hexdigest() for p in original
         ])
@@ -113,18 +116,19 @@ class TestDrawAppendPreviewM2(unittest.TestCase):
     def test_missing_evidence_or_future_draw_gap_rejected(self):
         with tempfile.TemporaryDirectory(dir=ROOT / "results") as scratch:
             temp = Path(scratch)
+            csv_root, bin_root = pre_p5a_archive(temp)
             evidence_root = temp / "proof"
             make_fake_source_files(evidence_root)
             with self.assertRaisesRegex(ValueError, "immediate next"):
                 preview.build_preview(
                     115000106, temp / "bad-gap",
-                    csv_root=CURRENT / "csv", bin_root=CURRENT / "bin",
+                    csv_root=csv_root, bin_root=bin_root,
                     evidence_root=evidence_root,
                 )
             with self.assertRaises(FileNotFoundError):
                 preview.build_preview(
                     115000105, temp / "bad-evidence",
-                    csv_root=CURRENT / "csv", bin_root=CURRENT / "bin",
+                    csv_root=csv_root, bin_root=bin_root,
                     evidence_root=temp / "missing",
                 )
             self.assertFalse((temp / "bad-gap").exists())

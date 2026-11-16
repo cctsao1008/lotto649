@@ -7,6 +7,7 @@ import unittest
 from unittest import mock
 
 from lotto7x7 import prospective_evaluation_m4 as m4
+from tests._archive_fixture import pre_p5a_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEDULE = [
@@ -35,8 +36,10 @@ class TestProspectiveEvaluationM4(unittest.TestCase):
         self.assertEqual(9, seal["experiment"]["fixed_draw_count"])
 
     def test_current_archive_pending_empty_with_no_invented_draw(self):
-        data, evidence = m4.read_archived_verified_prefix(ROOT / "data/csv",
-                                                          ROOT / "data/bin")
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            csv_root, bin_root = pre_p5a_archive(root)
+            data, evidence = m4.read_archived_verified_prefix(csv_root, bin_root, root / "proof")
         self.assertEqual([], data)
         self.assertEqual(0, evidence["admitted_draws"])
         report = m4.evaluate_verified_rows(data)

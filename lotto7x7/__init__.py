@@ -1,3 +1,7 @@
-"""7x7 image-first Lotto649 research; no legacy model imports."""
+"""Lotto649 research and evidence tooling."""
+
+from ._compat import install as _install_module_aliases
 
 __version__ = "0.1.0"
+
+_install_module_aliases()

@@ -1,5 +1,7 @@
 # Lotto7x7 — image-first research reboot
 
+See [repository layout and research reproducibility](docs/repository_layout.md) for module locations, legacy CI replays and M1 experiment configurations.
+
 This repository begins **from scratch** with one problem: represent each Lotto649 draw as a **7×7 image containing exactly six active pixels**, study image shapes and their temporal order, and test whether a causal forecast resembles the next drawing more closely than an IID random outcome would.
 
 There are **no inherited logits, MLP, legacy CNN classifiers, six-number jackpot likelihoods, legacy tests or phase-specific scripts** in the active tree. A new **CNN frame encoder + temporal GRU** is trained specifically for the 7×7 image-similarity objective. Old Git commits remain in ordinary Git history; they are not part of this rebuilt codebase.
@@ -13,8 +15,8 @@ The current 2004–2026 dataset contains **2,498** Lotto649 draws through **2026
 - `lotto7x7/bin_dataset.py`: convert original Lotto649 yearly CSVs into BIN v2, with versioned header, 53-byte image records, strict validation, and byte-for-byte CSV verification.
 - `lotto7x7/core.py`: reversible six-number ↔ 7×7 bitmap; sequential, snake and preseeded permutation mappings; full FFT and DCT roundtrip; geometric similarity with D4 rotations, translations, row/column occupancy and low-frequency DCT; conditional fair-IID baseline.
 - `lotto7x7/learning.py`: **trainable image learning** with a 2D CNN per historical frame, recurrent GRU across frames, D4/translation-tolerant shape loss (image autocorrelation), auxiliary pixel reconstruction and six-active-point constraint; trained 7×7 image output with six brightest pixels selected. This does not import the retired six-of-49 logit decoder.
-- `lotto7x7/models.py`: simple image-only causal controls (`previous`, `centroid_motion`, `temporal_analog`) and image-output diversity diagnostics; these are *non-neural baselines*, not the new learning model.
-- `lotto7x7/research.py`: BIN v2 image importer (default; normalized NumPy files only as optional comparison); chronological train/validation/evaluation splits; conditional-IID-adjusted similarity; within-year time-order shuffling; validation-only method selection and per-draw JSON audit.
+- `lotto7x7/legacy/image/models.py`: simple image-only causal controls (`previous`, `centroid_motion`, `temporal_analog`) and image-output diversity diagnostics; these are *non-neural baselines*, not the new learning model.
+- `lotto7x7/legacy/image/research.py`: BIN v2 image importer (default; normalized NumPy files only as optional comparison); chronological train/validation/evaluation splits; conditional-IID-adjusted similarity; within-year time-order shuffling; validation-only method selection and per-draw JSON audit.
 - `lotto7x7/diagnostics.py`: three-arm image-learning diagnostic (normal-order CNN+GRU, per-context time-shuffled CNN+GRU, and history-free trainable template); quantifies continuous logits, Top-6 collapse, latent variability, and paired IID-adjusted scores.
 - `lotto7x7/__main__.py`: five commands: `check`, `learn`, `diagnose`, `replay`, and `gallery`.
 - `tests/`: tests written **only for this newly designed 7×7 project**.
@@ -163,7 +165,7 @@ The three arms are `original_v02` (unaltered v0.2 shape loss with positive-weigh
 `balanced_bce` (same shape/mass loss, unweighted BCE), and `projected_six_mass`
 (same CNN/GRU and six-logit decoder; differentiable per-sample soft mass exactly six).
 
-New module: [`lotto7x7/loss_study_v03.py`](lotto7x7/loss_study_v03.py).
+New module: [`lotto7x7/legacy/image/loss_study_v03.py`](lotto7x7/legacy/image/loss_study_v03.py).
 See the full preregistered control, loss and uncertainty details in
 [`docs/image_loss_alignment_v03.md`](docs/image_loss_alignment_v03.md).
 Historical evaluations are **exploratory**, since the targets were inspected

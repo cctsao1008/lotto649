@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 from datetime import date, datetime, timezone
 from hashlib import sha1, sha256
+from math import isfinite
 import json
 import os
 from pathlib import Path
@@ -16,6 +17,7 @@ import re
 PUBLIC_SCHEMA = "lotto649.public_experiment_registry.v1"
 PAID_SCHEMA = "lotto649.private_paid_registration.v1"
 ENTRY_SCHEMA = "lotto649.private_ledger_entry.v1"
+RESEARCH_CONFIG_SCHEMA = "lotto649.research_config.v1"
 DEFAULT_REGISTRY = Path("experiments/ledger_registry_v1.json")
 DEFAULT_PRIVATE_DIR = Path("data/private/experiment-ledger")
 _ID = re.compile(r"[a-z0-9][a-z0-9_-]{2,79}\Z")
@@ -120,7 +122,39 @@ def _git_blob_sha1(payload: bytes) -> str:
     return sha1(b"blob " + str(len(payload)).encode("ascii") + b"\0" + payload).hexdigest()
 
 
-def verify_public_registry(registry_path: Path = DEFAULT_REGISTRY) -> int:
+def validate_research_config(config: object) -> None:
+    _object_keys(config, {"schema", "experiment_id", "engine", "hypothesis",
+                          "source", "parameters"}, "research configuration")
+    _require(config["schema"] == RESEARCH_CONFIG_SCHEMA, "invalid research configuration schema")
+    _require(isinstance(config["experiment_id"], str) and _ID.fullmatch(config["experiment_id"]),
+             "invalid research experiment ID")
+    _require(isinstance(config["hypothesis"], str) and config["hypothesis"].strip(),
+             "research hypothesis must be nonempty")
+    _require(config["engine"] == "incremental-geometry-h2", "unsupported research engine")
+    source = config["source"]
+    _object_keys(source, {"draws", "last_draw_id", "history_bin_sha256", "image_bin_sha256"},
+                 "research source")
+    _require(all(type(source[key]) is int and source[key] > 0
+                 for key in ("draws", "last_draw_id")), "invalid research source size or draw ID")
+    _require(all(isinstance(source[key], str) and _SHA256.fullmatch(source[key])
+                 for key in ("history_bin_sha256", "image_bin_sha256")),
+             "invalid research input hashes")
+    params = config["parameters"]
+    _object_keys(params, {"start_draw", "step", "iid_reps", "seed", "ridge"},
+                 "research parameters")
+    for key, low, high in (
+        ("start_draw", 50, source["draws"] - 1), ("step", 1, 100),
+        ("iid_reps", 3, 1999), ("seed", 0, 2**63 - 1),
+    ):
+        _require(type(params[key]) is int and low <= params[key] <= high,
+                 f"invalid research parameter: {key}")
+    ridge = params["ridge"]
+    _require(type(ridge) in (int, float) and 0 < ridge <= 1e308 and isfinite(ridge),
+             "invalid research parameter: ridge")
+
+
+def _public_artifacts(registry_path: Path) -> list[tuple[dict, dict]]:
+    """Return metadata with the exact contents validated against its Git blob."""
     registry_path = Path(registry_path)
     root = registry_path.resolve().parent.parent
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
@@ -129,13 +163,14 @@ def verify_public_registry(registry_path: Path = DEFAULT_REGISTRY) -> int:
     entries = registry["entries"]
     _require(isinstance(entries, list) and bool(entries), "empty public registry")
     seen_ids = set()
+    verified = []
     for item in entries:
         _object_keys(item, {"experiment_id", "role", "artifact", "git_blob_sha1"},
                      "public reference")
         _require(isinstance(item["experiment_id"], str) and item["experiment_id"] not in seen_ids,
                  "duplicate or invalid experiment ID")
         seen_ids.add(item["experiment_id"])
-        _require(item["role"] in ("FROZEN_SHADOW", "CANDIDATE_ONLY"),
+        _require(item["role"] in ("FROZEN_SHADOW", "CANDIDATE_ONLY", "RESEARCH_CONFIG"),
                  "public registry must not store paid tickets")
         _require(isinstance(item["git_blob_sha1"], str) and
                  _SHA1.fullmatch(item["git_blob_sha1"]) is not None,
@@ -152,15 +187,25 @@ def verify_public_registry(registry_path: Path = DEFAULT_REGISTRY) -> int:
         _require(_git_blob_sha1(normalized) == item["git_blob_sha1"],
                  f"public artifact differs from frozen Git blob: {artifact_name}")
         source = json.loads(normalized)
+        _require(isinstance(source, dict), "public artifact must be an object")
         _require(source.get("experiment_id", source.get("experiment")) == item["experiment_id"],
                  f"experiment ID differs from referenced artifact: {artifact_name}")
         if item["role"] == "FROZEN_SHADOW":
             _require("strategies" in source and "experiment" in source,
                      "shadow registry entry is not a preregistration")
-        else:
+        elif item["role"] == "CANDIDATE_ONLY":
             _require(source.get("status") == "DESCRIPTIVE_CANDIDATE_ONLY_NOT_A_PAID_TICKET",
                      "candidate reference misclassified")
-    return len(entries)
+        else:
+            _require(artifact.is_relative_to(root / "experiments/configs"),
+                     "research configuration must be under experiments/configs")
+            validate_research_config(source)
+        verified.append((item, source))
+    return verified
+
+
+def verify_public_registry(registry_path: Path = DEFAULT_REGISTRY) -> int:
+    return len(_public_artifacts(registry_path))
 
 
 def register_paid(record: dict, directory: Path = DEFAULT_PRIVATE_DIR,

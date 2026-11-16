@@ -1,0 +1,200 @@
+[
+  {
+    "id": "strategy_verification_v1",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "strategy-verification-v1"
+  },
+  {
+    "id": "strategy_verification_v11",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "strategy-verification-v11"
+  },
+  {
+    "id": "strategy_verification_v12",
+    "python": "3.11",
+    "timeout": 35,
+    "artifact": "strategy-v12-independent-m0"
+  },
+  {
+    "id": "strategy_verification_v13",
+    "python": "3.11",
+    "timeout": 15,
+    "artifact": "strategy-v13-m0-optimization-gap"
+  },
+  {
+    "id": "strategy_verification_v14",
+    "python": "3.11",
+    "timeout": 12,
+    "artifact": "strategy-v14-m0-lexicographic"
+  },
+  {
+    "id": "strategy_verification_v15",
+    "python": "3.11",
+    "timeout": 12,
+    "artifact": "strategy-v15-exact-m0-lexicographic"
+  },
+  {
+    "id": "strategy_verification_v16",
+    "python": "3.11",
+    "timeout": 14,
+    "artifact": "strategy-v16-nested-pool-scaling"
+  },
+  {
+    "id": "strategy_verification_v16_exact",
+    "python": "3.11",
+    "timeout": 14,
+    "artifact": "strategy-v16-all-qualified-exhaustive"
+  },
+  {
+    "id": "strategy_verification_v17",
+    "python": "3.11",
+    "timeout": 20,
+    "artifact": "strategy-v17-candidate-generation-robustness"
+  },
+  {
+    "id": "strategy_verification_v18",
+    "python": "3.11",
+    "timeout": 18,
+    "artifact": "strategy-v18-new-seed-exact"
+  },
+  {
+    "id": "strategy_verification_v19",
+    "python": "3.11",
+    "timeout": 25,
+    "artifact": "strategy-v19-frozen-rank-saturation"
+  },
+  {
+    "id": "strategy_verification_v20",
+    "python": "3.11",
+    "timeout": 25,
+    "artifact": "strategy-v20-full-qualified-bounds"
+  },
+  {
+    "id": "strategy_verification_v21",
+    "python": "3.11",
+    "timeout": 25,
+    "artifact": "strategy-v21-full-universe-audit"
+  },
+  {
+    "id": "strategy_validation_v22",
+    "python": "3.11",
+    "timeout": 30,
+    "artifact": "strategy-v22-expanding-walkforward"
+  },
+  {
+    "id": "geometry_v029_p0",
+    "python": "3.12",
+    "timeout": 5,
+    "artifact": "geometry_v029_p0"
+  },
+  {
+    "id": "geometry_v029_p1",
+    "python": "3.12",
+    "timeout": 5,
+    "artifact": "geometry_v029_p1"
+  },
+  {
+    "id": "geometry_v029_p2a",
+    "python": "3.12",
+    "timeout": 8,
+    "artifact": "v029-p2a-geometric-convergence"
+  },
+  {
+    "id": "geometry_v029_p2b",
+    "python": "3.12",
+    "timeout": 10,
+    "artifact": "v029-p2b-geometric-structure"
+  },
+  {
+    "id": "geometry_v029_p3a",
+    "python": "3.12",
+    "timeout": 10,
+    "artifact": "v029-p3a-conditional-ablation"
+  },
+  {
+    "id": "geometry_v029_p3b",
+    "python": "3.12",
+    "timeout": 15,
+    "artifact": "v029-p3b-counterfactual-repair"
+  },
+  {
+    "id": "test_v027_log_product_p0",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-log-product-p0-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p1",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-log-product-p1-dual-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p2",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-dual-p2-four-tickets-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p3a",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-dual-p3a-joint-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p3b_pilot",
+    "python": "3.11",
+    "timeout": 25,
+    "artifact": "v027-dual-p3b-cached-pilot-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p3c_exact_iid",
+    "python": "3.11",
+    "timeout": 20,
+    "artifact": "v027-dual-p3c-exact-iid-2026-11-06"
+  },
+  {
+    "id": "test_v027_log_product_p3d_legacy_replay",
+    "python": "3.11",
+    "timeout": 35,
+    "artifact": "v027-dual-p3d-original-optimizer-2026-11-06"
+  },
+  {
+    "id": "test_v027_repair",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-p0-baseline-2026-11-06"
+  },
+  {
+    "id": "test_v027_repair_p1",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-p1-repair-2026-11-06"
+  },
+  {
+    "id": "test_v027_repair_p2",
+    "python": "3.11",
+    "timeout": 60,
+    "artifact": "v027-p2-portfolios-2026-11-06"
+  },
+  {
+    "id": "test_v028_multiobjective",
+    "python": "3.11",
+    "timeout": 30,
+    "artifact": "v028-shape-sum-log-joint-new-four-bets"
+  },
+  {
+    "id": "coverage_burnside_v026",
+    "python": "3.12",
+    "timeout": 8,
+    "artifact": "v026-burnside-independent-structural-certificate"
+  },
+  {
+    "id": "prospective_readiness_v032",
+    "python": "3.12",
+    "timeout": 8,
+    "artifact": "v032-prospective-readiness-20261114"
+  }
+]

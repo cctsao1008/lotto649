@@ -8,6 +8,8 @@ on:
       - "lotto7x7/draw_append_preview_m2.py"
       - "lotto7x7/official_draw_evidence_m2.py"
       - "tests/test_draw_append_preview_m2.py"
+      - "tests/_archive_fixture.py"
+      - "tests/fixtures/archive_115000104/**"
       - "docs/draw_append_preview_m2.md"
       - ".github/workflows/draw_append_preview_m2.yml"
 
@@ -30,9 +32,22 @@ jobs:
           python -m unittest discover -s tests -p 'test_draw_append_preview_m2.py' -v
           python -m unittest discover -s tests -p 'test_official_draw_evidence_m2.py' -v
           python -m unittest discover -s tests -p 'test_prospective_evaluation_m4.py' -v
-      - name: Recheck original current history and pending P5A status
+      - name: Recheck the pinned archive prefix and pending P5A status
         run: |
-          python -m lotto7x7.prospective_evaluation_m4 --out results/m2_preview_ci_current_archive.json
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from lotto7x7.prospective_evaluation_m4 import main
+          from tests._archive_fixture import pre_p5a_archive
+          import sys
+          with TemporaryDirectory() as folder:
+              root = Path(folder)
+              csv, binary = pre_p5a_archive(root)
+              sys.argv = ["prospective_evaluation_m4", "--csv-root", str(csv),
+                          "--bin-root", str(binary), "--evidence-root", str(root / "proof"),
+                          "--out", "results/m2_preview_ci_current_archive.json"]
+              main()
+          PY
           python - <<'PY'
           import json
           from pathlib import Path

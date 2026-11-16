@@ -18,6 +18,12 @@
       "role": "FROZEN_SHADOW",
       "artifact": "prospective/v029_p5a_static9_20261113_seal.json",
       "git_blob_sha1": "546c7352fd0a98a42959b333e51498ef7c56cf9d"
+    },
+    {
+      "experiment_id": "v031-h2-geometry-ci",
+      "role": "RESEARCH_CONFIG",
+      "artifact": "experiments/configs/v031-h2-geometry-ci.json",
+      "git_blob_sha1": "0c522d8a15579f0ee97338d44230529b9db553ac"
     }
   ]
 }

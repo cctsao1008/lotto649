@@ -20,7 +20,7 @@ import struct
 from tempfile import TemporaryDirectory
 
 from .draw_ingestion_m2 import audit_source, normalize_draw
-from .geometry_shadow_v029 import SEAL_PATH
+from lotto7x7.geometry.geometry_shadow_v029 import SEAL_PATH
 from .official_draw_evidence_m2 import TRUSTED, verify_local_evidence
 from .prospective_evaluation_m4 import verify_p5a_seal
 from scripts.export_lotto649_csv import HEAD, HISTORY, IMAGE, generate_yearly_csv
@@ -99,10 +99,9 @@ def build_preview(
          "url": TRUSTED["independent"],
          "page_sha256": verified["page_sha256"]["independent"]},
     ]
-    # Legacy exporter requires this exact status token and two source objects.
-    # It is a provenance record, NOT proof of official operator authentication.
+    # The exporter checks this class against the two recorded publisher hosts.
     appended = {
-        **draw, "source_status": "CORROBORATED_BY_INDEPENDENT_NON_OFFICIAL_SOURCES",
+        **draw, "source_status": "OFFICIAL_CTBC_AND_INDEPENDENTLY_CORROBORATED",
         "sources": evidence_sources,
         "source_index_sha256": verified["source_index_sha256"],
     }

@@ -1,0 +1,3951 @@
+{
+  "schema": "lotto649.v025.matched_covariance_walkforward.v1",
+  "scope": "exploratory retrospective walk-forward under exact prize coverage equality",
+  "source": {
+    "draws": 2497,
+    "last_date": "2026-11-06",
+    "last_draw_id": 115000103,
+    "input_csv_sha256": "e98412962fc108017c9896af57935bcf6ee9e5075025c9732dc706409e501245",
+    "used_six_main_and_bonus_sha256": "7c74106be6e2c6e13213935d49f51d717a959c2ca442f41af8ae773974d6b41b",
+    "shape_fixture_sha256": "206d03412e2e6c25026a6d23796cae4cbfa4d1bd100b0214f938df0823a2a5a2",
+    "exact_population_moments_sha256": "72916654307917029c05e3b8dcc106dff8c3eb3784519e007378b8860120d9ea"
+  },
+  "config": {
+    "train_min": 1800,
+    "horizon": 25,
+    "folds": 8,
+    "pool_size": 300,
+    "selector_seed": 649,
+    "candidate_pool_sha256": "99c3afd70c4e86b0e87a5ddcd04e60a7ab6beb856cd1fe464d5a49caa96c51a6",
+    "baseline_seed": 649,
+    "coverage_constraint": "reference-3plus",
+    "first_null_seed": 2650,
+    "last_null_seed": 2748,
+    "numpy": "2.3.5"
+  },
+  "models": {
+    "legacy_mc": {
+      "source": "independent uniform legal 6/49 Monte Carlo",
+      "moments": "exact marginal means; MC estimated cross-covariance",
+      "samples": 8192,
+      "seed": 649,
+      "ridge": 0.25,
+      "dimension": 163,
+      "smallest_eigenvalue": 0.24999999999999897,
+      "largest_eigenvalue": 4.318695027365072,
+      "condition_number": 17.27478010946036
+    },
+    "matched_mc": {
+      "source": "legacy sample covariance with exact population standard deviations",
+      "samples": 8192,
+      "seed": 649,
+      "ridge": 0.25,
+      "dimension": 163,
+      "smallest_eigenvalue": 0.24999999999999903,
+      "largest_eigenvalue": 4.560484814526607,
+      "condition_number": 18.2419392581065
+    },
+    "exact": {
+      "source": "exact population covariance and standard deviations",
+      "universe": 13983816,
+      "ridge": 0.25,
+      "dimension": 163,
+      "smallest_eigenvalue": 0.24999999999999925,
+      "largest_eigenvalue": 4.3157802638935845,
+      "condition_number": 17.26312105557439
+    }
+  },
+  "observed": {
+    "folds": [
+      {
+        "train_draws": 1800,
+        "train_end": [
+          "2020-11-10",
+          109000098
+        ],
+        "holdout_first": [
+          "2020-11-13",
+          109000099
+        ],
+        "holdout_last": [
+          "2021-02-05",
+          110000011
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              8,
+              14,
+              30,
+              34,
+              37,
+              47
+            ],
+            [
+              13,
+              16,
+              17,
+              21,
+              43,
+              45
+            ],
+            [
+              2,
+              26,
+              31,
+              32,
+              35,
+              41
+            ],
+            [
+              1,
+              5,
+              7,
+              9,
+              12,
+              46
+            ]
+          ],
+          "legacy_mc": [
+            [
+              3,
+              25,
+              30,
+              32,
+              38,
+              44
+            ],
+            [
+              4,
+              15,
+              18,
+              20,
+              29,
+              37
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              3,
+              25,
+              30,
+              32,
+              38,
+              44
+            ],
+            [
+              4,
+              15,
+              18,
+              20,
+              29,
+              37
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              3,
+              25,
+              30,
+              32,
+              38,
+              44
+            ],
+            [
+              4,
+              15,
+              18,
+              20,
+              29,
+              37
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 7,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "awarded_tickets": {
+          "history_blind": 7,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 3,
+          "neither": 22
+        }
+      },
+      {
+        "train_draws": 1825,
+        "train_end": [
+          "2021-02-05",
+          110000011
+        ],
+        "holdout_first": [
+          "2021-02-09",
+          110000012
+        ],
+        "holdout_last": [
+          "2021-04-02",
+          110000036
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              10,
+              23,
+              35,
+              38,
+              42,
+              49
+            ],
+            [
+              4,
+              20,
+              28,
+              33,
+              37,
+              39
+            ],
+            [
+              15,
+              18,
+              25,
+              27,
+              41,
+              48
+            ],
+            [
+              3,
+              13,
+              22,
+              30,
+              34,
+              45
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 3,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "awarded_tickets": {
+          "history_blind": 3,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 3,
+          "neither": 22
+        }
+      },
+      {
+        "train_draws": 1850,
+        "train_end": [
+          "2021-04-02",
+          110000036
+        ],
+        "holdout_first": [
+          "2021-04-06",
+          110000037
+        ],
+        "holdout_last": [
+          "2021-06-29",
+          110000061
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              6,
+              10,
+              20,
+              29,
+              31,
+              42
+            ],
+            [
+              11,
+              15,
+              26,
+              28,
+              34,
+              36
+            ],
+            [
+              18,
+              22,
+              30,
+              32,
+              38,
+              45
+            ],
+            [
+              5,
+              17,
+              24,
+              33,
+              40,
+              41
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 2,
+          "legacy_mc": 4,
+          "matched_mc": 4,
+          "exact": 4
+        },
+        "awarded_tickets": {
+          "history_blind": 2,
+          "legacy_mc": 4,
+          "matched_mc": 4,
+          "exact": 4
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 4,
+          "neither": 21
+        }
+      },
+      {
+        "train_draws": 1875,
+        "train_end": [
+          "2021-06-29",
+          110000061
+        ],
+        "holdout_first": [
+          "2021-07-02",
+          110000062
+        ],
+        "holdout_last": [
+          "2021-09-24",
+          110000086
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              6,
+              9,
+              13,
+              20,
+              31,
+              36
+            ],
+            [
+              12,
+              16,
+              27,
+              35,
+              40,
+              41
+            ],
+            [
+              24,
+              26,
+              28,
+              33,
+              42,
+              43
+            ],
+            [
+              7,
+              15,
+              17,
+              25,
+              30,
+              39
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 2,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "awarded_tickets": {
+          "history_blind": 2,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 3,
+          "neither": 22
+        }
+      },
+      {
+        "train_draws": 1900,
+        "train_end": [
+          "2021-09-24",
+          110000086
+        ],
+        "holdout_first": [
+          "2021-09-28",
+          110000087
+        ],
+        "holdout_last": [
+          "2021-12-21",
+          110000111
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              1,
+              14,
+              15,
+              19,
+              44,
+              47
+            ],
+            [
+              2,
+              3,
+              5,
+              6,
+              31,
+              45
+            ],
+            [
+              10,
+              21,
+              24,
+              35,
+              37,
+              46
+            ],
+            [
+              4,
+              17,
+              22,
+              23,
+              39,
+              42
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 1,
+          "legacy_mc": 2,
+          "matched_mc": 2,
+          "exact": 2
+        },
+        "awarded_tickets": {
+          "history_blind": 1,
+          "legacy_mc": 2,
+          "matched_mc": 2,
+          "exact": 2
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 2,
+          "neither": 23
+        }
+      },
+      {
+        "train_draws": 1925,
+        "train_end": [
+          "2021-12-21",
+          110000111
+        ],
+        "holdout_first": [
+          "2021-12-24",
+          110000112
+        ],
+        "holdout_last": [
+          "2022-02-11",
+          111000022
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              4,
+              8,
+              10,
+              12,
+              13,
+              24
+            ],
+            [
+              6,
+              16,
+              18,
+              28,
+              31,
+              40
+            ],
+            [
+              2,
+              3,
+              26,
+              34,
+              42,
+              49
+            ],
+            [
+              1,
+              15,
+              38,
+              45,
+              47,
+              48
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 2,
+          "legacy_mc": 2,
+          "matched_mc": 2,
+          "exact": 2
+        },
+        "awarded_tickets": {
+          "history_blind": 2,
+          "legacy_mc": 2,
+          "matched_mc": 2,
+          "exact": 2
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 2,
+          "neither": 23
+        }
+      },
+      {
+        "train_draws": 1950,
+        "train_end": [
+          "2022-02-11",
+          111000022
+        ],
+        "holdout_first": [
+          "2022-02-15",
+          111000023
+        ],
+        "holdout_last": [
+          "2022-05-10",
+          111000047
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              11,
+              26,
+              28,
+              34,
+              37,
+              49
+            ],
+            [
+              10,
+              22,
+              32,
+              36,
+              39,
+              41
+            ],
+            [
+              8,
+              17,
+              20,
+              33,
+              43,
+              44
+            ],
+            [
+              5,
+              14,
+              15,
+              24,
+              42,
+              46
+            ]
+          ],
+          "legacy_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "matched_mc": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ],
+          "exact": [
+            [
+              5,
+              20,
+              25,
+              26,
+              30,
+              40
+            ],
+            [
+              7,
+              12,
+              18,
+              29,
+              45,
+              47
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 0,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "awarded_tickets": {
+          "history_blind": 0,
+          "legacy_mc": 3,
+          "matched_mc": 3,
+          "exact": 3
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 3,
+          "neither": 22
+        }
+      },
+      {
+        "train_draws": 1975,
+        "train_end": [
+          "2022-05-10",
+          111000047
+        ],
+        "holdout_first": [
+          "2022-05-13",
+          111000048
+        ],
+        "holdout_last": [
+          "2022-08-05",
+          111000072
+        ],
+        "holdout_draws": 25,
+        "portfolios": {
+          "history_blind": [
+            [
+              3,
+              8,
+              13,
+              23,
+              28,
+              30
+            ],
+            [
+              16,
+              20,
+              25,
+              32,
+              34,
+              38
+            ],
+            [
+              11,
+              12,
+              26,
+              42,
+              47,
+              48
+            ],
+            [
+              2,
+              17,
+              27,
+              39,
+              40,
+              41
+            ]
+          ],
+          "legacy_mc": [
+            [
+              6,
+              9,
+              17,
+              25,
+              36,
+              44
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ],
+            [
+              22,
+              29,
+              34,
+              40,
+              41,
+              45
+            ],
+            [
+              24,
+              28,
+              32,
+              37,
+              39,
+              48
+            ]
+          ],
+          "matched_mc": [
+            [
+              6,
+              9,
+              17,
+              25,
+              36,
+              44
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ],
+            [
+              22,
+              29,
+              34,
+              40,
+              41,
+              45
+            ],
+            [
+              24,
+              28,
+              32,
+              37,
+              39,
+              48
+            ]
+          ],
+          "exact": [
+            [
+              3,
+              5,
+              14,
+              20,
+              31,
+              32
+            ],
+            [
+              4,
+              7,
+              12,
+              23,
+              25,
+              33
+            ],
+            [
+              9,
+              17,
+              24,
+              34,
+              39,
+              49
+            ],
+            [
+              10,
+              13,
+              16,
+              19,
+              27,
+              42
+            ]
+          ]
+        },
+        "winning_draws": {
+          "history_blind": 5,
+          "legacy_mc": 5,
+          "matched_mc": 5,
+          "exact": 2
+        },
+        "awarded_tickets": {
+          "history_blind": 5,
+          "legacy_mc": 5,
+          "matched_mc": 5,
+          "exact": 2
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 5,
+          "both": 0,
+          "neither": 18
+        }
+      }
+    ],
+    "aggregate": {
+      "tested_draws": 200,
+      "winning_draws": {
+        "history_blind": 22,
+        "legacy_mc": 25,
+        "matched_mc": 25,
+        "exact": 22
+      },
+      "awarded_tickets": {
+        "history_blind": 22,
+        "legacy_mc": 25,
+        "matched_mc": 25,
+        "exact": 22
+      },
+      "paired": {
+        "exact_only": 2,
+        "matched_mc_only": 5,
+        "both": 20,
+        "neither": 173
+      },
+      "exact_minus_matched_mc": -3,
+      "same_exact_and_matched_mc_portfolio_folds": 7,
+      "fair_any_award_probability_all_arms": 0.1227314589619088
+    }
+  },
+  "null_calibration": {
+    "replicates": 99,
+    "mean_delta": 0.3838383838383838,
+    "delta_quantiles_2_5_and_97_5_pct": [
+      -7.55,
+      8.0
+    ],
+    "upper_tail_count": 90,
+    "exploratory_upper_tail_p": 0.91,
+    "p_resolution": 0.01,
+    "null_by_seed": [
+      {
+        "seed": 2650,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 15,
+          "matched_mc_only": 14,
+          "both": 9,
+          "neither": 162
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2651,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 33
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 33
+        },
+        "paired": {
+          "exact_only": 13,
+          "matched_mc_only": 5,
+          "both": 20,
+          "neither": 162
+        },
+        "exact_minus_matched_mc": 8,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2652,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 21,
+          "neither": 179
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2653,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 18,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 18,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 0,
+          "both": 22,
+          "neither": 176
+        },
+        "exact_minus_matched_mc": 2,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2654,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 27
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 27
+        },
+        "paired": {
+          "exact_only": 15,
+          "matched_mc_only": 10,
+          "both": 12,
+          "neither": 163
+        },
+        "exact_minus_matched_mc": 5,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2655,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 30,
+          "legacy_mc": 24,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 30,
+          "legacy_mc": 24,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 2,
+          "both": 21,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2656,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 18,
+          "legacy_mc": 30,
+          "matched_mc": 31,
+          "exact": 40
+        },
+        "awarded_tickets": {
+          "history_blind": 18,
+          "legacy_mc": 30,
+          "matched_mc": 31,
+          "exact": 41
+        },
+        "paired": {
+          "exact_only": 13,
+          "matched_mc_only": 4,
+          "both": 27,
+          "neither": 156
+        },
+        "exact_minus_matched_mc": 9,
+        "same_exact_and_matched_mc_portfolio_folds": 1,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2657,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 18
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 19
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 18,
+          "neither": 182
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2658,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 27,
+          "matched_mc": 26,
+          "exact": 28
+        },
+        "awarded_tickets": {
+          "history_blind": 19,
+          "legacy_mc": 27,
+          "matched_mc": 26,
+          "exact": 28
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 5,
+          "both": 21,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": 2,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2659,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 27
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 7,
+          "both": 19,
+          "neither": 166
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2660,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 29,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 29,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 23,
+          "neither": 177
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2661,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 34,
+          "matched_mc": 34,
+          "exact": 34
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 34,
+          "matched_mc": 34,
+          "exact": 34
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 1,
+          "both": 33,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2662,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 3,
+          "both": 27,
+          "neither": 168
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2663,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 19,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 5,
+          "both": 22,
+          "neither": 170
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2664,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 1,
+          "both": 21,
+          "neither": 177
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2665,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 34
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 34
+        },
+        "paired": {
+          "exact_only": 9,
+          "matched_mc_only": 6,
+          "both": 25,
+          "neither": 160
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2666,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 21,
+          "neither": 179
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2667,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 18,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 18,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 20
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 6,
+          "both": 18,
+          "neither": 174
+        },
+        "exact_minus_matched_mc": -4,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2668,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 27,
+          "matched_mc": 28,
+          "exact": 28
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 27,
+          "matched_mc": 28,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 13,
+          "matched_mc_only": 13,
+          "both": 15,
+          "neither": 159
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2669,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 30
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 30
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 0,
+          "both": 29,
+          "neither": 170
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2670,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 19,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 26,
+          "neither": 174
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2671,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 3,
+          "both": 21,
+          "neither": 172
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2672,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 11,
+          "matched_mc": 11,
+          "exact": 12
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 11,
+          "matched_mc": 11,
+          "exact": 12
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 0,
+          "both": 11,
+          "neither": 188
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2673,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 17,
+          "matched_mc": 17,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 17,
+          "matched_mc": 17,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 9,
+          "matched_mc_only": 4,
+          "both": 13,
+          "neither": 174
+        },
+        "exact_minus_matched_mc": 5,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2674,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 3,
+          "both": 19,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2675,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 1,
+          "both": 24,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2676,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 34
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 34
+        },
+        "paired": {
+          "exact_only": 5,
+          "matched_mc_only": 1,
+          "both": 29,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2677,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 3,
+          "both": 19,
+          "neither": 172
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2678,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 32,
+          "legacy_mc": 22,
+          "matched_mc": 20,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 33,
+          "legacy_mc": 22,
+          "matched_mc": 20,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 3,
+          "both": 17,
+          "neither": 174
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2679,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 25,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2680,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 30,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 30,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 5,
+          "matched_mc_only": 10,
+          "both": 21,
+          "neither": 164
+        },
+        "exact_minus_matched_mc": -5,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2681,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 35
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 35
+        },
+        "paired": {
+          "exact_only": 16,
+          "matched_mc_only": 8,
+          "both": 19,
+          "neither": 157
+        },
+        "exact_minus_matched_mc": 8,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2682,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 16,
+          "matched_mc_only": 23,
+          "both": 8,
+          "neither": 153
+        },
+        "exact_minus_matched_mc": -7,
+        "same_exact_and_matched_mc_portfolio_folds": 1,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2683,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 22,
+          "neither": 178
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2684,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 28,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 28
+        },
+        "paired": {
+          "exact_only": 10,
+          "matched_mc_only": 10,
+          "both": 16,
+          "neither": 164
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2685,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 19
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 19
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 12,
+          "both": 17,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": -10,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2686,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 0,
+          "both": 21,
+          "neither": 178
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2687,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 26,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 23,
+          "neither": 177
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2688,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 30
+        },
+        "paired": {
+          "exact_only": 10,
+          "matched_mc_only": 8,
+          "both": 19,
+          "neither": 163
+        },
+        "exact_minus_matched_mc": 2,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2689,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 36,
+          "matched_mc": 36,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 36,
+          "matched_mc": 36,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 14,
+          "matched_mc_only": 30,
+          "both": 6,
+          "neither": 150
+        },
+        "exact_minus_matched_mc": -16,
+        "same_exact_and_matched_mc_portfolio_folds": 0,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2690,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 28
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 28
+        },
+        "paired": {
+          "exact_only": 5,
+          "matched_mc_only": 7,
+          "both": 23,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2691,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 6,
+          "both": 16,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2692,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 31,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 31,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 10,
+          "both": 15,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2693,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 4,
+          "both": 20,
+          "neither": 173
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2694,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 11,
+          "matched_mc_only": 7,
+          "both": 13,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2695,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 20,
+          "matched_mc_only": 13,
+          "both": 5,
+          "neither": 162
+        },
+        "exact_minus_matched_mc": 7,
+        "same_exact_and_matched_mc_portfolio_folds": 0,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2696,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 24
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 8,
+          "both": 16,
+          "neither": 168
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2697,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 14,
+          "matched_mc": 14,
+          "exact": 14
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 14,
+          "matched_mc": 14,
+          "exact": 14
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 14,
+          "neither": 186
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2698,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 29,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2699,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 19
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 20
+        },
+        "paired": {
+          "exact_only": 11,
+          "matched_mc_only": 11,
+          "both": 8,
+          "neither": 170
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 1,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2700,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 29,
+          "matched_mc": 27,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 29,
+          "matched_mc": 27,
+          "exact": 28
+        },
+        "paired": {
+          "exact_only": 11,
+          "matched_mc_only": 12,
+          "both": 15,
+          "neither": 162
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2701,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 5,
+          "both": 20,
+          "neither": 172
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2702,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 21,
+          "matched_mc_only": 22,
+          "both": 4,
+          "neither": 153
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 0,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2703,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 20
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 8,
+          "both": 13,
+          "neither": 172
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2704,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 18,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 18,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 7,
+          "both": 14,
+          "neither": 173
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2705,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 3,
+          "both": 16,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2706,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 37,
+          "matched_mc": 37,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 37,
+          "matched_mc": 37,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 12,
+          "both": 25,
+          "neither": 159
+        },
+        "exact_minus_matched_mc": -8,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2707,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 11,
+          "matched_mc_only": 11,
+          "both": 11,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2708,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 2,
+          "both": 23,
+          "neither": 172
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2709,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 29,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 29,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 10,
+          "both": 15,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2710,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 3,
+          "both": 24,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2711,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 24
+        },
+        "paired": {
+          "exact_only": 12,
+          "matched_mc_only": 8,
+          "both": 11,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2712,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 22,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 22,
+          "legacy_mc": 22,
+          "matched_mc": 22,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 0,
+          "both": 22,
+          "neither": 177
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2713,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 35,
+          "legacy_mc": 28,
+          "matched_mc": 29,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 35,
+          "legacy_mc": 28,
+          "matched_mc": 29,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 4,
+          "both": 25,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2714,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 29,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 31
+        },
+        "awarded_tickets": {
+          "history_blind": 30,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 31
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 4,
+          "both": 24,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2715,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 32,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 32,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 14,
+          "matched_mc_only": 18,
+          "both": 7,
+          "neither": 161
+        },
+        "exact_minus_matched_mc": -4,
+        "same_exact_and_matched_mc_portfolio_folds": 1,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2716,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 33,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 31
+        },
+        "awarded_tickets": {
+          "history_blind": 33,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 31
+        },
+        "paired": {
+          "exact_only": 16,
+          "matched_mc_only": 11,
+          "both": 15,
+          "neither": 158
+        },
+        "exact_minus_matched_mc": 5,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2717,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 16,
+          "matched_mc": 16,
+          "exact": 16
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 16,
+          "matched_mc": 16,
+          "exact": 16
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 16,
+          "neither": 184
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2718,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 17,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 17,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 9,
+          "matched_mc_only": 9,
+          "both": 12,
+          "neither": 170
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2719,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 31,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 31,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 0,
+          "both": 20,
+          "neither": 179
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2720,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 21,
+          "matched_mc": 20,
+          "exact": 19
+        },
+        "awarded_tickets": {
+          "history_blind": 19,
+          "legacy_mc": 21,
+          "matched_mc": 20,
+          "exact": 19
+        },
+        "paired": {
+          "exact_only": 9,
+          "matched_mc_only": 10,
+          "both": 10,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2721,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 30,
+          "matched_mc": 30,
+          "exact": 30
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 30
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 3,
+          "both": 27,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2722,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 27
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 27
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 9,
+          "both": 19,
+          "neither": 164
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2723,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 30,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 30,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 20
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 20,
+          "neither": 180
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2724,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 26,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 33
+        },
+        "awarded_tickets": {
+          "history_blind": 27,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 33
+        },
+        "paired": {
+          "exact_only": 26,
+          "matched_mc_only": 12,
+          "both": 7,
+          "neither": 155
+        },
+        "exact_minus_matched_mc": 14,
+        "same_exact_and_matched_mc_portfolio_folds": 0,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2725,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 31,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 31
+        },
+        "awarded_tickets": {
+          "history_blind": 32,
+          "legacy_mc": 31,
+          "matched_mc": 31,
+          "exact": 31
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 2,
+          "both": 29,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2726,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 31
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 27,
+          "matched_mc": 27,
+          "exact": 31
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 0,
+          "both": 27,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2727,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 24,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 1,
+          "both": 22,
+          "neither": 176
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 7,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2728,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 24,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 8,
+          "both": 18,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": -5,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2729,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 20,
+          "matched_mc": 20,
+          "exact": 20
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 0,
+          "matched_mc_only": 0,
+          "both": 20,
+          "neither": 180
+        },
+        "exact_minus_matched_mc": 0,
+        "same_exact_and_matched_mc_portfolio_folds": 8,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2730,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 12,
+          "legacy_mc": 17,
+          "matched_mc": 17,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 12,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 0,
+          "both": 17,
+          "neither": 179
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2731,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 28,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 15
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 15
+        },
+        "paired": {
+          "exact_only": 5,
+          "matched_mc_only": 11,
+          "both": 10,
+          "neither": 174
+        },
+        "exact_minus_matched_mc": -6,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2732,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 28,
+          "legacy_mc": 17,
+          "matched_mc": 17,
+          "exact": 16
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 17,
+          "matched_mc": 17,
+          "exact": 16
+        },
+        "paired": {
+          "exact_only": 4,
+          "matched_mc_only": 5,
+          "both": 12,
+          "neither": 179
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2733,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 14,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 27
+        },
+        "awarded_tickets": {
+          "history_blind": 15,
+          "legacy_mc": 24,
+          "matched_mc": 24,
+          "exact": 27
+        },
+        "paired": {
+          "exact_only": 5,
+          "matched_mc_only": 2,
+          "both": 22,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2734,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 26,
+          "matched_mc": 29,
+          "exact": 28
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 26,
+          "matched_mc": 30,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 3,
+          "matched_mc_only": 4,
+          "both": 25,
+          "neither": 168
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2735,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 20,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 30
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 31
+        },
+        "paired": {
+          "exact_only": 9,
+          "matched_mc_only": 5,
+          "both": 21,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": 4,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2736,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 14,
+          "matched_mc_only": 13,
+          "both": 8,
+          "neither": 165
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2737,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 18,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 18,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 6,
+          "both": 19,
+          "neither": 168
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2738,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 35,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 21
+        },
+        "awarded_tickets": {
+          "history_blind": 35,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 21
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 4,
+          "both": 14,
+          "neither": 175
+        },
+        "exact_minus_matched_mc": 3,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2739,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 14,
+          "matched_mc": 14,
+          "exact": 19
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 14,
+          "matched_mc": 14,
+          "exact": 19
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 3,
+          "both": 11,
+          "neither": 178
+        },
+        "exact_minus_matched_mc": 5,
+        "same_exact_and_matched_mc_portfolio_folds": 5,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2740,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 32,
+          "matched_mc": 30,
+          "exact": 29
+        },
+        "awarded_tickets": {
+          "history_blind": 20,
+          "legacy_mc": 32,
+          "matched_mc": 30,
+          "exact": 29
+        },
+        "paired": {
+          "exact_only": 1,
+          "matched_mc_only": 2,
+          "both": 28,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2741,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 23,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "awarded_tickets": {
+          "history_blind": 23,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 23
+        },
+        "paired": {
+          "exact_only": 13,
+          "matched_mc_only": 15,
+          "both": 10,
+          "neither": 162
+        },
+        "exact_minus_matched_mc": -2,
+        "same_exact_and_matched_mc_portfolio_folds": 1,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2742,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 17,
+          "legacy_mc": 28,
+          "matched_mc": 28,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 17,
+          "legacy_mc": 29,
+          "matched_mc": 29,
+          "exact": 27
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 9,
+          "both": 19,
+          "neither": 166
+        },
+        "exact_minus_matched_mc": -3,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2743,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 25,
+          "legacy_mc": 18,
+          "matched_mc": 18,
+          "exact": 19
+        },
+        "awarded_tickets": {
+          "history_blind": 25,
+          "legacy_mc": 19,
+          "matched_mc": 19,
+          "exact": 19
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 5,
+          "both": 13,
+          "neither": 176
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 2,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2744,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 19,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 25
+        },
+        "awarded_tickets": {
+          "history_blind": 19,
+          "legacy_mc": 26,
+          "matched_mc": 26,
+          "exact": 25
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 8,
+          "both": 18,
+          "neither": 167
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2745,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 26,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 18
+        },
+        "awarded_tickets": {
+          "history_blind": 26,
+          "legacy_mc": 21,
+          "matched_mc": 21,
+          "exact": 18
+        },
+        "paired": {
+          "exact_only": 2,
+          "matched_mc_only": 5,
+          "both": 16,
+          "neither": 177
+        },
+        "exact_minus_matched_mc": -3,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2746,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 26,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 22
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 22
+        },
+        "paired": {
+          "exact_only": 8,
+          "matched_mc_only": 9,
+          "both": 14,
+          "neither": 169
+        },
+        "exact_minus_matched_mc": -1,
+        "same_exact_and_matched_mc_portfolio_folds": 3,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2747,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 27,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "awarded_tickets": {
+          "history_blind": 28,
+          "legacy_mc": 25,
+          "matched_mc": 25,
+          "exact": 26
+        },
+        "paired": {
+          "exact_only": 7,
+          "matched_mc_only": 6,
+          "both": 19,
+          "neither": 168
+        },
+        "exact_minus_matched_mc": 1,
+        "same_exact_and_matched_mc_portfolio_folds": 4,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      },
+      {
+        "seed": 2748,
+        "tested_draws": 200,
+        "winning_draws": {
+          "history_blind": 21,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 28
+        },
+        "awarded_tickets": {
+          "history_blind": 21,
+          "legacy_mc": 23,
+          "matched_mc": 23,
+          "exact": 28
+        },
+        "paired": {
+          "exact_only": 6,
+          "matched_mc_only": 1,
+          "both": 22,
+          "neither": 171
+        },
+        "exact_minus_matched_mc": 5,
+        "same_exact_and_matched_mc_portfolio_folds": 6,
+        "fair_any_award_probability_all_arms": 0.1227314589619088
+      }
+    ]
+  },
+  "research_decision": "NO_EVIDENCE"
+}

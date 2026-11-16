@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - "lotto7x7/experiment_ledger.py"
+      - "lotto7x7/experiment_runner.py"
+      - "experiments/configs/**"
       - "tests/test_experiment_ledger_m1.py"
       - "experiments/ledger_registry_v1.json"
       - "docs/experiment_ledger_m1.md"

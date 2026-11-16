@@ -32,8 +32,8 @@ def normalized_bets(bets, *, maximum=5):
     return tuple(result)
 
 
-def coverage_counts(bets):
-    """Exact distribution of maximum hits among all C(49,6) possible draws.
+def _hit_table(bets):
+    """Exact joint distribution of ticket hit counts for a fair draw.
 
     Group each label by the binary vector of ticket membership; picking k from
     a group of m contributes comb(m,k) draws and k hits to its member tickets.
@@ -57,8 +57,17 @@ def coverage_counts(bets):
                         for i in range(n)) + (slice(k, 7),)
             next_dp[dst] += dp[src] * comb(group_size, k)
         dp = next_dp
-    table = dp[..., 6]
-    maximum = np.maximum.reduce(np.indices((7,) * n))
+    return dp[..., 6]
+
+
+def coverage_counts(bets):
+    """Exact distribution of the maximum number of hits across tickets."""
+    return _max_hit_counts(_hit_table(bets))
+
+
+def _max_hit_counts(table):
+    n = table.ndim
+    maximum = np.maximum.reduce(np.indices(table.shape))
     counts = [int(table[maximum == hits].sum(dtype=np.int64)) for hits in range(7)]
     if sum(counts) != UNIVERSE or counts[6] != n:
         raise AssertionError("6/49 exact coverage identity failed")
@@ -77,6 +86,23 @@ def exact_coverage(bets):
         "max_hits_probabilities_0_to_6": [x / UNIVERSE for x in counts],
         "at_least": {str(h): sum(counts[h:]) / UNIVERSE for h in (3, 4, 5, 6)},
         "at_least_counts": {str(h): sum(counts[h:]) for h in (3, 4, 5, 6)},
+    }
+
+
+def joint_coverage_counts(bets):
+    """Exact count of draws by maximum hits and number of qualifying tickets."""
+    table = _hit_table(bets)
+    hits = np.indices(table.shape)
+    by_threshold = {}
+    for threshold in (3, 4, 5, 6):
+        qualifiers = (hits >= threshold).sum(axis=0)
+        by_threshold[str(threshold)] = [
+            int(table[qualifiers == count].sum(dtype=np.int64))
+            for count in range(table.ndim + 1)
+        ]
+    return {
+        "max_hits": _max_hit_counts(table),
+        "qualifying_ticket_counts": by_threshold,
     }
 
 

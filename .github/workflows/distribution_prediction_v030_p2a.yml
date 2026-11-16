@@ -3,8 +3,8 @@ name: v0.30 P2A Distribution Prediction
 on:
   push:
     paths:
-      - 'lotto7x7/distribution_prediction_v030.py'
-      - 'tests/test_distribution_prediction_v030_p2.py'
+      - 'lotto7x7/statistics/distribution_prediction_v030.py'
+      - 'tests/statistics/test_distribution_prediction_v030_p2.py'
       - 'docs/distribution_prediction_v030_p2.md'
       - '.github/workflows/distribution_prediction_v030_p2a.yml'
   workflow_dispatch:

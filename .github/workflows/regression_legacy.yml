@@ -1,0 +1,121 @@
+name: Legacy Regression
+
+on:
+  pull_request:
+    paths:
+      - 'lotto7x7/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - 'experiments/**'
+      - 'data/csv/**'
+      - 'data/bin/**'
+      - 'tools/**'
+      - 'scripts/export_lotto649_csv.py'
+      - '.github/workflows/regression_legacy.yml'
+      - 'scripts/legacy-regression/**'
+  push:
+    branches: [main]
+    paths:
+      - 'lotto7x7/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - 'experiments/**'
+      - 'data/csv/**'
+      - 'data/bin/**'
+      - 'tools/**'
+      - 'scripts/export_lotto649_csv.py'
+      - '.github/workflows/regression_legacy.yml'
+      - 'scripts/legacy-regression/**'
+  workflow_dispatch:
+    inputs:
+      replay:
+        description: 'One archived replay ID, all, or none'
+        type: string
+        default: none
+
+permissions:
+  contents: read
+
+env:
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        area: [astronomy, geometry, portfolio, prospective, statistics, legacy]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install declared runtime and test dependencies
+        run: |
+          python -m pip install 'pytest>=8,<10' 'numpy>=1.26,<3' 'scipy>=1.12,<2' 'scikit-learn>=1.7,<2'
+          if [ '${{ matrix.area }}' = astronomy ]; then
+            python -m pip install 'ephem>=4.2,<5'
+          fi
+          if [[ '${{ matrix.area }}' =~ ^(legacy|portfolio|prospective)$ ]]; then
+            python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.2,<3'
+          fi
+      - name: Run archived regressions
+        run: python -m pytest -q tests/${{ matrix.area }}
+      - name: Verify compatibility entry points and configuration
+        if: matrix.area == 'geometry'
+        run: python -m pytest -q tests/test_repository_layout.py
+
+  select-replays:
+    if: github.event_name == 'workflow_dispatch' && inputs.replay != 'none'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select archived replay
+        id: matrix
+        env:
+          REPLAY: ${{ inputs.replay }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          cases = json.loads(Path("scripts/legacy-regression/cases.json").read_text())
+          chosen = [case for case in cases if os.environ["REPLAY"] in ("all", case["id"])]
+          if not chosen:
+              raise SystemExit("Unknown replay ID. See scripts/legacy-regression/cases.json.")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              print("matrix=" + json.dumps({"include": chosen}, separators=(",", ":")), file=output)
+          PY
+
+  replay:
+    needs: select-replays
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.select-replays.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Reproduce archived check
+        env:
+          REPLAY_ID: ${{ matrix.id }}
+          LEGACY_ARTIFACT_DIR: ${{ runner.temp }}/legacy-artifacts
+        run: |
+          mkdir -p "$LEGACY_ARTIFACT_DIR"
+          bash "scripts/legacy-regression/$REPLAY_ID.sh"
+          git diff --exit-code
+      - name: Archive replay results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ runner.temp }}/legacy-artifacts
+          retention-days: 30

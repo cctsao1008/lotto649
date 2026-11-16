@@ -65,4 +65,4 @@ Root seed `210594425653336206127332942922757299723`, 1,000 spawned seeds, 10,000
 
 ## Implementation and tests
 
-Modules: `lotto7x7/early_hit_v023.py`, `lotto7x7/early_hit_cli_v023.py` and their tests; CLI registered as `python -m lotto7x7 early-hit-backtest`. Read-only P1 sources; no modifications to historical files, model freeze, or prior benchmark results. Unit tests cover chronological exclusion of target from fit, paired full-pool invariant, exact match lookup, sparse/no-hit results, deterministic 128-bit seed, CLI flags, multi-comparison logic, output no-overwrite and input validation.
+Modules: `lotto7x7/legacy/image/early_hit_v023.py`, `lotto7x7/legacy/image/early_hit_cli_v023.py` and their tests; CLI registered as `python -m lotto7x7 early-hit-backtest`. Read-only P1 sources; no modifications to historical files, model freeze, or prior benchmark results. Unit tests cover chronological exclusion of target from fit, paired full-pool invariant, exact match lookup, sparse/no-hit results, deterministic 128-bit seed, CLI flags, multi-comparison logic, output no-overwrite and input validation.
