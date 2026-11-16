@@ -19,7 +19,7 @@ from lotto7x7.historical_guess_stream_v0222 import make_fast_batch
 def fixture_data(monkeypatch):
     import lotto7x7.early_hit_v023 as mod
     from lotto7x7.shape_predictive_v017 import _baseline_tables
-    baseline = json.loads((Path(__file__).resolve().parents[2] / 'fixtures' / 'p1_exact_universe_v1.json').read_text())
+    baseline = json.loads((Path(__file__).resolve().parents[3] / 'data/reference/shape_class_counts.json').read_text())
     tables = _baseline_tables(baseline)
     draws = make_fast_batch(np.random.default_rng(17), 32)
     ids = np.arange(93000001, 93000033, dtype=np.int64)

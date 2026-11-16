@@ -20,7 +20,7 @@ def _sources(monkeypatch, historical=None):
     monkeypatch.setattr(m, 'file_sha256', lambda _: '1' * 64)
     # One-category shape model; allows shape_score and uniform to match identically.
     from lotto7x7.shape_predictive_v017 import _baseline_tables
-    fixture = json.loads((Path(__file__).resolve().parents[2]/'fixtures'/'p1_exact_universe_v1.json').read_text())
+    fixture = json.loads((Path(__file__).resolve().parents[3] / 'data/reference/shape_class_counts.json').read_text())
     edge = _baseline_tables(fixture)['edge']
     ref = {
         'lookup': {int(key): [500 + i] for i, key in enumerate(encode_tickets(known))},

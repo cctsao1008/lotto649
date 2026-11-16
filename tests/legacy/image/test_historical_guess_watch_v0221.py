@@ -32,7 +32,7 @@ class FakeTime:
 def setup(monkeypatch, *, hits=True):
     import lotto7x7.historical_guess_watch_v0221 as m
     from lotto7x7.shape_predictive_v017 import _baseline_tables
-    fixture = json.loads((Path(__file__).resolve().parents[2]/'fixtures'/'p1_exact_universe_v1.json').read_text())
+    fixture = json.loads((Path(__file__).resolve().parents[3] / 'data/reference/shape_class_counts.json').read_text())
     table = _baseline_tables(fixture)
     pool = make_pool(np.random.default_rng(17), 24)
     ids = np.arange(93000001,93000025,dtype=np.int64)

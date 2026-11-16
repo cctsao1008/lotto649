@@ -20,7 +20,7 @@ def toy_inputs(n=32):
     x=np.stack([rare if (j%9==0) else isolated for j in range(n)])
     q=classification_keys(classify_numbers(np.stack([rare,isolated])))
     assert edge_name(q['edge'][0])==RARE_CODE_NAME
-    b=json.loads((Path(__file__).resolve().parents[2]/'fixtures'/'p1_exact_universe_v1.json').read_text(encoding='utf-8'))
+    b=json.loads((Path(__file__).resolve().parents[3] / 'data/reference/shape_class_counts.json').read_text(encoding='utf-8'))
     return np.arange(1001,1001+n),x,b
 
 

@@ -158,7 +158,7 @@ def cov_numerator(report:dict,i:int,j:int)->int:
 def main(argv=None)->int:
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--census-tsv",type=Path,required=True)
-    p.add_argument("--fixture",type=Path,default=Path("tests/fixtures/p1_exact_universe_v1.json"))
+    p.add_argument("--fixture",type=Path,default=Path("data/reference/shape_class_counts.json"))
     p.add_argument("--out",type=Path,required=True)
     a=p.parse_args(argv)
     if a.out.exists():p.error("write-once result path must not already exist")

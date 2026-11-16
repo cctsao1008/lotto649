@@ -85,8 +85,8 @@ def valid_appended_source_provenance(reference: object) -> bool:
         return False
     return True
 
-def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes], dict[int, int]]:
-    """Validate both BINs and produce all CSV bytes in memory before any writes."""
+def read_verified_draws(bin_dir: Path = DEFAULT_BIN) -> dict[int, list[tuple[date, int, tuple[int, ...], int]]]:
+    """Read the chronological draw archive and verify both BINs and their provenance."""
     bin_dir = Path(bin_dir)
     manifest = json.loads((bin_dir / "lotto649_source_manifest.json").read_text("utf-8"))
     dataset = manifest.get("dataset")
@@ -184,11 +184,18 @@ def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes],
                 or manifest["last_draw_id"] != flattened[-1][1]):
             raise ValueError("appended manifest final cutoff/period mismatch")
 
-    output: dict[Path, bytes] = {}
-    for year, draws in sorted(by_year.items()):
+    for year, draws in by_year.items():
         sequence = [draw_id % 1000000 for _, draw_id, _, _ in draws]
         if sequence != list(range(1, len(draws) + 1)):
             raise ValueError(f"missing or duplicate annual sequence: {year}")
+    return dict(by_year)
+
+
+def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes], dict[int, int]]:
+    """Produce all CSV bytes from the verified archive before any writes."""
+    by_year = read_verified_draws(bin_dir)
+    output: dict[Path, bytes] = {}
+    for year, draws in by_year.items():
         buffer = StringIO(newline="")
         writer = csv.writer(buffer, lineterminator="\n")
         writer.writerow(HEADER)
@@ -197,7 +204,7 @@ def generate_yearly_csv(bin_dir: Path = DEFAULT_BIN) -> tuple[dict[Path, bytes],
                              *(f"{n:02d}" for n in main), f"{special:02d}"])
         rel = Path(f"lotto649_{year}.csv")
         output[rel] = buffer.getvalue().encode("ascii")
-    return output, actual_counts
+    return output, {year: len(draws) for year, draws in by_year.items()}
 
 
 def verify_files(output_dir: Path, expected: dict[Path, bytes]) -> None:

@@ -15,7 +15,7 @@ on:
       - "lotto7x7/portfolio/multivariate_calibration_v025.py"
       - "lotto7x7/coverage_v06.py"
       - "data/research/v025_exact_covariance/**"
-      - "tests/fixtures/p1_exact_universe_v1.json"
+      - "data/reference/shape_class_counts.json"
       - "lotto7x7/portfolio/official_prize_v026.py"
       - "lotto7x7/portfolio/coverage_strategy_v026.py"
       - "lotto7x7/portfolio/coverage_global_research_v026.py"
@@ -39,6 +39,7 @@ on:
       - "tests/portfolio/test_strategy_ab_v026.py"
       - "tests/portfolio/test_strategy_ab_iid_calibration_v026.py"
       - "lotto7x7/__main__.py"
+      - "lotto7x7/legacy/cli.py"
       - ".github/workflows/test_v025_deficit.yml"
   workflow_dispatch:
 

@@ -32,7 +32,7 @@ NULL_REPLICATES = 99
 FIRST_NULL_SEED = 1650
 CONSTRAINT = "reference-3plus"
 SCORE_TOLERANCE = 1e-12
-FIXTURE = Path("tests/fixtures/p1_exact_universe_v1.json")
+FIXTURE = Path("data/reference/shape_class_counts.json")
 EXACT = Path("data/research/v025_exact_covariance/v025_full_163_exact_covariance_13983816.json")
 ARMS = ("legacy_mc", "matched_mc", "exact")
 

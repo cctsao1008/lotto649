@@ -9,6 +9,9 @@ on:
       - 'experiments/**'
       - 'data/csv/**'
       - 'data/bin/**'
+      - 'data/reference/**'
+      - 'data/astronomy/**'
+      - 'config/selection.json'
       - 'tools/**'
       - 'scripts/export_lotto649_csv.py'
       - '.github/workflows/regression_legacy.yml'
@@ -22,6 +25,9 @@ on:
       - 'experiments/**'
       - 'data/csv/**'
       - 'data/bin/**'
+      - 'data/reference/**'
+      - 'data/astronomy/**'
+      - 'config/selection.json'
       - 'tools/**'
       - 'scripts/export_lotto649_csv.py'
       - '.github/workflows/regression_legacy.yml'
@@ -46,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        area: [astronomy, geometry, portfolio, prospective, statistics, legacy]
+        area: [selection, astronomy, geometry, portfolio, prospective, statistics, legacy]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -61,7 +67,7 @@ jobs:
           if [[ '${{ matrix.area }}' =~ ^(geometry|legacy|portfolio|prospective)$ ]]; then
             python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.2,<3'
           fi
-      - name: Run archived regressions
+      - name: Run domain tests
         run: |
           mkdir -p results
           python -m pytest -q tests/${{ matrix.area }}

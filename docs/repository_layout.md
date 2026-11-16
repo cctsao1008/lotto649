@@ -2,19 +2,25 @@
 
 | Location | Responsibility |
 | --- | --- |
-| `lotto7x7/` | Shared bitmap, BIN and coverage modules, M1–M4, evidence governance, CLI dispatch |
+| `lotto7x7/selection/` | Main selection pipeline, statistical scoring, hexagrams and JSON CLI |
+| `config/selection.json` | Selection parameters |
+| `data/reference/` | Exact fair shape-class counts reused by selection and research |
+| `lotto7x7/` | Shared bitmap, BIN, coverage and research infrastructure |
 | `lotto7x7/geometry/` | Shape taxonomy, geometry and v0.31 incremental geometry |
 | `lotto7x7/statistics/` | v0.30 distribution, inference and conditional Monte Carlo |
 | `lotto7x7/portfolio/` | Coverage, prize probability and historical portfolio experiments |
 | `lotto7x7/prospective/` | Versioned seals and evaluation protocols |
 | `lotto7x7/astronomy/` | USNO and I Ching research |
-| `lotto7x7/legacy/` | Historical image methods and the frozen strategy-verification series |
+| `lotto7x7/legacy/` | Historical CLI, image methods and frozen strategy-verification series |
+| `docs/archive/` | Historical project overview and version notes |
 
 Tests follow the same domains. Run all tests from the repository root with
 `python -m pytest -q`, or use `python -m unittest discover -s tests -v` for
 the unittest subset. Narrow discovery by the existing file name pattern
 still works. The historical image training and diagnostics files retain
 their top-level locations because v0.3 verifies their exact source hashes.
+
+Run the main pipeline with `python -m lotto7x7 select --help`. For archived research commands, use `python -m lotto7x7 research --help`.
 
 Existing Python imports and `python -m lotto7x7.<old_module>` invocations
 resolve to the canonical implementation. New internal imports use the domain

@@ -1,0 +1,12 @@
+{
+  "count": 4,
+  "pool_size": 2000,
+  "seed": 649,
+  "statistics": {
+    "sum": 1.0,
+    "frequency": 1.0,
+    "shape": 1.0
+  },
+  "epsilon": 0.01,
+  "hexagram_rule": "cwa_solar_term_lunar_day_gray"
+}

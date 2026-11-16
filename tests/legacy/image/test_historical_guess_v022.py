@@ -15,7 +15,7 @@ def _fixture():
     rng=np.random.default_rng(30)
     rows=make_pool(rng,24)
     from lotto7x7.shape_predictive_v017 import _baseline_tables
-    baseline=json.loads((Path(__file__).resolve().parents[2]/'fixtures'/'p1_exact_universe_v1.json').read_text())
+    baseline=json.loads((Path(__file__).resolve().parents[3] / 'data/reference/shape_class_counts.json').read_text())
     table=_baseline_tables(baseline)
     return np.arange(1000,1024),rows,table
 

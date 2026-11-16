@@ -28,7 +28,7 @@ def make_test_inputs(folder:Path):
     codes=classification_keys(classify_numbers(nums))
     cat=folder/'synthetic_p1_catalog.npz'
     np.savez_compressed(cat,draw_ids=ids,numbers=nums,**codes)
-    src=Path(__file__).parent/'fixtures'/'p1_exact_universe_v1.json'
+    src=Path(__file__).resolve().parents[1] / 'data/reference/shape_class_counts.json'
     assert src.is_file(), 'P2 exact-universe fixture must be available in repo'
     univ=folder/'synthetic_p1_exact_universe.json';shutil.copyfile(src,univ)
     watch=folder/'synthetic_p2_watchlist.json'

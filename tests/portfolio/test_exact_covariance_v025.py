@@ -12,7 +12,7 @@ import unittest
 from lotto7x7 import exact_covariance_v025 as m
 
 ROOT=Path(__file__).resolve().parents[2]
-FIX=ROOT/"tests/fixtures/p1_exact_universe_v1.json"
+FIX=ROOT/"data/reference/shape_class_counts.json"
 CPP=ROOT/"lotto7x7/portfolio/exact_covariance_v025.cpp"
 PINNED_FIXTURE_GIT_BLOB="7d301f16937d985ce5fb7cef590bb1b1a109b0b6"
 
