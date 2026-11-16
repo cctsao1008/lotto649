@@ -372,6 +372,41 @@
       "evidence_as_of": "2026-11-16"
     },
     {
+      "id": "matched-covariance-walkforward-v025-20261116",
+      "issue": 8,
+      "domain": "statistics",
+      "evidence_stage": "EXPLORATORY_RETROSPECTIVE",
+      "research_decision": "NO_EVIDENCE",
+      "engineering_status": "PASS",
+      "research_question": "Does Exact covariance improve holdout award incidence compared with Matched MC at identical fair-IID official prize coverage?",
+      "hypothesis": "Exact wins on more held-out draws than Matched MC by an amount unusually large under whole-pipeline IID replay.",
+      "source_cutoff": "Source through 2026-11-06 / 115000103; holdouts 2020-11-13 to 2022-08-05 / 109000099 to 111000072",
+      "sample_size": 200,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 paired covariance walk-forward v1",
+      "null_model": "99 IID six-main-plus-special histories, with all three optimizers rerun in each of the eight folds",
+      "multiple_testing": "One primary Exact minus Matched MC upper-tail contrast; other arms and absolute effect are diagnostic",
+      "primary_endpoint": "Number of holdout draws with any eight-tier award for Exact minus Matched MC",
+      "result_summary": "Exact 22/200, Matched MC and Legacy MC 25/200 each, history-blind baseline 22/200. Observed primary delta -3 draws, empirical upper-tail p=0.91. Exact and Matched MC selected identical portfolios in seven of eight folds.",
+      "method": "Expanding chronological prefixes, eight disjoint 25-draw holdouts, common legacy candidate pool and search, exact disjoint coverage parity, shared exact scaling in the primary contrast, verified bonus scoring.",
+      "limitations": [
+        "The original historical fold scheme and outcomes have been used for prior research.",
+        "One bounded optimizer, one fixed sample covariance, one timeline, 200 tested draws and 99 paired null replays limit inference.",
+        "All four arms have identical theoretical fair-IID award incidence. Prospective prediction requires separately frozen evidence."
+      ],
+      "next_action": "Use a separately specified unseen prospective evaluation if a future covariance strategy has a prespecified discriminating endpoint.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_matched_covariance_walkforward_20261116.json",
+          "git_blob_sha1": "f44642c17d713ddb86a92aec222930ced79f96f7"
+        }
+      ],
+      "evidence_commit": "067dd138c73426b0e6c879832da8218d87609319",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
       "id": "prospective-readiness-v032-20261114",
       "issue": 32,
       "domain": "source_engineering",
