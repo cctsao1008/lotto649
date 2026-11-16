@@ -58,7 +58,7 @@ jobs:
           if [ '${{ matrix.area }}' = astronomy ]; then
             python -m pip install 'ephem>=4.2,<5'
           fi
-          if [[ '${{ matrix.area }}' =~ ^(legacy|portfolio|prospective)$ ]]; then
+          if [[ '${{ matrix.area }}' =~ ^(geometry|legacy|portfolio|prospective)$ ]]; then
             python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.2,<3'
           fi
       - name: Run archived regressions
