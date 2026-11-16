@@ -32,10 +32,10 @@ are verified against the pinned event digest.
 
 ## Committed artifacts (after one-time CI job succeeds)
 
-- `data/astronomy/usno_official/raw/moon_phases/YYYY.json` (23 files)
-- `data/astronomy/usno_official/raw/seasons/YYYY.json` (23 files)
-- `data/astronomy/usno_official/manifest_2004_2026.json`
-- `data/astronomy/usno_official/usno_events_2004_2026.csv`
+- `research/artifacts/usno_official/raw/moon_phases/YYYY.json` (23 files)
+- `research/artifacts/usno_official/raw/seasons/YYYY.json` (23 files)
+- `research/artifacts/usno_official/manifest_2004_2026.json`
+- `research/artifacts/usno_official/usno_events_2004_2026.csv`
 - `research/artifacts/v24_usno/v24_usno_daily_features_2004_2026.csv` (8,401 days)
 - `research/artifacts/v24_usno/v24_usno_draw_context_2498.csv` (2,498 archived draws)
 - `research/artifacts/v24_usno/v24_usno_data_audit_2004_2026.json`
@@ -54,9 +54,18 @@ has been established.
 
 ## One-time archival mechanism
 
-`.github/workflows/usno_archive_once_20261113.yml` runs once when the workflow
-file is added to `main` (no schedule). It does not alter historic draw sources.
+[The original one-time workflow](../../../.github/legacy-workflows/usno_archive_once_20261113.yml)
+records how the source archive was created from the official USNO API.
 It fails closed if USNO responds with data that do not match the submitted
 source's pinned hash. If network access is blocked for GitHub runners, the
 provided local scripts can rebuild identical research features from the
 user's original, already verified `usno_official.zip`.
+
+To reparse the committed source responses offline, copy the snapshot to a
+local output directory first:
+
+```bash
+mkdir -p results/usno_official
+cp -R research/artifacts/usno_official/raw results/usno_official/
+python research/replays/fetch_usno_astronomy.py --offline
+```

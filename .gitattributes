@@ -1,0 +1,6 @@
+research/artifacts/**/*.csv text eol=lf
+research/artifacts/**/*.json text eol=lf
+research/artifacts/**/*.tsv text eol=lf
+research/experiments/**/*.json text eol=lf
+research/prospective/**/*.csv text eol=lf
+research/prospective/**/*.json text eol=lf

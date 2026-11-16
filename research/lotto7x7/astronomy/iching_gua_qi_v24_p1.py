@@ -348,13 +348,13 @@ def generate(events_file:Path, manifest_file:Path, raw_dir:Path,
 
 def main(argv=None) -> int:
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--events",type=Path,default=Path("data/astronomy/usno_official/usno_events_2004_2026.csv"))
-    ap.add_argument("--manifest",type=Path,default=Path("data/astronomy/usno_official/manifest_2004_2026.json"))
-    ap.add_argument("--raw-dir",type=Path,default=Path("data/astronomy/usno_official/raw"))
+    ap.add_argument("--events",type=Path,default=Path("research/artifacts/usno_official/usno_events_2004_2026.csv"))
+    ap.add_argument("--manifest",type=Path,default=Path("research/artifacts/usno_official/manifest_2004_2026.json"))
+    ap.add_argument("--raw-dir",type=Path,default=Path("research/artifacts/usno_official/raw"))
     ap.add_argument("--draw-context",type=Path,default=Path("research/artifacts/v24_usno/v24_usno_draw_context_2498.csv"))
     ap.add_argument("--postdraw",type=Path,default=Path("research/artifacts/v24/v24_astronomy_hexagram_2498.csv"))
     ap.add_argument("--postdraw-report",type=Path,default=Path("research/artifacts/v24/v24_astronomy_hexagram_2498_report.json"))
-    ap.add_argument("--out-dir",type=Path,default=Path("research/artifacts/v24_iching"))
+    ap.add_argument("--out-dir", type=Path, default=Path("results/v24_iching"))
     args=ap.parse_args(argv)
     result=generate(args.events,args.manifest,args.raw_dir,args.draw_context,
                     args.postdraw,args.postdraw_report,args.out_dir)

@@ -7,7 +7,7 @@ Does not parse or touch any existing Lottery history / CWA datasets.
 
 Usage:
   python research/replays/fetch_usno_astronomy.py --start-year 2004 --end-year 2026
-  python research/replays/fetch_usno_astronomy.py --start-year 2004 --end-year 2026 --offline
+  python research/replays/fetch_usno_astronomy.py --offline --out-dir results/usno_official
 """
 from __future__ import annotations
 
@@ -140,7 +140,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--start-year", type=int, default=2004)
     parser.add_argument("--end-year", type=int, default=2026)
-    parser.add_argument("--out-dir", type=Path, default=Path("data/astronomy/usno_official"))
+    parser.add_argument("--out-dir", type=Path, default=Path("results/usno_official"))
     parser.add_argument("--timeout", type=float, default=25.0)
     parser.add_argument("--retries", type=int, default=2)
     parser.add_argument("--offline", action="store_true", help="Reparse only saved yearly raw JSON; no network")

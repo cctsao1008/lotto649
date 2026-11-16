@@ -30,7 +30,7 @@ The current 2004–2026 dataset contains **2,498** Lotto649 draws through **2026
 ```powershell
 cd D:\my-github\lotto649
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
 .\.venv\Scripts\python.exe -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
 .\.venv\Scripts\python.exe -m lotto7x7 check
 .\.venv\Scripts\python.exe -m lotto7x7 learn --year all --epochs 45 --baseline 32
@@ -153,7 +153,7 @@ The v0.2 diagnostics and original image-training functions are **unchanged** and
 changes under the same CNN, GRU, hard Top-6 decoder, BIN v2 data, split, and scoring.
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
 .\.venv\Scripts\python.exe -m lotto7x7 loss-study `
     --year all --epochs 45 --baseline 32 --bootstrap 400
 .\.venv\Scripts\python.exe -m lotto7x7 gallery `
@@ -279,7 +279,7 @@ is not optimized and is not a purchase recommendation.
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 & $py -m lotto7x7 shape-pool `
     --size 100 --families 20 --family-policy uniform-family `
     --sample-count 5 --seed 649 `

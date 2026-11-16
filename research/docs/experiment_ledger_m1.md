@@ -15,7 +15,7 @@ The verifier checks each artifact's original Git blob SHA1, allowing only a full
 ## Runnable public research configurations
 
 `RESEARCH_CONFIG` entries pin a JSON hypothesis, engine, parameters and
-historical cutoffs in `experiments/configs/`. See the
+historical cutoffs in `research/experiments/configs/`. See the
 [configuration and execution workflow](../../docs/architecture.md#register-a-parameter-only-research-experiment).
 
 ## Private write-once paid-ticket registration

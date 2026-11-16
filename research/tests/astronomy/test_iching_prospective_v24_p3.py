@@ -104,6 +104,18 @@ class P3Tests(unittest.TestCase):
             self.assertEqual(obj['exact_fair_universe'],13983816)
             self.assertEqual(rows['2026-11-17'],(p3.p2.gray3(3)<<3)|p3.p2.gray3(6))
 
+    def test_rebuild_frozen_sky_from_archived_sources(self):
+        root = Path(__file__).resolve().parents[2]
+        prospective = root / 'prospective'
+        seal, rows = p3.load_seal_and_sky(
+            seal_path=prospective / p3.SEAL_FILENAME,
+            sky_path=prospective / p3.SKY_FILENAME,
+            old_root=root / 'artifacts/usno_official',
+            future_root=root / 'artifacts/usno_future_2027',
+        )
+        self.assertIn(p3.FIRST_DATE, rows)
+        self.assertEqual(seal['horizon_consecutive_verified_draws'], p3.HORIZON)
+
     def test_freeze_refuses_replacing_a_precommitted_table_or_seal(self):
         with TemporaryDirectory() as tmp:
             root=Path(tmp)

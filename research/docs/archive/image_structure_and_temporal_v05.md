@@ -23,7 +23,7 @@ All commands require the project's Python environment; the native terminal
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 # Descriptive 7x7 image structure, mapping sensitivity, lagged chronology.
 & $py -m lotto7x7 image-study `

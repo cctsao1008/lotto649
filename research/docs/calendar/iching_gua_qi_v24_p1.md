@@ -5,7 +5,7 @@
 
 ## Exact data sources and provenance
 
-* USNO API: `data/astronomy/usno_official/raw/` (46 original JSON files) + `usno_events_2004_2026.csv` (1,276 event rows); all 46 raw SHA-256 digests are validated against the archived USNO manifest.
+* USNO API: `research/artifacts/usno_official/raw/` (46 original JSON files) + `usno_events_2004_2026.csv` (1,276 event rows); all 46 raw SHA-256 digests are validated against the archived USNO manifest.
 * Pre-existing frozen date-only view: `research/artifacts/v24_usno/v24_usno_draw_context_2498.csv`.
 * Original post-draw outcome view: `research/artifacts/v24/v24_astronomy_hexagram_2498.csv` and its report. Original source CSV and BIN are **not changed**. These original views have their respective SHA-256 values checked before generating output.
 * All time instants are converted from USNO UTC to explicit UTC+08:00. **Reference clock is 12:00 local on the historical date**; the actual lottery draw time has not been verified. No local meteorological data or lunar-month labels are used.

@@ -35,11 +35,12 @@ The calendar snapshots are derived from Taiwan's Central Weather Administration 
 | `research/` | Study code, experiments, sealed protocols, artifacts, replays, and research tests |
 | `tests/strategy/` | Main pipeline tests |
 | `docs/` | Architecture, data operations, and calendar sources |
+| `scripts/` | Draw archive and calendar maintenance |
 
 ## Data and research
 
 - [Draw archive and source manifest](data/bin) provide the draw history. [Annual CSV exports](data/csv) are available for inspection.
 - [Exact shape reference](data/reference/shape_class_counts.json) covers all 13,983,816 combinations. It complements the exact sum distribution used in statistical ranking.
-- [Repository layout and replay instructions](docs/architecture.md) describe the research tools. Use `python -m lotto7x7 research --help` for historical commands. See the [image research archive](research/docs/archive/image_research.md) and [evidence index](research/docs/research_evidence_index.md) for earlier studies.
+- [Repository architecture](docs/architecture.md) describes the selection workflow and maintenance layout. The [research guide](research/README.md) links study documentation, evidence, and replay commands.
 
 The statistical scores describe historical distribution deficits. The predictive performance of the combined strategy still needs out-of-sample validation.

@@ -23,7 +23,7 @@ remain immutable.
   the astronomical six-bit mapping may be refit after the study begins.
 - Historical USNO 2004–2026 raw JSON, derived files and manifest are unchanged.
   USNO **2027** original annual moon and season JSON are imported one time into
-  `data/astronomy/usno_future_2027/` with their own manifest and CSV, SHA-256
+  `research/artifacts/usno_future_2027/` with their own manifest and CSV, SHA-256
   evidence, and verified before sky-table creation. No CWA data or forecast
   service is used.
 

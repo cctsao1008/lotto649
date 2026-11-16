@@ -58,7 +58,7 @@ model selection remains validation shape loss, not test outcome.
 ## Run
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
 .\.venv\Scripts\python.exe -m lotto7x7 diagnose --year all --epochs 45 --baseline 32
 .\.venv\Scripts\python.exe -m lotto7x7 gallery --report results/image_diagnostics_v02.json --out results/image_diagnostics_v02.html
 Start-Process .\results\image_diagnostics_v02.html

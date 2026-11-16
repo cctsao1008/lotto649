@@ -146,7 +146,7 @@ class TestP2Math(unittest.TestCase):
 
 class TestP2OfficialSources(unittest.TestCase):
     def test_source_raws_are_pinned_when_available(self):
-        root = Path("data/astronomy/usno_official")
+        root = Path("research/artifacts/usno_official")
         if not (root / "manifest_2004_2026.json").exists():
             self.skipTest("official USNO raw archive not present in isolated development tests")
         events, manifest, audit = p1.verify_source_archive(

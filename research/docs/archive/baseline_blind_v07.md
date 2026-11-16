@@ -65,7 +65,7 @@ cutoff hash, target ID, eight selected portfolios, and per-ticket realized hits.
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 # Functional retrospective evaluation; full B1/S1 optimizer is CPU-intensive.
 & $py -m lotto7x7 baseline-study `

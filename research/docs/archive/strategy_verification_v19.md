@@ -34,7 +34,7 @@ Assume a set of four uniquely highest Shape partitions `P` with caps `c_p`, and 
 ## Reproduce
 
 ```powershell
-python -m unittest discover -s tests -p test_strategy_verification_v19.py -v
+python -m unittest discover -s research/tests -p test_strategy_verification_v19.py -v
 python -m lotto7x7.strategy_verification_v19 --out results/strategy_v19_score_saturation.json
 ```
 

@@ -55,7 +55,7 @@ def encode_csv(rows: list[dict]) -> bytes:
 
 def _verified_2027(root: Path) -> tuple[list[dict], dict]:
     """2027 USNO add-on is a separate namespace, never mutates base 2004-26."""
-    from scripts.fetch_usno_astronomy import validate_json
+    from research.replays.fetch_usno_astronomy import validate_json
 
     man_path = root / 'manifest_2027_2027.json'
     csv_path = root / 'usno_events_2027_2027.csv'
@@ -390,14 +390,14 @@ def main(argv:list[str]|None=None)->int:
     ap=argparse.ArgumentParser(description=__doc__)
     sub=ap.add_subparsers(dest='cmd',required=True)
     build=sub.add_parser('freeze',help='once only, pre-outcome future calendar + seal')
-    build.add_argument('--old-root',type=Path,default=Path('data/astronomy/usno_official'))
-    build.add_argument('--future-root',type=Path,default=Path('data/astronomy/usno_future_2027'))
+    build.add_argument('--old-root',type=Path,default=Path('research/artifacts/usno_official'))
+    build.add_argument('--future-root',type=Path,default=Path('research/artifacts/usno_future_2027'))
     build.add_argument('--out-dir',type=Path,default=Path('research/prospective'))
     run=sub.add_parser('evaluate',help='source-verified read-only report; do not download or buy')
     run.add_argument('--seal',type=Path,default=Path('research/prospective')/SEAL_FILENAME)
     run.add_argument('--sky',type=Path,default=Path('research/prospective')/SKY_FILENAME)
-    run.add_argument('--old-root',type=Path,default=Path('data/astronomy/usno_official'))
-    run.add_argument('--future-root',type=Path,default=Path('data/astronomy/usno_future_2027'))
+    run.add_argument('--old-root',type=Path,default=Path('research/artifacts/usno_official'))
+    run.add_argument('--future-root',type=Path,default=Path('research/artifacts/usno_future_2027'))
     run.add_argument('--csv-root',type=Path,default=Path('data/csv'))
     run.add_argument('--bin-root',type=Path,default=Path('data/bin'))
     run.add_argument('--evidence-root',type=Path,default=Path('data/private/lotto649-source'))

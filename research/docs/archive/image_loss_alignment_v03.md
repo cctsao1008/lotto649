@@ -43,7 +43,7 @@ The solution uses fixed-iteration bisection plus an implicit gradient correction
 
 ```powershell
 cd D:\my-github\lotto649
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
 
 # Compare all three losses using the same already-inspected historical segment.
 .\.venv\Scripts\python.exe -m lotto7x7 loss-study `

@@ -16,13 +16,14 @@ each band before returning the requested number of combinations.
 | `research/evidence_registry_v1.json` | Registry of research evidence |
 | `research/experiments/` | Experiment registry, settings, and registered candidate artifacts |
 | `research/prospective/` | Preserved pre-draw protocols and related artifacts |
-| `research/artifacts/` | Research snapshots and published results |
+| `research/artifacts/` | Research snapshots, USNO source data, and published results |
 | `research/docs/`, `research/replays/` | Research notes and replay entry points |
 | `research/tools/`, `research/tests/` | Research utilities and domain tests |
 | `lotto7x7/` | Compatibility imports and historical CLI entry points |
 | `tests/strategy/` | Selection, archive integration, and CLI tests |
 | `docs/operations/` | Data formats and maintenance |
 | `docs/calendar/` | Calendar data provenance for the main strategy |
+| `results/` | Ignored local output from selections and research replays |
 
 Run the main pipeline with `python -m lotto649 select --help`. Historical
 command names remain available with `python -m lotto7x7 research --help`.

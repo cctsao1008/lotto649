@@ -21,7 +21,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 
 # Tests, including the new fixed-cardinality and gallery-consistency checks.
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 # New descriptive visualization; no model fitting is performed.
 & $py -m lotto7x7 image-dynamics `

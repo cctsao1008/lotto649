@@ -18,7 +18,7 @@ skill. The 6/6 fair probability remains `N / C(49,6)` for distinct fixed bets.
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 & $py -m lotto7x7 robustness-audit `
   --input results/baseline_study_v07_100.json `

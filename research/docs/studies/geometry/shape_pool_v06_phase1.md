@@ -75,7 +75,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 
 git pull --ff-only origin main
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 & $py -m lotto7x7 shape-pool `
     --size 100 `

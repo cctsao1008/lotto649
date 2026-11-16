@@ -8,7 +8,7 @@ Phase 1 produces the historical-image-derived **candidate pool** (default M=100)
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m unittest discover -s tests -v
+& $py -m unittest discover -s research/tests -v
 
 & $py -m lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
 & $py -m lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json

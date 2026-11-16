@@ -18,9 +18,9 @@ selection, wager, or claim of predictive improvement was generated.
 Original 2004–2026 USNO archive, pre-existing P0/P1/P1A/P2/P2A analyses, Lotto649 source CSV/BIN and all prior sealed future tickets were **not modified**.
 
 New, standalone official 2027 source:
-- [USNO 2027 moon phase original JSON](../../../data/astronomy/usno_future_2027/raw/moon_phases/2027.json): SHA-256 `cd7746fc328f88e6279d0869dfb8b16d50bf87a7cd457ac67b0732f50007c560`.
-- [USNO 2027 seasons original JSON](../../../data/astronomy/usno_future_2027/raw/seasons/2027.json): SHA-256 `1a0c001621026c30979abb78c5036f43b9234b1000640db588a12cffbc0f6310`.
-- [2027 manifest](../../../data/astronomy/usno_future_2027/manifest_2027_2027.json), SHA-256 `cf2b3905e3641ae353e162ad345e759351c8a1c8d94c7b5b1e6551ab0b805c5b`.
+- [USNO 2027 moon phase original JSON](../../artifacts/usno_future_2027/raw/moon_phases/2027.json): SHA-256 `cd7746fc328f88e6279d0869dfb8b16d50bf87a7cd457ac67b0732f50007c560`.
+- [USNO 2027 seasons original JSON](../../artifacts/usno_future_2027/raw/seasons/2027.json): SHA-256 `1a0c001621026c30979abb78c5036f43b9234b1000640db588a12cffbc0f6310`.
+- [2027 manifest](../../artifacts/usno_future_2027/manifest_2027_2027.json), SHA-256 `cf2b3905e3641ae353e162ad345e759351c8a1c8d94c7b5b1e6551ab0b805c5b`.
 - 49 moon phase events + 6 seasonal/apside events = **55 official events**, **2/2 original JSON verified**, 0 failed. Normalized 2027 USNO CSV SHA-256 `d4f4b02f1a03160c3bf6cf948f1f67ead4290635d4b2c9511bd43bf4b5d4165d`.
 
 **Pre-outcome future astronomical lookup:**

@@ -66,13 +66,13 @@ git pull --ff-only origin main
     --out results/v020_115000104_pre_draw.json
 ```
 
-The first seal is **already committed** in `docs/prospective_seals`; do not
+The first seal is **already committed** in `research/prospective/seals/`; do not
 regenerate or replace it. For later draws, run this command with the most
 recent prior v0.19 report, next legal issue ID and date, **then commit/push
 that newly generated JSON before the draw**:
 
 ```powershell
-git add docs/prospective_seals/NEW_PRE_DRAW.json
+git add research/prospective/seals/NEW_PRE_DRAW.json
 git commit -m "Seal Lotto649 next draw class distribution before results"
 git push origin main
 ```

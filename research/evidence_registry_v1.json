@@ -527,7 +527,7 @@
       "artifacts": [
         {
           "role": "source",
-          "path": "data/astronomy/usno_official/manifest_2004_2026.json",
+          "path": "research/artifacts/usno_official/manifest_2004_2026.json",
           "git_blob_sha1": "757b02de076fc1539cd65d6caa420e6da3a906a1"
         }
       ],

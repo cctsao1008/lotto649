@@ -4,7 +4,7 @@
 
 ## Dependencies and non-negotiable source boundaries
 
-- Use **USNO only**: `data/astronomy/usno_official/raw/{moon_phases,seasons}/YYYY.json` (46 original authenticated-by-SHA source responses); `usno_events_2004_2026.csv` (1,276 normalized events); its manifest; 23 years 2004–2026.
+- Use **USNO only**: `research/artifacts/usno_official/raw/{moon_phases,seasons}/YYYY.json` (46 original authenticated-by-SHA source responses); `usno_events_2004_2026.csv` (1,276 normalized events); its manifest; 23 years 2004–2026.
 - Reuse locked v2.4 P1 solar/year interpolation and USNO new-moon intervals (do not reinterpret prior P1 results): `research/lotto7x7/astronomy/iching_gua_qi_v24_p1.py`, `research/artifacts/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`.
 - Frozen P1 output CSV SHA-256: `7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a`. P1A tests reported **NO EVIDENCE** for association; P2 does not revise those results.
 - Read-only frozen historical outcomes: v2.4 P0 `research/artifacts/v24/v24_astronomy_hexagram_2498.csv` and `research/artifacts/v24_usno/v24_usno_draw_context_2498.csv`. All original `data/csv`, `data/bin`, previously purchased tickets, all prospective seals, and P0/P1/P1A research snapshots remain unchanged.
@@ -61,7 +61,7 @@ The six actual numbers, special, `same_draw_hexagram_code_OUTCOME_ONLY`, and `ha
 - `research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv`: 2,498 draws with 8-sector features and outcome columns explicitly separated.
 - `research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json`: mapping version, 64-code histogram, sector histograms, coverage by year, frozen input SHA-256, output SHA-256, limitations and no forecast claim.
 - `research/lotto7x7/astronomy/iching_solar_lunar_v24_p2.py`, `research/tests/astronomy/test_iching_solar_lunar_v24_p2.py`: stdlib-only implementation and exact-boundary tests.
-- `.github/workflows/iching_solar_lunar_v24_p2_once.yml`: one-time CI/integration archive, exact read-only regression on rerun; no recurring new-draw downloads.
+- [Archived CI definition](../../../.github/legacy-workflows/iching_solar_lunar_v24_p2_once.yml): one-time CI/integration archive, exact read-only regression on rerun; no recurring new-draw downloads.
 
 Windows PowerShell from repo root:
 
