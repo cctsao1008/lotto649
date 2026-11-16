@@ -38,3 +38,24 @@ Report the rejection frequency and Wilson interval as a diagnostic.
 The reference null is shared and finite, so the interval is conditional
 on that reference. Do not apply a chi-square approximation for rare or
 nested features.
+
+## Reproduction
+
+```bash
+OPENBLAS_NUM_THREADS=1 python -m lotto7x7.multivariate_calibration_v025
+```
+
+## Results — 2026-11-16
+
+The full-history primary distance is 143.660163, with exploratory upper
+tail p=0.089 before the combined correction. The maximum absolute
+standardized residual has raw p=0.032. The smallest adjusted p among all
+40 tests is 0.44 for full-history L1 component entropy (raw p=0.011).
+None meets familywise 0.05. In the independent size diagnostic, 9 of
+199 fair histories are rejected at nominal 5% (observed 4.52%, Wilson
+95% interval 2.40%–8.37%, conditional on the simulated reference).
+
+This is a finite-sample descriptive audit of a previously inspected
+history. The output estimates plug-in bias by matching the sample size
+and within-draw dependence. See the [archived calibration results](../data/research/v025_exact_covariance/v025_multivariate_calibration_20261116.json)
+for all time blocks, 40 corrected endpoints and 163 ranked residuals.
