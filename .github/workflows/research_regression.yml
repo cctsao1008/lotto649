@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - '.gitattributes'
-      - 'lotto649/**'
+      - 'selection/**'
       - 'research/lotto7x7/**'
       - 'tests/**'
       - 'research/tests/**'
@@ -26,7 +26,7 @@ on:
     branches: [main]
     paths:
       - '.gitattributes'
-      - 'lotto649/**'
+      - 'selection/**'
       - 'research/lotto7x7/**'
       - 'tests/**'
       - 'research/tests/**'

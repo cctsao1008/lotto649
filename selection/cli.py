@@ -8,7 +8,7 @@ from .pipeline import ROOT, SelectionConfig, load_history, select
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="python -m lotto649 select", description=__doc__)
+    parser = argparse.ArgumentParser(prog="python -m selection select", description=__doc__)
     parser.add_argument("--date", type=date.fromisoformat, required=True, help="target date (YYYY-MM-DD)")
     parser.add_argument("--config", type=Path, default=ROOT / "config/strategy.json")
     parser.add_argument("--bin-dir", type=Path, default=ROOT / "data/bin")

@@ -13,7 +13,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from lotto649.combinations import BALLS, PICKS, TOTAL, exact_sum_counts
+from selection.combinations import BALLS, PICKS, TOTAL, exact_sum_counts
 
 SCHEMA = "lotto7x7.distribution_repair.v0.27.p0"
 METRIC = "squared_l2_probability_v1"

@@ -15,7 +15,7 @@ import numpy as np
 from scipy.stats import spearmanr
 
 
-from lotto649.shapes import classify_numbers
+from selection.shapes import classify_numbers
 
 UNIVERSE=comb(49,6)
 BANDWIDTHS=(0.35,0.55,0.8,1.1)

@@ -45,7 +45,7 @@ def test_module_cli_aliases_forward_to_same_parser():
 
 def test_selection_alias_matches_public_cli():
     args = ["select", "--date", "2026-11-17"]
-    public = subprocess.check_output([sys.executable, "-m", "lotto649", *args], cwd=ROOT)
+    public = subprocess.check_output([sys.executable, "-m", "selection", *args], cwd=ROOT)
     research = subprocess.check_output(
         [sys.executable, "-m", "research.lotto7x7", *args], cwd=ROOT,
     )

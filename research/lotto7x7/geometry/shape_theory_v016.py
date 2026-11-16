@@ -19,7 +19,7 @@ from scipy.stats import binomtest, chi2
 
 from research.lotto7x7.geometry.shape_taxonomy_v015 import (UNIVERSE,classify_numbers,partition_name,edge_name)
 
-from lotto649.shapes import LEVELS, RULE_VERSION
+from selection.shapes import LEVELS, RULE_VERSION
 
 
 def classification_keys(data:dict)->dict[str,np.ndarray]:

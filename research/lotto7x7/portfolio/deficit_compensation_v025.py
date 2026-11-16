@@ -14,7 +14,7 @@ from math import comb
 from pathlib import Path
 import random
 
-from lotto649.combinations import validate_ticket
+from selection.combinations import validate_ticket
 
 UNIVERSE = comb(49, 6)
 P = 6 / 49

@@ -17,7 +17,7 @@ from pathlib import Path
 
 from research.lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
 
-from lotto649.hexagram_encoding import gray3, hexagram_from_sectors, sector8
+from selection.hexagram_encoding import gray3, hexagram_from_sectors, sector8
 
 SCHEMA = "lotto649.iching_solar_lunar.v2.4.p2"
 RULE = "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1"

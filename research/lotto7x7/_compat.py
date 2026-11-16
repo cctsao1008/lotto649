@@ -10,9 +10,9 @@ _ALIASES = {
     for name in names
 }
 _ALIASES.update({
-    f"{__package__}.selection": "lotto649",
+    f"{__package__}.selection": "selection",
     **{
-        f"{__package__}.selection.{name}": f"lotto649.{name}"
+        f"{__package__}.selection.{name}": f"selection.{name}"
         for name in ("pipeline", "statistics", "hexagram", "cli")
     },
 })

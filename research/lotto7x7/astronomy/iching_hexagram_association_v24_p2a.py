@@ -17,7 +17,7 @@ from math import comb, sqrt
 from pathlib import Path
 import random
 
-from lotto649.hexagram_encoding import outcome_code
+from selection.hexagram_encoding import outcome_code
 
 SCHEMA = "lotto649.iching_hexagram_association.v2.4.p2a"
 MAPPING_RULE = "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1"

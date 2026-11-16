@@ -21,7 +21,7 @@ from research.lotto7x7.prospective.shape_prospective_v019 import check_freeze, f
 from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
 from research.lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
 
-from lotto649.combinations import uniform_candidates
+from selection.combinations import uniform_candidates
 
 SCHEMA = 'lotto7x7.unified_selection.v0.21'
 OBJECTIVES = ('3plus', '4plus', '5plus')

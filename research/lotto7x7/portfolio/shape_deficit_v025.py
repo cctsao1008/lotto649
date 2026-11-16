@@ -24,7 +24,7 @@ from research.lotto7x7.geometry.shape_theory_v016 import (
 )
 
 
-from lotto649.shapes import load_exact_baseline
+from selection.shapes import load_exact_baseline
 
 def _keys(tickets):
     if not tickets:

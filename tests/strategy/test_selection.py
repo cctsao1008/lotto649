@@ -8,9 +8,9 @@ import sys
 
 import pytest
 
-from lotto649 import SelectionConfig, load_history, select
-from lotto649.pipeline import ROOT, _rank
-from lotto649.hexagram import cast
+from selection import SelectionConfig, load_history, select
+from selection.pipeline import ROOT, _rank
+from selection.hexagram import cast
 
 
 def test_band_sorting_cannot_move_candidate_across_statistical_boundary():
@@ -60,7 +60,7 @@ def test_selection_depends_only_on_prefix_and_config():
 def test_primary_cli_writes_exclusive_json(tmp_path):
     out = tmp_path / "nested" / "selection.json"
     command = [
-        sys.executable, "-m", "lotto649", "select", "--date", "2026-11-17",
+        sys.executable, "-m", "selection", "select", "--date", "2026-11-17",
         "--out", str(out),
     ]
     subprocess.run(command, cwd=ROOT, check=True, capture_output=True)
@@ -75,6 +75,6 @@ def test_public_cli_runs_from_another_directory(tmp_path):
     env = dict(os.environ, PYTHONPATH=str(ROOT))
     args = ["select", "--date", "2026-11-17"]
     current = subprocess.check_output(
-        [sys.executable, "-m", "lotto649", *args], cwd=tmp_path, env=env,
+        [sys.executable, "-m", "selection", *args], cwd=tmp_path, env=env,
     )
     assert json.loads(current)["history"]["last_date"] < "2026-11-17"

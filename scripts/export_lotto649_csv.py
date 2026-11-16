@@ -23,7 +23,7 @@ import sys
 if not __package__:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from lotto649.draw_archive import (
+from selection.draw_archive import (
     DEFAULT_BIN, HEAD, HISTORY, IMAGE, read_verified_draws,
     valid_appended_source_provenance,
 )

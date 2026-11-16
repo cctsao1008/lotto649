@@ -8,7 +8,7 @@ each band before returning the requested number of combinations.
 
 | Location | Responsibility |
 | --- | --- |
-| `lotto649/` | Main pipeline, command line, draw archive, and shared scoring primitives |
+| `selection/` | Main pipeline, command line, draw archive, and shared scoring primitives |
 | `config/strategy.json` | Strategy parameters |
 | `data/bin/`, `data/csv/` | Historical draw archive and yearly CSV exports |
 | `data/astronomy/`, `data/reference/` | Calendar snapshots and exact shape reference |
@@ -24,7 +24,7 @@ each band before returning the requested number of combinations.
 | `docs/calendar/` | Calendar data provenance for the main strategy |
 | `results/` | Ignored local output from selections and research replays |
 
-Run the main pipeline with `python -m lotto649 select --help`. Historical
+Run the main pipeline with `python -m selection select --help`. Historical
 command names remain available with `python -m research.lotto7x7 research --help`.
 Run the full test suite with `python -m pytest -q tests research/tests`.
 

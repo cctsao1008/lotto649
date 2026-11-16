@@ -5,14 +5,14 @@ on:
   pull_request:
     paths:
       - "scripts/export_lotto649_csv.py"
-      - "lotto649/draw_archive.py"
+      - "selection/draw_archive.py"
       - "tests/test_export_lotto649_csv.py"
       - ".github/workflows/export_lotto649_csv.yml"
   push:
     branches: [main]
     paths:
       - "scripts/export_lotto649_csv.py"
-      - "lotto649/draw_archive.py"
+      - "selection/draw_archive.py"
       - "tests/test_export_lotto649_csv.py"
       - ".github/workflows/export_lotto649_csv.yml"
 

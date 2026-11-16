@@ -6,7 +6,7 @@ import sys
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else list(argv)
     if argv[:1] == ["select"]:
-        from lotto649.cli import main as select_main
+        from selection.cli import main as select_main
 
         return select_main(argv[1:])
     if argv[:1] == ["research"]:
