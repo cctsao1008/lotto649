@@ -37,3 +37,48 @@ the uniform baseline.
 Eight-tier official prizes include the separate special ball. Under
 independence across draws, ten-draw event probability is 1 − (1 − p)^10
 for a fixed portfolio. No new prospective trial is enrolled here.
+
+## Reproduction
+
+```bash
+OPENBLAS_NUM_THREADS=1 python -m lotto7x7.portfolio_pareto_v025
+```
+
+The candidate pool size and seed can be varied through the CLI. If the
+bounded hybrid search does not attain the floors, its result is flagged
+by its coverage status. The best floor-feasible portfolio across the
+combined evaluated set is reported independently when one exists.
+
+## Results — 2026-11-16
+
+| Strategy | Main 3+ | Main 4+ | Official any award | Distance after four additions |
+| --- | ---: | ---: | ---: | ---: |
+| Uniform | 7.18376% | 0.394342% | 11.69006% | 0.0572977864 |
+| v0.21 coverage | 7.43786% | 0.394856% | 12.27315% | 0.0574082029 |
+| v0.21 Shape Score | 7.26855% | 0.394599% | 11.85720% | 0.0629274905 |
+| Compensation only | 7.15759% | 0.394342% | 11.61497% | 0.0561206394 |
+| Coverage only | 7.43786% | 0.394856% | 12.27315% | 0.0566585204 |
+| Hybrid | 7.43786% | 0.394856% | 12.27315% | 0.0566968310 |
+
+All six portfolios have 1,036 main-ball outcomes with 5+ hits and four
+6/6 outcomes. The complete 2,957-orbit structural census independently
+finds maxima of 1,040,096, 55,216 and 1,036 main-ball outcomes for 3+, 4+
+and 5+ respectively. One orbit attains all three maxima, the disjoint
+structure. Individually the maxima are attained by 1, 16 and 972 orbits.
+The full 13,983,816-draw intersection census agreed with the joint DP
+on the synthetic disjoint and uniform portfolios, including the number
+of tickets attaining each threshold.
+
+The 6,781 visited complete portfolios yielded 22 distinct Pareto
+objective vectors. Among visited portfolios meeting all hybrid floors,
+the best historical distance is 0.0566585204, reached by the coverage-only
+search. It improves on the specific hybrid search result at equal coverage.
+The compensation-only output has 19 distinct numbers and gains historical
+repair at the cost of lower coverage. The 100% 3+ threshold forces the
+disjoint orbit, so the 4+ and 5+ floors are slack in this run.
+
+The bounded search and common exact historical cutoff limit the
+optimization claims. The complete structural maxima apply to theoretical
+coverage under fair IID. They are independent of the finite-pool repair
+ranking. See the [archived JSON](../data/research/v025_exact_covariance/v025_portfolio_pareto_20261116.json)
+for all six strategies, official prize tiers, joint coverage and the frontier.
