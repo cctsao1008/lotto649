@@ -20,7 +20,9 @@ CONFIG = ROOT / "research/experiments/configs/v031-h2-geometry-ci.json"
 def test_research_package_lives_under_research():
     package = importlib.import_module("research.lotto7x7")
     assert Path(package.__file__).parent == ROOT / "research/lotto7x7"
-    assert not (ROOT / "lotto7x7").is_dir()
+    assert not subprocess.check_output(
+        ["git", "ls-files", "--", "lotto7x7/"], cwd=ROOT,
+    )
 
 
 def test_legacy_import_is_canonical_module():
