@@ -6,8 +6,8 @@
 
 `lotto7x7.official_draw_evidence_m2` supports two independent sources that were observed publishing the #115000104 result:
 
-- CTBC Bank (https://lotto.ctbcbank.com/result_all.htm): game-specific `大樂透`, period, ROC date, six ascending main numbers and special ball.
-- Independent publisher (https://api.lottery.com.tw/bl): the visible `大樂透` results table with date, period, main six and special.
+- CTBC Bank (https://lotto.ctbcbank.com/result_all.htm): game-specific Lotto649, period, ROC date, six ascending main numbers and special ball.
+- Independent publisher (https://api.lottery.com.tw/bl): the visible Lotto649 results table with date, period, main six and special.
 
 `--capture-latest` is an **explicit network operation** that fetches these two exact pinned URLs over validated HTTPS without redirecting, captures raw bytes (max 2 MB per page) under the ignored `data/private/lotto649-source/`, and records each source SHA-256 and capture time. It creates an index ONLY when both parsers yield exactly the same draw. If either page format changes or the providers disagree, the operation fails closed; partial raw captures may remain on disk, but no draw index is published. Repeated capture may fail with a non-overwrite error; use unique timestamps or preserve the already collected snapshot.
 
@@ -56,7 +56,7 @@ All reports use create-only mode under Git-ignored `results/`. The source pages 
 ## Verification gates
 
 - [x] Pinned two-source URL and separately saved raw HTML SHA-256 verification.
-- [x] Content-level two-source agreement; game-specific CTBC parser excludes adjacent 威力彩 and 今彩539 results.
+- [x] Content-level two-source agreement; game-specific CTBC parser excludes adjacent Power Lottery and Daily Cash 539 results.
 - [x] Duplicate, malformed, missing bonus, mismatched source, tampered bytes and source-redirection rejection.
 - [x] Strict sealed P5A SHA, nine fixed dates and unchanged strategy arms.
 - [x] Paired primary outcome counting and nine-draw-only exact conditional sign test.

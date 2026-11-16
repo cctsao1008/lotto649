@@ -15,18 +15,18 @@ DRAW = {
     "main": [11, 23, 30, 32, 40, 41], "bonus": 28,
 }
 CTBC = (
-    "<html><body><section>遊 戲 威力彩 期 別 第 115000090 期 "
-    "開獎日期 民國 115 年 11 月 9 日 依大小順序排列： 01 02 03 04 05 06 特別號： 07"
-    "</section><section>遊 戲 大樂透 期 別 第 115000104 期 "
-    "開獎日期 民國 115 年 11 月 10 日 "
-    "依大小順序排列： 11 23 30 32 40 41 特別號： 28 "
-    "依開出順序排列： 23 41 40 30 32 11</section>"
-    "<section>遊 戲 今彩539 期 別 第 115000272 期</section></body></html>"
+    "<html><body><section>\u904a \u6232 \u5a01\u529b\u5f69 \u671f \u5225 \u7b2c 115000090 \u671f "
+    "\u958b\u734e\u65e5\u671f \u6c11\u570b 115 \u5e74 11 \u6708 9 \u65e5 \u4f9d\u5927\u5c0f\u9806\u5e8f\u6392\u5217\uff1a 01 02 03 04 05 06 \u7279\u5225\u865f\uff1a 07"
+    "</section><section>\u904a \u6232 \u5927\u6a02\u900f \u671f \u5225 \u7b2c 115000104 \u671f "
+    "\u958b\u734e\u65e5\u671f \u6c11\u570b 115 \u5e74 11 \u6708 10 \u65e5 "
+    "\u4f9d\u5927\u5c0f\u9806\u5e8f\u6392\u5217\uff1a 11 23 30 32 40 41 \u7279\u5225\u865f\uff1a 28 "
+    "\u4f9d\u958b\u51fa\u9806\u5e8f\u6392\u5217\uff1a 23 41 40 30 32 11</section>"
+    "<section>\u904a \u6232 \u4eca\u5f69539 \u671f \u5225 \u7b2c 115000272 \u671f</section></body></html>"
 ).encode("utf-8")
 INDEPENDENT = (
-    "<html><body>大樂透開獎 <p>115/11/10 115000104頭獎:0 "
+    "<html><body>\u5927\u6a02\u900f\u958b\u734e <p>115/11/10 115000104\u982d\u734e:0 "
     "11 23 30 32 40 41 28</p>"
-    "<div>115/11/6 115000103頭獎:1 05 09 26 32 41 48 23</div>"
+    "<div>115/11/6 115000103\u982d\u734e:1 05 09 26 32 41 48 23</div>"
     "</body></html>"
 ).encode("utf-8")
 
@@ -54,12 +54,12 @@ class TestOfficialDrawEvidenceM2(unittest.TestCase):
         self.assertEqual(DRAW, evidence.parse_independent(INDEPENDENT))
 
     def test_ctbc_rejects_wrong_game_or_missing_bonus(self):
-        with self.assertRaisesRegex(ValueError, "recognized Chinese Lotto649 publication|大樂透 issue"):
-            evidence.parse_ctbc(CTBC.replace("遊 戲 大樂透".encode("utf-8"),
-                                             "遊 戲 威力彩".encode("utf-8")))
+        with self.assertRaisesRegex(ValueError, "recognized Chinese Lotto649 publication|\u5927\u6a02\u900f issue"):
+            evidence.parse_ctbc(CTBC.replace("\u904a \u6232 \u5927\u6a02\u900f".encode("utf-8"),
+                                             "\u904a \u6232 \u5a01\u529b\u5f69".encode("utf-8")))
         with self.assertRaisesRegex(ValueError, "bonus unavailable"):
-            evidence.parse_ctbc(CTBC.replace("特別號： 28".encode("utf-8"),
-                                             "未公布特別號".encode("utf-8")))
+            evidence.parse_ctbc(CTBC.replace("\u7279\u5225\u865f\uff1a 28".encode("utf-8"),
+                                             "\u672a\u516c\u5e03\u7279\u5225\u865f".encode("utf-8")))
 
     def test_independent_different_issue_is_not_the_same_draw(self):
         different = evidence.parse_independent(

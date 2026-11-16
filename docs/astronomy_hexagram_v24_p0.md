@@ -23,7 +23,7 @@ The data sources are deliberately separated:
 Official source inventory:
 
 - [Taiwan government dataset 157677: CWA calendar, lunar phases, solar terms](https://data.gov.tw/dataset/157677). Dataset items: `A-A0087-001` (Gregorian/ROC/lunar date), `A-A0087-002` (moon phases), `A-A0087-003` (solar terms). The government metadata is updated annually. Actual historical coverage and full download availability **must be checked from the retrieved raw files, not assumed**.
-- [CWA dataset `A-A0087-001` column contract](https://opendata.cwa.gov.tw/opendatadoc/Astronomy/A-A0087-001.pdf): `GregorianCalendar`, `RepublicOfChinaCalendar`, `AgriculturalCalendar`, `AgriculturalCalendarMonth`, `AgriculturalCalendarDay`, `Week`. Also accepts corresponding CWA Chinese headers and strict leap-month marker `閏`. Day-of-week/ROC-year crosschecks are fail-closed.
+- [CWA dataset `A-A0087-001` column contract](https://opendata.cwa.gov.tw/opendatadoc/Astronomy/A-A0087-001.pdf): `GregorianCalendar`, `RepublicOfChinaCalendar`, `AgriculturalCalendar`, `AgriculturalCalendarMonth`, `AgriculturalCalendarDay`, `Week`. Also accepts corresponding CWA Chinese headers and strict Chinese leap-month marker. Day-of-week/ROC-year crosschecks are fail-closed.
 - [CWA open data membership/API access](https://opendata.cwa.gov.tw/devManual/description): a valid authorization code may be needed for bulk downloads. No fabricated keys or embedded personal secrets.
 - [CWA historical ground station portal](https://climate.cwa.gov.tw/GroundObservation): station/day/time selection needed before ingestion.
 

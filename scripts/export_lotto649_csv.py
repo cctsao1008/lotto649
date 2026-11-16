@@ -237,7 +237,7 @@ def export(bin_dir: Path = DEFAULT_BIN, output_dir: Path = DEFAULT_OUT,
         nested = list(output_dir.glob("*/*.csv"))
         legacy = [p for p in nested if p.parent.name.isdecimal()
                   and len(p.parent.name) == 4
-                  and p.name == f"大樂透_{p.parent.name}.csv"]
+                  and p.name == f"\u5927\u6a02\u900f_{p.parent.name}.csv"]
         if len(legacy) != len(nested):
             raise ValueError("unexpected nested CSV: refusing destructive migration")
         for relative, contents in expected.items():

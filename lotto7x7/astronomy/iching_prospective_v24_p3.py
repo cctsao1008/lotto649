@@ -24,7 +24,8 @@ SCHEMA = 'lotto649.v2.4.p3.usno_parity_eprocess.v1'
 SEAL_SCHEMA = 'lotto649.v2.4.p3.future_sky_and_model_seal.v1'
 SKY_RULE = p2.RULE
 BASE_EVENTS_SHA256 = p1.EXPECTED_USNO_EVENTS_SHA256
-BASE_P2_SHA256 = p2a.SOURCE_SHA256
+# SHA-256 of the original P2 CSV cited by the presealed protocol.
+BASE_P2_SHA256 = "a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39"
 FIRST_ID = 115000106
 FIRST_DATE = '2026-11-17'
 HORIZON = 100

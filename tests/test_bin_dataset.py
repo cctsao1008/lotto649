@@ -14,9 +14,9 @@ from lotto7x7.bin_dataset import (
 )
 from lotto7x7.core import decode, encode
 
-SAMPLE = ("\ufeff遊戲名稱,期別,開獎日期,銷售總額,獎號1,獎號2,獎號3,獎號4,獎號5,獎號6,特別號,  \n"
-          "大樂透,107000001,2018/01/02,123456,02,06,12,18,36,46,47,,,,\n"
-          "大樂透,107000002,2018/01/05,123456,04,13,17,29,31,44,14,,,,\n")
+SAMPLE = ("\ufeff\u904a\u6232\u540d\u7a31,\u671f\u5225,\u958b\u734e\u65e5\u671f,\u92b7\u552e\u7e3d\u984d,\u734e\u865f1,\u734e\u865f2,\u734e\u865f3,\u734e\u865f4,\u734e\u865f5,\u734e\u865f6,\u7279\u5225\u865f,  \n"
+          "\u5927\u6a02\u900f,107000001,2018/01/02,123456,02,06,12,18,36,46,47,,,,\n"
+          "\u5927\u6a02\u900f,107000002,2018/01/05,123456,04,13,17,29,31,44,14,,,,\n")
 
 
 class BinaryImageDatasetTests(unittest.TestCase):
@@ -25,7 +25,7 @@ class BinaryImageDatasetTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / "csv"
         (self.root / "2018").mkdir(parents=True)
-        self.csv = self.root / "2018" / "大樂透_201801_201812.csv"
+        self.csv = self.root / "2018" / "\u5927\u6a02\u900f_201801_201812.csv"
         self.csv.write_text(SAMPLE, encoding="utf-8")
 
     def test_record_is_exactly_53_bytes_and_header_16(self):
@@ -39,7 +39,7 @@ class BinaryImageDatasetTests(unittest.TestCase):
         first = parse_csv(self.csv)
         self.assertEqual([row.main for row in first], [
             (2, 6, 12, 18, 36, 46), (4, 13, 17, 29, 31, 44)])
-        self.csv.write_text(SAMPLE.replace(",特別號,  ", "")
+        self.csv.write_text(SAMPLE.replace(",\u7279\u5225\u865f,  ", "")
                             .replace(",47,,,,", "").replace(",14,,,,", ""),
                             encoding="utf-8")
         removed = parse_csv(self.csv)
@@ -53,11 +53,11 @@ class BinaryImageDatasetTests(unittest.TestCase):
         self.assertEqual(original, modified)
 
     def test_unpadded_date_accepted_but_not_stored(self):
-        p = self.root / "2024" / "大樂透_2024.csv"
+        p = self.root / "2024" / "\u5927\u6a02\u900f_2024.csv"
         p.parent.mkdir()
         p.write_text(
-            "遊戲名稱,期別,開獎日期,獎號1,獎號2,獎號3,獎號4,獎號5,獎號6,特別號\n"
-            "大樂透,113000110,2024/12/3,5,6,7,12,17,35,45\n",
+            "\u904a\u6232\u540d\u7a31,\u671f\u5225,\u958b\u734e\u65e5\u671f,\u734e\u865f1,\u734e\u865f2,\u734e\u865f3,\u734e\u865f4,\u734e\u865f5,\u734e\u865f6,\u7279\u5225\u865f\n"
+            "\u5927\u6a02\u900f,113000110,2024/12/3,5,6,7,12,17,35,45\n",
             encoding="utf-8")
         result = parse_csv(p)
         self.assertEqual(result[0].date, 20241203)
@@ -149,14 +149,14 @@ class BinaryImageDatasetTests(unittest.TestCase):
     def test_missing_year_detected(self):
         other = self.root / "2020"
         other.mkdir()
-        (other / "大樂透_202001_202012.csv").write_text(
+        (other / "\u5927\u6a02\u900f_202001_202012.csv").write_text(
             SAMPLE.replace("2018", "2020").replace("1070000", "1090000"),
             encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "missing calendar"):
             discover_sources(self.root)
 
     def test_exclude_unrelated_lottery_csvs(self):
-        (self.root / "2018" / "大樂透加開獎項_201801_201812.csv").write_text(
+        (self.root / "2018" / "\u5927\u6a02\u900f\u52a0\u958b\u734e\u9805_201801_201812.csv").write_text(
             SAMPLE, encoding="utf-8")
         self.assertEqual(len(discover_sources(self.root)), 1)
 

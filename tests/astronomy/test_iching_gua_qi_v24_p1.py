@@ -8,7 +8,7 @@ import unittest
 from zipfile import ZipFile
 
 from lotto7x7.iching_gua_qi_v24_p1 import (
-    GUA_CODES, GUA_NAMES, GUA_CHINESE, RULE, TZ, ANCHORS,
+    GUA_CODES, GUA_NAMES, RULE, TZ, ANCHORS,
     checked_bytes, digest, lunar_phase, make_row, micros, parse_anchors,
     parse_local, six_ball_hexagram, solar_state, verify_source_archive,
 )
@@ -31,7 +31,7 @@ class TestSeasonalStates(unittest.TestCase):
         self.assertEqual(GUA_CODES, (1,3,7,15,31,63,62,60,56,48,32,0))
         self.assertEqual(len(set(GUA_CODES)), 12)
         self.assertEqual(GUA_NAMES[0], "Fu")
-        self.assertEqual(GUA_CHINESE[-1], "坤")
+        self.assertEqual(GUA_NAMES[-1], "Kun")
         self.assertEqual(sum(i.bit_count() for i in GUA_CODES), 36)
 
     def test_solar_anchor_centers(self):

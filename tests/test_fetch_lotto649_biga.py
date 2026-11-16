@@ -13,12 +13,12 @@ spec.loader.exec_module(biga)
 def row(day, issue, balls, bonus):
     order = "".join(f"<span>{x:02d}</span>" for x in balls)
     sorted_numbers = "".join(f"<span>{x:02d}</span>" for x in sorted(balls))
-    return (f"<tr><td>{day}</td><td>星期五</td><td>{issue}</td><td>202644</td>"
-            f"<td>2</td><td>甲申</td><td>{order}</td><td>{bonus:02d}</td>"
+    return (f"<tr><td>{day}</td><td>\u661f\u671f\u4e94</td><td>{issue}</td><td>202644</td>"
+            f"<td>2</td><td>\u7532\u7533</td><td>{order}</td><td>{bonus:02d}</td>"
             f"<td>{sorted_numbers}</td></tr>")
 def fixture(rows):
-    return ("<html><body><h1>大樂透開獎號碼一覽表</h1>"
-            "<table><thead><tr><th>落球順序</th></tr></thead><tbody>"
+    return ("<html><body><h1>\u5927\u6a02\u900f\u958b\u734e\u865f\u78bc\u4e00\u89bd\u8868</h1>"
+            "<table><thead><tr><th>\u843d\u7403\u9806\u5e8f</th></tr></thead><tbody>"
             + "".join(rows) + "</tbody></table></body></html>").encode("utf-8")
 class TestBiga(unittest.TestCase):
     def test_2004_source_issue_mapping(self):

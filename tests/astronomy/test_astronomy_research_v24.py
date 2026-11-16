@@ -40,22 +40,22 @@ class AstronomyResearchV24Tests(unittest.TestCase):
             with self.assertRaises(ValueError):hex_code(row)
 
     def test_05_cwa_documented_english_schema(self):
-        src='GregorianCalendar,RepublicOfChinaCalendar,AgriculturalCalendar,AgriculturalCalendarMonth,AgriculturalCalendarDay,Week\n2026-11-10,115,丙午,10,2,2\n'
+        src='GregorianCalendar,RepublicOfChinaCalendar,AgriculturalCalendar,AgriculturalCalendarMonth,AgriculturalCalendarDay,Week\n2026-11-10,115,\u4e19\u5348,10,2,2\n'
         v=parse_cwa_calendar(src.encode('utf-8-sig'))
-        self.assertEqual(v['2026-11-10'],{'cwa_lunar_year_label':'丙午','cwa_lunar_month':'10','cwa_lunar_leap_month':'0','cwa_lunar_day':'2'})
+        self.assertEqual(v['2026-11-10'],{'cwa_lunar_year_label':'\u4e19\u5348','cwa_lunar_month':'10','cwa_lunar_leap_month':'0','cwa_lunar_day':'2'})
 
     def test_06_cwa_leap_month_and_chinese_schema(self):
-        src='格里曆日期,民國曆年,農曆年,農曆月,農曆日,星期\n2026-11-10,115,丙午,閏6,2,2\n'
+        src='\u683c\u91cc\u66c6\u65e5\u671f,\u6c11\u570b\u66c6\u5e74,\u8fb2\u66c6\u5e74,\u8fb2\u66c6\u6708,\u8fb2\u66c6\u65e5,\u661f\u671f\n2026-11-10,115,\u4e19\u5348,\u958f6,2,2\n'
         v=parse_cwa_calendar(src.encode('utf-8'))
         self.assertEqual(v['2026-11-10']['cwa_lunar_month'],'6')
         self.assertEqual(v['2026-11-10']['cwa_lunar_leap_month'],'1')
 
     def test_07_cwa_invalid_duplicate_and_wrong_weekday_rejected(self):
         head='GregorianCalendar,RepublicOfChinaCalendar,AgriculturalCalendar,AgriculturalCalendarMonth,AgriculturalCalendarDay,Week\n'
-        for text in (head+'2026-11-10,115,丙午,10,2,1\n',
-                     head+'2026-11-10,115,丙午,10,2,2\n2026-11-10,115,丙午,10,2,2\n',
-                     head+'2026-11-10,114,丙午,10,2,2\n',
-                     head+'2026-11-10,115,丙午,13,2,2\n'):
+        for text in (head+'2026-11-10,115,\u4e19\u5348,10,2,1\n',
+                     head+'2026-11-10,115,\u4e19\u5348,10,2,2\n2026-11-10,115,\u4e19\u5348,10,2,2\n',
+                     head+'2026-11-10,114,\u4e19\u5348,10,2,2\n',
+                     head+'2026-11-10,115,\u4e19\u5348,13,2,2\n'):
             with self.assertRaises(ValueError):parse_cwa_calendar(text.encode())
 
     def test_08_one_to_one_draw_join_and_no_cwa_imputation(self):
@@ -72,7 +72,7 @@ class AstronomyResearchV24Tests(unittest.TestCase):
         self.assertEqual(tuple(out[0]),COLUMNS)
 
     def test_09_cwa_join_only_present_day(self):
-        dates={'2026-11-10':{'cwa_lunar_year_label':'丙午','cwa_lunar_month':'10','cwa_lunar_leap_month':'0','cwa_lunar_day':'2'}}
+        dates={'2026-11-10':{'cwa_lunar_year_label':'\u4e19\u5348','cwa_lunar_month':'10','cwa_lunar_leap_month':'0','cwa_lunar_day':'2'}}
         f=lambda d:{'astronomy_provenance':'MOCK'}
         a=join_data([mk('2026-11-10',115000104),mk('2026-11-13',115000105)],dates,astro_func=f)
         self.assertEqual(a[0]['cwa_lunar_day'],'2')

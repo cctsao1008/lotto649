@@ -6,7 +6,7 @@
 
 - Use **USNO only**: `data/astronomy/usno_official/raw/{moon_phases,seasons}/YYYY.json` (46 original authenticated-by-SHA source responses); `usno_events_2004_2026.csv` (1,276 normalized events); its manifest; 23 years 2004–2026.
 - Reuse locked v2.4 P1 solar/year interpolation and USNO new-moon intervals (do not reinterpret prior P1 results): `lotto7x7/astronomy/iching_gua_qi_v24_p1.py`, `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`.
-- Frozen P1 output CSV SHA-256: `53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1`. P1A tests reported **NO EVIDENCE** for association; P2 does not revise those results.
+- Frozen P1 output CSV SHA-256: `7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a`. P1A tests reported **NO EVIDENCE** for association; P2 does not revise those results.
 - Read-only frozen historical outcomes: v2.4 P0 `data/research/v24/v24_astronomy_hexagram_2498.csv` and `data/research/v24_usno/v24_usno_draw_context_2498.csv`. All original `data/csv`, `data/bin`, previously purchased tickets, all prospective seals, and P0/P1/P1A research snapshots remain unchanged.
 
 ## Formal v1 mapping (pre-registered, explanatory)
@@ -21,7 +21,7 @@ In the known interval `[anchor_i, anchor_(i+1))`, with `a` the P1 center index (
 
 `solar_fraction = ((a*d + 3*e) mod (12*d)) / (12*d)`.
 
-Define `solar_sector_8 = floor(8*solar_fraction)`, integer 0..7. This is **linear interpolation of temporal quarter-event intervals**, not the precise physical solar ecliptic-longitude bin nor traditional 24 節氣 or authenticated 卦氣.
+Define `solar_sector_8 = floor(8*solar_fraction)`, integer 0..7. This is **linear interpolation of temporal quarter-event intervals**, not the precise physical solar ecliptic-longitude bin nor traditional 24 solar terms or authenticated Gua Qi.
 
 ### Lunar synodic time phase
 
@@ -41,7 +41,7 @@ For each 0..7 sector `k`, use three-bit **reflected cyclic Gray code** `gray(k) 
 - **Lower** three lines (bits 0,1,2) = Gray code of **lunar** sector.
 - Six-bit integer `astronomical_hexagram_code = gray(lunar_sector) | (gray(solar_sector) << 3)`.
 - Yin = 0 (broken line), yang = 1 (solid line); `astronomical_hexagram_binary_bottom_to_top` lists bits 0..5 **bottom-to-top**.
-- Three-bit trigram labels from the binary code `0..7`: `坤 震 坎 兌 艮 離 巽 乾` (Kun, Zhen, Kan, Dui, Gen, Li, Xun, Qian); **not** a declaration of King Wen hexagram ordinal 0..63.
+- Three-bit trigram labels from the binary code `0..7`: `Kun Zhen Kan Dui Gen Li Xun Qian`; **not** a declaration of King Wen hexagram ordinal 0..63.
 - The 64 astronomical codes are algebraically reachable (Gray is bijective); their distribution on fixed historical draw dates **is not inherently uniform**. Do not use 1/64 as an assumed conditional fair-draw event probability.
 
 All sector boundaries are half-open `[k/8,(k+1)/8)`; exact integer boundary is assigned to the **following** sector. P2 64-state transition may flip more than one line when solar and lunar transitions coincide; the Gray adjacency guarantee concerns one 8-sector cycle at a time.

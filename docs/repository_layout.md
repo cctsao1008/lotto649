@@ -65,3 +65,15 @@ draws leave the experiment input fixed. Each report records the configuration
 hash and the input fingerprint. Parameter variations of a supported engine
 use a new configuration and experiment ID. A new algorithm belongs in the
 appropriate domain and can be exposed through the same runner.
+
+## Historical I Ching artifacts
+
+The P1 and P2 replay CSVs omit duplicate localized name columns. Romanized
+hexagram and trigram names, codes, timestamps, and draw data remain available.
+The P1A state table omits its duplicate localized name column. These changes
+produce new file hashes. The replay engines verify the new input hashes.
+
+The registered P1A and P2A JSON reports retain their original result and
+source hashes. Replaying all 3,999 permutations with the English-label inputs
+reproduces the original statistics and decisions. The original files are
+available in [Git history](https://github.com/cctsao1008/lotto649/tree/345399c09b037cbdac67467bd908f18f7e4187ba/data/research).

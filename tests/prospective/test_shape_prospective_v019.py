@@ -54,7 +54,7 @@ def test_no_new_returns_no_evidence(frozen):
     assert rows==[] and result['status']=='NO_PROSPECTIVE_DRAWS'
     assert result['decision']=='NO_FUTURE_DATA' and result['mixture_e']==1
     assert result['anytime_p_upper_bound']==1
-    assert '尚' not in report_html(result) or '新期別' in report_html(result)
+    assert 'New draws: <b>0</b>' in report_html(result)
 
 
 def test_synthetic_historical_csv_yields_no_future(frozen,inputs):

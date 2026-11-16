@@ -65,7 +65,7 @@ def _text(raw: bytes) -> str:
             candidate = raw.decode(codec, "strict")
         except UnicodeError:
             continue
-        if "大樂透" in candidate:
+        if "\u5927\u6a02\u900f" in candidate:
             content = candidate
             break
     if content is None:
@@ -76,22 +76,22 @@ def _text(raw: bytes) -> str:
 
 
 def parse_ctbc(raw: bytes) -> dict:
-    """Only the 大樂透 section, never nearby 威力彩 or 今彩539 numbers."""
+    """Read the Lotto649 section and exclude adjacent Power Lottery and Daily Cash 539 results."""
     visible = _text(raw)
-    marker = re.search(r"遊\s*戲\s*大樂透\s*期\s*別\s*第\s*(\d{9})\s*期", visible)
+    marker = re.search(r"\u904a\s*\u6232\s*\u5927\u6a02\u900f\s*\u671f\s*\u5225\s*\u7b2c\s*(\d{9})\s*\u671f", visible)
     if marker is None:
-        raise ValueError("CTBC page missing clearly identified 大樂透 issue")
+        raise ValueError("CTBC page missing clearly identified Lotto649 issue")
     section = visible[marker.start():]
-    stop = re.search(r"遊\s*戲\s*今彩539", section)
+    stop = re.search(r"\u904a\s*\u6232\s*\u4eca\u5f69539", section)
     if stop:
         section = section[:stop.start()]
     date_match = re.search(
-        r"開獎日期\s*民國\s*(\d{2,3})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日",
+        r"\u958b\u734e\u65e5\u671f\s*\u6c11\u570b\s*(\d{2,3})\s*\u5e74\s*(\d{1,2})\s*\u6708\s*(\d{1,2})\s*\u65e5",
         section,
     )
     numbers = re.search(
-        r"依大小順序排列\s*[：:]?\s*" + TICKET
-        + r"\s*特別號\s*[：:]?\s*(\d{1,2})(?!\d)",
+        r"\u4f9d\u5927\u5c0f\u9806\u5e8f\u6392\u5217\s*[\uff1a:]?\s*" + TICKET
+        + r"\s*\u7279\u5225\u865f\s*[\uff1a:]?\s*(\d{1,2})(?!\d)",
         section,
     )
     if date_match is None or numbers is None:
@@ -108,10 +108,10 @@ def parse_ctbc(raw: bytes) -> dict:
 def parse_independent(raw: bytes) -> dict:
     """Parse the first latest draw on the independent lottery.com.tw /bl page."""
     visible = _text(raw)
-    # Text format: 115/11/10 115000104頭獎:0 11 23 30 32 40 41 28
+    # Text format: ROC date, issue, jackpot count, sorted main numbers, bonus.
     match = re.search(
         r"(?<!\d)(\d{2,3})/(\d{1,2})/(\d{1,2})\s+"
-        r"(\d{9})\s*頭獎\s*[:：]\s*\d+\s+"
+        r"(\d{9})\s*\u982d\u734e\s*[:\uff1a]\s*\d+\s+"
         + TICKET + r"\s+(\d{1,2})(?!\d)", visible,
     )
     if match is None:

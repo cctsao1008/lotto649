@@ -53,7 +53,7 @@ def offline_shape_explorer(ids,numbers,universe,*,density=None,mode_labels=None)
     record_json=json.dumps(data,ensure_ascii=True,separators=(',',':'))
     # Data comes from strict integers and fixed P1 class codes, not raw HTML.
     page=r'''<!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"/>
+<html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Lotto649 v0.18 — Interactive 7×7 Shape Explorer</title>
 <style>
@@ -71,23 +71,23 @@ th,td{text-align:left;border-bottom:1px solid #e6ebed;padding:.52rem;font-size:.
 .dot{stroke:#fff;stroke-width:.3}a{color:#08776b}
 </style></head><body>
 <h1>7×7 Shape Explorer <small>v0.18</small></h1>
-<p class="muted">輸入六個合法號碼，探索連通拓樸、精確等價形狀，以及旋轉／鏡射／質心平移後距離最近的歷史影像。全程離線，在瀏覽器本機運算。</p>
-<div class="panel"><h2>任意六碼查詢</h2>
-<div class="flex"><label for="query">六個號碼</label><input id="query" size="35" value="1, 8, 16, 22, 24, 30" aria-label="六個號碼"/>
-<button id="run">搜尋完整形狀距離</button></div>
-<p class="muted">可用空白或逗號分隔；程式會逐一計算所有 {{COUNT}} 期的六點精確指派距離。</p>
+<p class="muted">Enter six legal numbers to explore connectivity, exact shape equivalence, and the closest historical images under rotation, reflection, and centroid translation. All computations run locally in the browser.</p>
+<div class="panel"><h2>Six-number search</h2>
+<div class="flex"><label for="query">Six numbers</label><input id="query" size="35" value="1, 8, 16, 22, 24, 30" aria-label="Six numbers"/>
+<button id="run">Search shape distances</button></div>
+<p class="muted">Separate numbers with spaces or commas. The search computes the exact six-point assignment distance for all {{COUNT}} draws.</p>
 <p id="error" role="alert" style="color:#b33333"></p>
 <div class="flex" id="metrics"></div><div class="cards" id="query-shape"></div></div>
-<div class="panel"><h2>最相似的歷史 7×7 形狀</h2><div class="cards" id="neighbors"></div></div>
-<div class="panel"><h2>固定分類查詢</h2>
-<p class="muted">此區顯示固定的 L3 結構類別，不使用未來期別；並非中獎率排名。</p>
-<div class="flex"><label for="edge-filter">L3 類別</label><select id="edge-filter"></select>
-<button id="filter-btn">查詢歷史成員</button></div><p id="class-qty" class="muted"></p>
+<div class="panel"><h2>Closest historical 7×7 shapes</h2><div class="cards" id="neighbors"></div></div>
+<div class="panel"><h2>Shape class lookup</h2>
+<p class="muted">This section shows fixed L3 structural classes using historical draws through the study cutoff. It describes shape classes.</p>
+<div class="flex"><label for="edge-filter">L3 class</label><select id="edge-filter"></select>
+<button id="filter-btn">Find historical members</button></div><p id="class-qty" class="muted"></p>
 <div class="cards" id="class-images"></div></div>
-<div class="panel"><h2>技術限制</h2><div class="warning">
-此工具中，歷史 KDE 值使用完整歷史計算，僅供描述，不能做過去時點的回測特徵；固定圖形類別的理論比例則來自全組合精確計量。
-歷史影像的接近程度、密度或稀有程度，均不改變公平 6/49 中任何特定六碼下一期的機率（每組 1／13,983,816）。
-形狀距離允許連續質心平移，並不強制平移後仍位於 7×7 的整數格點。</div></div>
+<div class="panel"><h2>Technical limitations</h2><div class="warning">
+Historical KDE uses the full archive and is descriptive. Shape-class probabilities are exact counts over the full combination space.
+Under fair 6/49, every six-number combination has probability 1/13,983,816.
+Shape distance permits continuous centroid translation off the integer grid.</div></div>
 <script id="history-data" type="application/json">{{DATA}}</script>
 <script>
 'use strict';
@@ -162,47 +162,47 @@ const BITCOUNT=Array.from({length:64},(_,i)=>popcount(i));
 const history=REC.map(v=>({id:v[0],nums:v.slice(1,7),component:v[7],partition:v[8],edge:v[9],density:v[10],mode:v[11],
  centered:centered(points(v.slice(1,7)))}));
 function renderHistory(rec,distance){let el=document.createElement('article');el.className='item';
- const dist=distance===undefined?'':'<p class="muted stat">形狀距離：'+distance.toFixed(4)+'</p>';
- el.innerHTML=bitmap(rec.nums)+'<b>第 '+rec.id+' 期</b><p>'+numsText(rec.nums)+'</p>'+dist+
+ const dist=distance===undefined?'':'<p class="muted stat">Shape distance: '+distance.toFixed(4)+'</p>';
+ el.innerHTML=bitmap(rec.nums)+'<b>Draw '+rec.id+'</b><p>'+numsText(rec.nums)+'</p>'+dist+
  '<small>L3 '+nameEdge(rec.edge)+' · KDE '+rec.density.toFixed(4)+'</small>';
  return el;}
 function nameEdge(key){let a=key>>10,o=(key>>5)&31,d=key&31,s=[];
  for(let shift of [15,12,9,6,3,0]){let v=(a>>shift)&7;if(v)s.push(v);}
  return 'P'+s.join('-')+'_O'+o+'_D'+d;}
-function parseQuery(text){let parts=text.trim().split(/[\s,，、;；]+/).filter(Boolean);
- if(parts.length!==6)throw Error('請輸入恰好六個號碼。');
- let nums=parts.map(x=>{if(!/^\d+$/.test(x))throw Error('只接受整數。');return Number(x);});
- if(nums.some(v=>v<1||v>49)||new Set(nums).size!==6)throw Error('必須是 1–49 之間六個不重複的整數。');
+function parseQuery(text){let parts=text.trim().split(/[\s,\uFF0C\u3001;\uFF1B]+/).filter(Boolean);
+ if(parts.length!==6)throw Error('Enter exactly six numbers.');
+ let nums=parts.map(x=>{if(!/^\d+$/.test(x))throw Error('Only integers are accepted.');return Number(x);});
+ if(nums.some(v=>v<1||v>49)||new Set(nums).size!==6)throw Error('Enter six distinct integers from 1 to 49.');
  return nums.sort((a,b)=>a-b);}
 function runQuery(){const start=performance.now();$('error').textContent='';
  try{const nums=parseQuery($('query').value),top=topology(nums),p=points(nums);
  const family=canonical(p),orbit=orbitCount(p),tw=WEIGHTS;
- const vals=[['L1 連通元件','C'+top.component,'component',top.component],
-  ['L2 元件分區',top.partitionName,'partition',top.partition],
-  ['L3 鄰接結構',top.partitionName+'_O'+top.o+'_D'+top.d,'edge',top.edge]];
+ const vals=[['L1 connected components','C'+top.component,'component',top.component],
+  ['L2 component partition',top.partitionName,'partition',top.partition],
+  ['L3 edge topology',top.partitionName+'_O'+top.o+'_D'+top.d,'edge',top.edge]];
  const m=$('metrics');m.replaceChildren();
  for(const [label,name,level,key] of vals){let node=document.createElement('div');node.className='metric';
   const mass=Number(tw[level][String(key)]||0);
-  node.innerHTML='<small>'+label+'</small><br/><b>'+name+'</b><br/><small>公平組合 '+mass.toLocaleString()+'／'+DATA.universe.toLocaleString()+'</small>';m.append(node);}
+  node.innerHTML='<small>'+label+'</small><br/><b>'+name+'</b><br/><small>Fair combinations '+mass.toLocaleString()+' / '+DATA.universe.toLocaleString()+'</small>';m.append(node);}
  let self=document.createElement('article');self.className='item';
  const duplicates=history.filter(h=>canonical(points(h.nums))===family);
- self.innerHTML=bitmap(nums)+'<b>查詢形狀</b><p>'+numsText(nums)+'</p>'+
- '<p>精確旋轉／鏡射／平移等價組合：'+orbit.toLocaleString()+'（'+(100*orbit/DATA.universe).toFixed(6)+'%）</p>'+
- '<small>歷史相同形狀：'+duplicates.length+' 筆</small>';
+ self.innerHTML=bitmap(nums)+'<b>Query shape</b><p>'+numsText(nums)+'</p>'+
+ '<p>Exact rotation, reflection, and translation equivalents: '+orbit.toLocaleString()+' ('+(100*orbit/DATA.universe).toFixed(6)+'%)</p>'+
+ '<small>Historical exact shape matches: '+duplicates.length+'</small>';
  $('query-shape').replaceChildren(self);
  const variants=transformed(p);const results=history.map(h=>({h,d:shapeDistance(variants,h)}));
  results.sort((a,b)=>a.d-b.d||a.h.id-b.h.id);$('neighbors').replaceChildren(...results.slice(0,18).map(v=>renderHistory(v.h,v.d)));
  const elapsed=performance.now()-start;
- let note=document.createElement('small');note.className='muted';note.textContent='已對 '+history.length+' 期計算完整 8 種對稱與六點最佳指派距離（'+Math.round(elapsed)+' ms）。';
+ let note=document.createElement('small');note.className='muted';note.textContent='Processed '+history.length+' draws using all eight symmetries and exact six-point assignment ('+Math.round(elapsed)+' ms).';
  $('neighbors').append(note);
  $('edge-filter').value=String(top.edge);showClass();
  }catch(err){$('error').textContent=err.message;}}
 function setupFilters(){const counts={};for(const r of history)counts[r.edge]=(counts[r.edge]||0)+1;
  const ordered=Object.keys(WEIGHTS.edge).map(Number).sort((a,b)=>(counts[b]||0)-(counts[a]||0)||a-b);
  for(const edge of ordered){let opt=document.createElement('option');opt.value=String(edge);
- opt.textContent=nameEdge(edge)+'  歷史 '+(counts[edge]||0)+' / 全宇宙 '+Number(WEIGHTS.edge[edge]).toLocaleString();$('edge-filter').append(opt);}}
+ opt.textContent=nameEdge(edge)+'  Historical '+(counts[edge]||0)+' / Universe '+Number(WEIGHTS.edge[edge]).toLocaleString();$('edge-filter').append(opt);}}
 function showClass(){const key=Number($('edge-filter').value);const matches=history.filter(r=>r.edge===key);
- $('class-qty').textContent='類別 '+nameEdge(key)+'：歷史 '+matches.length+' 期；理論 '+Number(WEIGHTS.edge[String(key)]).toLocaleString()+' 種合法組合。';
+ $('class-qty').textContent='Class '+nameEdge(key)+': historical '+matches.length+' draws, theoretical '+Number(WEIGHTS.edge[String(key)]).toLocaleString()+' legal combinations.';
  $('class-images').replaceChildren(...matches.slice(0,24).map(r=>renderHistory(r)));}
 $('run').addEventListener('click',runQuery);
 $('query').addEventListener('keydown',e=>{if(e.key==='Enter')runQuery();});

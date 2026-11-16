@@ -27,7 +27,7 @@ New, standalone official 2027 source:
 - [379-date solar/lunar sky table](../prospective/v24_p3_sky_calendar_20261114.csv): dates from **2026-11-17 through 2027-11-30**, SHA-256 **`55bb765698c6a8926626d909290d74013e7038db418a0a1ecad795cfa3179f8c`**.
 - [100-draw precommitted seal](../prospective/v24_p3_usno_hexagram_static100_20261114_seal.json): SHA-256 **`ac1536662ae25077542e53e76d3c3a087b32a90f86a5eb738e20cc4ae8245cf8`**, original Git blob SHA-1 **`abf4963adf339d11f5bddd75b91ee5409abf82f1`**.
 - The only pre-draw data used to create a sky code are USNO timestamps and the fixed **12:00 Asia/Taipei date-level reference** (not verified actual Lotto draw clock time). No outcome is in the precomputed future table.
-- Example for first planned draw **2026-11-17/#115000106**: solar sector 7, lunar time sector 2, code **35** (upper Gen/艮, lower Dui/兌), purely a date-level experimental encoding, not a recommended ticket.
+- Example for first planned draw **2026-11-17/#115000106**: solar sector 7, lunar time sector 2, code **35** (upper Gen, lower Dui), purely a date-level experimental encoding, not a recommended ticket.
 
 ## Fixed one-primary-test definition
 

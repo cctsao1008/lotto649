@@ -106,22 +106,12 @@
     "reference_at": "12:00 Asia/Taipei local noon, NOT verified draw time",
     "sectors": "[k/8,(k+1)/8); exact boundary belongs to later bin",
     "solar": "P1 quarter-year linear interpolation; winter solstice phase=0, spring equinox=1/4, summer solstice=1/2, autumn equinox=3/4; exact integer bin=floor(8*phase)",
-    "trigram_chinese_by_binary_code_0_to_7": [
-      "坤",
-      "震",
-      "坎",
-      "兌",
-      "艮",
-      "離",
-      "巽",
-      "乾"
-    ],
     "upper_3bit_from": "solar sector Gray code"
   },
   "mapping_version": "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1",
   "observed_parity_code_and_hamming_are_OUTCOME_ONLY": true,
   "output_csv": "data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv",
-  "output_csv_sha256": "a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39",
+  "output_csv_sha256": "e4ff58024faab05faaadec804bd212247ace407676aa6bb3c5c596cda2706f4d",
   "pair_mapped": 2476,
   "pair_missing": 22,
   "phase_coverage_by_year": {
@@ -279,8 +269,8 @@
   },
   "source_p1a_conclusion": "NO_EVIDENCE_UNCHANGED; P2 makes no statistical inference",
   "source_sha256": {
-    "p1_audit_sha256": "84e9811516bd30a59ad3e04622298fbf519dfc71ee5c4b43f8c4d1fbaa3748a3",
-    "p1_context_sha256": "53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1",
+    "p1_audit_sha256": "d80d2439550e3fa54ddbfc8cd88af864385b9c884fece331359deb5640f93fa1",
+    "p1_context_sha256": "7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a",
     "p1_rule_version": "usno_quarter_anchor_centered_12state_half_up_v1",
     "usno_draw_sha256": "230b7824d40a82197e0e25010e542dca17562fa6369d53c0520517a7e316d631",
     "usno_event_csv_sha256": "f084a9248725cecbef257d23963b2660f2152e2bfce2f12054fd89337e33f6df",

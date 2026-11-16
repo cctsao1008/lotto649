@@ -1,6 +1,6 @@
 # Lotto7x7 canonical image BIN v2
 
-The data source of truth is the repository's original `data/csv/<year>/大樂透_*.csv` files. The canonical machine-learning input is **`data/bin/lotto649_images_v2.bin`**, a fully deterministic binary archive containing **only the official period identifier and the six-main-number 7×7 image**. The special number is deliberately excluded, as is the exact draw date.
+The data source of truth is the repository's original yearly Lotto649 CSV files. The canonical machine-learning input is **`data/bin/lotto649_images_v2.bin`**, a fully deterministic binary archive containing **only the official period identifier and the six-main-number 7×7 image**. The special number is deliberately excluded, as is the exact draw date.
 
 ## On-disk specification
 
@@ -11,7 +11,7 @@ All records use the fixed **sequential mapping** from number 1 through 49 to row
 | 0 | 8 bytes | ASCII | File magic: `L649IMG2` |
 | 8 | 4 bytes | little-endian `uint32` | Number of draws |
 | 12 | 4 bytes | little-endian `uint32` | Record size, always **53** |
-| 16 + 53×i | 4 bytes | little-endian `uint32` | Official draw ID (`期別`) |
+| 16 + 53×i | 4 bytes | little-endian `uint32` | Official draw ID |
 | 20 + 53×i | 49 bytes | `uint8[7][7]` | Six-on 7×7 image, row-major |
 
 Header size: **16 bytes**. Record size: **53 bytes**. For the 2,183-draw 2007–2026 source snapshot (ending 2026-10-30), file size is **115,715 bytes** (16 + 2,183×53).
@@ -42,7 +42,7 @@ Because a bitmap is a set of activated positions, it preserves the six drawn num
 
 ## Dataset generation and verification
 
-The converter discovers all annual CSV names for `大樂透`, including 2018's and 2020's `大樂透_YYYYMM_YYYYMM.csv` naming. It ignores unrelated games and additional-prize files. It parses by column header with `utf-8-sig`, accepts unused trailing fields and unpadded `2024/12/3`, validates game name, official ID, date chronology, six distinct main numbers in 1–49, and enforces strictly increasing period IDs. The special number is never read into the dataset.
+The converter discovers flat annual CSVs and legacy Lotto649 filenames, including 2018 and 2020 filenames with a year-month range. It ignores unrelated games and additional-prize files. It parses by column header with `utf-8-sig`, accepts unused trailing fields and unpadded `2024/12/3`, validates game name, official ID, date chronology, six distinct main numbers in 1–49, and enforces strictly increasing period IDs. The special number is never read into the dataset.
 
 ```powershell
 cd D:\my-github\lotto649

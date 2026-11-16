@@ -14,7 +14,7 @@ Inputs:
 
 - Frozen 2,498-draw P2 archive
   `data/research/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv`
-  SHA-256 `a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39`.
+  SHA-256 `e4ff58024faab05faaadec804bd212247ace407676aa6bb3c5c596cda2706f4d`.
 - P2 archive audit JSON of the same stem; source provenance additionally
   checks the 46-source USNO event manifest pointer and P1 archive checksum.
 - 22 early-2004 rows have no complete astronomy phase due to the 2003 boundary;

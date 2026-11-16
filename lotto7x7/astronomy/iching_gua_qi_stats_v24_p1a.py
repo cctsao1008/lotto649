@@ -16,7 +16,7 @@ from pathlib import Path
 import random
 
 SCHEMA = "lotto649.iching_guaqi_association.v2.4.p1a"
-SOURCE_SHA256 = "53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1"
+SOURCE_SHA256 = "7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a"
 RULE = "usno_quarter_anchor_centered_12state_half_up_v1"
 CLASSIFIER = "shape8-graph-partition-cardinal-diagonal-v1:L1"
 SEED = 649
@@ -25,8 +25,6 @@ UNIVERSE = comb(49, 6)
 COMPONENT_UNIVERSE_COUNTS = (58620, 669462, 2775454, 5093678, 4166304, 1220298)
 GUA_NAMES = ("Fu", "Lin", "Tai", "Da_Zhuang", "Guai", "Qian",
              "Gou", "Dun", "Pi", "Guan", "Bo", "Kun")
-GUA_CHINESE = ("復", "臨", "泰", "大壯", "夬", "乾",
-               "姤", "遯", "否", "觀", "剝", "坤")
 GUA_CODES = (1, 3, 7, 15, 31, 63, 62, 60, 56, 48, 32, 0)
 ENDPOINTS = ("sum", "odd", "shape_component_mean", "shape_L1_full_distribution")
 INPUT_COUNT = 2498
@@ -251,7 +249,7 @@ def state_rows(rows: list[dict], exact: dict) -> list[dict]:
     p = exact["shape_L1_full_distribution"]["probabilities"]
     for s in range(12):
         nr = counts[s]
-        row = {"state_12": s, "gua": GUA_NAMES[s], "chinese": GUA_CHINESE[s],
+        row = {"state_12": s, "gua": GUA_NAMES[s],
                "hexagram_code": GUA_CODES[s], "draws": nr}
         for k, key in enumerate(ENDPOINTS[:3]):
             mu = exact[key]["mean"]

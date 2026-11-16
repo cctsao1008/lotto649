@@ -29,10 +29,10 @@ MAGIC = b"L649IMG2"
 HEADER = struct.Struct("<8sII")
 RECORD = struct.Struct("<I49B")
 DTYPE = np.dtype([("draw_id", "<u4"), ("image", "u1", (7, 7))], align=False)
-SOURCE_PATTERN = re.compile(r"^大樂透_\d{4}(?:\d{2}_\d{6})?\.csv$")
+SOURCE_PATTERN = re.compile(r"^\u5927\u6a02\u900f_\d{4}(?:\d{2}_\d{6})?\.csv$")
 FLAT_PATTERN = re.compile(r"^lotto649_(\d{4})\.csv$")
-LEGACY_REQUIRED = ("期別", "開獎日期", "獎號1", "獎號2", "獎號3",
-                   "獎號4", "獎號5", "獎號6")
+LEGACY_REQUIRED = ("\u671f\u5225", "\u958b\u734e\u65e5\u671f", "\u734e\u865f1", "\u734e\u865f2", "\u734e\u865f3",
+                   "\u734e\u865f4", "\u734e\u865f5", "\u734e\u865f6")
 FLAT_REQUIRED = ("date", "draw_id", "n1", "n2", "n3", "n4", "n5", "n6", "bonus")
 DEFAULT_CSV = Path("data/csv")
 DEFAULT_BIN = Path("data/bin/lotto649_images_v2.bin")
@@ -106,16 +106,16 @@ def parse_csv(path: Path) -> list[Draw]:
         if missing:
             raise ValueError(f"{path}: missing columns: {missing}")
         columns = {key: header.index(key) for key in required}
-        draw_col = "draw_id" if modern else "期別"
-        date_col = "date" if modern else "開獎日期"
-        number_prefix = "n" if modern else "獎號"
+        draw_col = "draw_id" if modern else "\u671f\u5225"
+        date_col = "date" if modern else "\u958b\u734e\u65e5\u671f"
+        number_prefix = "n" if modern else "\u734e\u865f"
         for lineno, row in enumerate(reader, 2):
             if not row or not any(cell.strip() for cell in row):
                 continue
             origin = f"{path}:{lineno}"
             if len(row) <= max(columns.values()):
                 raise ValueError(f"{origin}: truncated row")
-            if "遊戲名稱" in header and row[header.index("遊戲名稱")].strip() != "大樂透":
+            if "\u904a\u6232\u540d\u7a31" in header and row[header.index("\u904a\u6232\u540d\u7a31")].strip() != "\u5927\u6a02\u900f":
                 raise ValueError(f"{origin}: unexpected game name")
             draw_id = _positive_int(row[columns[draw_col]],
                                     label="draw_id", origin=origin)

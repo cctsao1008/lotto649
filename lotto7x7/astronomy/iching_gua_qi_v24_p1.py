@@ -28,8 +28,6 @@ DRAW_COUNT = 2498
 # King Wen sequence numbers as these six-bit values.
 GUA_NAMES = ("Fu", "Lin", "Tai", "Da_Zhuang", "Guai", "Qian",
              "Gou", "Dun", "Pi", "Guan", "Bo", "Kun")
-GUA_CHINESE = ("復", "臨", "泰", "大壯", "夬", "乾",
-               "姤", "遯", "否", "觀", "剝", "坤")
 GUA_CODES = (1, 3, 7, 15, 31, 63, 62, 60, 56, 48, 32, 0)
 # Solar anchor indices correspond to state *centers*, not starts.
 ANCHORS = {"winter_solstice": 0, "spring_equinox": 3,
@@ -41,7 +39,7 @@ SEASON_MONTHS = {(3, "equinox"): "spring_equinox",
 
 FIELDS = (
     "date", "draw_id", "reference_at_taipei",
-    "seasonal_state_12", "seasonal_hexagram_name", "seasonal_hexagram_chinese",
+    "seasonal_state_12", "seasonal_hexagram_name",
     "seasonal_hexagram_code", "seasonal_hexagram_binary_bottom_to_top",
     "seasonal_lower_trigram_code", "seasonal_upper_trigram_code", "seasonal_yang_count",
     "solar_phase_fraction", "solar_anchor_start", "solar_anchor_end",
@@ -193,7 +191,6 @@ def solar_state(when: datetime, anchors: list[tuple[datetime, str]]) -> dict[str
     phase = ((ANCHORS[name] + 3*elapsed/width) % 12) / 12
     return {"seasonal_state_12": str(code_index),
             "seasonal_hexagram_name": GUA_NAMES[code_index],
-            "seasonal_hexagram_chinese": GUA_CHINESE[code_index],
             "seasonal_hexagram_code": str(code),
             "seasonal_hexagram_binary_bottom_to_top": "".join(str((code>>j)&1) for j in range(6)),
             "seasonal_lower_trigram_code": str(code & 7),
@@ -320,7 +317,7 @@ def generate(events_file:Path, manifest_file:Path, raw_dir:Path,
     report={"schema":SCHEMA,"rule_version":RULE,
             "reference_at":"12:00 Asia/Taipei (UTC+08:00) local-date assumption, not actual draw time",
             "season_mapping":"winter solstice center=Fu(0), spring equinox center=Da_Zhuang(3), summer solstice center=Gou(6), autumn equinox center=Guan(9); linear interpolation across adjacent USNO quarter events; nearest of 12 equally spaced state centers; exact half boundaries round forward",
-            "season_names":list(GUA_NAMES),"season_chinese_names":list(GUA_CHINESE),
+            "season_names":list(GUA_NAMES),
             "season_sixbit_codes_bottom_to_top":list(GUA_CODES),
             "moon_mapping":"time fraction from previous USNO astronomical new moon to next USNO new moon; NOT lunar date/month and NOT a new 64-state model",
             "source_provenance":"USNO ONLY; USNO 46 original JSON sources, 1276 events",

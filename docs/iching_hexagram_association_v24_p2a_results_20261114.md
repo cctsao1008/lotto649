@@ -11,7 +11,7 @@
 
 ## Frozen data and analysis
 
-- Original P2 CSV: **2,498** historical draws through 2026-11-10 / #115000104, SHA-256 `a46f08269fc8021369f1a045116051e4f9591ba83801d5cdbe8c1a08873edf39`.
+- P2 replay CSV: **2,498** historical draws through 2026-11-10 / #115000104, SHA-256 `e4ff58024faab05faaadec804bd212247ace407676aa6bb3c5c596cda2706f4d`.
 - **2,476** valid solar/lunar astronomical hexagrams; **22** missing early-2004 states are excluded without imputation.
 - All **64** sky-code states were represented, between **32 and 57 draws per state**.
 - Source astronomy: 46 archived USNO JSON responses, 1,276 events, date-level reference **12:00 Asia/Taipei**. Sky hexagram is a researcher-defined 8 solar-sector × 8 new-moon-time-sector Gray encoding, not traditional calendar divination.
@@ -51,3 +51,5 @@ Additional measured diagnostics:
 ## Disposition
 
 P2A association study is complete with the evidence label `EXPLORATORY_ASSOCIATION_NO_EVIDENCE`. No new recommended combination and no modification of existing bets. Any future claim of predictive performance needs an independently precommitted **future-only** protocol with a specific hypothesis and proper out-of-sample baseline; do not relabel this exploratory result as positive because one unadjusted p-value looked relatively close to 0.05.
+
+The recorded JSON report retains the original artifact hashes. The repository replay files omit duplicate localized labels. See [repository layout](repository_layout.md#historical-iching-artifacts).

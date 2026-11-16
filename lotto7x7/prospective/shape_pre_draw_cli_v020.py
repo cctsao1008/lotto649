@@ -50,13 +50,13 @@ def _render(data:dict)->str:
                             f'<td>{item["p_fair"]:.9g}</td><td>{item["q_before_draw"]:.9g}</td>'
                             f'<td>{item["relative_ratio"]:.7g}</td></tr>')
     label=escape(tag)
-    return ('''<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>Lotto649 v0.20</title>'''
+    return ('''<!doctype html><html lang="en"><meta charset="utf-8"><title>Lotto649 v0.20</title>'''
             '''<style>body{font:15px system-ui;max-width:1000px;margin:2rem auto;padding:0 1rem;color:#243543}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #ddd;padding:.5rem;text-align:left}th{position:sticky;top:0;background:white}h1{color:#168073}.note{padding:.8rem;border:1px solid #aaa}</style>'''
             f'<h1>Lotto649 v0.20 — {label}</h1>'
-            f'<p>期別：{data["target"]["draw_id"]}；日期：{escape(data["target"]["date"])}</p>'
+            f'<p>Draw: {data["target"]["draw_id"]}. Date: {escape(data["target"]["date"])}</p>'
             f'<p>SHA256 seal：<code>{escape(data.get("self_checksum_sha256",data.get("commitment_sha256","")))}</code></p>'
-            '<p class="note">形狀分類機率不是下一期六碼預測。必須於開獎前公開 Git 提交，並獨立核對官方開獎結果。</p>'
-            '<table><tr><th>層級</th><th>分類</th><th>公平機率</th><th>模型機率</th><th>比值</th></tr>'
+            '<p class="note">These probabilities describe shape classes. Commit before the draw and verify the official result independently.</p>'
+            '<table><tr><th>Level</th><th>Class</th><th>Fair probability</th><th>Model probability</th><th>Ratio</th></tr>'
             +''.join(rows)+'</table></html>')
 
 

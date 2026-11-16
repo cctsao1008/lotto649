@@ -301,13 +301,13 @@ def selection_html(report: dict) -> str:
         blocks.append(f'<section><h2>{escape(name)} — {len(s["tickets"])} tickets</h2>' +
             f'<p>{escape(s["description"])}</p><div class="picks">'+''.join(tickets)+'</div></section>')
     json_meta=escape(json.dumps(report['data'],ensure_ascii=False,indent=2))
-    return ('''<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>Lotto649 v0.21 Unified Selection</title>
+    return ('''<!doctype html><html lang="en"><meta charset="utf-8"><title>Lotto649 v0.21 Unified Selection</title>
 <style>body{font:15px system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#213a40;background:#f4f7f8}h1{color:#087e75}section{background:white;border-radius:12px;border:1px solid #dce5e6;padding:1.3rem;margin:1rem 0}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #e0e5e6;padding:.6rem;text-align:left}th{font-weight:600}.picks{display:flex;flex-wrap:wrap;gap:14px}.pick{border:1px solid #d7e3e1;padding:.5rem;border-radius:8px}.nums{font:12px ui-monospace,monospace;text-align:center}pre{white-space:pre-wrap;overflow-wrap:anywhere}.warning{border-left:4px solid #ba8846;padding:.8rem;background:#faf4e5}</style>
-<h1>Lotto649 — v0.21 Unified Selection</h1><p>同一批合法、均勻抽樣的候選池；固定注數；三種不同選號策略。所有覆蓋機率均為公平 6/49 的精確組合計數。</p>''' +
-      f'<section><h2>精確機率比較</h2><p>候選 {report["settings"]["pool_size"]} 組，選 {report["settings"]["tickets"]} 注，主要最佳化 >= {report["settings"]["objective"][0]} 號。</p><table><thead><tr><th>策略</th><th>至少 3 號</th><th>至少 4 號</th><th>至少 5 號</th><th>六個主號全中</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table></section>' +
+<h1>Lotto649 — v0.21 Unified Selection</h1><p>Three strategies use the same uniformly sampled pool and ticket budget. Coverage probabilities use exact fair 6/49 counts.</p>''' +
+      f'<section><h2>Exact probability comparison</h2><p>Candidates: {report["settings"]["pool_size"]}. Tickets: {report["settings"]["tickets"]}. Optimize for at least {report["settings"]["objective"][0]} matches.</p><table><thead><tr><th>Strategy</th><th>At least 3</th><th>At least 4</th><th>At least 5</th><th>All six main numbers</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table></section>' +
       ''.join(blocks) +
-      '<section class="warning"><strong>研究限制</strong><p>歷史形狀分數並未證明具有預測優勢。任何相異的 N 注，公平六個主號全中率都相同為 N/13,983,816；最佳化只改變多注「至少命中幾號」的聯集機率，沒有提高單注開獎機率。沒有串接下注功能。</p></section>' +
-      '<section><h2>輸入來源與重現資訊</h2><pre>'+json_meta+'</pre></section></html>')
+      '<section class="warning"><strong>Limitations</strong><p>For N distinct tickets, the fair probability of matching all six main numbers is N/13,983,816. Optimization can change portfolio coverage at lower match thresholds. Historical shape scores have yet to demonstrate a predictive edge.</p></section>' +
+      '<section><h2>Inputs and reproducibility</h2><pre>'+json_meta+'</pre></section></html>')
 
 
 def write_csv(path: Path, rows: list[dict]) -> None:

@@ -12,35 +12,35 @@
 
 ## Twelve seasonal states: research assumption, not traditional precise calendrical calculation
 
-The traditional **twelve waxing/waning hexagram names** (`復 臨 泰 大壯 夬 乾 姤 遯 否 觀 剝 坤`) are attached to an **experimental deterministic solar segmentation**:
+The traditional **twelve waxing/waning hexagram names** (`Fu Lin Tai Da_Zhuang Guai Qian Gou Dun Pi Guan Bo Kun`) are attached to an **experimental deterministic solar segmentation**:
 
 1. Read successive USNO `equinox`/`solstice` event instants. Because USNO uses generic labels, use their month and event type to distinguish March spring equinox, June summer solstice, September autumn equinox, December winter solstice. Reject any unknown or inconsistent event.
-2. Set **winter solstice = center of state 0 復**, **spring equinox = center of state 3 大壯**, **summer solstice = center of state 6 姤**, **autumn equinox = center of state 9 觀**. Each adjacent quarter pair spans precisely three nominal state centers, linearly *in elapsed time* between actual USNO timestamps.
+2. Set **winter solstice = center of state 0 Fu**, **spring equinox = center of state 3 Da_Zhuang**, **summer solstice = center of state 6 Gou**, **autumn equinox = center of state 9 Guan**. Each adjacent quarter pair spans precisely three nominal state centers, linearly *in elapsed time* between actual USNO timestamps.
 3. For adjacent quarter anchors at `A` and `B`, let `u=(reference_at_taipei-A)/(B-A)` with `0<=u<1`. Let `k=floor(3*u + 0.5)`, where exactly half-state boundaries advance to the next state. The seasonal state index is `(anchor_index + k) mod 12`. Integer microsecond arithmetic is used for the boundary selection.
 4. `solar_phase_fraction = ((anchor_index + 3*u) mod 12)/12`, measured from the winter-solstice **center**, not a Chinese lunar month or the start of a solar term.
 5. For missing neighboring anchors, **do not extrapolate**: report an empty state and explicit missing flag. In particular, early 2004 cannot be bracketed because the USNO archive starts in 2004 and contains no December 2003 winter solstice. Later than December 2026 winter solstice also lacks the following 2027 spring equinox in this snapshot.
 
-**Important:** This fixed-month-associated 12-state mapping only approximates the traditional 12 消息卦 sequence and does **not** assert historically exact 卦氣 boundaries. USNO contains **four** equinox/solstice events per year, not 24 Chinese solar terms. The interpolation assumes uniform progress **in time between quarter points**, not uniform solar longitude. Different mapping conventions require a distinct version and independent tests; no tuning against winning numbers is allowed.
+**Important:** This fixed-month-associated 12-state mapping only approximates the traditional sequence of twelve waxing and waning hexagrams and does **not** assert historically exact Gua Qi boundaries. USNO contains **four** equinox/solstice events per year, not 24 Chinese solar terms. The interpolation assumes uniform progress **in time between quarter points**, not uniform solar longitude. Different mapping conventions require a distinct version and independent tests; no tuning against winning numbers is allowed.
 
 ### Six-line coding (unambiguous)
 
-* Bit 0 is the **bottom** line; bit 5 is the **top** line. `1=陽（solid）`, `0=陰（broken）`.
+* Bit 0 is the **bottom** line; bit 5 is the **top** line. `1=yang (solid)`, `0=yin (broken)`.
 * Named seasonal index → six-bit integer (`bottom-to-top`):
 
-| Seasonal index | 卦 | Code | Yang lines |
+| Seasonal index | Hexagram | Code | Yang lines |
 | ---: | --- | ---: | ---: |
-| 0 | 復 | 1 | 1 |
-| 1 | 臨 | 3 | 2 |
-| 2 | 泰 | 7 | 3 |
-| 3 | 大壯 | 15 | 4 |
-| 4 | 夬 | 31 | 5 |
-| 5 | 乾 | 63 | 6 |
-| 6 | 姤 | 62 | 5 |
-| 7 | 遯 | 60 | 4 |
-| 8 | 否 | 56 | 3 |
-| 9 | 觀 | 48 | 2 |
-| 10 | 剝 | 32 | 1 |
-| 11 | 坤 | 0 | 0 |
+| 0 | Fu | 1 | 1 |
+| 1 | Lin | 3 | 2 |
+| 2 | Tai | 7 | 3 |
+| 3 | Da_Zhuang | 15 | 4 |
+| 4 | Guai | 31 | 5 |
+| 5 | Qian | 63 | 6 |
+| 6 | Gou | 62 | 5 |
+| 7 | Dun | 60 | 4 |
+| 8 | Pi | 56 | 3 |
+| 9 | Guan | 48 | 2 |
+| 10 | Bo | 32 | 1 |
+| 11 | Kun | 0 | 0 |
 
 The `code` is **not** a King Wen hexagram sequence number. The code from Lotto's original sorted six numbers (odd=1/even=0) remains in a clearly named `OUTCOME_ONLY` field. The same-draw Hamming distance between the historical outcome and seasonal code is *diagnostic only*, **never** a pre-draw input.
 

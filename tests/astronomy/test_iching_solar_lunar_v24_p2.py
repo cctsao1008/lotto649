@@ -50,8 +50,8 @@ class TestP2Math(unittest.TestCase):
             seen.add(code)
         self.assertEqual(seen, set(range(64)))
 
-    def test_trigram_chinese_codes(self):
-        self.assertEqual(p2.TRIGRAMS_ZH, ("坤", "震", "坎", "兌", "艮", "離", "巽", "乾"))
+    def test_trigram_names_by_code(self):
+        self.assertEqual(p2.TRIGRAMS, ("Kun", "Zhen", "Kan", "Dui", "Gen", "Li", "Xun", "Qian"))
         self.assertEqual(p2.hexagram_from_sectors(0, 0)["astronomical_hexagram_code"], "0")
         self.assertEqual(p2.hexagram_from_sectors(5, 5)["astronomical_hexagram_code"], "63")
 

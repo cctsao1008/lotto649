@@ -13,13 +13,13 @@ predictability.
 - Code: `lotto7x7/astronomy/iching_gua_qi_stats_v24_p1a.py`; methodology:
   `docs/iching_gua_qi_v24_p1a_stats.md`.
 - Research source: `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`
-  frozen SHA256 `53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1`.
+  repository replay SHA-256 `7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a`.
 - Input: 2,498 original historic draws through **2026-11-10**, 2,476 with
   USNO 12-state assignments; 22 early 2004 rows missing 2003 boundary.
 - Research reports:
   `data/research/v24_iching/v24_p1a_gua_qi_association_2498.json` and
   `data/research/v24_iching/v24_p1a_gua_qi_association_2498_states.csv`;
-  state CSV SHA256 `9577c8cf21511577658b724ac63e4f644836ea9aab09dc06e877481e4fe68fff`.
+  repository state CSV SHA-256 `813f578df17b79bcdccb01c37b5f356278ee2e730dbb917b23da7d15a6fcf965`.
 - GitHub Actions: [run 43406897791](https://github.com/cctsao1008/lotto649/actions/runs/43406897791) **PASS**;
   [source/code commit 128673a](https://github.com/cctsao1008/lotto649/commit/128673a9e82b8bfaf422be6b7525c34bf1a9e026);
   [archived outcome commit fcf501e](https://github.com/cctsao1008/lotto649/commit/fcf501e8c0542e7e0b89f4a723751272345dc82e).
@@ -51,20 +51,20 @@ These are descriptive figures, **not 12 independent hypothesis tests**.
 
 | Gua Qi | n | Mean Sum | Mean # Odd |
 |---|---:|---:|---:|
-| 復 | 187 | 148.791 | 3.059 |
-| 臨 | 229 | 149.170 | 2.996 |
-| 泰 | 256 | 148.121 | 3.160 |
-| 大壯 | 195 | 153.087 | 3.097 |
-| 夬 | 203 | 154.276 | 3.182 |
-| 乾 | 203 | 149.039 | 3.108 |
-| 姤 | 205 | 150.302 | 3.122 |
-| 遯 | 205 | 152.468 | 3.249 |
-| 否 | 206 | 152.583 | 2.922 |
-| 觀 | 200 | 147.895 | 3.025 |
-| 剝 | 196 | 146.974 | 2.974 |
-| 坤 | 191 | 148.712 | 3.058 |
+| Fu | 187 | 148.791 | 3.059 |
+| Lin | 229 | 149.170 | 2.996 |
+| Tai | 256 | 148.121 | 3.160 |
+| Da_Zhuang | 195 | 153.087 | 3.097 |
+| Guai | 203 | 154.276 | 3.182 |
+| Qian | 203 | 149.039 | 3.108 |
+| Gou | 205 | 150.302 | 3.122 |
+| Dun | 205 | 152.468 | 3.249 |
+| Pi | 206 | 152.583 | 2.922 |
+| Guan | 200 | 147.895 | 3.025 |
+| Bo | 196 | 146.974 | 2.974 |
+| Kun | 191 | 148.712 | 3.058 |
 
-The apparent contrast between **夬 (mean sum 154.276)** and **剝 (146.974)**
+The apparent contrast between **Guai (mean sum 154.276)** and **Bo (146.974)**
 is a retrospective maximum chosen from twelve categories, and cannot be used
 as an unadjusted significance claim or ticket-selection advantage. The
 correct predeclared Sum seasonal association has `p_adjusted=1.000`.
@@ -86,3 +86,4 @@ correct predeclared Sum seasonal association has `p_adjusted=1.000`.
    reinterpretation of P1A as a success.
 4. This study never modifies purchases, original 6+bonus draw records, P1
    astronomy state seals, USNO JSON, v2.3 pre-draw seals, or any frozen M0 work.
+The recorded JSON report retains the original artifact hashes. The repository replay files omit duplicate localized labels. See [repository layout](repository_layout.md#historical-iching-artifacts).

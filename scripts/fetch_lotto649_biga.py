@@ -29,7 +29,7 @@ IMAGE = struct.Struct("<I49B")
 # month ordinal, two Chinese characters, drawn six, bonus, sorted six.
 PATTERN = re.compile(
     r"(?<!\d)(?P<day>20\d{2}/\d{2}/\d{2})\s+"
-    r"星期[一二三四五六日天]\s+"
+    r"\u661f\u671f[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u65e5\u5929]\s+"
     r"(?P<issue>\d{6}|\d{9})\s+\d{6}\s+\d{1,2}\s+[\u4e00-\u9fff]{2}\s+"
     r"(?P<order>(?:\d{1,2}\s+){6})"
     r"(?P<bonus>\d{1,2})\s+"
@@ -69,7 +69,7 @@ def parse_page(raw: bytes) -> list[Draw]:
     for enc in ("utf-8-sig", "big5", "cp950"):
         try: candidate = raw.decode(enc)
         except UnicodeError: continue
-        if "大樂透開獎號碼一覽表" in candidate and "落球順序" in candidate:
+        if "\u5927\u6a02\u900f\u958b\u734e\u865f\u78bc\u4e00\u89bd\u8868" in candidate and "\u843d\u7403\u9806\u5e8f" in candidate:
             decoded = candidate
             break
     if decoded is None:

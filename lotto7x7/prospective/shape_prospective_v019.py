@@ -325,13 +325,13 @@ def report_html(report:dict)->str:
     for row in report['events']:
         cells.append('<tr>'+''.join(f'<td>{escape(str(row[col]))}</td>' for col in
                           ('draw_id','date','component_class','partition_class','edge_class','rare_class_hit','mixture_e'))+'</tr>')
-    return '''<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>Lotto649 v0.19 Prospective Validation</title>
+    return '''<!doctype html><html lang="en"><meta charset="utf-8"><title>Lotto649 v0.19 Prospective Validation</title>
 <style>body{font:15px system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;background:#f5f8fa;color:#243943}section{background:#fff;border:1px solid #dce5e9;border-radius:12px;padding:1rem;margin:1rem 0}th,td{padding:.45rem;border-bottom:1px solid #e2e7ea;text-align:left}table{width:100%;border-collapse:collapse}h1{color:#157e74}</style>
-<h1>Lotto649 — v0.19 真正未來期別驗證</h1>
-<p>每一期使用前期已知結果產生當期機率，再更新模型。不能將研究期間已看過的開獎紀錄列為未來驗證樣本。</p>
-<section><h2>研究狀態</h2><p>新期別：<b>'''+str(seen)+'''</b>，判定：<b>'''+escape(result)+'''</b></p>
-<p>Mixture e-value：<b>'''+f'{report["mixture_e"]:.6g}'+'''</b>（預先凍結門檻：20）</p>
+<h1>Lotto649 — v0.19 Prospective Validation</h1>
+<p>For each draw, calculate probabilities using prior outcomes, then update the model. The evaluation includes only draws unseen during research.</p>
+<section><h2>Study status</h2><p>New draws: <b>'''+str(seen)+'''</b>. Decision: <b>'''+escape(result)+'''</b></p>
+<p>Mixture e-value: <b>'''+f'{report["mixture_e"]:.6g}'+'''</b> (preregistered threshold: 20)</p>
 <p>Anytime-valid p-value upper bound：'''+f'{report["anytime_p_upper_bound"]:.6g}'+'''</p>
-<p>罕見類別未來出現：'''+str(report['rare_future_count'])+'''；公平基準期望：'''+f'{report["rare_future_fair_expectation"]:.6g}'+'''</p></section>
-<section><h2>逐期審計</h2><table><tr><th>期別</th><th>日期</th><th>L1</th><th>L2</th><th>L3</th><th>罕見類別</th><th>累積 e-value</th></tr>'''+''.join(cells)+'''</table></section>
-<section><h2>限制</h2><p>資料日期仍須獨立核實。這是對固定四項檢定的統計監測，不是提高六碼中獎率的預測系統。若無新資料，本次報告沒有任何前瞻驗證證據。</p></section></html>'''
+<p>Rare classes observed: '''+str(report['rare_future_count'])+'''. Fair expected count: '''+f'{report["rare_future_fair_expectation"]:.6g}'+'''</p></section>
+<section><h2>Draw-by-draw audit</h2><table><tr><th>Draw</th><th>Date</th><th>L1</th><th>L2</th><th>L3</th><th>Rare class</th><th>Cumulative e-value</th></tr>'''+''.join(cells)+'''</table></section>
+<section><h2>Limitations</h2><p>Verify draw dates independently. The report tracks four fixed statistical tests. Prospective evidence requires new draws.</p></section></html>'''

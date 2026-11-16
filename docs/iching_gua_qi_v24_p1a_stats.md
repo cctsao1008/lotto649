@@ -14,8 +14,8 @@ between seasons is *expected even under a fair IID lottery*.
 
 ## Inputs, source lock and coverage
 
-- Original: `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`;
-  SHA-256 `53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1`.
+- English-label replay input: `data/research/v24_iching/v24_p1_gua_qi_draw_context_2498.csv`;
+  SHA-256 `7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a`.
 - P1 astronomical mapping: `usno_quarter_anchor_centered_12state_half_up_v1`.
 - 2,498 frozen draws from 2004-01-05 through 2026-11-10, 2,476 season-mapped;
   22 early-2004 draws remain unmatched because 2003's preceding USNO season

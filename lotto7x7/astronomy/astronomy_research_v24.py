@@ -26,12 +26,12 @@ HEX_ENCODING = "ascending_6_numbers_bottom_to_top_odd_yang_even_yin_v1"
 CWA_DATASET = "https://data.gov.tw/dataset/157677"
 CWA_ID = "A-A0087-001"
 CWA_FORMAT_ALIASES = {
-    'date': ('GregorianCalendar','格里曆日期','日期','date'),
-    'lunar_year_label': ('AgriculturalCalendar','農曆年','農曆歲次'),
-    'lunar_month': ('AgriculturalCalendarMonth','農曆月'),
-    'lunar_day': ('AgriculturalCalendarDay','農曆日'),
-    'roc_year': ('RepublicOfChinaCalendar','民國年','民國曆年'),
-    'week': ('Week','星期'),
+    'date': ('GregorianCalendar','\u683c\u91cc\u66c6\u65e5\u671f','\u65e5\u671f','date'),
+    'lunar_year_label': ('AgriculturalCalendar','\u8fb2\u66c6\u5e74','\u8fb2\u66c6\u6b72\u6b21'),
+    'lunar_month': ('AgriculturalCalendarMonth','\u8fb2\u66c6\u6708'),
+    'lunar_day': ('AgriculturalCalendarDay','\u8fb2\u66c6\u65e5'),
+    'roc_year': ('RepublicOfChinaCalendar','\u6c11\u570b\u5e74','\u6c11\u570b\u66c6\u5e74'),
+    'week': ('Week','\u661f\u671f'),
 }
 SOLAR_TERMS = (
     'spring_equinox','clear_and_bright','grain_rain','start_summer','grain_full',
@@ -102,8 +102,8 @@ def parse_cwa_calendar(content:bytes) -> dict[str,dict]:
         if d.isoformat()!=ds:raise ValueError('CWA date format must be YYYY-MM-DD')
         roc=int(row[found['roc_year']].strip())
         if roc!=d.year-1911:raise ValueError('CWA year mismatch')
-        lm=row[found['lunar_month']].strip().replace('閏','闰')
-        leap=lm.startswith('闰')
+        lm=row[found['lunar_month']].strip().replace('\u958f','\u95f0')
+        leap=lm.startswith('\u95f0')
         month=int(lm[1:] if leap else lm)
         day=int(row[found['lunar_day']].strip())
         weekday=int(row[found['week']].strip())

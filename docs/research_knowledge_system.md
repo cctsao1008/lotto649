@@ -26,7 +26,7 @@ This is a governance framework for reproducible research, **not** a prediction s
 | Statistical dynamics | IID, martingale convergence, conditional Monte Carlo, historical deficits, temporal association and multiple-testing correction |
 | Geometry and topology | Frozen 7×7 mappings, D4 invariants, connected components, L1/L2/L3 graph classes and pairwise geometry |
 | Astronomy | SHA-256-verified official USNO seasonal and lunar events, timestamps, provenance and date-level interpolation |
-| I Ching encodings | Experimental twelve 消息卦 and solar8 × lunar8 Gray-coded 64-state astronomical hexagrams |
+| I Ching encodings | Experimental twelve waxing and waning hexagrams and solar8 × lunar8 Gray-coded 64-state astronomical hexagrams |
 | Selection and portfolio | Historical discrepancy repair, exact coverage, four-ticket optimization and separate prize-event profiles |
 | Evidence engineering | Data source manifests, CSV/BIN validation, publisher snapshots, pre-draw seals, CI, Git blobs and immutable research records |
 

@@ -21,7 +21,7 @@ class BinaryImageInputTests(unittest.TestCase):
         self.root = Path(temp.name)
         csv_root = self.root / "data" / "csv" / "2018"
         csv_root.mkdir(parents=True)
-        self.csv = csv_root / "大樂透_201801_201812.csv"
+        self.csv = csv_root / "\u5927\u6a02\u900f_201801_201812.csv"
         self.binary = self.root / "data" / "bin" / "lotto649_images_v2.bin"
         rng = np.random.default_rng(2050)
         self.nums = np.stack([
@@ -29,12 +29,12 @@ class BinaryImageInputTests(unittest.TestCase):
             for _ in range(120)
         ])
         rows = [
-            "遊戲名稱,期別,開獎日期,獎號1,獎號2,獎號3,獎號4,獎號5,獎號6,特別號"
+            "\u904a\u6232\u540d\u7a31,\u671f\u5225,\u958b\u734e\u65e5\u671f,\u734e\u865f1,\u734e\u865f2,\u734e\u865f3,\u734e\u865f4,\u734e\u865f5,\u734e\u865f6,\u7279\u5225\u865f"
         ]
         for i, six in enumerate(self.nums):
             day = date(2018, 1, 1) + timedelta(days=3 * i)
             bonus = next(n for n in range(1, 50) if n not in six)
-            rows.append(",".join(("大樂透", str(107000001 + i),
+            rows.append(",".join(("\u5927\u6a02\u900f", str(107000001 + i),
                                   day.strftime("%Y/%m/%d"),
                                   *(str(n) for n in six), str(bonus))))
         self.csv.write_text("\n".join(rows) + "\n", encoding="utf-8")

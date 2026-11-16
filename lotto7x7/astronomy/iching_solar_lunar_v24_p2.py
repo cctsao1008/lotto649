@@ -19,20 +19,19 @@ from lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
 
 SCHEMA = "lotto649.iching_solar_lunar.v2.4.p2"
 RULE = "usno_winter_anchor_solar8_newmoon_time8_gray_cyclic_v1"
-P1_CSV_SHA256 = "53f35eb6fb0f6f5d6bc36e4b6a78aa63586263c924ba65940cc86c588c4fb1f1"
+P1_CSV_SHA256 = "7add71513d3eaf9210a977020927685322b4a5e7532b523d6a401e1382e48a3a"
 OUT_CSV = "v24_p2_solar_lunar_hexagram_draw_context_2498.csv"
 OUT_AUDIT = "v24_p2_solar_lunar_hexagram_audit_2498.json"
 
 # Integer trigram bit ordering is bottom-to-top, yin=0, yang=1.
 # The order below is the 3-bit binary CODE, not Fu Xi or King Wen ordering.
 TRIGRAMS = ("Kun", "Zhen", "Kan", "Dui", "Gen", "Li", "Xun", "Qian")
-TRIGRAMS_ZH = ("坤", "震", "坎", "兌", "艮", "離", "巽", "乾")
 FIELDS = (
     "date", "draw_id", "reference_at_taipei",
     "solar_phase_fraction", "solar_sector_8", "solar_gray_code", "solar_trigram_name",
-    "solar_trigram_chinese", "solar_interval_start_taipei", "solar_interval_end_taipei",
+    "solar_interval_start_taipei", "solar_interval_end_taipei",
     "lunar_phase_fraction", "lunar_sector_8", "lunar_gray_code", "lunar_trigram_name",
-    "lunar_trigram_chinese", "lunar_interval_start_taipei", "lunar_interval_end_taipei",
+    "lunar_interval_start_taipei", "lunar_interval_end_taipei",
     "astronomical_hexagram_code", "astronomical_hexagram_binary_bottom_to_top",
     "astronomical_lower_trigram_code", "astronomical_upper_trigram_code",
     "astronomical_yang_count", "solar_missing", "lunar_missing", "astronomy_pair_mapped",
@@ -96,7 +95,6 @@ def solar_segment(when: datetime, anchors: list[tuple[datetime, str]]) -> dict[s
         "solar_sector_8": str(index),
         "solar_gray_code": str(value),
         "solar_trigram_name": TRIGRAMS[value],
-        "solar_trigram_chinese": TRIGRAMS_ZH[value],
         "solar_interval_start_taipei": start.isoformat(timespec="minutes"),
         "solar_interval_end_taipei": end.isoformat(timespec="minutes"),
     }
@@ -118,7 +116,6 @@ def lunar_segment(when: datetime, new_moons: list[datetime]) -> dict[str, str]:
         "lunar_sector_8": str(index),
         "lunar_gray_code": str(value),
         "lunar_trigram_name": TRIGRAMS[value],
-        "lunar_trigram_chinese": TRIGRAMS_ZH[value],
         "lunar_interval_start_taipei": start.isoformat(timespec="minutes"),
         "lunar_interval_end_taipei": end.isoformat(timespec="minutes"),
     }
@@ -244,7 +241,6 @@ def generate(*, events_file: Path, manifest_file: Path, raw_dir: Path,
             "solar": "P1 quarter-year linear interpolation; winter solstice phase=0, spring equinox=1/4, summer solstice=1/2, autumn equinox=3/4; exact integer bin=floor(8*phase)",
             "lunar": "Time fraction between adjacent astronomical USNO new moons; exact integer bin=floor(8*elapsed/interval); not actual lunar ecliptic phase angle",
             "gray_3bit": {str(i): gray3(i) for i in range(8)},
-            "trigram_chinese_by_binary_code_0_to_7": list(TRIGRAMS_ZH),
             "upper_3bit_from": "solar sector Gray code", "lower_3bit_from": "lunar sector Gray code",
             "hexagram_code": "lower_gray | (upper_gray << 3)",
             "line_order": "bottom-to-top; bit0=bottom line; yin=0, yang=1",
