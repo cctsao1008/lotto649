@@ -331,7 +331,7 @@ def report_html(report:dict)->str:
 <p>For each draw, calculate probabilities using prior outcomes, then update the model. The evaluation includes only draws unseen during research.</p>
 <section><h2>Study status</h2><p>New draws: <b>'''+str(seen)+'''</b>. Decision: <b>'''+escape(result)+'''</b></p>
 <p>Mixture e-value: <b>'''+f'{report["mixture_e"]:.6g}'+'''</b> (preregistered threshold: 20)</p>
-<p>Anytime-valid p-value upper bound：'''+f'{report["anytime_p_upper_bound"]:.6g}'+'''</p>
+<p>Anytime-valid p-value upper bound: '''+f'{report["anytime_p_upper_bound"]:.6g}'+'''</p>
 <p>Rare classes observed: '''+str(report['rare_future_count'])+'''. Fair expected count: '''+f'{report["rare_future_fair_expectation"]:.6g}'+'''</p></section>
 <section><h2>Draw-by-draw audit</h2><table><tr><th>Draw</th><th>Date</th><th>L1</th><th>L2</th><th>L3</th><th>Rare class</th><th>Cumulative e-value</th></tr>'''+''.join(cells)+'''</table></section>
 <section><h2>Limitations</h2><p>Verify draw dates independently. The report tracks four fixed statistical tests. Prospective evidence requires new draws.</p></section></html>'''

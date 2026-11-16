@@ -54,7 +54,7 @@ def _render(data:dict)->str:
             '''<style>body{font:15px system-ui;max-width:1000px;margin:2rem auto;padding:0 1rem;color:#243543}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #ddd;padding:.5rem;text-align:left}th{position:sticky;top:0;background:white}h1{color:#168073}.note{padding:.8rem;border:1px solid #aaa}</style>'''
             f'<h1>Lotto649 v0.20 — {label}</h1>'
             f'<p>Draw: {data["target"]["draw_id"]}. Date: {escape(data["target"]["date"])}</p>'
-            f'<p>SHA256 seal：<code>{escape(data.get("self_checksum_sha256",data.get("commitment_sha256","")))}</code></p>'
+            f'<p>SHA256 seal: <code>{escape(data.get("self_checksum_sha256",data.get("commitment_sha256","")))}</code></p>'
             '<p class="note">These probabilities describe shape classes. Commit before the draw and verify the official result independently.</p>'
             '<table><tr><th>Level</th><th>Class</th><th>Fair probability</th><th>Model probability</th><th>Ratio</th></tr>'
             +''.join(rows)+'</table></html>')
