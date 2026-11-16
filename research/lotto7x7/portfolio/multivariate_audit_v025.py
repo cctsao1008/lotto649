@@ -16,11 +16,11 @@ from random import Random
 
 import numpy as np
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history, validate_ticket
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import LEVELS, UNIVERSE, classification_keys
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history, validate_ticket
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import LEVELS, UNIVERSE, classification_keys
 
 SCHEMA = "lotto7x7.multivariate_compensation.v0.25.p3"
 DIM_NAMES = ("sum", "odd_count", "span")

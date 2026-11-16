@@ -13,11 +13,11 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_v029 import POINTS, catalog, mapping_positions
-from lotto7x7.geometry.geometry_convergence_v029 import (
+from research.lotto7x7.geometry.geometry_v029 import POINTS, catalog, mapping_positions
+from research.lotto7x7.geometry.geometry_convergence_v029 import (
     LAYOUTS, _check_config, _prefixes, _validate_draws, audit_repository_inputs,
 )
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
 
 SCHEMA = "lotto649.geometry_convergence.v0.29.p2b.v1"
 PAIR_FEATURES = ("pair_squared_distance_sum", "pair_midrange_3_to_18", "pair_far_25_plus")

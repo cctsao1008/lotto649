@@ -6,13 +6,13 @@ from unittest import TestCase
 from unittest.mock import patch
 import numpy as np
 
-from lotto7x7.strategy_validation_v22 import (
+from research.lotto7x7.strategy_validation_v22 import (
     analyze_pairwise_results,feature_scores,paired_score,prefix_score_model,
     validate_schedule,select_repair_portfolio,
 )
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_theory_v016 import classification_keys
-from lotto7x7.strategy_verification_v12 import LEVELS
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_theory_v016 import classification_keys
+from research.lotto7x7.strategy_verification_v12 import LEVELS
 
 
 class V22Test(TestCase):
@@ -55,7 +55,7 @@ class V22Test(TestCase):
 
     def test_08_paired_fair_controls_tie_is_half(self):
         dummy=np.ones((4,4),dtype=np.float64)
-        with patch('lotto7x7.strategy_validation_v22.feature_scores',return_value=(dummy,np.zeros(4),np.ones(4))):
+        with patch('research.lotto7x7.strategy_validation_v22.feature_scores',return_value=(dummy,np.zeros(4),np.ones(4))):
             x=paired_score(np.arange(1,7),np.asarray([[7,8,9,10,11,12],[13,14,15,16,17,18],[19,20,21,22,23,24]]),{})
         self.assertEqual(x,.5)
 
@@ -77,8 +77,8 @@ class V22Test(TestCase):
         self.assertLess(r['score_two_sided_azuma_hoeffding_p_bound'],1e-15)
 
     def test_12_fair_4_ticket_prize_coverage_from_engine(self):
-        from lotto7x7.strategy_ab_v026 import disjoint_portfolio
-        from lotto7x7.official_prize_v026 import official_prize_coverage
+        from research.lotto7x7.strategy_ab_v026 import disjoint_portfolio
+        from research.lotto7x7.official_prize_v026 import official_prize_coverage
         a,b=disjoint_portfolio(1),disjoint_portfolio(649)
         p,q=official_prize_coverage(a),official_prize_coverage(b)
         for field in ('any_prize_outcomes','awarded_ticket_count_outcomes',

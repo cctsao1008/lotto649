@@ -32,17 +32,17 @@ from math import comb, isqrt, prod
 from pathlib import Path
 from random import Random
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import optimize as sum_only_optimize, validate_four_disjoint, verify_p1
-from lotto7x7.portfolio.distribution_repair_scoring_v027 import score_ticket as sum_score_ticket
-from lotto7x7.portfolio.log_product_dual_scoring_v027 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import optimize as sum_only_optimize, validate_four_disjoint, verify_p1
+from research.lotto7x7.portfolio.distribution_repair_scoring_v027 import score_ticket as sum_score_ticket
+from research.lotto7x7.portfolio.log_product_dual_scoring_v027 import (
     SCHEMA as DUAL_P1_SCHEMA,
     exact_gain_numerators,
     score_ticket as dual_score_ticket,
     verify_log_p0,
 )
-from lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 SCHEMA = "lotto7x7.log_product.v0.27.p2"
 N = 49
@@ -412,7 +412,7 @@ def optimize(sum_p1: dict, log_p0: dict, dual_p1: dict, *, seed: int = 649,
     if any(type(value) is not int or value < lower for _,value,lower in options):
         raise ValueError("invalid seed or search budget")
     _, log_theory, s_gain, l_gain = _check_inputs(sum_p1, log_p0, dual_p1)
-    from lotto7x7.portfolio.distribution_repair_v027 import exact_theory
+    from research.lotto7x7.portfolio.distribution_repair_v027 import exact_theory
     exact_sum_counts = exact_theory()["counts"]
     weights = frozen_weights(
         s_gain["numerators"], exact_sum_counts,
@@ -680,7 +680,7 @@ def markdown_report(report: dict) -> str:
             f"{c['log_gain']*1e6:+.6f} | {c['joint_combinations']} |")
     rows.extend([
         "", "## Reproduce", "", "```powershell",
-        "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_dual_portfolio_v027 "
+        "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_dual_portfolio_v027 "
         "--sum-p1 results/v027_p1_repair.json "
         "--log-p0 results/v027_log_product_p0.json "
         "--dual-p1 results/v027_dual_p1.json "

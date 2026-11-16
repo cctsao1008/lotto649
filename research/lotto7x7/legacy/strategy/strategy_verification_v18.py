@@ -12,11 +12,11 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v13 import shape_partition_bound, validate_pool, is_feasible, quality
-from lotto7x7.legacy.strategy.strategy_verification_v15 import compile_enumerator, enumerate_exact, SOURCE_CPP
-from lotto7x7.legacy.strategy.strategy_verification_v16 import canonical_sha, portfolio_audit
-from lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, score_uniform_stream, screen_pool, greedy_multistart
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import shape_partition_bound, validate_pool, is_feasible, quality
+from research.lotto7x7.legacy.strategy.strategy_verification_v15 import compile_enumerator, enumerate_exact, SOURCE_CPP
+from research.lotto7x7.legacy.strategy.strategy_verification_v16 import canonical_sha, portfolio_audit
+from research.lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, score_uniform_stream, screen_pool, greedy_multistart
 
 SCHEMA = 'lotto649.strategy_verification.v1.8.new_seed_exact.v1'
 REFERENCE_RANK_AXES_SHA = '18000dcc2d84b08fbcd3acf98cc56c4047fb86ad953ea108d116d02593c9034b'

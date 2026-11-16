@@ -121,7 +121,7 @@ def parse_cwa_calendar(content:bytes) -> dict[str,dict]:
 
 def _read_source_draws(csv_root:Path,bin_root:Path):
     """All original rows must equal independently regenerated BIN-backed CSV."""
-    from lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes
+    from research.lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes
     from scripts.export_lotto649_csv import generate_yearly_csv
     gate=audit_source(csv_root,bin_root)
     regenerated,_=generate_yearly_csv(bin_root)

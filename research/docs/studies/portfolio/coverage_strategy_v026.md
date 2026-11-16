@@ -44,7 +44,7 @@ four-ticket configuration (linearity of expectation). The distribution of
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
 
-python -m lotto7x7 coverage-strategy `
+python -m research.lotto7x7 coverage-strategy `
   --objective any-prize `
   --seed 649 `
   --out results/v026_coverage_strategy_a.json
@@ -61,7 +61,7 @@ Try a distinct objective **without modifying tickets or the primary
 analysis**:
 
 ```powershell
-python -m lotto7x7 coverage-strategy `
+python -m research.lotto7x7 coverage-strategy `
   --objective two-or-more-awards `
   --out results/v026_coverage_multi_awards.json
 ```

@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections import Counter
 import numpy as np
 
-from lotto7x7.core import _key, signature, validate
+from research.lotto7x7.core import _key, signature, validate
 
 METHODS = ("previous", "centroid_motion", "temporal_analog")
 

@@ -7,12 +7,12 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from lotto7x7.core import encode, similarity
-from lotto7x7.learning import (
+from research.lotto7x7.core import encode, similarity
+from research.lotto7x7.learning import (
     ImageSequenceLearner, autocorrelation, decode_image, image_windows,
     learned_replay, predict_images, shape_loss, train_model,
 )
-from lotto7x7.__main__ import gallery
+from research.lotto7x7.__main__ import gallery
 
 
 class ImageLearningTests(unittest.TestCase):

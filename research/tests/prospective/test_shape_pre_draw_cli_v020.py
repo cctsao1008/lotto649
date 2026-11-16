@@ -8,9 +8,9 @@ from datetime import datetime,timezone
 
 import pytest
 
-from lotto7x7 import shape_pre_draw_cli_v020 as cli
-from lotto7x7.shape_pre_draw_cli_v020 import configure_parsers,run
-from lotto7x7.shape_prospective_v019 import check_freeze,make_freeze,prospective_evaluate
+from research.lotto7x7 import shape_pre_draw_cli_v020 as cli
+from research.lotto7x7.shape_pre_draw_cli_v020 import configure_parsers,run
+from research.lotto7x7.shape_prospective_v019 import check_freeze,make_freeze,prospective_evaluate
 from research.tests._prospective_fixture_v019 import make_test_inputs
 
 
@@ -55,7 +55,7 @@ def test_cli_realistic_initial_and_audit(tmp_path, monkeypatch):
 
 
 def test_output_path_conflicts_and_extensions(tmp_path):
-    from lotto7x7.shape_pre_draw_cli_v020 import _reserve
+    from research.lotto7x7.shape_pre_draw_cli_v020 import _reserve
     with pytest.raises(ValueError,match='json'):_reserve(tmp_path/'x.txt',[])
     path=tmp_path/'a.json';path.write_text('existing')
     with pytest.raises(FileExistsError):_reserve(path,[])

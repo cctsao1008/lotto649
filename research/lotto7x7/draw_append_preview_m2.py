@@ -20,7 +20,7 @@ import struct
 from tempfile import TemporaryDirectory
 
 from .draw_ingestion_m2 import audit_source, normalize_draw
-from lotto7x7.geometry.geometry_shadow_v029 import SEAL_PATH
+from research.lotto7x7.geometry.geometry_shadow_v029 import SEAL_PATH
 from .official_draw_evidence_m2 import TRUSTED, verify_local_evidence
 from .prospective_evaluation_m4 import verify_p5a_seal
 from scripts.export_lotto649_csv import HEAD, HISTORY, IMAGE, generate_yearly_csv

@@ -14,8 +14,8 @@ import json
 import struct
 from pathlib import Path
 
-from lotto7x7.distribution_repair_v027 import baseline
-from lotto7x7.prospective_p3f_static10_v027 import (
+from research.lotto7x7.distribution_repair_v027 import baseline
+from research.lotto7x7.prospective_p3f_static10_v027 import (
     load_frozen_seal, read_verified_history, evaluate_frozen_future
 )
 

@@ -8,8 +8,8 @@ from __future__ import annotations
 import numpy as np
 from scipy.fft import dctn, rfft, rfftfreq
 
-from lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset, rasterize
-from lotto7x7.legacy.image.temporal_features_v024 import temporal_features,generate_iid_numbers
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset, rasterize
+from research.lotto7x7.legacy.image.temporal_features_v024 import temporal_features,generate_iid_numbers
 
 SCHEMA='lotto7x7.temporal_dsp.v0.24'
 KINDS=('sequential','snake','permuted')
@@ -76,7 +76,7 @@ def dsp_iid_report(data:TemporalDataset, *, replicates:int=80,
     if replicates<2:raise ValueError('replicates must be >=2')
     rng=np.random.default_rng(seed)
     series=('centroid_row','spread','overlap_lag_1','dct_low_energy')
-    from lotto7x7.legacy.image.temporal_features_v024 import FEATURE_NAMES
+    from research.lotto7x7.legacy.image.temporal_features_v024 import FEATURE_NAMES
     cols=[FEATURE_NAMES.index(s) for s in series]
     mappings={}
     max_actual=0.0

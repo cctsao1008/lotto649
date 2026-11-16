@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7 import matched_covariance_walkforward_v025 as wf
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7 import matched_covariance_walkforward_v025 as wf
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 def test_walkforward_training_excludes_holdout_and_scores_bonus(monkeypatch):

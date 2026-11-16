@@ -20,7 +20,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
-& $py -m lotto7x7 robustness-audit `
+& $py -m research.lotto7x7 robustness-audit `
   --input results/baseline_study_v07_100.json `
   --seed 649 `
   --out results/robustness_audit_v071_100.json
@@ -55,7 +55,7 @@ approximately `0.905273`. This is **not statistically significant**.
 Start with a small smoke run:
 
 ```powershell
-& $py -m lotto7x7 robustness-sweep `
+& $py -m research.lotto7x7 robustness-sweep `
   --seeds 649,650 `
   --counts 1,3,5 `
   --warmup 200 --eval-draws 12 --stride 5 `
@@ -66,7 +66,7 @@ Start with a small smoke run:
 For **all N=1..5**, with the same set of target draw IDs in every run:
 
 ```powershell
-& $py -m lotto7x7 robustness-sweep `
+& $py -m research.lotto7x7 robustness-sweep `
   --seeds 649,650,651 `
   --counts 1,2,3,4,5 `
   --warmup 200 --eval-draws 30 --stride 5 `

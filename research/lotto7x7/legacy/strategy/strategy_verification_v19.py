@@ -18,19 +18,19 @@ import json
 
 import numpy as np
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import (
     verify_full_m0, classify_numbers, classification_keys, LEVELS, WEIGHTS,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v13 import shape_partition_bound, validate_pool
-from lotto7x7.legacy.strategy.strategy_verification_v16 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import shape_partition_bound, validate_pool
+from research.lotto7x7.legacy.strategy.strategy_verification_v16 import (
     BASELINE_MAXIMIN, BASELINE_TOTAL, BASELINE_JOINT, canonical_sha,
     portfolio_audit,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v17 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v17 import (
     DEFAULT_SEEDS, DEFAULT_RAW_SIZES, POLICIES, sampled_unique,
     score_uniform_stream, screen_pool, greedy_multistart,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
+from research.lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
 
 SCHEMA='lotto649.strategy_verification.v1.9.score_saturation.v1'
 AXES=('sum','log','joint','shape')

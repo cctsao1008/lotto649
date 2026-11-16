@@ -4,7 +4,7 @@ set -euo pipefail
 python -m unittest discover -s research/tests -p 'test_coverage_burnside_v026.py' -v
 
 mkdir -p results
-python -m lotto7x7.coverage_burnside_v026 --out results/v026_burnside_independent.json
+python -m research.lotto7x7.coverage_burnside_v026 --out results/v026_burnside_independent.json
 python - <<'PY'
 import json
 from pathlib import Path

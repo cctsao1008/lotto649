@@ -10,15 +10,15 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
-from lotto7x7.portfolio.exact_covariance_v025 import RULE, SCHEMA, U, cov_numerator
-from lotto7x7.portfolio.multivariate_audit_v025 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
+from research.lotto7x7.portfolio.exact_covariance_v025 import RULE, SCHEMA, U, cov_numerator
+from research.lotto7x7.portfolio.multivariate_audit_v025 import (
     candidate_pool, covariance_model, distance, encode_features, iid_tickets,
     legacy_covariance_model, registry, sample_covariance,
 )
-from lotto7x7.portfolio.multivariate_robustness_v025 import _historical_tuples, compare_portfolio
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.multivariate_robustness_v025 import _historical_tuples, compare_portfolio
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
 
 CUTOFF = "2026-11-06"
 LAST_DRAW = 115000103

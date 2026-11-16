@@ -8,20 +8,20 @@ This is an unsupervised descriptive image study, **not a lottery forecasting, ti
 
 ## Dependencies
 
-`requirements.txt` adds `scikit-learn>=1.7,<2` for the maintained scikit-learn HDBSCAN and adjusted Rand/silhouette functions. `scipy` and `torch` are existing requirements. Installation once in the Windows Python venv:
+`research/requirements.txt` adds `scikit-learn>=1.7,<2` for the maintained scikit-learn HDBSCAN and adjusted Rand/silhouette functions. `scipy` and `torch` are existing requirements. Installation once in the Windows Python venv:
 
 ```powershell
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m pip install -r requirements.txt
+& $py -m pip install -r research/requirements.txt
 ```
 
 ## Run on historical data
 
 ```powershell
 # Geometric, translation/rotation/reflection-invariant features.
-& $py -m lotto7x7 natural-cluster-gpu `
+& $py -m research.lotto7x7 natural-cluster-gpu `
     --device cuda --features geometry `
     --k-values 4 6 8 12 16 24 32 `
     --min-cluster-size 30 --min-samples 10 `
@@ -30,7 +30,7 @@ git pull --ff-only origin main
     --seed 649 --out results/v012_geometry.json
 
 # Frozen CNN Encoder from v0.10 + geometry; no network training.
-& $py -m lotto7x7 natural-cluster-gpu `
+& $py -m research.lotto7x7 natural-cluster-gpu `
     --device cuda --features fused `
     --model results/v010_deep_feature_cuda.pt `
     --k-values 4 6 8 12 16 24 32 `

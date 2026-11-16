@@ -6,8 +6,8 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.portfolio_benchmark_v030 import analyze_portfolios
-from lotto7x7.strategy_verification_v1 import (
+from research.lotto7x7.portfolio_benchmark_v030 import analyze_portfolios
+from research.lotto7x7.strategy_verification_v1 import (
     _features, _pool, _theory, _ticket, _unique_count, _masks,
     verify_selection,
 )
@@ -93,7 +93,7 @@ class TestStrategyVerificationV1(unittest.TestCase):
         self.assertFalse(result["checks"]["random_controls"])
 
     def test_10_independent_pair_features_match_frozen_reference(self):
-        from lotto7x7.geometry_repair_v029 import (
+        from research.lotto7x7.geometry_repair_v029 import (
             exact_structural_covariance, _whitened_features,
         )
         original = exact_structural_covariance()

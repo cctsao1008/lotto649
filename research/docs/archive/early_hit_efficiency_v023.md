@@ -27,7 +27,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
 
-& $py -m lotto7x7 early-hit-backtest `
+& $py -m research.lotto7x7 early-hit-backtest `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --trials 1000 `
@@ -65,4 +65,4 @@ Root seed `210594425653336206127332942922757299723`, 1,000 spawned seeds, 10,000
 
 ## Implementation and tests
 
-Modules: `research/lotto7x7/legacy/image/early_hit_v023.py`, `research/lotto7x7/legacy/image/early_hit_cli_v023.py` and their tests; CLI registered as `python -m lotto7x7 early-hit-backtest`. Read-only P1 sources; no modifications to historical files, model freeze, or prior benchmark results. Unit tests cover chronological exclusion of target from fit, paired full-pool invariant, exact match lookup, sparse/no-hit results, deterministic 128-bit seed, CLI flags, multi-comparison logic, output no-overwrite and input validation.
+Modules: `research/lotto7x7/legacy/image/early_hit_v023.py`, `research/lotto7x7/legacy/image/early_hit_cli_v023.py` and their tests; CLI registered as `python -m research.lotto7x7 early-hit-backtest`. Read-only P1 sources; no modifications to historical files, model freeze, or prior benchmark results. Unit tests cover chronological exclusion of target from fit, paired full-pool invariant, exact match lookup, sparse/no-hit results, deterministic 128-bit seed, CLI flags, multi-comparison logic, output no-overwrite and input validation.

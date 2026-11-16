@@ -18,11 +18,11 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import _check_config, audit_repository_inputs
-from lotto7x7.geometry.geometry_redundancy_v029 import _certificate, _descriptors
-from lotto7x7.geometry.geometry_structure_v029 import PAIR_FEATURES
-from lotto7x7.geometry.geometry_v029 import catalog
-from lotto7x7.geometry.geometry_repair_v029 import P0_SHA256
+from research.lotto7x7.geometry.geometry_convergence_v029 import _check_config, audit_repository_inputs
+from research.lotto7x7.geometry.geometry_redundancy_v029 import _certificate, _descriptors
+from research.lotto7x7.geometry.geometry_structure_v029 import PAIR_FEATURES
+from research.lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.geometry.geometry_repair_v029 import P0_SHA256
 
 SCHEMA = "lotto649.v030.exact_sum_conditional_mc.v1"
 DEFAULT_PROPOSALS = 40000
@@ -111,7 +111,7 @@ def conditional_ablation(
     if catalog()["definition_sha256"] != P0_SHA256:
         raise ValueError("P0 geometry definition has changed")
     # Validate historical source, but do NOT fit conditional probabilities to it.
-    from lotto7x7.geometry.geometry_convergence_v029 import _validate_draws
+    from research.lotto7x7.geometry.geometry_convergence_v029 import _validate_draws
     history = _validate_draws(historical)
     certificate = _certificate()
     target = certificate["same_v028_baseline"]

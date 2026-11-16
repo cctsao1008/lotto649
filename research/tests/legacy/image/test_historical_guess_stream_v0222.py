@@ -8,8 +8,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-import lotto7x7.historical_guess_stream_v0222 as m
-from lotto7x7.historical_guess_v022 import encode_tickets
+import research.lotto7x7.historical_guess_stream_v0222 as m
+from research.lotto7x7.historical_guess_v022 import encode_tickets
 
 
 def _sources(monkeypatch, historical=None):
@@ -19,7 +19,7 @@ def _sources(monkeypatch, historical=None):
     monkeypatch.setattr(m, 'read_sources', lambda *_: (np.arange(500, 500 + len(known)), known, {}, {}))
     monkeypatch.setattr(m, 'file_sha256', lambda _: '1' * 64)
     # One-category shape model; allows shape_score and uniform to match identically.
-    from lotto7x7.shape_predictive_v017 import _baseline_tables
+    from research.lotto7x7.shape_predictive_v017 import _baseline_tables
     fixture = json.loads((Path(__file__).resolve().parents[4] / 'data/reference/shape_class_counts.json').read_text())
     edge = _baseline_tables(fixture)['edge']
     ref = {

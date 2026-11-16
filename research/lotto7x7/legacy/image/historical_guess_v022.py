@@ -16,9 +16,9 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
-from lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
+from research.lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
+from research.lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
 
 SCHEMA = 'lotto7x7.historical_guess_benchmark.v0.22'
 _BASE50 = np.asarray([50**i for i in range(6)], dtype=np.uint64)

@@ -7,9 +7,9 @@ from unittest.mock import patch
 
 import numpy as np
 
-from lotto7x7 import distribution_prediction_v030 as p2
-from lotto7x7.distribution_dynamics_v030 import exact_null_dynamics, _z, _uniform_history
-from lotto7x7.geometry_structure_v029 import _features_and_l3, _mapping_labels
+from research.lotto7x7 import distribution_prediction_v030 as p2
+from research.lotto7x7.distribution_dynamics_v030 import exact_null_dynamics, _z, _uniform_history
+from research.lotto7x7.geometry_structure_v029 import _features_and_l3, _mapping_labels
 
 
 class TestDistributionPredictionV030P2(unittest.TestCase):

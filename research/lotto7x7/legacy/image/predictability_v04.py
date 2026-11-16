@@ -17,12 +17,12 @@ import numpy as np
 import torch
 from torch import nn
 
-from lotto7x7.core import decode, encode, iid_expected, iid_images, similarity
-from lotto7x7.diagnostics import ConstantTemplate, infer_logits
-from lotto7x7.learning import (ImageSequenceLearner, decode_image, image_windows,
+from research.lotto7x7.core import decode, encode, iid_expected, iid_images, similarity
+from research.lotto7x7.diagnostics import ConstantTemplate, infer_logits
+from research.lotto7x7.learning import (ImageSequenceLearner, decode_image, image_windows,
                        permute_history_windows)
-from lotto7x7.legacy.image.loss_study_v03 import loss_v03
-from lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
+from research.lotto7x7.legacy.image.loss_study_v03 import loss_v03
+from research.lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
 
 SCHEMA = "lotto7x7.predictability_audit.v0.4"
 METHODS = ("ordered_cnn_gru", "shuffled_cnn_gru", "constant_template")

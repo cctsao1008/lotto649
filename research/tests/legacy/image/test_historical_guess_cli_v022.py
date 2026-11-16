@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import pytest
-from lotto7x7.historical_guess_cli_v022 import configure_parsers,run
+from research.lotto7x7.historical_guess_cli_v022 import configure_parsers,run
 
 
 def parser():
@@ -36,7 +36,7 @@ def test_invalid_mode():
 
 
 def test_dispatch(monkeypatch,tmp_path):
-    from lotto7x7 import historical_guess_cli_v022 as m
+    from research.lotto7x7 import historical_guess_cli_v022 as m
     kwargs=[]
     monkeypatch.setattr(m,'run_paced_experiment',lambda **kw:kwargs.append(kw) or {'ok':True})
     a=parser().parse_args(['historical-hit-benchmark','--minutes','.05',

@@ -5,7 +5,7 @@ python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
 
 python -m unittest discover -s research/tests -p 'test_strategy_verification_v19.py' -v
 
-python -m lotto7x7.strategy_verification_v19 \
+python -m research.lotto7x7.strategy_verification_v19 \
   --csv-root data/csv --bin-root data/bin \
   --seeds 649 20261111 20261112 \
   --raw-sizes 80000 160000 320000 \

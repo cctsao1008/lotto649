@@ -81,7 +81,7 @@ git pull --ff-only
 python -m pytest -q research/tests/portfolio/test_strategy_ab_v026.py research/tests/portfolio/test_strategy_ab_iid_calibration_v026.py
 
 # Fast functional smoke: three independently generated histories.
-python -m lotto7x7 strategy-ab-iid-calibration `
+python -m research.lotto7x7 strategy-ab-iid-calibration `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `
@@ -100,7 +100,7 @@ python -m lotto7x7 strategy-ab-iid-calibration `
   --out results/v026_strategy_ab_iid_smoke.json
 
 # Planned complete exploratory run:
-python -m lotto7x7 strategy-ab-iid-calibration `
+python -m research.lotto7x7 strategy-ab-iid-calibration `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `

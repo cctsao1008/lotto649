@@ -20,11 +20,11 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.legacy.image.bet_selection_v06 import select_bets
-from lotto7x7.legacy.image.candidate_pool_v06 import (SCHEMA as POOL_SCHEMA, create_shape_pool,
+from research.lotto7x7.legacy.image.bet_selection_v06 import select_bets
+from research.lotto7x7.legacy.image.candidate_pool_v06 import (SCHEMA as POOL_SCHEMA, create_shape_pool,
                                  pool_digest)
-from lotto7x7.coverage_v06 import UNIVERSE, exact_coverage, normalized_bets
-from lotto7x7.legacy.image.shape_engine_v06 import (bitmap, shape_id, shape_key, validate_images)
+from research.lotto7x7.coverage_v06 import UNIVERSE, exact_coverage, normalized_bets
+from research.lotto7x7.legacy.image.shape_engine_v06 import (bitmap, shape_id, shape_key, validate_images)
 
 SCHEMA = "lotto7x7.matched_baselines.v0.7"
 SNAPSHOT_SCHEMA = "lotto7x7.shadow_snapshot.v0.7"

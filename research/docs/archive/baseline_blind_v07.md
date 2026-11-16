@@ -68,7 +68,7 @@ git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
 # Functional retrospective evaluation; full B1/S1 optimizer is CPU-intensive.
-& $py -m lotto7x7 baseline-study `
+& $py -m research.lotto7x7 baseline-study `
     --warmup 200 --eval-draws 12 --stride 1 `
     --size 100 --families 20 --count 5 --seed 649 `
     --out results/baseline_study_v07.json
@@ -87,13 +87,13 @@ creation time, and a SHA256 over canonical JSON fields excluding itself.
 
 ```powershell
 # Run before a future draw. Specify a genuinely known latest cutoff.
-& $py -m lotto7x7 shadow-snapshot `
+& $py -m research.lotto7x7 shadow-snapshot `
     --cutoff-draw-id 115000101 `
     --size 100 --families 20 --count 5 --seed 649 `
     --out results/shadow_20261108_pre_draw.json
 
 # Only AFTER an actual later draw, with its official six main numbers:
-& $py -m lotto7x7 shadow-score `
+& $py -m research.lotto7x7 shadow-score `
     --snapshot results/shadow_20261108_pre_draw.json `
     --draw-id 115000102 --numbers '01,02,03,04,05,06' `
     --out results/shadow_20261108_post_draw.json

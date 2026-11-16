@@ -37,17 +37,17 @@ cd E:\lotto649
 $py = ".\.venv\Scripts\python.exe"
 
 # Verify the two original public research artifacts
-& $py -m lotto7x7.experiment_ledger verify
+& $py -m research.lotto7x7.experiment_ledger verify
 
 # Store paid registration input JSONs under ignored local private data
-& $py -m lotto7x7.experiment_ledger register-paid `
+& $py -m research.lotto7x7.experiment_ledger register-paid `
     --input data/private/ledger-input/paid-original-4x10-20261109.json
 
-& $py -m lotto7x7.experiment_ledger register-paid `
+& $py -m research.lotto7x7.experiment_ledger register-paid `
     --input data/private/ledger-input/paid-m0-4x5-20261110.json
 
 # Verify frozen public references and all local private paid records
-& $py -m lotto7x7.experiment_ledger verify
+& $py -m research.lotto7x7.experiment_ledger verify
 
 # Confirm that private records are excluded by Git
 git check-ignore -v data/private/experiment-ledger/paid-m0-4x5-20261110.json

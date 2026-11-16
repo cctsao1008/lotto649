@@ -11,10 +11,10 @@ import json
 from pathlib import Path
 import numpy as np
 
-from lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset, chronological_split
-from lotto7x7.legacy.image.temporal_features_v024 import temporal_features
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import classification_keys
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset, chronological_split
+from research.lotto7x7.legacy.image.temporal_features_v024 import temporal_features
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import classification_keys
 
 SCHEMA='lotto7x7.temporal_walkforward.v0.24'
 FAIR_P=6/49

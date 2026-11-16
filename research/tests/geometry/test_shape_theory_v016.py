@@ -4,11 +4,11 @@ from math import comb
 import numpy as np
 import pytest
 
-from lotto7x7.shape_theory_v016 import (
+from research.lotto7x7.shape_theory_v016 import (
     UNIVERSE,exhaustive_class_counts,classification_keys,category_name,
     historical_comparison,shape_family_baseline,_bh_fdr,_bonferroni)
-from lotto7x7.shape_catalog_batch_p1_cli import output_paths,_verify_baseline
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_catalog_batch_p1_cli import output_paths,_verify_baseline
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
 
 
 def test_universe_size():

@@ -11,9 +11,9 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import binom
 
-from lotto7x7.portfolio.coverage_audit_v06 import _masks, _popcount64
-from lotto7x7.coverage_v06 import normalized_bets
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.coverage_audit_v06 import _masks, _popcount64
+from research.lotto7x7.coverage_v06 import normalized_bets
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
 
 DEFAULT_REPORT = Path("research/artifacts/v025_exact_covariance/v025_portfolio_pareto_20261116.json")
 

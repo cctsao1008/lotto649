@@ -100,7 +100,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-prospective-update `
+& $py -m research.lotto7x7 shape-prospective-update `
   --freeze research/prospective/prospective_freeze_20261108.json `
   --catalog results/v015_v016_p1_shape_catalog.npz `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
@@ -114,7 +114,7 @@ When a **new** draw appears later, save its true, source-verified row in the
 appropriate annual file and run again using a **new output filename**:
 
 ```powershell
-& $py -m lotto7x7 shape-prospective-update `
+& $py -m research.lotto7x7 shape-prospective-update `
   --freeze research/prospective/prospective_freeze_20261108.json `
   --catalog results/v015_v016_p1_shape_catalog.npz `
   --universe results/v015_v016_p1_shape_catalog_universe.json `

@@ -1,6 +1,6 @@
 """CLI flags are explicitly wired, including a full 128-bit root seed."""
 import argparse
-from lotto7x7.early_hit_cli_v023 import configure_parsers
+from research.lotto7x7.early_hit_cli_v023 import configure_parsers
 
 
 def test_cli_defaults_and_command_name():

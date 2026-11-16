@@ -7,13 +7,13 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.log_product_p3d_legacy_replay_v027 import CONFIG
-from lotto7x7.log_product_p3e_merge_v027 import (
+from research.lotto7x7.log_product_p3d_legacy_replay_v027 import CONFIG
+from research.lotto7x7.log_product_p3e_merge_v027 import (
     CHECKPOINTS, SCHEMA, expected_shard_indices, merge_reports,
     markdown_report, main,
 )
-from lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
-from lotto7x7.log_product_p3c_exact_iid_v027 import exact_fair_probability
+from research.lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
+from research.lotto7x7.log_product_p3c_exact_iid_v027 import exact_fair_probability
 
 YES = ((1,2,3,4,5,6),(7,8,9,10,11,12),
        (13,14,15,16,17,18),(19,20,21,22,23,24))

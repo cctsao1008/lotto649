@@ -16,7 +16,7 @@ python -m pytest -q \
   research/tests/portfolio/test_log_product_p3c_exact_iid_v027.py \
   research/tests/portfolio/test_log_product_p3d_legacy_replay_v027.py
 
-python -m lotto7x7.log_product_p3d_legacy_replay_v027 \
+python -m research.lotto7x7.log_product_p3d_legacy_replay_v027 \
   --csv-dir data/csv \
   --out /tmp/v027_p3d_legacy.json \
   --md-out /tmp/v027_p3d_legacy.md

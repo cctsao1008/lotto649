@@ -118,7 +118,7 @@ def _expected_fair(tickets):
     if len({n for row in tickets for n in row}) == 6*len(tickets):
         return _disjoint_exact(len(tickets))
     # Same tested exact-DP mathematical engine as v0.7.2; CPU scoring is separate.
-    from lotto7x7.coverage_v06 import exact_coverage
+    from research.lotto7x7.coverage_v06 import exact_coverage
     return exact_coverage(tickets)["at_least"]
 
 

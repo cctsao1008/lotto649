@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from lotto7x7.legacy.image.early_hit_v023 import run_backtest, DEFAULT_CUTOFFS
+from research.lotto7x7.legacy.image.early_hit_v023 import run_backtest, DEFAULT_CUTOFFS
 
 
 def configure_parsers(action):

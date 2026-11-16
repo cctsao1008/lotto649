@@ -7,7 +7,7 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.gaussian_shape_v014 import (
+from research.lotto7x7.gaussian_shape_v014 import (
   SCHEMA, analyze, kde_density, density_metrics, density_modes,
   mds_embedding, gaussian_mixture, matched_null_controls, load_existing, html_gallery)
 

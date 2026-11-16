@@ -15,9 +15,9 @@ import shutil
 
 import pytest
 
-from lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
-from lotto7x7.log_product_p3c_exact_iid_v027 import exact_fair_probability
-from lotto7x7.prospective_p3f_static10_v027 import (
+from research.lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
+from research.lotto7x7.log_product_p3c_exact_iid_v027 import exact_fair_probability
+from research.lotto7x7.prospective_p3f_static10_v027 import (
     SEAL, SCHEMA, SEAL_COMMIT, PINNED_GIT_BLOB_SHA1, REPORT_SCHEMA,
     _blob_sha1, _canonical_seal_bytes, load_frozen_seal, validate_manifest,
     read_verified_history, evaluate_frozen_future, markdown_report, main,

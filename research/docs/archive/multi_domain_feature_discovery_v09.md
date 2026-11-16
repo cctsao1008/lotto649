@@ -16,7 +16,7 @@ git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -p 'test_feature_discovery_v09.py' -v
 
 # The real discovery run; GPU preferred; 199 replications *each* null type:
-& $py -m lotto7x7 feature-discover-gpu `
+& $py -m research.lotto7x7 feature-discover-gpu `
     --device cuda `
     --holdout-draws 500 `
     --surrogates 199 `

@@ -49,14 +49,14 @@ cd E:\lotto649
 $py = ".\.venv\Scripts\python.exe"
 
 # Print a concise theory + Monte Carlo summary
-& $py -m lotto7x7.geometry_theory_v029 --trials 20000 --seed 649
+& $py -m research.lotto7x7.geometry_theory_v029 --trials 20000 --seed 649
 
 # Create the full non-overwriting JSON report (45 exact pair tables)
-& $py -m lotto7x7.geometry_theory_v029 `
+& $py -m research.lotto7x7.geometry_theory_v029 `
     --trials 20000 --seed 649 --out results/v029_p1_geometry_theory.json
 
 # Exact theory only, no simulation
-& $py -m lotto7x7.geometry_theory_v029 --theory-only
+& $py -m research.lotto7x7.geometry_theory_v029 --theory-only
 
 # Regressions
 & $py -m unittest discover -s research/tests -p "test_geometry_theory_v029_p1.py" -v

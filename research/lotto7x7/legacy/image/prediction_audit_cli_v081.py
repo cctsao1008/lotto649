@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.prediction_audit_v081 import audit
+from research.lotto7x7.legacy.image.prediction_audit_v081 import audit
 
 
 def configure_parsers(action):

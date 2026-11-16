@@ -30,7 +30,7 @@ From the repository root:
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 compensation-audit `
+& $py -m research.lotto7x7 compensation-audit `
   --csv-dir data/csv `
   --cutoff 2026-11-06 `
   --pool-size 1000 `
@@ -40,7 +40,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m pytest research/tests/portfolio/test_deficit_compensation_v025.py -q
 ```
 
-Alternatively the foundation can run directly: `python -m lotto7x7.deficit_compensation_v025 --csv-dir data/csv`.
+Alternatively the foundation can run directly: `python -m research.lotto7x7.deficit_compensation_v025 --csv-dir data/csv`.
 
 The JSON includes the input CSV fingerprint, cutoff and chronological range, each number's observed/expected/deficit/z-marginal, selected four-ticket portfolio and its before/after discrepancy, reference portfolio before/after discrepancy, and an explicit scientific limitation.
 
@@ -70,7 +70,7 @@ This reference is evaluated, never modified. Historical data, v0.20 prospective 
 The **`shape-deficit-audit`** command consumes an already-generated, **complete** v0.16 exact universe JSON. It rejects partial universes and mismatched taxonomy rule/schema. It uses the original 8-neighbor L1 component / L2 partition / L3 cardinal+diagonal-edge classes, not a newly invented shape encoding.
 
 ```powershell
-& $py -m lotto7x7 shape-deficit-audit `
+& $py -m research.lotto7x7 shape-deficit-audit `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `
@@ -121,14 +121,14 @@ Run **two separate** modes, keeping the default no-constraint mode for backward 
 
 ```powershell
 # Original unconstrained Shape selection; default remains unchanged
-python -m lotto7x7 shape-deficit-audit `
+python -m research.lotto7x7 shape-deficit-audit `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 --pool-size 300 --seed 649 `
   --out results/v025_shape_deficit.json
 
 # 3+ main-ball portfolio event must be at least the existing A–D reference
-python -m lotto7x7 shape-deficit-audit `
+python -m research.lotto7x7 shape-deficit-audit `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 --pool-size 300 --seed 649 `
@@ -163,7 +163,7 @@ On this fixed IID-calibrated metric, the code searches a seeded finite candidate
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
 
-python -m lotto7x7 multivariate-audit `
+python -m research.lotto7x7 multivariate-audit `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `
@@ -219,7 +219,7 @@ the audit:
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
 
-python -m lotto7x7 multivariate-robustness `
+python -m research.lotto7x7 multivariate-robustness `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `
@@ -238,7 +238,7 @@ python -m lotto7x7 multivariate-robustness `
 re-optimizations per setting, therefore far more compute than a single audit):
 
 ```powershell
-python -m lotto7x7 multivariate-robustness `
+python -m research.lotto7x7 multivariate-robustness `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `

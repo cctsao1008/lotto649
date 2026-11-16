@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.distribution_repair_v027 import (
+from research.lotto7x7.distribution_repair_v027 import (
     LOW, HIGH, TOTAL, METRIC, baseline, exact_sum_counts, exact_theory,
     markdown_report, squared_l2_probability, _prefix_sha256,
 )

@@ -17,13 +17,13 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
-from lotto7x7.geometry.geometry_repair_v029 import (
+from research.lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
+from research.lotto7x7.geometry.geometry_repair_v029 import (
     P0_SHA256, _bitmasks, _unique_pool, _uniform_tickets,
     _whitened_features, exact_structural_covariance,
 )
-from lotto7x7.geometry.geometry_v029 import catalog
-from lotto7x7.portfolio.portfolio_prize_v030 import exact_prize_distribution
+from research.lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.portfolio.portfolio_prize_v030 import exact_prize_distribution
 
 SCHEMA = "lotto649.v030.portfolio_benchmark.p2b.v1"
 ARMS = ("random", "coverage", "repair", "hybrid")

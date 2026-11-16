@@ -5,8 +5,8 @@ import csv
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.natural_clustering_v012 import report, html_gallery, DEFAULT_K
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.natural_clustering_v012 import report, html_gallery, DEFAULT_K
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

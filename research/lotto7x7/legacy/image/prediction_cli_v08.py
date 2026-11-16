@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.prediction_v08 import replay, METHODS
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.prediction_v08 import replay, METHODS
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

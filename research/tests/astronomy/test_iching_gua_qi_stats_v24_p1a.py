@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7 import iching_gua_qi_stats_v24_p1a as m
+from research.lotto7x7 import iching_gua_qi_stats_v24_p1a as m
 
 
 def fixtures(*, n_per_state=20, confounding=False, dependence=False):

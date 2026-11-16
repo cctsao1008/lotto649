@@ -16,8 +16,8 @@ from itertools import permutations
 import json
 from pathlib import Path
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
 
 SCHEMA = "lotto7x7.coverage_exhaustive.v0.26.p1"
 MASKS = tuple(range(1, 16))

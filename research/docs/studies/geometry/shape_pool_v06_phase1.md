@@ -77,7 +77,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
-& $py -m lotto7x7 shape-pool `
+& $py -m research.lotto7x7 shape-pool `
     --size 100 `
     --families 20 `
     --family-policy uniform-family `

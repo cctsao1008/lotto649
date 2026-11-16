@@ -48,7 +48,7 @@ $py = ".\.venv\Scripts\python.exe"
 & $py -m unittest discover -s research/tests -p "test_geometry_convergence_v029_p2a.py" -v
 
 # Validate all historical records and emit a new, non-overwriting report
-& $py -m lotto7x7.geometry_convergence_v029 `
+& $py -m research.lotto7x7.geometry_convergence_v029 `
     --csv-root data/csv `
     --bin-root data/bin `
     --iid-reps 199 `

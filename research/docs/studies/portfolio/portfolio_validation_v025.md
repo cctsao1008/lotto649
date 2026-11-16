@@ -83,7 +83,7 @@ outcomes and fixes discordance at the fair value. The planned effect size
 and horizon remain unset. This design has no enrolled draws.
 
 ```bash
-OPENBLAS_NUM_THREADS=1 python -m lotto7x7.portfolio_validation_v025
+OPENBLAS_NUM_THREADS=1 python -m research.lotto7x7.portfolio_validation_v025
 ```
 
 See the [fixed-horizon power artifact](../../../artifacts/v025_exact_covariance/v025_portfolio_validation_power_20261116.json).

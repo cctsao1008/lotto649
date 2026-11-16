@@ -8,11 +8,11 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.bin_dataset import (
+from research.lotto7x7.bin_dataset import (
     DTYPE, HEADER, MAGIC, RECORD, build, decode_bin, discover_sources,
     encode_bin, load_csv_directory, parse_csv, verify,
 )
-from lotto7x7.core import decode, encode
+from research.lotto7x7.core import decode, encode
 
 SAMPLE = ("\ufeff\u904a\u6232\u540d\u7a31,\u671f\u5225,\u958b\u734e\u65e5\u671f,\u92b7\u552e\u7e3d\u984d,\u734e\u865f1,\u734e\u865f2,\u734e\u865f3,\u734e\u865f4,\u734e\u865f5,\u734e\u865f6,\u7279\u5225\u865f,  \n"
           "\u5927\u6a02\u900f,107000001,2018/01/02,123456,02,06,12,18,36,46,47,,,,\n"

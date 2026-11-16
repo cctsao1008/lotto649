@@ -13,8 +13,8 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers,shape_key
-from lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE,classification_keys,category_name
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers,shape_key
+from research.lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE,classification_keys,category_name
 
 
 def _validate_inputs(ids,numbers,universe):

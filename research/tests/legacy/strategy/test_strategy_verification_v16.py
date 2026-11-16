@@ -4,8 +4,8 @@ from __future__ import annotations
 from itertools import combinations
 import unittest
 
-from lotto7x7.strategy_verification_v13 import validate_pool, is_feasible, quality
-from lotto7x7.strategy_verification_v16 import (
+from research.lotto7x7.strategy_verification_v13 import validate_pool, is_feasible, quality
+from research.lotto7x7.strategy_verification_v16 import (
     nested_pools, canonical_sha, portfolio_audit, local_coordinate_ascent,
     analyze_budget, bounded_mip_primary, analyze_secondary,
 )

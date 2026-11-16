@@ -5,10 +5,10 @@ import argparse
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.full_history_audit_v073 import (
+from research.lotto7x7.legacy.image.full_history_audit_v073 import (
     audit_report, multiseed_report, read_verified_history,
 )
-from lotto7x7.legacy.image.research import DATA
+from research.lotto7x7.legacy.image.research import DATA
 
 
 def configure_parsers(action):

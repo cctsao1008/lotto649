@@ -10,25 +10,25 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.portfolio.coverage_audit_v06 import _masks, _popcount64
-from lotto7x7.portfolio.coverage_exhaustive_v026 import (
+from research.lotto7x7.portfolio.coverage_audit_v06 import _masks, _popcount64
+from research.lotto7x7.portfolio.coverage_exhaustive_v026 import (
     canonical_signature as canonical_membership, feasible_signatures,
     has_unique_tickets, materialize_tickets,
 )
-from lotto7x7.portfolio.coverage_global_research_v026 import canonical_signature
-from lotto7x7.coverage_v06 import UNIVERSE, exact_coverage, joint_coverage_counts
-from lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
-from lotto7x7.portfolio.matched_covariance_v025 import (
+from research.lotto7x7.portfolio.coverage_global_research_v026 import canonical_signature
+from research.lotto7x7.coverage_v06 import UNIVERSE, exact_coverage, joint_coverage_counts
+from research.lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
+from research.lotto7x7.portfolio.matched_covariance_v025 import (
     CUTOFF, EXACT, FIXTURE, HISTORY_DRAWS, LAST_DRAW, POOL_SIZE, RIDGE, SELECTOR_SEED,
     json_sha256, population_covariance,
 )
-from lotto7x7.portfolio.multivariate_audit_v025 import (
+from research.lotto7x7.portfolio.multivariate_audit_v025 import (
     candidate_pool, covariance_model, distance, encode_features, registry,
 )
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
-from lotto7x7.legacy.image.shape_predictive_v017 import _baseline_tables
-from lotto7x7.portfolio.unified_selection_v021 import coverage_select, frozen_shape_scores
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.legacy.image.shape_predictive_v017 import _baseline_tables
+from research.lotto7x7.portfolio.unified_selection_v021 import coverage_select, frozen_shape_scores
 
 FREEZE = Path("research/prospective/prospective_freeze_20261108.json")
 PASSES = 3

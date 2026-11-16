@@ -8,7 +8,7 @@ against the same IID forecast on the same dated target draws.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 predict-audit `
+& $py -m research.lotto7x7 predict-audit `
     --report results/probability_v08_full.json `
     --out results/probability_v081_audit.json
 ```

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from lotto7x7.legacy.image.historical_guess_watch_v0221 import run_paced_experiment
+from research.lotto7x7.legacy.image.historical_guess_watch_v0221 import run_paced_experiment
 
 
 def configure_parsers(action):

@@ -10,12 +10,12 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.image.temporal_dataset_v024 import (load_csv_history,load_catalog_history,
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import (load_csv_history,load_catalog_history,
                                     dataset_report,file_hash)
-from lotto7x7.legacy.image.temporal_features_v024 import (temporal_features,transition_rows,p1_summary,
+from research.lotto7x7.legacy.image.temporal_features_v024 import (temporal_features,transition_rows,p1_summary,
                                      p2_iid_acf_control,feature_acf_report,FEATURE_NAMES)
-from lotto7x7.legacy.image.temporal_dsp_v024 import dsp_iid_report
-from lotto7x7.legacy.image.temporal_predict_v024 import walk_forward
+from research.lotto7x7.legacy.image.temporal_dsp_v024 import dsp_iid_report
+from research.lotto7x7.legacy.image.temporal_predict_v024 import walk_forward
 
 SCHEMA='lotto7x7.temporal_research.v0.24'
 

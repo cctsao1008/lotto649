@@ -6,12 +6,12 @@ from math import comb
 import unittest
 import numpy as np
 
-from lotto7x7.shape_engine_v06 import (
+from research.lotto7x7.shape_engine_v06 import (
     UNIVERSE_SIZE, bitmap, canonical_points, enumerate_placements,
     history_shape_families, image_points, orbit_size, orientations,
     parse_shape_key, shape_id, shape_key, validate_images,
 )
-from lotto7x7.candidate_pool_v06 import (
+from research.lotto7x7.candidate_pool_v06 import (
     SCHEMA, create_shape_pool, pool_digest, random_sample, shape_pool_gallery,
 )
 

@@ -9,13 +9,13 @@ from unittest.mock import patch
 import numpy as np
 import torch
 
-from lotto7x7.bin_dataset import Draw, encode_bin
-from lotto7x7.core import encode
-from lotto7x7.device_training import (
+from research.lotto7x7.bin_dataset import Draw, encode_bin
+from research.lotto7x7.core import encode
+from research.lotto7x7.device_training import (
     infer_device_logits, select_device, train_device_model,
 )
-from lotto7x7.learning import train_model
-from lotto7x7.loss_study_v03 import METHODS, study, train_treatment
+from research.lotto7x7.learning import train_model
+from research.lotto7x7.loss_study_v03 import METHODS, study, train_treatment
 
 
 class DeviceTrainingTests(unittest.TestCase):
@@ -38,7 +38,7 @@ class DeviceTrainingTests(unittest.TestCase):
                          "cuda" if torch.cuda.is_available() else "cpu")
         with self.assertRaises(ValueError):
             select_device("gpu")
-        with patch("lotto7x7.device_training.torch.cuda.is_available", return_value=False):
+        with patch("research.lotto7x7.device_training.torch.cuda.is_available", return_value=False):
             with self.assertRaisesRegex(RuntimeError, "CUDA was requested"):
                 select_device("cuda")
 

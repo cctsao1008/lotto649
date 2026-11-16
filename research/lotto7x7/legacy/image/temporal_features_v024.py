@@ -10,8 +10,8 @@ import numpy as np
 from scipy.fft import dctn
 from scipy.signal import correlate2d
 
-from lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import TemporalDataset
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
 
 SCHEMA='lotto7x7.temporal_features.v0.24'
 LAGS=(1,2,3,5,10,20)
@@ -169,7 +169,7 @@ def p2_iid_acf_control(data:TemporalDataset, *, max_lag:int=20,
     for rep in range(replicates):
         n=generate_iid_numbers(rng,len(data.ids))
         # Fill using exact six-on bitmap; dates/IDs do not affect classification.
-        from lotto7x7.legacy.image.temporal_dataset_v024 import rasterize
+        from research.lotto7x7.legacy.image.temporal_dataset_v024 import rasterize
         sim=TemporalDataset(data.ids,n,rasterize(n),None,{})
         mx,_=temporal_features(sim)
         for k,j in enumerate(indices):

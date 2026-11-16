@@ -5,7 +5,7 @@ python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,
 
 python -m unittest discover -s research/tests -p 'test_geometry_redundancy_v029_p3a.py' -v
 
-python -m lotto7x7.geometry_redundancy_v029 \
+python -m research.lotto7x7.geometry_redundancy_v029 \
   --csv-root data/csv --bin-root data/bin \
   --iid-sample 50000 --seed 649 \
   --out results/v029_p3a_ci_conditional_ablation.json

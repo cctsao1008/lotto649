@@ -37,7 +37,7 @@ On GitHub Actions, run the dedicated `.github/workflows/research_regression.yml`
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v15.py' -v
 if ($LASTEXITCODE -ne 0) { throw 'v1.5 exact tests failed' }
-& $py -m lotto7x7.strategy_verification_v15 --out results/strategy_v15_m0_exhaustive.json
+& $py -m research.lotto7x7.strategy_verification_v15 --out results/strategy_v15_m0_exhaustive.json
 if ($LASTEXITCODE -ne 0) { throw 'v1.5 exact exhaustive audit failed' }
 ```
 

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 python -m unittest discover -s research/tests -p 'test_geometry_v029_p0.py' -v
-python -m lotto7x7.geometry_v029 --catalog > /tmp/geometry_catalog.json
-python -m lotto7x7.geometry_v029 --numbers 1 10 17 24 31 49 > /tmp/geometry_example.json
+python -m research.lotto7x7.geometry_v029 --catalog > /tmp/geometry_catalog.json
+python -m research.lotto7x7.geometry_v029 --numbers 1 10 17 24 31 49 > /tmp/geometry_example.json
 python - <<'PY'
 import json
 from pathlib import Path

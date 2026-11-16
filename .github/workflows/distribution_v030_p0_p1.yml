@@ -34,13 +34,13 @@ jobs:
           python -m unittest discover -s research/tests -p 'test_conditional_monte_carlo_v030_p1.py' -v
       - name: Verified archive and fully matched IID martingale null
         run: |
-          python -m lotto7x7.distribution_dynamics_v030 \
+          python -m research.lotto7x7.distribution_dynamics_v030 \
             --csv-root data/csv --bin-root data/bin \
             --iid-reps 199 --seed 649 \
             --out results/v030_p0_ci_dynamics.json
       - name: Independently sampled conditional finite-population distribution
         run: |
-          python -m lotto7x7.conditional_monte_carlo_v030 \
+          python -m research.lotto7x7.conditional_monte_carlo_v030 \
             --csv-root data/csv --bin-root data/bin \
             --proposals 40000 --seed 649 \
             --out results/v030_p1_ci_conditional.json

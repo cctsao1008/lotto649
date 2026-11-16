@@ -51,7 +51,7 @@ The v1.4 conclusion does not extend to the 80,000 raw sample beyond the final 2,
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v14.py' -v
 if ($LASTEXITCODE -ne 0) { throw 'v1.4 regression failed' }
-& $py -m lotto7x7.strategy_verification_v14 `
+& $py -m research.lotto7x7.strategy_verification_v14 `
     --csv-root data/csv --bin-root data/bin `
     --mip-seconds 90 --out results/strategy_v14_m0_lexicographic.json
 if ($LASTEXITCODE -ne 0) { throw 'v1.4 research audit failed' }

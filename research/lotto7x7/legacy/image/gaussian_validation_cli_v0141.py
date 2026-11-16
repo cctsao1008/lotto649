@@ -7,8 +7,8 @@ import json
 from pathlib import Path
 import numpy as np
 
-from lotto7x7.legacy.image.gaussian_shape_v014 import load_existing
-from lotto7x7.legacy.image.gaussian_validation_v0141 import (DEFAULT_DIMS,DEFAULT_K,DEFAULT_BW,
+from research.lotto7x7.legacy.image.gaussian_shape_v014 import load_existing
+from research.lotto7x7.legacy.image.gaussian_validation_v0141 import (DEFAULT_DIMS,DEFAULT_K,DEFAULT_BW,
                   analyze,csv_records,html_report)
 
 

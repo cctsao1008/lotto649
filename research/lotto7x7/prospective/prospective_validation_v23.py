@@ -16,9 +16,9 @@ from pathlib import Path
 from random import Random
 import json
 
-from lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes, normalize_draw
-from lotto7x7.official_draw_evidence_m2 import verify_local_evidence
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage, prize_tier, PRIZE_ORDER
+from research.lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes, normalize_draw
+from research.lotto7x7.official_draw_evidence_m2 import verify_local_evidence
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage, prize_tier, PRIZE_ORDER
 
 SCHEMA = 'lotto649.v2.3.prospective.fixed_m0_full_universe.v1'
 REPORT_SCHEMA = 'lotto649.v2.3.prospective.static200.evaluation.v1'

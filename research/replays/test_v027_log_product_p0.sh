@@ -6,7 +6,7 @@ python -m pip install --upgrade pytest numpy
 python -m py_compile research/lotto7x7/portfolio/log_product_v027.py
 python -m pytest -q research/tests/portfolio/test_distribution_repair_v027.py research/tests/portfolio/test_distribution_repair_scoring_v027.py research/tests/portfolio/test_distribution_repair_portfolio_v027.py research/tests/portfolio/test_log_product_v027.py
 
-python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 \
+python -m research.lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 \
   --expected-prefix-sha256 d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8 \
   --out /tmp/v027_log_p0.json --md-out /tmp/v027_log_p0.md
 python - <<'PY'

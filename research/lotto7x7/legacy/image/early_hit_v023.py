@@ -17,11 +17,11 @@ from typing import Callable
 import numpy as np
 from scipy.stats import binomtest, ttest_1samp
 
-from lotto7x7.legacy.image.historical_guess_v022 import build_reference, encode_tickets, _write_summary
-from lotto7x7.legacy.image.historical_guess_stream_v0222 import make_fast_batch
-from lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
+from research.lotto7x7.legacy.image.historical_guess_v022 import build_reference, encode_tickets, _write_summary
+from research.lotto7x7.legacy.image.historical_guess_stream_v0222 import make_fast_batch
+from research.lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
 
 SCHEMA = 'lotto7x7.early_hit_efficiency.v0.23'
 DEFAULT_CUTOFFS = (100, 500, 1000, 5000)

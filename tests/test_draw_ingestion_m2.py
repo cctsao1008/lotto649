@@ -5,7 +5,7 @@ import shutil
 import tempfile
 import unittest
 
-from lotto7x7 import draw_ingestion_m2 as m2
+from research.lotto7x7 import draw_ingestion_m2 as m2
 
 ROOT = Path(__file__).resolve().parents[1]
 

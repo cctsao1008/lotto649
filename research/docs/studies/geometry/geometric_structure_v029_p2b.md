@@ -44,7 +44,7 @@ Each endpoint is calibrated against 199 independent full-length fair-IID synthet
     cd E:\lotto649
     $py = ".\.venv\Scripts\python.exe"
     & $py -m unittest discover -s research/tests -p "test_geometry_structure_v029_p2b.py" -v
-    & $py -m lotto7x7.geometry_structure_v029 --csv-root data/csv --bin-root data/bin --iid-reps 199 --seed 649 --out results/v029_p2b_structure_20261111.json
+    & $py -m research.lotto7x7.geometry_structure_v029 --csv-root data/csv --bin-root data/bin --iid-reps 199 --seed 649 --out results/v029_p2b_structure_20261111.json
 
 The new report uses exclusive creation within gitignored results/. No overwrite of existing research reports.
 

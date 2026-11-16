@@ -6,7 +6,7 @@ from itertools import combinations
 from pathlib import Path
 import unittest
 
-from lotto7x7.strategy_verification_v11 import (
+from research.lotto7x7.strategy_verification_v11 import (
     _four_tickets, _m0_exact_log_bin, _m0_partition,
     independent_exact_prizes, verify_m0_frozen_manifest,
     verify_p2b_prize_report,

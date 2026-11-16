@@ -9,15 +9,15 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.distribution_repair_v027 import baseline
-from lotto7x7.distribution_repair_scoring_v027 import score_p0
-from lotto7x7.distribution_repair_portfolio_v027 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.distribution_repair_v027 import baseline
+from research.lotto7x7.distribution_repair_scoring_v027 import score_p0
+from research.lotto7x7.distribution_repair_portfolio_v027 import (
     SCHEMA, _try_target_sums, _sample_fallback, markdown_report, main,
     optimize, validate_four_disjoint, verify_p1,
 )
-from lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 
 @pytest.fixture

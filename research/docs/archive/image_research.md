@@ -29,17 +29,17 @@ The current 2004–2026 dataset contains **2,498** Lotto649 draws through **2026
 
 ```powershell
 cd D:\my-github\lotto649
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r research/requirements.txt
 .\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
-.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
-.\.venv\Scripts\python.exe -m lotto7x7 check
-.\.venv\Scripts\python.exe -m lotto7x7 learn --year all --epochs 45 --baseline 32
-.\.venv\Scripts\python.exe -m lotto7x7 gallery --report results/learned_replay.json --out results/learned_gallery.html
+.\.venv\Scripts\python.exe -m research.lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
+.\.venv\Scripts\python.exe -m research.lotto7x7 check
+.\.venv\Scripts\python.exe -m research.lotto7x7 learn --year all --epochs 45 --baseline 32
+.\.venv\Scripts\python.exe -m research.lotto7x7 gallery --report results/learned_replay.json --out results/learned_gallery.html
 Start-Process .\results\learned_gallery.html
 
 # Optional non-neural control study
-.\.venv\Scripts\python.exe -m lotto7x7 replay --year all --baseline 32 --shuffles 99
-.\.venv\Scripts\python.exe -m lotto7x7 gallery
+.\.venv\Scripts\python.exe -m research.lotto7x7 replay --year all --baseline 32 --shuffles 99
+.\.venv\Scripts\python.exe -m research.lotto7x7 gallery
 Start-Process .\results\visual_gallery.html
 ```
 
@@ -59,8 +59,8 @@ $py = ".\.venv\Scripts\python.exe"
 & $py -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
 
 # Leave the existing historical report untouched; compare new files separately.
-& $py -m lotto7x7 loss-study --device cpu --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cpu_check.json
-& $py -m lotto7x7 loss-study --device cuda --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cuda.json
+& $py -m research.lotto7x7 loss-study --device cpu --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cpu_check.json
+& $py -m research.lotto7x7 loss-study --device cuda --year all --epochs 45 --baseline 32 --bootstrap 400 --out results/loss_study_v03_cuda.json
 # --device auto selects CUDA if available; default remains CPU.
 ```
 
@@ -73,7 +73,7 @@ floating-point kernels may choose different checkpoints and Top-6 masks, so
 the scores are **not** expected to match exactly. GPU is not guaranteed to
 be faster for a small 7x7 model. No mixed precision is used.
 
-The package's `requirements.txt` intentionally does not pin a particular
+The package's `research/requirements.txt` intentionally does not pin a particular
 CUDA wheel: install the appropriate official CUDA-enabled PyTorch wheel
 for your NVIDIA driver before running GPU studies.
 
@@ -103,9 +103,9 @@ The new test suite includes **67 tests** (31 image-core tests, 15 BIN format tes
 To rebuild after a CSV update:
 
 ```powershell
-.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset
-.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
-.\.venv\Scripts\python.exe -m lotto7x7 learn --year all --epochs 45 --baseline 32
+.\.venv\Scripts\python.exe -m research.lotto7x7.bin_dataset
+.\.venv\Scripts\python.exe -m research.lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
+.\.venv\Scripts\python.exe -m research.lotto7x7 learn --year all --epochs 45 --baseline 32
 ```
 
 The network reads raw 7×7 binary images from BIN v2 (converted to float32 for PyTorch). It does not train on special numbers. This data-format migration does not alter neural-network architecture or imply higher forecasting accuracy.
@@ -133,8 +133,8 @@ early stopping and exploratory paired circular-block bootstrap intervals.
 
 ```powershell
 cd D:\my-github\lotto649
-.\.venv\Scripts\python.exe -m lotto7x7 diagnose --year all --epochs 45 --baseline 32
-.\.venv\Scripts\python.exe -m lotto7x7 gallery --report results/image_diagnostics_v02.json --out results/image_diagnostics_v02.html
+.\.venv\Scripts\python.exe -m research.lotto7x7 diagnose --year all --epochs 45 --baseline 32
+.\.venv\Scripts\python.exe -m research.lotto7x7 gallery --report results/image_diagnostics_v02.json --out results/image_diagnostics_v02.html
 Start-Process .\results\image_diagnostics_v02.html
 ```
 
@@ -154,13 +154,13 @@ changes under the same CNN, GRU, hard Top-6 decoder, BIN v2 data, split, and sco
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
-.\.venv\Scripts\python.exe -m lotto7x7 loss-study `
+.\.venv\Scripts\python.exe -m research.lotto7x7 loss-study `
     --year all --epochs 45 --baseline 32 --bootstrap 400
-.\.venv\Scripts\python.exe -m lotto7x7 gallery `
+.\.venv\Scripts\python.exe -m research.lotto7x7 gallery `
     --report results/loss_study_v03.json `
     --out results/loss_study_v03.html
 Start-Process .\results\loss_study_v03.html
-.\.venv\Scripts\python.exe -m lotto7x7 loss-synthetic --epochs 45
+.\.venv\Scripts\python.exe -m research.lotto7x7 loss-synthetic --epochs 45
 ```
 
 The three arms are `original_v02` (unaltered v0.2 shape loss with positive-weighted BCE),
@@ -189,7 +189,7 @@ six-of-49 series is the negative control.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 predictability --year all --seeds 5 `
+& $py -m research.lotto7x7 predictability --year all --seeds 5 `
     --epochs 45 --control-seeds 2 --control-epochs 45 `
     --baseline 32 --bootstrap 400 `
     --out results/predictability_audit_v04.json
@@ -220,8 +220,8 @@ New commands:
 ```powershell
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 image-study --permutations 499 --null-images 4096 --mapping-seeds 2
-& $py -m lotto7x7 image-compare --seeds 3 --epochs 45 --bootstrap 400
+& $py -m research.lotto7x7 image-study --permutations 499 --null-images 4096 --mapping-seeds 2
+& $py -m research.lotto7x7 image-compare --seeds 3 --epochs 45 --bootstrap 400
 ```
 
 The new code leaves archived v0.2 / v0.3 / v0.4 models and historical data
@@ -249,14 +249,14 @@ research view without retraining or altering any v0.2–v0.5 models:
 ```powershell
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 image-dynamics `
+& $py -m research.lotto7x7 image-dynamics `
     --null-images 4096 --mapping-seeds 2 --transitions 12 `
     --matrix-count 24 --null-shape-pairs 128 `
     --out results/image_dynamics_v051.json `
     --html-out results/image_dynamics_v051.html
 
 # Optional: include already-recorded v0.5 model output (no retraining).
-& $py -m lotto7x7 image-dynamics `
+& $py -m research.lotto7x7 image-dynamics `
     --compare-report results/image_compare_v05.json `
     --out results/image_dynamics_v051_with_models.json `
     --html-out results/image_dynamics_v051_with_models.html
@@ -280,7 +280,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
-& $py -m lotto7x7 shape-pool `
+& $py -m research.lotto7x7 shape-pool `
     --size 100 --families 20 --family-policy uniform-family `
     --sample-count 5 --seed 649 `
     --out results/shape_pool_v06.json `
@@ -311,9 +311,9 @@ Monte Carlo with uncertainty intervals.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
-& $py -m lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
-& $py -m lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
+& $py -m research.lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
+& $py -m research.lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
+& $py -m research.lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
 ```
 
 Read [the Phase 2–3 methodology](../studies/geometry/shape_pool_v06_phase2.md).
@@ -333,10 +333,10 @@ Each historical target is excluded from the training prefix. Historical runs are
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 baseline-study --warmup 200 --eval-draws 12 --size 100 --families 20 --count 5 --seed 649 --out results/baseline_study_v07.json
-& $py -m lotto7x7 shadow-snapshot --size 100 --families 20 --count 5 --seed 649 --out results/shadow_pre_draw_v07.json
+& $py -m research.lotto7x7 baseline-study --warmup 200 --eval-draws 12 --size 100 --families 20 --count 5 --seed 649 --out results/baseline_study_v07.json
+& $py -m research.lotto7x7 shadow-snapshot --size 100 --families 20 --count 5 --seed 649 --out results/shadow_pre_draw_v07.json
 # Score only after actual next draw; replace ID and numbers with official results:
-& $py -m lotto7x7 shadow-score --snapshot results/shadow_pre_draw_v07.json --draw-id 115000102 --numbers '01,02,03,04,05,06' --out results/shadow_post_draw_v07.json
+& $py -m research.lotto7x7 shadow-score --snapshot results/shadow_pre_draw_v07.json --draw-id 115000102 --numbers '01,02,03,04,05,06' --out results/shadow_post_draw_v07.json
 ```
 
 The sample scored draw ID and numbers above are **placeholders**, not verified
@@ -356,8 +356,8 @@ are recalculated from frozen tickets and outcomes.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 robustness-audit --input results/baseline_study_v07_100.json --out results/robustness_audit_v071_100.json
-& $py -m lotto7x7 robustness-sweep --seeds 649,650 --counts 1,3,5 --warmup 200 --eval-draws 12 --stride 5 --size 100 --families 20 --out results/robustness_sweep_v071_smoke.json
+& $py -m research.lotto7x7 robustness-audit --input results/baseline_study_v07_100.json --out results/robustness_audit_v071_100.json
+& $py -m research.lotto7x7 robustness-sweep --seeds 649,650 --counts 1,3,5 --warmup 200 --eval-draws 12 --stride 5 --size 100 --families 20 --out results/robustness_sweep_v071_smoke.json
 ```
 
 The sweep can also use `--counts 1,2,3,4,5` and more seeds/targets, but each
@@ -386,13 +386,13 @@ benchmarked for the user's computer; CUDA is explicitly verified before use.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 gpu-check
+& $py -m research.lotto7x7 gpu-check
 
 # Smoke test: only five most recent target draws.
-& $py -m lotto7x7 full-history-gpu --device cuda --warmup 200 --tail-targets 5 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_smoke_checkpoint.jsonl --out results/full_history_v072_smoke.json
+& $py -m research.lotto7x7 full-history-gpu --device cuda --warmup 200 --tail-targets 5 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_smoke_checkpoint.jsonl --out results/full_history_v072_smoke.json
 
 # Full 1,983 eligible targets (2,183 source images; first 200 are warmup-only).
-& $py -m lotto7x7 full-history-gpu --device cuda --warmup 200 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_checkpoint.jsonl --out results/full_history_v072_all.json
+& $py -m research.lotto7x7 full-history-gpu --device cuda --warmup 200 --count 5 --size 100 --families 20 --scenarios 8192 --seed 649 --checkpoint results/full_history_v072_checkpoint.jsonl --out results/full_history_v072_all.json
 
 # After interruption, repeat the full command with --resume.
 ```
@@ -416,11 +416,11 @@ Keep every existing source GPU report unchanged.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 full-history-audit --report results/v072_biga_2497_full.json --out results/v073_biga_2497_seed649_audit.json
+& $py -m research.lotto7x7 full-history-audit --report results/v072_biga_2497_full.json --out results/v073_biga_2497_seed649_audit.json
 
 # Compute GPU full-history runs with seeds 650 and 651 using unique checkpoint/
 # output paths, then independently audit each. Read the detailed methodology.
-& $py -m lotto7x7 full-history-multiseed --reports results/v072_biga_2497_full.json results/v072_biga_2497_seed650_full.json results/v072_biga_2497_seed651_full.json --audits results/v073_biga_2497_seed649_audit.json results/v073_biga_2497_seed650_audit.json results/v073_biga_2497_seed651_audit.json --out results/v073_biga_2497_multiseed.json
+& $py -m research.lotto7x7 full-history-multiseed --reports results/v072_biga_2497_full.json results/v072_biga_2497_seed650_full.json results/v072_biga_2497_seed651_full.json --audits results/v073_biga_2497_seed649_audit.json results/v073_biga_2497_seed650_audit.json results/v073_biga_2497_seed651_audit.json --out results/v073_biga_2497_multiseed.json
 ```
 
 Each seed uses the **same historical targets**, so aggregation averages over
@@ -447,8 +447,8 @@ historical prefix without access to an unseen winning result.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --tail-targets 5 --epochs 12 --out results/probability_v08_smoke.json
-& $py -m lotto7x7 predict-gpu --device cuda --warmup 200 --block-size 100 --epochs 12 --seed 649 --out results/probability_v08_full.json
+& $py -m research.lotto7x7 predict-gpu --device cuda --warmup 200 --tail-targets 5 --epochs 12 --out results/probability_v08_smoke.json
+& $py -m research.lotto7x7 predict-gpu --device cuda --warmup 200 --block-size 100 --epochs 12 --seed 649 --out results/probability_v08_full.json
 ```
 
 With the current 2,497-draw Biga BIN, the complete experiment evaluates
@@ -471,7 +471,7 @@ plus year-level summaries. No retraining, CUDA setup, or old test suites.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 predict-audit --report results/probability_v08_full.json --out results/probability_v081_audit.json
+& $py -m research.lotto7x7 predict-audit --report results/probability_v08_full.json --out results/probability_v081_audit.json
 ```
 
 Read [the v0.8.1 score-audit protocol](probability_audit_v081.md).
@@ -494,7 +494,7 @@ surrogates and time-shuffled actual complete draw images.
 $py = '.\.venv\Scripts\python.exe'
 # Optional: only 11 new tests, not the previously passed full suite:
 & $py -m unittest discover -s research/tests -p 'test_feature_discovery_v09.py' -v
-& $py -m lotto7x7 feature-discover-gpu --device cuda --holdout-draws 500 `
+& $py -m research.lotto7x7 feature-discover-gpu --device cuda --holdout-draws 500 `
     --surrogates 199 --surrogate-batch 8 --recent-windows 256 512 1024 `
     --z-half-lives 0 64 256 --min-period 2 --max-period 512 --top 20 `
     --seed 649 --out results/v09_feature_discovery_cuda.json
@@ -520,7 +520,7 @@ seen in v0.8 and is not genuinely prospectively blind.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 deep-feature-gpu `
+& $py -m research.lotto7x7 deep-feature-gpu `
     --device cuda --train-draws 1024 --holdout-draws 500 `
     --window 64 --validation 128 --epochs 12 --surrogates 99 `
     --surrogate-batch 4 --seed 649 `
@@ -552,10 +552,10 @@ walk-forward/period scans, no previously completed regression suite.
 
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
-& $py -m lotto7x7 image-classify `
+& $py -m research.lotto7x7 image-classify `
     --device cuda --clusters 12 --features geometry --iid-samples 10000 `
     --out results/v011_geometry_12.json
-& $py -m lotto7x7 image-classify `
+& $py -m research.lotto7x7 image-classify `
     --device cuda --clusters 12 --features fused `
     --model results/v010_deep_feature_cuda.pt --iid-samples 10000 `
     --out results/v011_fused_12.json
@@ -585,16 +585,16 @@ winning-number probability advantage**.
 cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
-& $py -m pip install -r requirements.txt
+& $py -m pip install -r research/requirements.txt
 
-& $py -m lotto7x7 natural-cluster-gpu `
+& $py -m research.lotto7x7 natural-cluster-gpu `
     --device cuda --features geometry `
     --k-values 4 6 8 12 16 24 32 `
     --min-cluster-size 30 --min-samples 10 `
     --iid-replicates 9 --iid-samples 10000 `
     --seed 649 --out results/v012_geometry.json
 
-& $py -m lotto7x7 natural-cluster-gpu `
+& $py -m research.lotto7x7 natural-cluster-gpu `
     --device cuda --features fused `
     --model results/v010_deep_feature_cuda.pt `
     --k-values 4 6 8 12 16 24 32 `
@@ -631,7 +631,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 pairwise-similarity-gpu `
+& $py -m research.lotto7x7 pairwise-similarity-gpu `
     --device cuda --batch-size 512 `
     --iid-pairs 30000 --iid-quantiles 0.001 0.005 0.01 `
     --cluster-mode shape --control-draws 384 --control-replicates 9 `
@@ -671,7 +671,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-gaussian-gpu `
+& $py -m research.lotto7x7 shape-gaussian-gpu `
     --device cuda `
     --matrix results/v013_pairwise_similarity.npz `
     --assignments results/v013_pairwise_similarity.csv `
@@ -710,7 +710,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-gaussian-validate `
+& $py -m research.lotto7x7 shape-gaussian-validate `
     --device cuda `
     --matrix results/v013_pairwise_similarity.npz `
     --assignments results/v013_pairwise_similarity.csv `
@@ -763,7 +763,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-catalog-exact `
+& $py -m research.lotto7x7 shape-catalog-exact `
     --device cuda `
     --matrix results/v013_pairwise_similarity.npz `
     --assignments results/v013_pairwise_similarity.csv `
@@ -819,7 +819,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-p2-batch `
+& $py -m research.lotto7x7 shape-p2-batch `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --min-train 500 `
@@ -882,7 +882,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-prospective-update `
+& $py -m research.lotto7x7 shape-prospective-update `
     --freeze research/prospective/prospective_freeze_20261108.json `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
@@ -937,7 +937,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-prospective-update `
+& $py -m research.lotto7x7 shape-prospective-update `
     --freeze research/prospective/prospective_freeze_20261108.json `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
@@ -945,7 +945,7 @@ git pull --ff-only origin main
     --previous results/v019_prospective_first_check.json `
     --out results/v019_after_115000104.json
 
-& $py -m lotto7x7 shape-prospective-audit `
+& $py -m research.lotto7x7 shape-prospective-audit `
     --seal research/prospective/seals/115000104_2026-11-10.json `
     --report results/v019_after_115000104.json `
     --out results/v020_115000104_audit.json
@@ -990,7 +990,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-select-unified `
+& $py -m research.lotto7x7 shape-select-unified `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --freeze research/prospective/prospective_freeze_20261108.json `
@@ -1045,7 +1045,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 historical-hit-benchmark `
+& $py -m research.lotto7x7 historical-hit-benchmark `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --minutes 20 `
@@ -1095,7 +1095,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 historical-hit-benchmark `
+& $py -m research.lotto7x7 historical-hit-benchmark `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --minutes 20 `
@@ -1136,7 +1136,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
 
-& $py -m lotto7x7 historical-hit-stream `
+& $py -m research.lotto7x7 historical-hit-stream `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --target all `
@@ -1192,7 +1192,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7 early-hit-backtest `
+& $py -m research.lotto7x7 early-hit-backtest `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --trials 1000 `
@@ -1258,7 +1258,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m pytest -q research/tests/legacy/image/test_temporal_v024.py
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7 temporal-research `
+& $py -m research.lotto7x7 temporal-research `
     --csv-root data/csv `
     --image-bin data/bin/lotto649_images_v2.bin `
     --catalog results/v015_v016_p1_shape_catalog.npz `

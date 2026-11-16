@@ -21,7 +21,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 historical-hit-benchmark `
+& $py -m research.lotto7x7 historical-hit-benchmark `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --minutes 20 `

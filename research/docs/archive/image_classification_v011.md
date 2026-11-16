@@ -12,14 +12,14 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
 # First: interpretable geometry-based classes (does not load the old .pt model).
-& $py -m lotto7x7 image-classify `
+& $py -m research.lotto7x7 image-classify `
     --device cuda --clusters 12 --features geometry `
     --iid-samples 10000 --seed 649 `
     --out results/v011_geometry_12.json
 
 # Second: combine geometry with your pre-trained v0.10 CNN latent image features.
 # This LOADS the checkpoint: no training or v0.10 period/motif search.
-& $py -m lotto7x7 image-classify `
+& $py -m research.lotto7x7 image-classify `
     --device cuda --clusters 12 --features fused `
     --model results/v010_deep_feature_cuda.pt `
     --iid-samples 10000 --seed 649 `

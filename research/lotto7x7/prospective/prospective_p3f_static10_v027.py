@@ -26,11 +26,11 @@ import json
 from pathlib import Path
 from random import Random
 
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.portfolio.distribution_repair_v027 import _prefix_sha256
-from lotto7x7.portfolio.log_product_p3b_pilot_v027 import evaluate_draw
-from lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import exact_binomial_tail, exact_fair_probability
-from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.portfolio.distribution_repair_v027 import _prefix_sha256
+from research.lotto7x7.portfolio.log_product_p3b_pilot_v027 import evaluate_draw
+from research.lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import exact_binomial_tail, exact_fair_probability
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
 
 SCHEMA = "lotto7x7.prospective.v0.27.p3f.static10.v1"
 REPORT_SCHEMA = "lotto7x7.prospective.v0.27.p3f.static10.report.v1"

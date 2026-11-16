@@ -13,12 +13,12 @@ from unittest import TestCase, mock
 
 import numpy as np
 
-from lotto7x7.full_history_v072 import NAMES, run_full_history, uniform_pool
-from lotto7x7.full_history_audit_v073 import (
+from research.lotto7x7.full_history_v072 import NAMES, run_full_history, uniform_pool
+from research.lotto7x7.full_history_audit_v073 import (
     AUDIT_SCHEMA, MULTISEED_SCHEMA, _disjoint_exact, _pair_p, audit_report,
     multiseed_report, read_verified_history,
 )
-from lotto7x7.full_history_audit_cli_v073 import configure_parsers, run
+from research.lotto7x7.full_history_audit_cli_v073 import configure_parsers, run
 
 
 class FullHistoryIndependentAuditTests(TestCase):
@@ -54,7 +54,7 @@ class FullHistoryIndependentAuditTests(TestCase):
             def add(self,image,draw_id):self.last=draw_id
             def make(self,*,size,families,seed):return uniform_pool(size,seed)
 
-        with mock.patch('lotto7x7.full_history_v072.PrefixShapePool',LightweightCatalog):
+        with mock.patch('research.lotto7x7.full_history_v072.PrefixShapePool',LightweightCatalog):
             cls.reports=[run_full_history(images,ids,warmup=50,count=2,size=20,
                                           families=5,seed=seed,scenarios=512,device='cpu')
                          for seed in (649,650)]
@@ -142,7 +142,7 @@ class FullHistoryIndependentAuditTests(TestCase):
             def __init__(self):pass
             def add(self,image,draw_id):pass
             def make(self,*,size,families,seed):return uniform_pool(size,seed)
-        with mock.patch('lotto7x7.full_history_v072.PrefixShapePool',LightweightCatalog):
+        with mock.patch('research.lotto7x7.full_history_v072.PrefixShapePool',LightweightCatalog):
             tail=run_full_history(self.images,self.ids,warmup=50,tail_targets=2,
                                   count=2,size=20,families=5,seed=649,scenarios=512,device='cpu')
         with self.assertRaisesRegex(ValueError,'full historical'):

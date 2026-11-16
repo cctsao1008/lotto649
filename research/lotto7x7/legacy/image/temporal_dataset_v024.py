@@ -123,7 +123,7 @@ def load_csv_history(csv_root: Path, *, image_bin: Path | None = None,
                 'origin_note':'Repository CSV was exported from one third-party Biga archive; no independent official lottery verification.'}
     if image_bin is not None:
         # Existing immutable BIN v2 schema has verified fixed records and six-pixel invariants.
-        from lotto7x7.bin_dataset import decode_bin
+        from research.lotto7x7.bin_dataset import decode_bin
         blob = Path(image_bin).read_bytes()
         rec = decode_bin(blob)
         if not np.array_equal(rec['draw_id'], ids) or not np.array_equal(rec['image'],images):

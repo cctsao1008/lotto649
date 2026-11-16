@@ -21,11 +21,11 @@ import json
 from math import comb, exp, fsum, log, prod, sqrt
 from pathlib import Path
 
-from lotto7x7.portfolio.distribution_repair_v027 import (
+from research.lotto7x7.portfolio.distribution_repair_v027 import (
     LOW, TOTAL, _prefix_sha256, squared_l2_probability,
 )
-from lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
-from lotto7x7.portfolio.log_product_dual_portfolio_v027 import _check_inputs, enumerate_joint_counts
+from research.lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
+from research.lotto7x7.portfolio.log_product_dual_portfolio_v027 import _check_inputs, enumerate_joint_counts
 
 SCHEMA = "lotto7x7.log_product.v0.27.p3a"
 
@@ -85,7 +85,7 @@ def exact_event_mass(sum_positive: list[bool], log_positive: list[bool],
 
 def _theory_pearson_sum_log() -> dict:
     """Finite-population covariance for sums of labels vs sums of log labels."""
-    from lotto7x7.portfolio.log_product_v027 import theoretical_log_moments
+    from research.lotto7x7.portfolio.log_product_v027 import theoretical_log_moments
     k,n=6,49
     xbar=25
     lbar=fsum(log(v) for v in range(1,n+1))/n
@@ -103,7 +103,7 @@ def _theory_pearson_sum_log() -> dict:
 
 
 def _history_prefix(csv_dir: Path, source: dict):
-    from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+    from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
     data=load_csv_history(Path(csv_dir))
     n=source["historical_draws"]
     if type(n) is not int or n < 3 or len(data.ids)<n or data.dates is None:
@@ -359,7 +359,7 @@ def markdown_report(report:dict)->str:
         "**JOINT_DESCRIPTIVE_PASS** if this exact joint baseline and walk-forward audit run. "
         "**PREDICTIVE_GO is NOT authorized** without sealed future data, replicated out-of-sample evidence, and full four-ticket selection-pipeline IID calibration.",
         "", "## Reproduce", "", "```powershell",
-        "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_joint_p3_v027 "
+        "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_joint_p3_v027 "
         "--sum-p1 results/v027_p1_repair.json "
         "--log-p0 results/v027_log_product_p0.json "
         "--dual-p1 results/v027_dual_p1.json "

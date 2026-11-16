@@ -49,7 +49,7 @@ The P3A same-L3/Sum/LogBin certificate is carried into the report with separate 
     if ($LASTEXITCODE -ne 0) { throw 'Fast-forward failed' }
     $py = '.\.venv\Scripts\python.exe'
     & $py -m unittest discover -s research/tests -p 'test_geometry_repair_v029_p3b.py' -v
-    & $py -m lotto7x7.geometry_repair_v029 --csv-root data/csv --bin-root data/bin --pool-size 1024 --random-portfolios 256 --iid-reps 99 --seed 649 --out results/v029_p3b_repair_20261111.json
+    & $py -m research.lotto7x7.geometry_repair_v029 --csv-root data/csv --bin-root data/bin --pool-size 1024 --random-portfolios 256 --iid-reps 99 --seed 649 --out results/v029_p3b_repair_20261111.json
 
 Outputs are created only under ignored results/, using exclusive file creation. Existing reports are not overwritten. Audit historical CSV/BIN/date/manifest before selection; no actual tickets, seals or source data are mutated.
 

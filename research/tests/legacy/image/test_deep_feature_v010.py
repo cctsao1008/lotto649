@@ -13,12 +13,12 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.deep_feature_v010 import (
+from research.lotto7x7.deep_feature_v010 import (
     DeepFeatureNet, causal_rolling_mean, next_windows, deep_bank,
     motif_scan, train_prefix, discover_deep,
 )
-from lotto7x7.feature_discovery_v09 import _scan_periods, iid_six_hot
-from lotto7x7.deep_feature_cli_v010 import configure_parsers, run
+from research.lotto7x7.feature_discovery_v09 import _scan_periods, iid_six_hot
+from research.lotto7x7.deep_feature_cli_v010 import configure_parsers, run
 
 
 def fixture(n: int, seed: int = 100) -> tuple[np.ndarray, np.ndarray]:
@@ -182,7 +182,7 @@ class DeepFeatureV010Tests(unittest.TestCase):
                 '--motif-windows', '4', '8', '--max-period', '16',
                 '--top', '3', '--out', str(out), '--model-out', str(checkpoint)
             ])
-            with patch('lotto7x7.deep_feature_cli_v010.load_history',
+            with patch('research.lotto7x7.deep_feature_cli_v010.load_history',
                        return_value=(imgs, np.zeros(len(imgs)), ids)):
                 with contextlib.redirect_stdout(io.StringIO()):
                     run(args)

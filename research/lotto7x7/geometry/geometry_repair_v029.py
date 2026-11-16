@@ -13,13 +13,13 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import _check_config, _validate_draws, audit_repository_inputs
-from lotto7x7.geometry.geometry_structure_v029 import (
+from research.lotto7x7.geometry.geometry_convergence_v029 import _check_config, _validate_draws, audit_repository_inputs
+from research.lotto7x7.geometry.geometry_structure_v029 import (
     PAIR_FEATURES, I49, J49, _fair_inclusion, _features_and_l3,
     _mapping_labels, _pair_weights, exact_pair_moments,
 )
-from lotto7x7.geometry.geometry_v029 import POINTS, catalog
-from lotto7x7.geometry.geometry_redundancy_v029 import _certificate, TICKETS_CERTIFICATE
+from research.lotto7x7.geometry.geometry_v029 import POINTS, catalog
+from research.lotto7x7.geometry.geometry_redundancy_v029 import _certificate, TICKETS_CERTIFICATE
 
 SCHEMA = "lotto649.geometry_counterfactual.v0.29.p3b.v1"
 RIDGE = 0.05
@@ -204,7 +204,7 @@ def _selection(history: np.ndarray, rng: np.random.Generator, *,
         "optimizer_certification": "FINITE_POOL_HEURISTIC_NOT_GLOBAL_OPTIMUM",
     }
     if include_tickets:
-        from lotto7x7.geometry.geometry_redundancy_v029 import _descriptors
+        from research.lotto7x7.geometry.geometry_redundancy_v029 import _descriptors
         chosen = pool[best_idx]
         labels, features, _ = _descriptors(chosen if len(chosen) >= 25 else
              np.vstack((chosen, np.tile(chosen[0], (25 - len(chosen), 1)))))

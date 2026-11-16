@@ -35,7 +35,7 @@ Assume a set of four uniquely highest Shape partitions `P` with caps `c_p`, and 
 
 ```powershell
 python -m unittest discover -s research/tests -p test_strategy_verification_v19.py -v
-python -m lotto7x7.strategy_verification_v19 --out results/strategy_v19_score_saturation.json
+python -m research.lotto7x7.strategy_verification_v19 --out results/strategy_v19_score_saturation.json
 ```
 
 The result file is write-once; use another filename for a new independent run. GitHub CI stores the complete JSON as an artifact. Research findings must be based on observed CI output and recorded separately, not presumed by this specification.

@@ -5,7 +5,7 @@ python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
 
 python -m unittest discover -s research/tests -p 'test_strategy_verification_v21.py' -v
 
-python -m lotto7x7.strategy_verification_v21 \
+python -m research.lotto7x7.strategy_verification_v21 \
   --csv-root data/csv --bin-root data/bin \
   --batch-size 60000 --max-witness-nodes 2000000 \
   --out results/strategy_v21_full_universe.json

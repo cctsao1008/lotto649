@@ -42,7 +42,7 @@ $py = ".\.venv\Scripts\python.exe"
 & $py -m pytest -q research/tests/prospective/test_prospective_p3f_static10_v027.py
 
 # Use new report filenames on every check. Never overwrite prior reports.
-& $py -m lotto7x7.prospective_p3f_static10_v027 `
+& $py -m research.lotto7x7.prospective_p3f_static10_v027 `
     --seal research/prospective/v027_p3f_static10_20261110_seal.json `
     --csv-dir data/csv `
     --out results/v027_p3f_shadow_check_01.json `

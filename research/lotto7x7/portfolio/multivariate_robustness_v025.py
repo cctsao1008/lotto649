@@ -13,11 +13,11 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
-from lotto7x7.portfolio.multivariate_audit_v025 import (
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
+from research.lotto7x7.portfolio.multivariate_audit_v025 import (
     fair_covariance, iid_tickets, portfolio_audit, select_multivariate_portfolio,
 )
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
 
 
 def _integer_sequence(text):

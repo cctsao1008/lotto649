@@ -27,7 +27,7 @@ that criterion is not met. The finite sample and prior use of the historical
 windows limit inference to this retrospective replay.
 
 ```bash
-OPENBLAS_NUM_THREADS=1 python -m lotto7x7.matched_covariance_walkforward_v025
+OPENBLAS_NUM_THREADS=1 python -m research.lotto7x7.matched_covariance_walkforward_v025
 ```
 
 ## Results — 2026-11-16

@@ -23,12 +23,12 @@ from math import comb, prod, sqrt
 from pathlib import Path
 from random import Random
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.portfolio.log_product_joint_p3_v027 import joint_exact_reference, _history_prefix
-from lotto7x7.portfolio.log_product_dual_portfolio_v027 import frozen_weights
-from lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage, prize_tier
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.portfolio.log_product_joint_p3_v027 import joint_exact_reference, _history_prefix
+from research.lotto7x7.portfolio.log_product_dual_portfolio_v027 import frozen_weights
+from research.lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage, prize_tier
 
 SCHEMA = "lotto7x7.log_product.v0.27.p3b_pilot"
 POLICY = "cached_joint_cell_greedy_v1"
@@ -296,7 +296,7 @@ def analyze(sum_p1,log_p0,dual_p1,csv_dir:Path,*,seed:int=649,
         (seed,0),(warmup,3),(stride,1),(replicates,8),
         (per_cell,1),(restarts,1),(cell_limit,4))):
         raise ValueError("invalid prespecified replay budgets")
-    from lotto7x7.portfolio.log_product_joint_p3_v027 import _observed_features
+    from research.lotto7x7.portfolio.log_product_joint_p3_v027 import _observed_features
     reference=joint_exact_reference(sum_p1,log_p0,dual_p1)
     joint=reference["joint"]
     data,n=_history_prefix(csv_dir,dual_p1["source"])
@@ -426,7 +426,7 @@ def markdown_report(report):
         "- Failure to find four positive/disjoint tickets is counted, not silently relaxed or removed.",
         "- This is a low-powered retrospective pilot. Model-family data snooping and original P2 are NOT covered; do not infer predictive skill.",
         "", "## Reproduce","", "```powershell",
-        "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_p3b_pilot_v027 "
+        "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_p3b_pilot_v027 "
         "--sum-p1 results/v027_p1_repair.json --log-p0 results/v027_log_product_p0.json "
         "--dual-p1 results/v027_dual_p1.json --csv-dir data/csv --cutoff 2026-11-06 "
         "--warmup 300 --stride 64 --replicates 32 --seed 649 "

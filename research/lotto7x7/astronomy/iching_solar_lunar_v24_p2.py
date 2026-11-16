@@ -15,7 +15,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
+from research.lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
 
 from lotto649.hexagram_encoding import gray3, hexagram_from_sectors, sector8
 

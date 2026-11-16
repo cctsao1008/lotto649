@@ -4,8 +4,8 @@ from __future__ import annotations
 from itertools import combinations
 import unittest
 import numpy as np
-from lotto7x7.strategy_verification_v13 import validate_pool, is_feasible
-from lotto7x7.strategy_verification_v14 import (
+from research.lotto7x7.strategy_verification_v13 import validate_pool, is_feasible
+from research.lotto7x7.strategy_verification_v14 import (
     exact_primary_optimal_reduction, model_matrix, exact_lp_dual_certificate,
     certified_mip_search, audit_lexicographic,
 )

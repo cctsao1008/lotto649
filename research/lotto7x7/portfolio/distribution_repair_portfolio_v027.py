@@ -19,13 +19,13 @@ from math import isclose
 from pathlib import Path
 from random import Random
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, validate_ticket
-from lotto7x7.portfolio.distribution_repair_v027 import LOW, exact_theory
-from lotto7x7.portfolio.distribution_repair_scoring_v027 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, validate_ticket
+from research.lotto7x7.portfolio.distribution_repair_v027 import LOW, exact_theory
+from research.lotto7x7.portfolio.distribution_repair_scoring_v027 import (
     SCHEMA as P1_SCHEMA, conditional_repair, score_ticket,
 )
-from lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 SCHEMA = "lotto7x7.distribution_repair.v0.27.p2"
 PORTFOLIO_SIZE = 4
@@ -336,7 +336,7 @@ def markdown_report(report: dict) -> str:
                   "- The all-distinct alternative does not imply a forecasting advantage.",
                   "- Portfolio score must never be interpreted as an actual four-draw posterior loss.", "",
                   "## Reproduce", "", "```powershell",
-                  "& .\\.venv\\Scripts\\python.exe -m lotto7x7.distribution_repair_portfolio_v027 --p1 results/v027_p1_repair.json --out results/v027_p2_portfolio.json --md-out results/v027_p2_portfolio.md",
+                  "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.distribution_repair_portfolio_v027 --p1 results/v027_p1_repair.json --out results/v027_p2_portfolio.json --md-out results/v027_p2_portfolio.md",
                   "```", ""])
     return "\n".join(lines)
 

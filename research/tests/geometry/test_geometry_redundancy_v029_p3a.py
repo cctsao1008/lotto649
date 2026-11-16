@@ -4,10 +4,10 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import geometry_redundancy_v029 as p3
-from lotto7x7 import geometry_v029 as geom
-from lotto7x7.log_product_v027 import _grid
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7 import geometry_redundancy_v029 as p3
+from research.lotto7x7 import geometry_v029 as geom
+from research.lotto7x7.log_product_v027 import _grid
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
 
 
 class TestGeometryRedundancyV029P3A(unittest.TestCase):

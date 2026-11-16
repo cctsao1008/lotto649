@@ -7,9 +7,9 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import conditional_monte_carlo_v030 as cmc
-from lotto7x7 import distribution_dynamics_v030 as dyn
-from lotto7x7.geometry_redundancy_v029 import _certificate
+from research.lotto7x7 import conditional_monte_carlo_v030 as cmc
+from research.lotto7x7 import distribution_dynamics_v030 as dyn
+from research.lotto7x7.geometry_redundancy_v029 import _certificate
 
 
 class TestConditionalMonteCarloV030P1(unittest.TestCase):

@@ -15,19 +15,19 @@ python -m pytest -q \
   research/tests/portfolio/test_log_product_p3b_pilot_v027.py \
   research/tests/portfolio/test_log_product_p3c_exact_iid_v027.py
 
-python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_sum_p0.json --md-out /tmp/v027_sum_p0.md
-python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_sum_p0.json --out /tmp/v027_sum_p1.json --md-out /tmp/v027_sum_p1.md
-python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_log_p0.json --md-out /tmp/v027_log_p0.md
-python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v027_sum_p1.json --log-p0 /tmp/v027_log_p0.json --out /tmp/v027_dual_p1.json --md-out /tmp/v027_dual_p1.md
+python -m research.lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_sum_p0.json --md-out /tmp/v027_sum_p0.md
+python -m research.lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_sum_p0.json --out /tmp/v027_sum_p1.json --md-out /tmp/v027_sum_p1.md
+python -m research.lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_log_p0.json --md-out /tmp/v027_log_p0.md
+python -m research.lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v027_sum_p1.json --log-p0 /tmp/v027_log_p0.json --out /tmp/v027_dual_p1.json --md-out /tmp/v027_dual_p1.md
 
-python -m lotto7x7.log_product_p3b_pilot_v027 \
+python -m research.lotto7x7.log_product_p3b_pilot_v027 \
   --sum-p1 /tmp/v027_sum_p1.json --log-p0 /tmp/v027_log_p0.json \
   --dual-p1 /tmp/v027_dual_p1.json --csv-dir data/csv --cutoff 2026-11-06 \
   --warmup 300 --stride 64 --replicates 24 \
   --seed 649 --per-cell 32 --restarts 12 --cell-limit 24 \
   --out /tmp/v027_p3b_pilot.json --md-out /tmp/v027_p3b_pilot.md
 
-python -m lotto7x7.log_product_p3c_exact_iid_v027 \
+python -m research.lotto7x7.log_product_p3c_exact_iid_v027 \
   --p3b /tmp/v027_p3b_pilot.json \
   --out /tmp/v027_p3c_exact_iid.json --md-out /tmp/v027_p3c_exact_iid.md
 python - <<'PY'

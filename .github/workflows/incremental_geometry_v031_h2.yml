@@ -28,7 +28,7 @@ jobs:
           python -m unittest discover -s research/tests -p 'test_incremental_geometry_v031.py' -v
       - name: Source-audited real-history H2 pilot
         run: |
-          python -m lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_ci_pilot.json
+          python -m research.lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_ci_pilot.json
           git diff --exit-code
       - name: Publish research-only report
         uses: actions/upload-artifact@v4

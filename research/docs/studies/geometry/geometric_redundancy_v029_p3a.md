@@ -7,7 +7,7 @@ All analysis reads existing source data and reports to ignored results/. No paid
 
 ## V0.28 M0 category baseline
 
-The baseline class key is (L3 edge code, exact Sum, Log Product integer bin). The existing nested L1/L2 classes are determined by L3, while Joint(Sum,LogBin) is determined by Sum and LogBin. Exact product cutoffs are imported from original frozen width-0.5 grid via lotto7x7.log_product_v027._grid.
+The baseline class key is (L3 edge code, exact Sum, Log Product integer bin). The existing nested L1/L2 classes are determined by L3, while Joint(Sum,LogBin) is determined by Sum and LogBin. Exact product cutoffs are imported from original frozen width-0.5 grid via research.lotto7x7.log_product_v027._grid.
 
 ## Exact equal-baseline legal ticket certificate
 
@@ -29,7 +29,7 @@ The different sample sizes, sparse cells, and group collisions prohibit direct c
     cd E:\lotto649
     $py = ".\.venv\Scripts\python.exe"
     & $py -m unittest discover -s research/tests -p "test_geometry_redundancy_v029_p3a.py" -v
-    & $py -m lotto7x7.geometry_redundancy_v029 --csv-root data/csv --bin-root data/bin --iid-sample 50000 --seed 649 --out results/v029_p3a_conditional_ablation_20261111.json
+    & $py -m research.lotto7x7.geometry_redundancy_v029 --csv-root data/csv --bin-root data/bin --iid-sample 50000 --seed 649 --out results/v029_p3a_conditional_ablation_20261111.json
 
 The output is create-only. Existing report files are never overwritten.
 

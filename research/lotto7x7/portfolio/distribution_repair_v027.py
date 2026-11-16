@@ -109,7 +109,7 @@ def baseline(csv_dir: Path, *, cutoff: str) -> dict:
                 if len(row) != len(CSV_COLUMNS):
                     raise ValueError(f"{path}:{line_number}: inconsistent CSV width")
 
-    from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+    from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
 
     data = load_csv_history(folder)
     if data.dates is None:
@@ -237,7 +237,7 @@ def markdown_report(report: dict) -> str:
         lines.append(f"| {row['sum']} | {row['observed_count']} | {row['expected_count']:.3f} | {row['residual_count']:+.3f} |")
     lines.extend(["", "## Reproduce", "",
                   "```powershell",
-                  "& .\\.venv\\Scripts\\python.exe -m lotto7x7.distribution_repair_v027 "
+                  "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.distribution_repair_v027 "
                   f"--csv-dir data/csv --cutoff {src['cutoff']} "
                   "--out results/v027_p0_baseline.json --md-out results/v027_p0_baseline.md",
                   "```", "",

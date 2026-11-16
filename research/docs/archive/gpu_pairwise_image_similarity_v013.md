@@ -63,7 +63,7 @@ git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -p 'test_pairwise_similarity_v013.py' -v
 
 # All 3,116,256 actual historical image pairs; CUDA batched calculation.
-& $py -m lotto7x7 pairwise-similarity-gpu `
+& $py -m research.lotto7x7 pairwise-similarity-gpu `
     --device cuda `
     --batch-size 512 `
     --iid-pairs 30000 `

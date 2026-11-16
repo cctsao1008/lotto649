@@ -38,7 +38,7 @@ The original date is available **only from CSV**. To determine the calendar year
 
 A BIN-based report uses `date: null` and a separate `year` field. A HTML gallery shows `Year 2023` rather than an invented `20230000` or a fake day.
 
-Because a bitmap is a set of activated positions, it preserves the six drawn numbers **as a set**. Original ordering of the six CSV columns is not preserved, intentionally. For any `image`, use the same sequential mapping to recover six ascending numbers with `lotto7x7.core.decode(image)`.
+Because a bitmap is a set of activated positions, it preserves the six drawn numbers **as a set**. Original ordering of the six CSV columns is not preserved, intentionally. For any `image`, use the same sequential mapping to recover six ascending numbers with `research.lotto7x7.core.decode(image)`.
 
 ## Dataset generation and verification
 
@@ -48,10 +48,10 @@ The converter discovers flat annual CSVs and legacy Lotto649 filenames, includin
 cd D:\my-github\lotto649
 
 # Regenerate the canonical BIN from all 20 original CSV files.
-.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset
+.\.venv\Scripts\python.exe -m research.lotto7x7.bin_dataset
 
 # Verify the exact file format and byte-for-byte equality to original CSVs.
-.\.venv\Scripts\python.exe -m lotto7x7.bin_dataset `
+.\.venv\Scripts\python.exe -m research.lotto7x7.bin_dataset `
     --verify data/bin/lotto649_images_v2.bin
 
 git diff --exit-code -- data/bin/lotto649_images_v2.bin
@@ -64,17 +64,17 @@ The writer uses an atomic temporary-file replacement and verifies the file after
 
 ### Model input
 
-The default value of `lotto7x7.research.DATA` is now `data/bin/lotto649_images_v2.bin`.
+The default value of `research.lotto7x7.research.DATA` is now `data/bin/lotto649_images_v2.bin`.
 
 ```python
-from lotto7x7.research import load_history
+from research.lotto7x7.research import load_history
 images, dates, draw_ids = load_history()
 assert images.dtype == 'uint8'
 assert images.shape[1:] == (7, 7)
 assert not dates.any()  # Exact dates were not stored in this BIN.
 ```
 
-`lotto7x7 learn`, `replay`, `check` and `gallery` consume the same loaded six-pixel masks. The old numerical `.npy` archive remains an **optional explicit comparison** input, not the default training dataset. The BIN contains no information that was not already contained in the six main numbers: format simplification cannot, on its own, improve prediction or establish any lottery edge.
+`python -m research.lotto7x7 learn`, `replay`, `check` and `gallery` consume the same loaded six-pixel masks. The old numerical `.npy` archive remains an **optional explicit comparison** input, not the default training dataset. The BIN contains no information that was not already contained in the six main numbers: format simplification cannot, on its own, improve prediction or establish any lottery edge.
 
 ## Version isolation
 

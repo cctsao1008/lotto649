@@ -4,7 +4,7 @@ from math import comb
 
 import pytest
 
-from lotto7x7.portfolio_validation_v025 import paired_award_counts, sign_test_power
+from research.lotto7x7.portfolio_validation_v025 import paired_award_counts, sign_test_power
 
 
 def test_exact_paired_census_matches_small_brute_force():

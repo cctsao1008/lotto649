@@ -67,7 +67,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
-& $py -m lotto7x7 gpu-check
+& $py -m research.lotto7x7 gpu-check
 ```
 
 Verify `CUDA available=True` and the GPU name. If `False`, the environment may
@@ -79,7 +79,7 @@ an RTX 4060 causes `torch.cuda.is_available()` to become true.
 ### Smoke test: only the latest five eligible target draws
 
 ```powershell
-& $py -m lotto7x7 full-history-gpu `
+& $py -m research.lotto7x7 full-history-gpu `
     --device cuda --warmup 200 --tail-targets 5 `
     --count 5 --size 100 --families 20 `
     --scenarios 8192 --seed 649 `
@@ -90,7 +90,7 @@ an RTX 4060 causes `torch.cuda.is_available()` to become true.
 ### Full historical evaluation: 1,983 of 2,183 draws
 
 ```powershell
-& $py -m lotto7x7 full-history-gpu `
+& $py -m research.lotto7x7 full-history-gpu `
     --device cuda --warmup 200 `
     --count 5 --size 100 --families 20 `
     --scenarios 8192 --seed 649 `

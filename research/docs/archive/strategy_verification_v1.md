@@ -16,7 +16,7 @@ For version 1.0 we intentionally **reuse the existing frozen v0.30 P2B strategy*
 
 ## Frozen verification boundary
 
-From `lotto7x7.portfolio_benchmark_v030`:
+From `research.lotto7x7.portfolio_benchmark_v030`:
 
 - A fair candidate pool of `pool_size` distinct legal six-of-49 sets, drawn reproducibly under the P2B `SeedSequence(seed).spawn(2 * iid_reps + 1)[0]` stream. SHA256 is over the row-major little-endian int16 pool, in generated order.
 - Exactly **four distinct** tickets per arm; the arm named `coverage` must cover **24 distinct numbers**; `hybrid` must cover at least `min_hybrid_unique` (default 22); `repair` has no extra overlap restriction except four distinct tickets.
@@ -44,13 +44,13 @@ $py = '.\.venv\Scripts\python.exe'
 
 # Source report may already exist. Use the existing P2B output when possible.
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7.portfolio_benchmark_v030 `
+& $py -m research.lotto7x7.portfolio_benchmark_v030 `
     --pool-size 128 --random-portfolios 32 --min-hybrid-unique 22 `
     --iid-reps 3 --seed 649 `
     --out "results/p2b_strategy_source_$stamp.json"
 if ($LASTEXITCODE -ne 0) { throw 'P2B source generation failed' }
 
-& $py -m lotto7x7.strategy_verification_v1 `
+& $py -m research.lotto7x7.strategy_verification_v1 `
     --selection-report "results/p2b_strategy_source_$stamp.json" `
     --csv-root data/csv --bin-root data/bin `
     --out "results/strategy_verified_$stamp.json"

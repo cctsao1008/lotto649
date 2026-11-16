@@ -5,14 +5,14 @@ import sys
 from ._module_aliases import MODULE_GROUPS
 
 _ALIASES = {
-    f"lotto7x7.{name}": f"lotto7x7.{group}.{name}"
+    f"{__package__}.{name}": f"{__package__}.{group}.{name}"
     for group, names in MODULE_GROUPS.items()
     for name in names
 }
 _ALIASES.update({
-    "lotto7x7.selection": "lotto649",
+    f"{__package__}.selection": "lotto649",
     **{
-        f"lotto7x7.selection.{name}": f"lotto649.{name}"
+        f"{__package__}.selection.{name}": f"lotto649.{name}"
         for name in ("pipeline", "statistics", "hexagram", "cli")
     },
 })

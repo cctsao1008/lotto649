@@ -4,7 +4,7 @@ set -euo pipefail
 python -m unittest discover -s research/tests -p 'test_prospective_readiness_v032.py' -v
 
 mkdir -p results
-python -m lotto7x7.prospective_readiness_v032 --expected-last-id 115000105 --expected-draws 2499 --out results/v032_readiness_20261114.json
+python -m research.lotto7x7.prospective_readiness_v032 --expected-last-id 115000105 --expected-draws 2499 --out results/v032_readiness_20261114.json
 python - <<'PY'
 import json
 from pathlib import Path

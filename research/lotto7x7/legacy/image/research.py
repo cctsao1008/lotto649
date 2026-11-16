@@ -7,8 +7,8 @@ from collections import defaultdict
 import hashlib
 import numpy as np
 
-from lotto7x7.core import encode, decode, iid_images, iid_expected, signature, similarity
-from lotto7x7.legacy.image.models import METHODS, ImageForecaster, diversity
+from research.lotto7x7.core import encode, decode, iid_images, iid_expected, signature, similarity
+from research.lotto7x7.legacy.image.models import METHODS, ImageForecaster, diversity
 
 DATA = Path("data/bin/lotto649_images_v2.bin")
 
@@ -23,7 +23,7 @@ def load_history(path: Path = DATA) -> tuple[np.ndarray, np.ndarray, np.ndarray]
     """
     path = Path(path)
     if path.suffix.lower() == ".bin":
-        from lotto7x7.bin_dataset import decode_bin
+        from research.lotto7x7.bin_dataset import decode_bin
 
         records = decode_bin(path.read_bytes())
         images = records["image"].copy()

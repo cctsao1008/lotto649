@@ -3,12 +3,12 @@ from itertools import permutations
 
 import pytest
 
-from lotto7x7.coverage_exhaustive_v026 import (
+from research.lotto7x7.coverage_exhaustive_v026 import (
     canonical_signature, exhaustive_audit, feasible_signatures,
     has_unique_tickets, materialize_tickets,
 )
-from lotto7x7.coverage_global_research_v026 import canonical_signature as previous_canonical
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.coverage_global_research_v026 import canonical_signature as previous_canonical
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 def test_raw_census_exact_count_independent():

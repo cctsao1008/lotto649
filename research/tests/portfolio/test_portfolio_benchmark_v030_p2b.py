@@ -10,11 +10,11 @@ from unittest.mock import patch
 
 import numpy as np
 
-from lotto7x7.geometry_repair_v029 import _uniform_tickets
-from lotto7x7.portfolio_benchmark_v030 import (
+from research.lotto7x7.geometry_repair_v029 import _uniform_tickets
+from research.lotto7x7.portfolio_benchmark_v030 import (
     ARMS, _selection, analyze_portfolios, exact_max_match_distribution, main,
 )
-from lotto7x7.geometry_repair_v029 import exact_structural_covariance
+from research.lotto7x7.geometry_repair_v029 import exact_structural_covariance
 
 
 class TestPortfolioBenchmarkV030P2B(unittest.TestCase):
@@ -113,7 +113,7 @@ class TestPortfolioBenchmarkV030P2B(unittest.TestCase):
                        {"seed": -1}):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 analyze_portfolios(history, **kwargs)
-        with patch("lotto7x7.portfolio_benchmark_v030.catalog",
+        with patch("research.lotto7x7.portfolio_benchmark_v030.catalog",
                    return_value={"definition_sha256": "tampered"}):
             with self.assertRaises(ValueError):
                 analyze_portfolios(history, pool_size=128, iid_reps=3)
@@ -125,13 +125,13 @@ class TestPortfolioBenchmarkV030P2B(unittest.TestCase):
             outfile = Path(directory) / "p2b.json"
             args = ["--pool-size", "128", "--random-portfolios", "32",
                     "--iid-reps", "3", "--out", str(outfile)]
-            with patch("lotto7x7.portfolio_benchmark_v030.audit_repository_inputs",
+            with patch("research.lotto7x7.portfolio_benchmark_v030.audit_repository_inputs",
                        return_value=(history, {"status": "TEST_SOURCE_GATE"})):
                 main(args)
                 self.assertTrue(outfile.exists())
                 with self.assertRaises(FileExistsError):
                     main(args)
-            with patch("lotto7x7.portfolio_benchmark_v030.audit_repository_inputs",
+            with patch("research.lotto7x7.portfolio_benchmark_v030.audit_repository_inputs",
                        side_effect=ValueError("invalid source fingerprint")):
                 newfile = outfile.parent / "no_report.json"
                 with self.assertRaises(ValueError):

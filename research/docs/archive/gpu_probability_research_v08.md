@@ -68,14 +68,14 @@ git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
 # GPU smoke test: latest five known targets.
-& $py -m lotto7x7 predict-gpu `
+& $py -m research.lotto7x7 predict-gpu `
     --device cuda --warmup 200 --tail-targets 5 `
     --block-size 100 --window 5 --validation 32 `
     --epochs 12 --patience 3 --seed 649 `
     --out results/probability_v08_smoke.json
 
 # All 2,297 eligible historical draws, re-fit every 100 targets.
-& $py -m lotto7x7 predict-gpu `
+& $py -m research.lotto7x7 predict-gpu `
     --device cuda --warmup 200 `
     --block-size 100 --window 5 --validation 32 `
     --epochs 12 --patience 3 --seed 649 `

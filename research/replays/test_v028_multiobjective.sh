@@ -6,12 +6,12 @@ python -m pip install --upgrade pytest numpy scipy
 python -m py_compile research/lotto7x7/portfolio/multiobjective_v028.py
 python -m pytest -q research/tests/portfolio/test_multiobjective_v028.py
 
-python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_s0.json --md-out /tmp/v028_s0.md
-python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v028_s0.json --out /tmp/v028_s1.json --md-out /tmp/v028_s1.md
-python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_l0.json --md-out /tmp/v028_l0.md
-python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v028_s1.json --log-p0 /tmp/v028_l0.json --out /tmp/v028_d1.json --md-out /tmp/v028_d1.md
+python -m research.lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_s0.json --md-out /tmp/v028_s0.md
+python -m research.lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v028_s0.json --out /tmp/v028_s1.json --md-out /tmp/v028_s1.md
+python -m research.lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v028_l0.json --md-out /tmp/v028_l0.md
+python -m research.lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/v028_s1.json --log-p0 /tmp/v028_l0.json --out /tmp/v028_d1.json --md-out /tmp/v028_d1.md
 
-python -m lotto7x7.multiobjective_v028 \
+python -m research.lotto7x7.multiobjective_v028 \
   --sum-p1 /tmp/v028_s1.json --log-p0 /tmp/v028_l0.json \
   --dual-p1 /tmp/v028_d1.json --csv-dir data/csv \
   --seed 20261110 --sample-count 80000 --pool-cap 2000 \

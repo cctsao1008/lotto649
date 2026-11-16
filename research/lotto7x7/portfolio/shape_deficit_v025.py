@@ -13,12 +13,12 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import (
     REFERENCE, discrepancy, deficit_select, load_csv_history, validate_ticket,
 )
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import (
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import (
     LEVELS, RULE_VERSION, UNIVERSE, category_name, classification_keys,
     exhaustive_class_counts,
 )

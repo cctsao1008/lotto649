@@ -41,7 +41,7 @@ for a fixed portfolio. No new prospective trial is enrolled here.
 ## Reproduction
 
 ```bash
-OPENBLAS_NUM_THREADS=1 python -m lotto7x7.portfolio_pareto_v025
+OPENBLAS_NUM_THREADS=1 python -m research.lotto7x7.portfolio_pareto_v025
 ```
 
 The candidate pool size and seed can be varied through the CLI. If the

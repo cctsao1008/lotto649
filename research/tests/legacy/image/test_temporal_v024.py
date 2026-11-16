@@ -8,18 +8,18 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.temporal_dataset_v024 import (
+from research.lotto7x7.temporal_dataset_v024 import (
     TemporalDataset,load_catalog_history,load_csv_history,validate_arrays,
     chronological_split,rasterize,dataset_report)
-from lotto7x7.temporal_features_v024 import (
+from research.lotto7x7.temporal_features_v024 import (
     iid_overlap_probs,d4_translation_max_iou,temporal_features,
     transition_rows,p1_summary,autocorrelation,generate_iid_numbers,
     p2_iid_acf_control,FEATURE_NAMES)
-from lotto7x7.temporal_dsp_v024 import (
+from research.lotto7x7.temporal_dsp_v024 import (
     mapped_data,layout_indices,spatial_energy,periodogram_peak,dsp_iid_report)
-from lotto7x7.temporal_predict_v024 import (
+from research.lotto7x7.temporal_predict_v024 import (
     _project_capped_simplex,exact_ticket_logprob,walk_forward,FAIR_P,FAIR_TICKET_LOG)
-from lotto7x7.temporal_cli_v024 import run_pipeline,_prefix_paths
+from research.lotto7x7.temporal_cli_v024 import run_pipeline,_prefix_paths
 
 
 def sample(n:int=340,seed:int=25)->TemporalDataset:

@@ -2,8 +2,8 @@
 from math import comb
 import unittest
 
-from lotto7x7 import geometry_theory_v029 as theory
-from lotto7x7 import geometry_v029 as geo
+from research.lotto7x7 import geometry_theory_v029 as theory
+from research.lotto7x7 import geometry_v029 as geo
 
 
 class TestGeometryTheoryV029P1(unittest.TestCase):

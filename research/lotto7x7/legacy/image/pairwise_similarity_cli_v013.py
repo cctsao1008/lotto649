@@ -7,8 +7,8 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.image.pairwise_similarity_v013 import analyze, html_gallery, MODES, DEFAULT_QUANTILES
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.pairwise_similarity_v013 import analyze, html_gallery, MODES, DEFAULT_QUANTILES
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

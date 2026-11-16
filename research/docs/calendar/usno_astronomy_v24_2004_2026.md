@@ -54,7 +54,7 @@ has been established.
 
 ## One-time archival mechanism
 
-[The original one-time workflow](../../../.github/legacy-workflows/usno_archive_once_20261113.yml)
+[The original one-time workflow](../../legacy-workflows/usno_archive_once_20261113.yml)
 records how the source archive was created from the official USNO API.
 It fails closed if USNO responds with data that do not match the submitted
 source's pinned hash. If network access is blocked for GitHub runners, the

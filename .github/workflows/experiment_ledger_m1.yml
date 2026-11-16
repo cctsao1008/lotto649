@@ -28,4 +28,4 @@ jobs:
       - name: M1 regression tests and public anchor verification
         run: |
           python -m unittest discover -s research/tests -p 'test_experiment_ledger_m1.py' -v
-          python -m lotto7x7.experiment_ledger verify
+          python -m research.lotto7x7.experiment_ledger verify

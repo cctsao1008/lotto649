@@ -95,7 +95,7 @@ git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -p 'test_iching_prospective_v24_p3.py' -v
 
 # Read-only pending or source-verified future evaluation, write new report:
-& $py -m lotto7x7.iching_prospective_v24_p3 evaluate --out results/v24_p3_001.json
+& $py -m research.lotto7x7.iching_prospective_v24_p3 evaluate --out results/v24_p3_001.json
 ```
 
 For subsequent checks use a distinct filename and `--previous

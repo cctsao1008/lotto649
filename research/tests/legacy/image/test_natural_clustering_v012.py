@@ -9,13 +9,13 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.natural_clustering_v012 import (
+from research.lotto7x7.natural_clustering_v012 import (
     SCHEMA,adjusted_silhouette,device_name,feature_space,pairwise_gpu,
     ward_candidates,density_hdbscan,kmedoids,class_summary,stability_subsamples,
     report,html_gallery,
 )
-from lotto7x7.image_classification_v011 import iid_legal_images
-from lotto7x7.natural_clustering_cli_v012 import configure_parsers,run
+from research.lotto7x7.image_classification_v011 import iid_legal_images
+from research.lotto7x7.natural_clustering_cli_v012 import configure_parsers,run
 
 
 def sample(n=100,seed=11):
@@ -149,7 +149,7 @@ class NaturalClusteringV012Tests(unittest.TestCase):
             with self.assertRaises(FileExistsError):run(a)
 
     def test_frozen_cnn_checkpoint_without_training(self):
-        from lotto7x7.deep_feature_v010 import DeepFeatureNet
+        from research.lotto7x7.deep_feature_v010 import DeepFeatureNet
         x,ids=sample(50)
         with tempfile.TemporaryDirectory() as folder:
             p=Path(folder)/'model.pt'

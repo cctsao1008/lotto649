@@ -15,7 +15,7 @@ from pathlib import Path
 from .draw_ingestion_m2 import (
     _from_csv_bytes, audit_source, normalize_draw,
 )
-from lotto7x7.geometry.geometry_shadow_v029 import (
+from research.lotto7x7.geometry.geometry_shadow_v029 import (
     SEAL_PATH, verify_shadow, _git_blob_sha1,
 )
 from .official_draw_evidence_m2 import verify_local_evidence

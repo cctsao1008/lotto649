@@ -15,7 +15,7 @@ from pathlib import Path
 import argparse
 import json
 
-from lotto7x7.coverage_v06 import normalized_bets
+from research.lotto7x7.coverage_v06 import normalized_bets
 
 PRIZE_ORDER = ("first", "second", "third", "fourth", "fifth", "sixth",
                "seventh", "regular")

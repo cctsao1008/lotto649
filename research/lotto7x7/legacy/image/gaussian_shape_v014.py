@@ -17,8 +17,8 @@ import torch
 from scipy.sparse.linalg import eigsh
 from sklearn.mixture import GaussianMixture
 
-from lotto7x7.legacy.image.image_classification_v011 import iid_legal_images, numbers
-from lotto7x7.legacy.image.pairwise_similarity_v013 import _device, pairwise_matrices, point_coordinates
+from research.lotto7x7.legacy.image.image_classification_v011 import iid_legal_images, numbers
+from research.lotto7x7.legacy.image.pairwise_similarity_v013 import _device, pairwise_matrices, point_coordinates
 
 SCHEMA = 'lotto7x7.gaussian_shape_density.v0.14'
 DEFAULT_BANDWIDTHS = (0.35, 0.55, 0.8, 1.1)

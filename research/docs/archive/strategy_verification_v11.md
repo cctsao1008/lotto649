@@ -50,7 +50,7 @@ $py = '.\.venv\Scripts\python.exe'
 if ($LASTEXITCODE -ne 0) { throw 'Strategy v1.1 tests failed' }
 
 # Use the previous frozen P2B report, or run the original v0.30 P2B CLI first.
-& $py -m lotto7x7.strategy_verification_v11 `
+& $py -m research.lotto7x7.strategy_verification_v11 `
   --selection-report results/strategy_v11_full_source.json `
   --m0-manifest research/experiments/v028_m0_four_block_candidates_20261110.json `
   --csv-root data/csv --bin-root data/bin `

@@ -6,8 +6,8 @@ from pathlib import Path
 
 import torch
 
-from lotto7x7.legacy.image.full_history_v072 import run_full_history, resolve_device
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.full_history_v072 import run_full_history, resolve_device
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

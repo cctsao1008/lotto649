@@ -3,11 +3,11 @@ from math import comb
 
 import pytest
 
-from lotto7x7.coverage_strategy_v026 import (
+from research.lotto7x7.coverage_strategy_v026 import (
     PROFILES, audit, overlap_summary, portfolio_profile,
 )
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.official_prize_v026 import official_prize_coverage
 
 
 @pytest.mark.parametrize("profile", PROFILES)

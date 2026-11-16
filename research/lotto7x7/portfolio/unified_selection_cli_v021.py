@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from lotto7x7.portfolio.unified_selection_v021 import build_selection, selection_html, write_csv, OBJECTIVES
+from research.lotto7x7.portfolio.unified_selection_v021 import build_selection, selection_html, write_csv, OBJECTIVES
 
 
 def configure_parsers(action):

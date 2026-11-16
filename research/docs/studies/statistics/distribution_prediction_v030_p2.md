@@ -46,7 +46,7 @@ if ($LASTEXITCODE -ne 0) { throw 'P2A regression failed' }
 
 # Run the predefined pilot without overwriting prior reports
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7.distribution_prediction_v030 `
+& $py -m research.lotto7x7.distribution_prediction_v030 `
     --csv-root data/csv --bin-root data/bin `
     --start-draw 500 --step 5 --references 64 `
     --iid-reps 39 --seed 649 `

@@ -10,9 +10,9 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
-& $py -m lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
-& $py -m lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
-& $py -m lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
+& $py -m research.lotto7x7 shape-pool --size 100 --seed 649 --out results/shape_pool_v06.json
+& $py -m research.lotto7x7 bet-select --pool results/shape_pool_v06.json --count 5 --strategy all --out results/bet_selection_v06.json
+& $py -m research.lotto7x7 coverage-audit --bets results/bet_selection_v06.json --out results/coverage_audit_v06.json
 ```
 
 Optional controls: `bet-select --strategy random|shape-diverse|coverage-optimized --seed 1658`; `coverage-audit --samples 50000 --seed 20261108`. `coverage-audit --draw 1,2,3,4,5,6` optionally scores a **known, already-revealed actual draw** after selection; never include this during selection.

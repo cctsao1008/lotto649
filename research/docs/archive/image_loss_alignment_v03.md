@@ -46,17 +46,17 @@ cd D:\my-github\lotto649
 .\.venv\Scripts\python.exe -m unittest discover -s research/tests -v
 
 # Compare all three losses using the same already-inspected historical segment.
-.\.venv\Scripts\python.exe -m lotto7x7 loss-study `
+.\.venv\Scripts\python.exe -m research.lotto7x7 loss-study `
     --year all --epochs 45 --baseline 32 --bootstrap 400
 
 # Visual audit (same six-pixel image gallery renderer).
-.\.venv\Scripts\python.exe -m lotto7x7 gallery `
+.\.venv\Scripts\python.exe -m research.lotto7x7 gallery `
     --report results/loss_study_v03.json `
     --out results/loss_study_v03.html
 Start-Process .\results\loss_study_v03.html
 
 # Independently assess ability to learn a known cycle versus a fair-IID sequence.
-.\.venv\Scripts\python.exe -m lotto7x7 loss-synthetic --epochs 45
+.\.venv\Scripts\python.exe -m research.lotto7x7 loss-synthetic --epochs 45
 ```
 
 Files created locally under `results/` are excluded from Git; no baseline report is overwritten. The new historical report defaults to `results/loss_study_v03.json`, and synthetic controls to `results/loss_synthetic_v03.json`.

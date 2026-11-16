@@ -58,7 +58,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v13.py' -v
 if ($LASTEXITCODE -ne 0) { throw 'v1.3 unit checks failed' }
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7.strategy_verification_v13 --mip-seconds 15 --out "results/strategy_v13_$stamp.json"
+& $py -m research.lotto7x7.strategy_verification_v13 --mip-seconds 15 --out "results/strategy_v13_$stamp.json"
 if ($LASTEXITCODE -ne 0) { throw 'v1.3 exact gap audit failed' }
 ```
 

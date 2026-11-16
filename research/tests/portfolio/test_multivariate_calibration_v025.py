@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7 import multivariate_calibration_v025 as calibration
+from research.lotto7x7 import multivariate_calibration_v025 as calibration
 
 
 def test_gap_distribution_and_entropy_anchors():

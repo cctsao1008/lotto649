@@ -13,12 +13,12 @@ from zoneinfo import ZoneInfo
 
 import numpy as np
 
-from lotto7x7.prospective.shape_prospective_v019 import (
+from research.lotto7x7.prospective.shape_prospective_v019 import (
     REPORT_SCHEMA, check_freeze, content_hash, file_sha256,
     prospective_evaluate, seal_object, verify_seal,
 )
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import LEVELS, classification_keys, category_name
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import LEVELS, classification_keys, category_name
 
 SCHEMA = 'lotto7x7.pre_draw_class_commitment.v0.20'
 AUDIT_SCHEMA = 'lotto7x7.pre_draw_class_audit.v0.20'

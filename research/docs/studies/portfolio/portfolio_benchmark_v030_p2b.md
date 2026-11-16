@@ -110,7 +110,7 @@ if ($LASTEXITCODE -ne 0) { throw 'P2B tests failed' }
 
 # Run the frozen P2B structural pilot
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7.portfolio_benchmark_v030 `
+& $py -m research.lotto7x7.portfolio_benchmark_v030 `
     --csv-root data/csv --bin-root data/bin `
     --pool-size 512 --random-portfolios 256 `
     --min-hybrid-unique 22 --iid-reps 19 --seed 649 `

@@ -5,16 +5,16 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.historical_guess_v022 import (make_pool,encode_tickets,build_reference,trial,
+from research.lotto7x7.historical_guess_v022 import (make_pool,encode_tickets,build_reference,trial,
                                                  run_experiment,_paths)
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_theory_v016 import classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_theory_v016 import classification_keys
 
 
 def _fixture():
     rng=np.random.default_rng(30)
     rows=make_pool(rng,24)
-    from lotto7x7.shape_predictive_v017 import _baseline_tables
+    from research.lotto7x7.shape_predictive_v017 import _baseline_tables
     baseline=json.loads((Path(__file__).resolve().parents[4] / 'data/reference/shape_class_counts.json').read_text())
     table=_baseline_tables(baseline)
     return np.arange(1000,1024),rows,table
@@ -87,7 +87,7 @@ def test_trial_rejects_duplicate_candidates():
 
 
 def test_run_creates_three_auditable_files(monkeypatch,tmp_path):
-    import lotto7x7.historical_guess_v022 as mod
+    import research.lotto7x7.historical_guess_v022 as mod
     ids,rows,tables=_fixture()
     monkeypatch.setattr(mod,'read_sources',lambda c,u:(ids,rows,tables,{}))
     monkeypatch.setattr(mod,'file_sha256',lambda x:'a'*64)

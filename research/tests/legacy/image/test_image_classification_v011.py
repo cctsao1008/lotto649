@@ -7,11 +7,11 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.image_classification_v011 import (
+from research.lotto7x7.image_classification_v011 import (
     validate, canonical, orbit_size, morphology, classify_exact,
     similarity_five_graph, kmeans_gpu, iid_legal_images, report, html_gallery,
 )
-from lotto7x7.image_classification_cli_v011 import configure_parsers
+from research.lotto7x7.image_classification_cli_v011 import configure_parsers
 
 
 def fixture(n=100, seed=7):
@@ -105,7 +105,7 @@ class ClassificationV011Tests(unittest.TestCase):
         self.assertEqual(details[1]['components_8'],6)
 
     def test_frozen_encoder_loading_without_training(self):
-        from lotto7x7.deep_feature_v010 import DeepFeatureNet
+        from research.lotto7x7.deep_feature_v010 import DeepFeatureNet
         x,ids=fixture(65)
         with tempfile.TemporaryDirectory() as temp:
             path=Path(temp)/'frozen.pt'

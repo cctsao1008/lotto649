@@ -18,12 +18,12 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import silhouette_score
 
-from lotto7x7.legacy.image.gaussian_shape_v014 import kde_density
-from lotto7x7.geometry.shape_taxonomy_v015 import (
+from research.lotto7x7.legacy.image.gaussian_shape_v014 import kde_density
+from research.lotto7x7.geometry.shape_taxonomy_v015 import (
     BANDWIDTHS,RADII,UNIVERSE,classify_numbers,decode_partition,partition_name,
     edge_name,exact_shape_families,mode_stability_multiscale,pairwise_diameter_metrics
 )
-from lotto7x7.geometry.shape_theory_v016 import (LEVELS,classification_keys,category_name,
+from research.lotto7x7.geometry.shape_theory_v016 import (LEVELS,classification_keys,category_name,
     exhaustive_class_counts,historical_comparison,shape_family_baseline)
 
 SCHEMA='lotto7x7.shape_catalog_exhaustive.v0.15+v0.16'

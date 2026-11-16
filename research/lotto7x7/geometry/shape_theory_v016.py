@@ -17,7 +17,7 @@ import json
 import numpy as np
 from scipy.stats import binomtest, chi2
 
-from lotto7x7.geometry.shape_taxonomy_v015 import (UNIVERSE,classify_numbers,partition_name,edge_name)
+from research.lotto7x7.geometry.shape_taxonomy_v015 import (UNIVERSE,classify_numbers,partition_name,edge_name)
 
 from lotto649.shapes import LEVELS, RULE_VERSION
 

@@ -14,11 +14,11 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, shape_partition_bound, quality
-from lotto7x7.legacy.strategy.strategy_verification_v16 import portfolio_audit, local_coordinate_ascent, canonical_sha
-from lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, score_uniform_stream, screen_pool, greedy_multistart
-from lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, shape_partition_bound, quality
+from research.lotto7x7.legacy.strategy.strategy_verification_v16 import portfolio_audit, local_coordinate_ascent, canonical_sha
+from research.lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, score_uniform_stream, screen_pool, greedy_multistart
+from research.lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
 
 SCHEMA = 'lotto649.strategy_verification.v2.0.full_qualified.v1'
 SEEDS = (649, 20261111, 20261112)

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.shape_prospective_cli_v019 import configure_parsers,run
+from research.lotto7x7.shape_prospective_cli_v019 import configure_parsers,run
 
 from research.tests._prospective_fixture_v019 import make_test_inputs
 

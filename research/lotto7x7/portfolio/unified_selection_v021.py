@@ -16,10 +16,10 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.coverage_v06 import exact_coverage, normalized_bets
-from lotto7x7.prospective.shape_prospective_v019 import check_freeze, file_sha256, verify_seal
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
-from lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
+from research.lotto7x7.coverage_v06 import exact_coverage, normalized_bets
+from research.lotto7x7.prospective.shape_prospective_v019 import check_freeze, file_sha256, verify_seal
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
+from research.lotto7x7.geometry.shape_theory_v016 import UNIVERSE, classification_keys
 
 from lotto649.combinations import uniform_candidates
 

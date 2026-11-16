@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.feature_discovery_v09 import discover
-from lotto7x7.legacy.image.research import DATA,load_history
+from research.lotto7x7.legacy.image.feature_discovery_v09 import discover
+from research.lotto7x7.legacy.image.research import DATA,load_history
 
 
 def configure_parsers(action):

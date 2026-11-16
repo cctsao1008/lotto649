@@ -5,7 +5,7 @@ python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
 
 python -m unittest discover -s research/tests -p 'test_strategy_verification_v18.py' -v
 
-python -m lotto7x7.strategy_verification_v18 \
+python -m research.lotto7x7.strategy_verification_v18 \
   --csv-root data/csv --bin-root data/bin --timeout 240 \
   --out results/strategy_v18_new_seed_exact.json
 python - <<'PY'

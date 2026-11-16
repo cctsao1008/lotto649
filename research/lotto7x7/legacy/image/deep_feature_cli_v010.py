@@ -7,8 +7,8 @@ from pathlib import Path
 
 import torch
 
-from lotto7x7.legacy.image.deep_feature_v010 import discover_deep
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.deep_feature_v010 import discover_deep
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

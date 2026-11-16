@@ -9,19 +9,19 @@ from unittest.mock import patch
 
 import numpy as np
 
-from lotto7x7.distribution_dynamics_v030 import _uniform_history
-from lotto7x7.geometry_convergence_v029 import _validate_draws
-from lotto7x7.geometry_repair_v029 import P0_SHA256
-from lotto7x7.geometry_v029 import catalog
-from lotto7x7.log_product_v027 import product_bin
-from lotto7x7.incremental_geometry_v031 import (
+from research.lotto7x7.distribution_dynamics_v030 import _uniform_history
+from research.lotto7x7.geometry_convergence_v029 import _validate_draws
+from research.lotto7x7.geometry_repair_v029 import P0_SHA256
+from research.lotto7x7.geometry_v029 import catalog
+from research.lotto7x7.log_product_v027 import product_bin
+from research.lotto7x7.incremental_geometry_v031 import (
     ALPHA_DEFAULT, FAIR_P, categorical_features, geometry_features,
     legal_marginal_projection, model_features, one_step_scores,
     analyze_incremental_geometry, forecast_marginals, main,
 )
-from lotto7x7.log_product_v027 import _grid, theoretical_log_moments
-from lotto7x7.distribution_dynamics_v030 import exact_null_dynamics
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.log_product_v027 import _grid, theoretical_log_moments
+from research.lotto7x7.distribution_dynamics_v030 import exact_null_dynamics
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
 
 
 def fixture(n=90, seed=649):
@@ -142,7 +142,7 @@ class TestIncrementalGeometryV031(unittest.TestCase):
         draws = fixture(90)
         with TemporaryDirectory(dir="results") as td:
             output = str(Path(td) / "audit.json")
-            with patch("lotto7x7.incremental_geometry_v031.audit_repository_inputs",
+            with patch("research.lotto7x7.incremental_geometry_v031.audit_repository_inputs",
                        return_value=(draws, {"status": "TEST_SOURCE_GATE"})):
                 main(["--start-draw", "50", "--step", "10", "--iid-reps", "3", "--out", output])
                 with self.assertRaises(FileExistsError):
@@ -150,7 +150,7 @@ class TestIncrementalGeometryV031(unittest.TestCase):
             data = json.loads(Path(output).read_text())
             self.assertEqual(data["source_gate"]["status"], "TEST_SOURCE_GATE")
             self.assertEqual(data["targets"], 4)
-            with patch("lotto7x7.incremental_geometry_v031.audit_repository_inputs",
+            with patch("research.lotto7x7.incremental_geometry_v031.audit_repository_inputs",
                        side_effect=ValueError("source mismatch")):
                 with self.assertRaises(ValueError):
                     main(["--start-draw", "50", "--step", "10", "--iid-reps", "3",

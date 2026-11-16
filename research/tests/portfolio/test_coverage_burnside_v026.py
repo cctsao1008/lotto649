@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 import unittest
 
-from lotto7x7 import coverage_burnside_v026 as b
+from research.lotto7x7 import coverage_burnside_v026 as b
 
 
 class IndependentBurnsideTests(unittest.TestCase):

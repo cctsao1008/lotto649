@@ -13,8 +13,8 @@ import json
 import numpy as np
 from hashlib import sha256
 
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_theory_v016 import RULE_VERSION, classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_theory_v016 import RULE_VERSION, classification_keys
 
 
 def make_test_inputs(folder:Path):

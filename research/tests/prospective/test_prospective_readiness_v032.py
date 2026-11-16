@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from lotto7x7 import prospective_readiness_v032 as p
+from research.lotto7x7 import prospective_readiness_v032 as p
 
 
 ROOT = Path(__file__).resolve().parents[3]

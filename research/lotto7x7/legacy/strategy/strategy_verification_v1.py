@@ -17,8 +17,8 @@ from typing import Any
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
-from lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
+from research.lotto7x7.geometry.geometry_v029 import catalog
 
 VERIFIER_SCHEMA = "lotto649.strategy_verification.v1"
 SUPPORTED_SCHEMA = "lotto649.v030.portfolio_benchmark.p2b.v1"

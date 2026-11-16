@@ -17,13 +17,13 @@ from pathlib import Path
 import json
 import numpy as np
 
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import classification_keys
-from lotto7x7.legacy.strategy.strategy_verification_v12 import (
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import classification_keys
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import (
     verify_full_m0, OLD_TICKETS, LEVELS, WEIGHTS, JOINT_SHA,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v17 import score_uniform_stream
-from lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
+from research.lotto7x7.legacy.strategy.strategy_verification_v17 import score_uniform_stream
+from research.lotto7x7.legacy.strategy.strategy_verification_v18 import REFERENCE_RANK_AXES_SHA, SOURCE_PREFIX_SHA
 
 SCHEMA='lotto649.strategy_verification.v2.1.full_universe.v1'
 UNIVERSE=comb(49,6)

@@ -5,9 +5,9 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7 import draw_append_preview_m2 as preview
-from lotto7x7 import prospective_evaluation_m4 as m4
-from lotto7x7 import official_draw_evidence_m2 as evidence
+from research.lotto7x7 import draw_append_preview_m2 as preview
+from research.lotto7x7 import prospective_evaluation_m4 as m4
+from research.lotto7x7 import official_draw_evidence_m2 as evidence
 from tests._archive_fixture import pre_p5a_archive
 
 ROOT = Path(__file__).resolve().parents[1]

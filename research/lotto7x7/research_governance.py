@@ -198,7 +198,7 @@ def render_index(entries: list[dict]) -> str:
         "Existing [M1 Experiment Ledger](experiment_ledger_m1.md) remains the authority for public seal identities and local private paid registrations.",
         "", "## Validation", "",
         f"{B}{B}{B}powershell",
-        "python -m lotto7x7.research_governance verify",
+        "python -m research.lotto7x7.research_governance verify",
         "python -m unittest discover -s research/tests -p 'test_research_governance.py' -v",
         f"{B}{B}{B}", "",
     ])

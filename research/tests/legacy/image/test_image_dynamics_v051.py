@@ -10,8 +10,8 @@ from unittest.mock import patch
 
 import numpy as np
 
-from lotto7x7.core import decode, encode, iid_images
-from lotto7x7.image_dynamics_v051 import (
+from research.lotto7x7.core import decode, encode, iid_images
+from research.lotto7x7.image_dynamics_v051 import (
     SCHEMA, IID_NON_DC_POWER, IID_OVERLAP, IID_OCCUPANCY,
     _distribution, _layouts, _model_gallery,
     _spectral_from_dct, image_dynamics, image_dynamics_gallery,
@@ -72,7 +72,7 @@ class VisualImageDynamicsTests(unittest.TestCase):
         self.assertAlmostEqual(IID_OVERLAP,36/49)
         self.assertAlmostEqual(IID_OCCUPANCY,6/49)
         sample=iid_images(4096,17)
-        from lotto7x7.image_structure_v05 import describe_images
+        from research.lotto7x7.image_structure_v05 import describe_images
         dct=describe_images(sample)["dct"]
         power=np.mean(dct*dct,axis=0)
         self.assertAlmostEqual(np.sum(power)-power[0,0],258/49,places=10)
@@ -114,7 +114,7 @@ class VisualImageDynamicsTests(unittest.TestCase):
             similarity_matrices(self.images,self.draw_ids,count=1)
 
     def fake_report(self, **kwargs):
-        with patch("lotto7x7.image_dynamics_v051.load_history",return_value=self.data):
+        with patch("research.lotto7x7.image_dynamics_v051.load_history",return_value=self.data):
             return image_dynamics(seed=42,null_images=200,mapping_seeds=1,
                                   transitions=3,matrix_count=5,null_shape_pairs=16,
                                   **kwargs)

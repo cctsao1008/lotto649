@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from zipfile import ZipFile
 
-from lotto7x7.iching_gua_qi_v24_p1 import (
+from research.lotto7x7.iching_gua_qi_v24_p1 import (
     GUA_CODES, GUA_NAMES, RULE, TZ, ANCHORS,
     checked_bytes, digest, lunar_phase, make_row, micros, parse_anchors,
     parse_local, six_ball_hexagram, solar_state, verify_source_archive,

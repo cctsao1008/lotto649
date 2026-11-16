@@ -14,12 +14,12 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.portfolio.log_product_p3b_pilot_v027 import evaluate_draw
-from lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import (
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.portfolio.log_product_p3b_pilot_v027 import evaluate_draw
+from research.lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import (
     audit_pilot, exact_binomial_tail, exact_fair_probability,
 )
-from lotto7x7.portfolio.log_product_p3d_legacy_replay_v027 import (
+from research.lotto7x7.portfolio.log_product_p3d_legacy_replay_v027 import (
     SCHEMA as P3D_SCHEMA, CONFIG, FINAL_CUTOFF, FROZEN_HASH, FROZEN_ID,
 )
 

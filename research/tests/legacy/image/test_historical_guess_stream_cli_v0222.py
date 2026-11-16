@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from lotto7x7.historical_guess_stream_cli_v0222 import configure_parsers, run
+from research.lotto7x7.historical_guess_stream_cli_v0222 import configure_parsers, run
 
 
 def _parser():
@@ -26,7 +26,7 @@ def test_defaults_are_unlimited_no_pacing_and_random_seed():
 
 
 def test_explicit_flags_are_forwarded(monkeypatch,tmp_path):
-    import lotto7x7.historical_guess_stream_cli_v0222 as cli
+    import research.lotto7x7.historical_guess_stream_cli_v0222 as cli
     args=_parser().parse_args(['historical-hit-stream','--strategy','uniform',
          '--target','holdout','--holdout-count','50','--batch-size','65536',
          '--seed','123456','--max-batches','2','--checkpoint-seconds','2',

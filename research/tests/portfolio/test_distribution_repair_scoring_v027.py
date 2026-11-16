@@ -8,8 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.distribution_repair_v027 import baseline, exact_theory, squared_l2_probability
-from lotto7x7.distribution_repair_scoring_v027 import (
+from research.lotto7x7.distribution_repair_v027 import baseline, exact_theory, squared_l2_probability
+from research.lotto7x7.distribution_repair_scoring_v027 import (
     SCHEMA, conditional_repair, first_ticket_with_sum, score_p0, score_ticket,
     markdown_report, main,
 )

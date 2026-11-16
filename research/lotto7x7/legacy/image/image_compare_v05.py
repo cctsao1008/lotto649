@@ -18,12 +18,12 @@ import numpy as np
 import torch
 from torch import nn
 
-from lotto7x7.core import decode, similarity
-from lotto7x7.learning import ImageSequenceLearner, image_windows
-from lotto7x7.legacy.image.loss_study_v03 import loss_v03
-from lotto7x7.legacy.image.predictability_v04 import paired_block_interval, uniform_brier
-from lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
-from lotto7x7.legacy.image.image_structure_v05 import (SCHEMA as STRUCTURE_SCHEMA,
+from research.lotto7x7.core import decode, similarity
+from research.lotto7x7.learning import ImageSequenceLearner, image_windows
+from research.lotto7x7.legacy.image.loss_study_v03 import loss_v03
+from research.lotto7x7.legacy.image.predictability_v04 import paired_block_interval, uniform_brier
+from research.lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
+from research.lotto7x7.legacy.image.image_structure_v05 import (SCHEMA as STRUCTURE_SCHEMA,
                                   check_images, describe_images, _svg)
 
 SCHEMA = "lotto7x7.image_compare.v0.5"

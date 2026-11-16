@@ -23,7 +23,7 @@ import torch
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 
-from lotto7x7.legacy.image.image_classification_v011 import iid_legal_images, numbers, validate
+from research.lotto7x7.legacy.image.image_classification_v011 import iid_legal_images, numbers, validate
 
 SCHEMA = 'lotto7x7.pairwise_optimal_matching.v0.13'
 MODES = ('position', 'd4', 'shape', 'shape_hausdorff')

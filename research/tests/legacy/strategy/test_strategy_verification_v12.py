@@ -10,7 +10,7 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.strategy_verification_v12 import (
+from research.lotto7x7.strategy_verification_v12 import (
     BLOCKS, JOINT_SHA, OLD_TICKETS, PREFIX_SHA, RAW_SAMPLE_SHA, SHAPE_SHA,
     _feasible, _quality, candidate_sample_hash, draw_sample,
     integer_gain_numerators, one_swap_improvements, prefix_sha256,

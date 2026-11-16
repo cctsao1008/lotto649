@@ -72,8 +72,8 @@ Pure Python standard library; no network access, expensive Monte Carlo replay or
 
 \`\`\`powershell
 python -m unittest discover -s research/tests -p 'test_research_governance.py' -v
-python -m lotto7x7.research_governance verify
-python -m lotto7x7.research_governance render
+python -m research.lotto7x7.research_governance verify
+python -m research.lotto7x7.research_governance render
 \`\`\`
 
 The verifier checks stable IDs, safe paths, pinned original blobs, valid evidence categories, selected native P1A/P2A conclusion fields, initial pending seal states and a deterministic Markdown index. CI may finish a governance build, but may not promote a study to predictive GO.

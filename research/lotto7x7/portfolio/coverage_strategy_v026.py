@@ -12,8 +12,8 @@ import json
 from pathlib import Path
 from random import Random
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 SCHEMA = "lotto7x7.coverage_strategy_a.v0.26.p1"
 PROFILES = (

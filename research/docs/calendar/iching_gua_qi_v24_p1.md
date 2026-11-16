@@ -64,7 +64,7 @@ The historical draw schedule, weekday and year could be correlated with astronom
 cd E:\lotto649
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_iching_gua_qi_v24_p1.py' -v
-& $py -m lotto7x7.iching_gua_qi_v24_p1 --out-dir results/v24_iching_p1_local
+& $py -m research.lotto7x7.iching_gua_qi_v24_p1 --out-dir results/v24_iching_p1_local
 ```
 
 For local use, test ZIP-dependent cases skip if `_usno_official_test.zip` is not present, but the CLI always re-verifies all 46 USNO JSON files and all SHA-256 source gates. The dedicated GitHub Actions job builds the transient ZIP itself and executes all 16 tests. Its first successful run created the *versioned, immutable* `research/artifacts/v24_iching/` CSV and audit JSON. Subsequent changes to the P1 implementation/tests/documentation trigger **read-only byte-for-byte regeneration and comparison** in a temporary directory, never rewriting the frozen research artifacts or downloading new data.

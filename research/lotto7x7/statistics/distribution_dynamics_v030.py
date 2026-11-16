@@ -14,14 +14,14 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import (
+from research.lotto7x7.geometry.geometry_convergence_v029 import (
     _check_config, _prefixes, _validate_draws, audit_repository_inputs,
 )
-from lotto7x7.geometry.geometry_repair_v029 import exact_structural_covariance, P0_SHA256
-from lotto7x7.geometry.geometry_structure_v029 import (
+from research.lotto7x7.geometry.geometry_repair_v029 import exact_structural_covariance, P0_SHA256
+from research.lotto7x7.geometry.geometry_structure_v029 import (
     PAIR_FEATURES, _features_and_l3, _mapping_labels,
 )
-from lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.geometry.geometry_v029 import catalog
 
 SCHEMA = "lotto649.v030.distribution_dynamics.martingale.v1"
 DEFAULT_IID_REPLICATES = 199

@@ -64,7 +64,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -v
 
-& $py -m lotto7x7 full-history-audit `
+& $py -m research.lotto7x7 full-history-audit `
     --report results/v072_biga_2497_full.json `
     --data data/bin/lotto649_images_v2.bin `
     --manifest data/bin/lotto649_source_manifest.json `
@@ -83,13 +83,13 @@ Do **not** rerun it. Compute two additional matched runs with identical
 input BIN, changing **only** seed, checkpoint and output path.
 
 ```powershell
-& $py -m lotto7x7 full-history-gpu `
+& $py -m research.lotto7x7 full-history-gpu `
     --device cuda --warmup 200 --count 5 --size 100 --families 20 `
     --scenarios 8192 --seed 650 `
     --checkpoint results/v072_biga_2497_seed650_checkpoint.jsonl `
     --out results/v072_biga_2497_seed650_full.json
 
-& $py -m lotto7x7 full-history-gpu `
+& $py -m research.lotto7x7 full-history-gpu `
     --device cuda --warmup 200 --count 5 --size 100 --families 20 `
     --scenarios 8192 --seed 651 `
     --checkpoint results/v072_biga_2497_seed651_checkpoint.jsonl `
@@ -103,11 +103,11 @@ checkpoint must **never** be reused with a different seed.
 Audit each new report independently:
 
 ```powershell
-& $py -m lotto7x7 full-history-audit `
+& $py -m research.lotto7x7 full-history-audit `
     --report results/v072_biga_2497_seed650_full.json `
     --out results/v073_biga_2497_seed650_audit.json
 
-& $py -m lotto7x7 full-history-audit `
+& $py -m research.lotto7x7 full-history-audit `
     --report results/v072_biga_2497_seed651_full.json `
     --out results/v073_biga_2497_seed651_audit.json
 ```
@@ -115,7 +115,7 @@ Audit each new report independently:
 Aggregate **only after each separate CPU audit passes**:
 
 ```powershell
-& $py -m lotto7x7 full-history-multiseed `
+& $py -m research.lotto7x7 full-history-multiseed `
     --reports results/v072_biga_2497_full.json results/v072_biga_2497_seed650_full.json results/v072_biga_2497_seed651_full.json `
     --audits results/v073_biga_2497_seed649_audit.json results/v073_biga_2497_seed650_audit.json results/v073_biga_2497_seed651_audit.json `
     --out results/v073_biga_2497_multiseed.json

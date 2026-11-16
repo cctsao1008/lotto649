@@ -48,7 +48,7 @@ jobs:
           print(','.join(map(str,a)))
           PY
           )
-          python -m lotto7x7.log_product_p3d_legacy_replay_v027 \
+          python -m research.lotto7x7.log_product_p3d_legacy_replay_v027 \
             --csv-dir data/csv --indices "$IDX" \
             --out "/tmp/p3e_shard_$SHARD.json" \
             --md-out "/tmp/p3e_shard_$SHARD.md"
@@ -71,11 +71,11 @@ jobs:
       - run: python -m pip install numpy
       - name: Recreate cached P3b policy decisions at exact same dates
         run: |
-          python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/s0.json --md-out /tmp/s0.md
-          python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/s0.json --out /tmp/s1.json --md-out /tmp/s1.md
-          python -m lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/l0.json --md-out /tmp/l0.md
-          python -m lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/s1.json --log-p0 /tmp/l0.json --out /tmp/d1.json --md-out /tmp/d1.md
-          python -m lotto7x7.log_product_p3b_pilot_v027 \
+          python -m research.lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/s0.json --md-out /tmp/s0.md
+          python -m research.lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/s0.json --out /tmp/s1.json --md-out /tmp/s1.md
+          python -m research.lotto7x7.log_product_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/l0.json --md-out /tmp/l0.md
+          python -m research.lotto7x7.log_product_dual_scoring_v027 --sum-p1 /tmp/s1.json --log-p0 /tmp/l0.json --out /tmp/d1.json --md-out /tmp/d1.md
+          python -m research.lotto7x7.log_product_p3b_pilot_v027 \
             --sum-p1 /tmp/s1.json --log-p0 /tmp/l0.json --dual-p1 /tmp/d1.json \
             --csv-dir data/csv --cutoff 2026-11-06 \
             --warmup 300 --stride 64 --replicates 8 --seed 649 \
@@ -107,7 +107,7 @@ jobs:
           path: /tmp/cached
       - name: Merge and independently re-audit exact 35 P2 original outcomes
         run: |
-          python -m lotto7x7.log_product_p3e_merge_v027 \
+          python -m research.lotto7x7.log_product_p3e_merge_v027 \
             --shard /tmp/shards/p3e_shard_0.json \
             --shard /tmp/shards/p3e_shard_1.json \
             --shard /tmp/shards/p3e_shard_2.json \

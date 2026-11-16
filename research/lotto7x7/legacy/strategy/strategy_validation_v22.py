@@ -17,21 +17,21 @@ import json
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import classification_keys
-from lotto7x7.legacy.strategy.strategy_verification_v12 import (
+from research.lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import classification_keys
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import (
     PREFIX_SHA, HISTORY_N, CUTOFF_ID, CUTOFF_DATE, JOINT_SHA, SHAPE_SHA,
     LEVELS, WEIGHTS, _grid, derive_fair_counts, integer_gain_numerators,
     weighted_sd, shape_gain_table, prefix_sha256,
 )
-from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
-from lotto7x7.portfolio.strategy_ab_v026 import (
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+from research.lotto7x7.portfolio.strategy_ab_v026 import (
     checked_bonus_by_draw, disjoint_portfolio, draw_awards, paired_exact_p,
 )
-from lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history as load_records
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
-from lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, screen_pool, greedy_multistart
+from research.lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history as load_records
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.legacy.strategy.strategy_verification_v17 import sampled_unique, screen_pool, greedy_multistart
 
 SCHEMA = 'lotto649.strategy_validation.v2.2.chronological_exploratory.v1'
 PRIMARY_ENDPOINT = 'history-repair versus history-blind fair main-ball pairwise ordinal score'

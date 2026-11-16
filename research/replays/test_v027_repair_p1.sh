@@ -6,8 +6,8 @@ python -m pip install --upgrade pytest numpy
 python -m py_compile research/lotto7x7/portfolio/distribution_repair_v027.py research/lotto7x7/portfolio/distribution_repair_scoring_v027.py
 python -m pytest -q research/tests/portfolio/test_distribution_repair_v027.py research/tests/portfolio/test_distribution_repair_scoring_v027.py
 
-python -m lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_p0.json --md-out /tmp/v027_p0.md
-python -m lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_p0.json --out /tmp/v027_p1.json --md-out /tmp/v027_p1.md --ticket 04,09,17,24,29,42
+python -m research.lotto7x7.distribution_repair_v027 --csv-dir data/csv --cutoff 2026-11-06 --out /tmp/v027_p0.json --md-out /tmp/v027_p0.md
+python -m research.lotto7x7.distribution_repair_scoring_v027 --p0 /tmp/v027_p0.json --out /tmp/v027_p1.json --md-out /tmp/v027_p1.md --ticket 04,09,17,24,29,42
 python - <<'PY'
 import json, math
 from pathlib import Path

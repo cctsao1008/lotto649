@@ -4,9 +4,9 @@ from random import Random
 
 import pytest
 
-import lotto7x7.strategy_ab_iid_calibration_v026 as cal
-import lotto7x7.strategy_ab_v026 as ab
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+import research.lotto7x7.strategy_ab_iid_calibration_v026 as cal
+import research.lotto7x7.strategy_ab_v026 as ab
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 def fake_timeline(n=270):

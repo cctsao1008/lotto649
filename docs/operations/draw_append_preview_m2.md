@@ -13,7 +13,7 @@ Tracking: https://github.com/cctsao1008/lotto649/issues/31
 
 ## Preview construction
 
-For one verified future draw, `lotto7x7.draw_append_preview_m2` reproduces:
+For one verified future draw, `research.lotto7x7.draw_append_preview_m2` reproduces:
 
 - The original `<8sII` binary headers with count incremented by one;
 - One new `<II7B` history record and one new `<I49B` image record;
@@ -36,9 +36,9 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s tests -p 'test_draw_append_preview_m2.py' -v
 
 # After #115000105 has really been drawn, and ONLY after saved source pages agree:
-# & $py -m lotto7x7.official_draw_evidence_m2 --capture-latest
-# & $py -m lotto7x7.official_draw_evidence_m2 --verify-draw 115000105
-# & $py -m lotto7x7.draw_append_preview_m2 `
+# & $py -m research.lotto7x7.official_draw_evidence_m2 --capture-latest
+# & $py -m research.lotto7x7.official_draw_evidence_m2 --verify-draw 115000105
+# & $py -m research.lotto7x7.draw_append_preview_m2 `
 #     --draw-id 115000105 `
 #     --csv-root data/csv --bin-root data/bin `
 #     --evidence-root data/private/lotto649-source `

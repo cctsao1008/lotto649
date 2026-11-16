@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7 import research_governance as g
+from research.lotto7x7 import research_governance as g
 
 
 class ResearchGovernanceTests(unittest.TestCase):

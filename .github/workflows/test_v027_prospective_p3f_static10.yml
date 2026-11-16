@@ -27,7 +27,7 @@ jobs:
           python -m pytest -q research/tests/prospective/test_prospective_p3f_static10_v027.py
       - name: Audit original fixed history and report only available future results
         run: |
-          python -m lotto7x7.prospective_p3f_static10_v027 \
+          python -m research.lotto7x7.prospective_p3f_static10_v027 \
             --seal research/prospective/v027_p3f_static10_20261110_seal.json \
             --csv-dir data/csv \
             --out /tmp/v027_p3f_initial_shadow.json \

@@ -5,7 +5,7 @@ import csv
 import json
 from pathlib import Path
 
-from lotto7x7.prospective.shape_prospective_v019 import (make_freeze, check_freeze, read_updates,
+from research.lotto7x7.prospective.shape_prospective_v019 import (make_freeze, check_freeze, read_updates,
   prospective_evaluate, file_sha256, report_html, _expand_csv)
 
 

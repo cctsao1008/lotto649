@@ -13,13 +13,13 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.baseline_v07 import (
+from research.lotto7x7.baseline_v07 import (
     ARMS, SCHEMA, SCORE_SCHEMA, SNAPSHOT_SCHEMA, make_arms, random_pool,
     random_sets, rolling_origin, score_shadow, shadow_snapshot,
 )
-from lotto7x7.coverage_v06 import UNIVERSE, normalized_bets, exact_coverage
-from lotto7x7.candidate_pool_v06 import pool_digest
-from lotto7x7.shape_engine_v06 import bitmap
+from research.lotto7x7.coverage_v06 import UNIVERSE, normalized_bets, exact_coverage
+from research.lotto7x7.candidate_pool_v06 import pool_digest
+from research.lotto7x7.shape_engine_v06 import bitmap
 
 
 def fixture():
@@ -54,7 +54,7 @@ class BaselineV07Tests(unittest.TestCase):
         self.assertEqual(exact_coverage(b2)['at_least_counts']['6'], 5)
 
     def test_random_pool_digest_unique_and_shape_identity(self):
-        from lotto7x7.shape_engine_v06 import shape_key, shape_id
+        from research.lotto7x7.shape_engine_v06 import shape_key, shape_id
         pool = random_pool(100, 2026, int(self.ids[-1]))
         self.assertEqual(pool['candidate_count'], 100)
         self.assertEqual(pool['candidate_sha256'], pool_digest(pool['candidates']))
@@ -169,13 +169,13 @@ class BaselineV07Tests(unittest.TestCase):
                 ['shadow-score','--snapshot',str(snap),'--draw-id',str(int(ids[-1])+1),
                  '--numbers','1,2,3,4,5,6','--out',str(scored)],
             ]:
-                subprocess.run([sys.executable,'-m','lotto7x7',*command], check=True,
+                subprocess.run([sys.executable,'-m','research.lotto7x7',*command], check=True,
                                capture_output=True,text=True)
             self.assertEqual(json.loads(rolling.read_text())['target_count'],1)
             self.assertEqual(json.loads(snap.read_text())['schema'],SNAPSHOT_SCHEMA)
             self.assertEqual(json.loads(scored.read_text())['schema'],SCORE_SCHEMA)
             # Refuse to overwrite sealed snapshots on repeated creation.
-            repeat = subprocess.run([sys.executable,'-m','lotto7x7','shadow-snapshot',
+            repeat = subprocess.run([sys.executable,'-m','research.lotto7x7','shadow-snapshot',
                                      '--data',str(dataset),'--count','1','--size','12',
                                      '--families','4','--out',str(snap)],
                                     capture_output=True,text=True)

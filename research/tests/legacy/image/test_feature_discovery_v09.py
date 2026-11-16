@@ -4,11 +4,11 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.feature_discovery_v09 import (
+from research.lotto7x7.feature_discovery_v09 import (
     validate_images,_dct_basis,_feature_bank,_scan_periods,iid_six_hot,
     shuffled_history,discover,resolve_device,
 )
-from lotto7x7.feature_discovery_cli_v09 import configure_parsers
+from research.lotto7x7.feature_discovery_cli_v09 import configure_parsers
 
 
 def sample(n=150,seed=8):

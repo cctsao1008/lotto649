@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import numpy as np
 
-from lotto7x7.legacy.image.gaussian_shape_v014 import (analyze, html_gallery, load_existing,
+from research.lotto7x7.legacy.image.gaussian_shape_v014 import (analyze, html_gallery, load_existing,
                                  DEFAULT_BANDWIDTHS, DEFAULT_COMPONENTS)
 
 

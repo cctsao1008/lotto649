@@ -20,9 +20,9 @@ from zoneinfo import ZoneInfo
 import numpy as np
 from scipy.special import logsumexp
 
-from lotto7x7.legacy.image.shape_predictive_v017 import _baseline_tables, _index_tags, validate_history, RARE_CODE_NAME
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
-from lotto7x7.geometry.shape_theory_v016 import RULE_VERSION, LEVELS, UNIVERSE, classification_keys, category_name
+from research.lotto7x7.legacy.image.shape_predictive_v017 import _baseline_tables, _index_tags, validate_history, RARE_CODE_NAME
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
+from research.lotto7x7.geometry.shape_theory_v016 import RULE_VERSION, LEVELS, UNIVERSE, classification_keys, category_name
 
 FREEZE_SCHEMA='lotto7x7.prospective_freeze.v0.19'
 REPORT_SCHEMA='lotto7x7.prospective_monitor.v0.19'

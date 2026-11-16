@@ -54,7 +54,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-gaussian-gpu `
+& $py -m research.lotto7x7 shape-gaussian-gpu `
     --device cuda `
     --matrix results/v013_pairwise_similarity.npz `
     --assignments results/v013_pairwise_similarity.csv `

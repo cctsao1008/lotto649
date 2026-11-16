@@ -6,9 +6,9 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_theory_v016 import classification_keys
-from lotto7x7.strategy_verification_v21 import (
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_theory_v016 import classification_keys
+from research.lotto7x7.strategy_verification_v21 import (
     _validate_reference,score_batch,accumulate_envelopes,rank_quality,
     find_distinct_witness,summarize,scan_full_universe,UNIVERSE,
 )

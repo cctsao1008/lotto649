@@ -5,7 +5,7 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.prediction_audit_v081 import audit, METHODS, SCHEMA
+from research.lotto7x7.prediction_audit_v081 import audit, METHODS, SCHEMA
 
 
 class ProbabilityAuditV081Tests(unittest.TestCase):

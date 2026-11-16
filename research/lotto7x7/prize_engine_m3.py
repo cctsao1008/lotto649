@@ -11,9 +11,9 @@ import json
 from pathlib import Path
 
 from .draw_ingestion_m2 import ANCHOR, ANCHOR_SOURCE, normalize_draw, audit_source
-from lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, prize_tier, official_prize_coverage
+from research.lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, prize_tier, official_prize_coverage
 from .coverage_v06 import normalized_bets
-from lotto7x7.geometry.geometry_shadow_v029 import verify_shadow, SEAL_PATH
+from research.lotto7x7.geometry.geometry_shadow_v029 import verify_shadow, SEAL_PATH
 
 SCHEMA = "lotto649.m3.prize_grading.v1"
 LOTTERY_LINE_COST_TWD = 50

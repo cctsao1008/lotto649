@@ -5,8 +5,8 @@ import argparse
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.research import DATA, load_history
-from lotto7x7.legacy.image.robustness_v071 import audit_rolling, sweep_rolling
+from research.lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.robustness_v071 import audit_rolling, sweep_rolling
 
 
 def configure_parsers(action):

@@ -8,17 +8,17 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.early_hit_v023 import (
+from research.lotto7x7.early_hit_v023 import (
     _bootstrap_ci, _holm_pvalues, _paths, _summarize_cutoff,
     evaluate_paired_pool, lookup_matches, ranking_from_training, run_backtest,
 )
-from lotto7x7.historical_guess_v022 import build_reference, encode_tickets
-from lotto7x7.historical_guess_stream_v0222 import make_fast_batch
+from research.lotto7x7.historical_guess_v022 import build_reference, encode_tickets
+from research.lotto7x7.historical_guess_stream_v0222 import make_fast_batch
 
 
 def fixture_data(monkeypatch):
-    import lotto7x7.early_hit_v023 as mod
-    from lotto7x7.shape_predictive_v017 import _baseline_tables
+    import research.lotto7x7.early_hit_v023 as mod
+    from research.lotto7x7.shape_predictive_v017 import _baseline_tables
     baseline = json.loads((Path(__file__).resolve().parents[4] / 'data/reference/shape_class_counts.json').read_text())
     tables = _baseline_tables(baseline)
     draws = make_fast_batch(np.random.default_rng(17), 32)

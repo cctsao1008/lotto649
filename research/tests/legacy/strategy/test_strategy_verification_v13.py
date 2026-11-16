@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 # Tests run against the actual package when invoked from repository root.
-from lotto7x7.strategy_verification_v13 import (validate_pool, constraints,
+from research.lotto7x7.strategy_verification_v13 import (validate_pool, constraints,
      exact_dual_upper_bound, optimization_certificate, explain_selection, is_feasible,
      quality, shape_partition_bound, CERT_SCALE)
 

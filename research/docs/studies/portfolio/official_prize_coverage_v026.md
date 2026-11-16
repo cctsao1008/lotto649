@@ -60,7 +60,7 @@ awards are pool-dependent, and fixed prizes may be rule-dependent.
 ```powershell
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
-python -m lotto7x7 official-prize-audit `
+python -m research.lotto7x7 official-prize-audit `
   --tickets 4,9,17,24,29,42 10,13,14,27,28,34 6,12,19,20,44,48 3,7,18,33,40,47 `
   --out results/v026_reference_official_prizes.json
 
@@ -71,7 +71,7 @@ $r.expected_awarded_tickets
 $r.awarded_ticket_count_probabilities
 ```
 
-Also supported: `python -m lotto7x7.official_prize_v026 ...`.
+Also supported: `python -m research.lotto7x7.official_prize_v026 ...`.
 No historical files or future forecast seals are read or modified.
 
 ## Verification

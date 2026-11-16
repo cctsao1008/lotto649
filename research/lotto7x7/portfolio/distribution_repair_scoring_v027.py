@@ -13,10 +13,10 @@ import json
 from math import isclose, sqrt
 from pathlib import Path
 
-from lotto7x7.portfolio.distribution_repair_v027 import (
+from research.lotto7x7.portfolio.distribution_repair_v027 import (
     LOW, METRIC, SCHEMA as P0_SCHEMA, exact_theory, squared_l2_probability,
 )
-from lotto7x7.portfolio.deficit_compensation_v025 import validate_ticket
+from research.lotto7x7.portfolio.deficit_compensation_v025 import validate_ticket
 
 SCHEMA = "lotto7x7.distribution_repair.v0.27.p1"
 
@@ -266,7 +266,7 @@ def markdown_report(report: dict) -> str:
                   "- Neither a positive G nor a high percentile proves next-draw self-correction or improved ticket odds.",
                   "- No P2 four-ticket optimization or P3 historical predictive test is performed.",
                   "", "## Reproduce", "", "```powershell",
-                  "& .\\.venv\\Scripts\\python.exe -m lotto7x7.distribution_repair_scoring_v027 --p0 results/v027_p0_baseline.json --out results/v027_p1_repair.json --md-out results/v027_p1_repair.md",
+                  "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.distribution_repair_scoring_v027 --p0 results/v027_p0_baseline.json --out results/v027_p1_repair.json --md-out results/v027_p1_repair.md",
                   "```", ""])
     return "\n".join(lines)
 

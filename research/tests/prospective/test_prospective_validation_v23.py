@@ -9,7 +9,7 @@ from copy import deepcopy
 from pathlib import Path
 import unittest
 
-from lotto7x7.prospective_validation_v23 import (
+from research.lotto7x7.prospective_validation_v23 import (
     SEAL_PATH,SEAL_BLOB_SHA1,EXPECTED_B,HORIZON,FIRST_ID,
     _git_blob_sha1,_canonical_seal_bytes,load_frozen_seal,validate_manifest,
     _control_seed_tickets,_check_contiguous_future,_evaluate_sealed_rows,

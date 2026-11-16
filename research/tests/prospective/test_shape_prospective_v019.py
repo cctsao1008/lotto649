@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.shape_prospective_v019 import (
+from research.lotto7x7.shape_prospective_v019 import (
     make_freeze,check_freeze,content_hash,verify_seal,read_updates,
     prospective_evaluate,report_html,RARE_CODE_NAME)
 

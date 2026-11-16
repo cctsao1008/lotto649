@@ -26,13 +26,13 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -v
 
 # Descriptive 7x7 image structure, mapping sensitivity, lagged chronology.
-& $py -m lotto7x7 image-study `
+& $py -m research.lotto7x7 image-study `
     --permutations 499 --null-images 4096 --mapping-seeds 2 `
     --out results/image_structure_v05.json `
     --html-out results/image_structure_v05.html
 
 # Causal next-image learning: four IMAGE-derived representations.
-& $py -m lotto7x7 image-compare `
+& $py -m research.lotto7x7 image-compare `
     --seeds 3 --epochs 45 --bootstrap 400 `
     --out results/image_compare_v05.json `
     --html-out results/image_compare_v05.html

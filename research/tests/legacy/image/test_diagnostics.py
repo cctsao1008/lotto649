@@ -9,16 +9,16 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.bin_dataset import Draw, encode_bin
-from lotto7x7.core import encode
-from lotto7x7.diagnostics import (
+from research.lotto7x7.bin_dataset import Draw, encode_bin
+from research.lotto7x7.core import encode
+from research.lotto7x7.diagnostics import (
     ConstantTemplate, SCHEMA, METHODS, decode_logits, diagnose,
     evaluate_predictions, infer_logits, inference_order_control,
     latent_diagnostics, logit_diagnostics, paired_block_intervals,
     train_constant_template,
 )
-from lotto7x7.learning import ImageSequenceLearner, permute_history_windows, train_model
-from lotto7x7.__main__ import gallery
+from research.lotto7x7.learning import ImageSequenceLearner, permute_history_windows, train_model
+from research.lotto7x7.__main__ import gallery
 
 
 class ImageDiagnosticTests(unittest.TestCase):

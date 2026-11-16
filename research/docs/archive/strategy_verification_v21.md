@@ -55,7 +55,7 @@ A bounded deterministic search among the exact per-partition coupled Total ties 
 ```powershell
 python -m unittest discover -s research/tests -p 'test_strategy_verification_v21.py' -v
 
-python -m lotto7x7.strategy_verification_v21 `
+python -m research.lotto7x7.strategy_verification_v21 `
   --csv-root data/csv --bin-root data/bin `
   --batch-size 60000 `
   --out results/strategy_v21_full_universe.json

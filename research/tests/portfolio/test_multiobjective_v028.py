@@ -13,12 +13,12 @@ import json
 import numpy as np
 import pytest
 
-import lotto7x7.multiobjective_v028 as m
-from lotto7x7.shape_theory_v016 import LEVELS,classification_keys
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.official_prize_v026 import official_prize_coverage
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+import research.lotto7x7.multiobjective_v028 as m
+from research.lotto7x7.shape_theory_v016 import LEVELS,classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 def test_exact_joint_and_shape_count_simultaneously_small_bruteforce(monkeypatch):

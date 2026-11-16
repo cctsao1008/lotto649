@@ -43,7 +43,7 @@ if ($LASTEXITCODE -ne 0) { throw 'v0.31 H2 regression failed' }
 
 # Reproducible audit report, under the ignored results tree
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-& $py -m lotto7x7.incremental_geometry_v031 `
+& $py -m research.lotto7x7.incremental_geometry_v031 `
     --csv-root data/csv --bin-root data/bin `
     --start-draw 500 --step 10 --iid-reps 39 --seed 649 --ridge 64 `
     --out "results/v031_h2_incremental_$stamp.json"

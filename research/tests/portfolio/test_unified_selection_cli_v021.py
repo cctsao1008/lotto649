@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.unified_selection_cli_v021 import configure_parsers, output_paths, _reserve
-from lotto7x7.unified_selection_v021 import write_csv
+from research.lotto7x7.unified_selection_cli_v021 import configure_parsers, output_paths, _reserve
+from research.lotto7x7.unified_selection_v021 import write_csv
 
 
 def parse(line):

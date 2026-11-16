@@ -13,8 +13,8 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_v029 import REGIONS, REGION_SETS, catalog, mapping_positions
-from lotto7x7.geometry.geometry_theory_v029 import UNIVERSE, occupancy_numerators, pair_covariance
+from research.lotto7x7.geometry.geometry_v029 import REGIONS, REGION_SETS, catalog, mapping_positions
+from research.lotto7x7.geometry.geometry_theory_v029 import UNIVERSE, occupancy_numerators, pair_covariance
 
 SCHEMA = "lotto649.geometry_convergence.v0.29.p2a.v1"
 REGION_NAMES = tuple(REGIONS)
@@ -205,7 +205,7 @@ def analyze_convergence(numbers: object, *, iid_replicates: int = DEFAULT_REPLIC
 def audit_repository_inputs(csv_root: Path, bin_root: Path) -> tuple[np.ndarray, dict]:
     """Fail closed against validated manifest, both BINs, flat annual CSVs and dates."""
     from scripts.export_lotto649_csv import generate_yearly_csv, verify_files
-    from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+    from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
 
     csv_root, bin_root = Path(csv_root), Path(bin_root)
     expected_csv, annual_counts = generate_yearly_csv(bin_root)

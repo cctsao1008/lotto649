@@ -13,7 +13,7 @@ import random
 import numpy as np
 import torch
 
-from lotto7x7.learning import ImageSequenceLearner, image_windows, shape_loss
+from research.lotto7x7.learning import ImageSequenceLearner, image_windows, shape_loss
 
 DEVICES = ("cpu", "cuda", "auto")
 
@@ -40,7 +40,7 @@ def train_device_model(images: np.ndarray, *, method: str, device: torch.device,
                        seed: int = 649) -> tuple[ImageSequenceLearner, dict]:
     """Match v0.2/v0.3 training semantics while placing all tensors on device."""
     # Local import avoids circular dependency: v0.3 study owns its loss variants.
-    from lotto7x7.legacy.image.loss_study_v03 import METHODS, loss_v03
+    from research.lotto7x7.legacy.image.loss_study_v03 import METHODS, loss_v03
 
     if method not in METHODS or not isinstance(device, torch.device):
         raise ValueError("invalid loss method or torch device")

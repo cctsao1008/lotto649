@@ -4,8 +4,8 @@ from math import comb
 import json
 import unittest
 
-from lotto7x7 import prize_engine_m3 as m3
-from lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7 import prize_engine_m3 as m3
+from research.lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 
 class TestPrizeEngineM3(unittest.TestCase):

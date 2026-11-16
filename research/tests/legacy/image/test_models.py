@@ -1,8 +1,8 @@
 """Fresh causal visual model and pattern diversity tests."""
 import unittest
 import numpy as np
-from lotto7x7.core import encode
-from lotto7x7.models import ImageForecaster, METHODS, diversity, translate
+from research.lotto7x7.core import encode
+from research.lotto7x7.models import ImageForecaster, METHODS, diversity, translate
 
 
 class DynamicTests(unittest.TestCase):

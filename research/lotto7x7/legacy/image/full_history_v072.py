@@ -20,10 +20,10 @@ from typing import Callable
 import numpy as np
 import torch
 
-from lotto7x7.legacy.image.baseline_v07 import _int_seed, random_sets
-from lotto7x7.legacy.image.candidate_pool_v06 import pool_digest
-from lotto7x7.coverage_v06 import exact_coverage, normalized_bets
-from lotto7x7.legacy.image.shape_engine_v06 import (enumerate_placements, orbit_size,
+from research.lotto7x7.legacy.image.baseline_v07 import _int_seed, random_sets
+from research.lotto7x7.legacy.image.candidate_pool_v06 import pool_digest
+from research.lotto7x7.coverage_v06 import exact_coverage, normalized_bets
+from research.lotto7x7.legacy.image.shape_engine_v06 import (enumerate_placements, orbit_size,
                                shape_id, shape_key, validate_images)
 
 SCHEMA = 'lotto7x7.full_history_gpu.v0.7.2'

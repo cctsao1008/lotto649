@@ -16,11 +16,11 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.legacy.image.historical_guess_v022 import (
+from research.lotto7x7.legacy.image.historical_guess_v022 import (
     build_reference, make_pool, trial, _paths, _write_summary,
 )
-from lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
-from lotto7x7.geometry.shape_theory_v016 import UNIVERSE
+from research.lotto7x7.prospective.shape_prospective_v019 import read_sources, file_sha256
+from research.lotto7x7.geometry.shape_theory_v016 import UNIVERSE
 
 SCHEMA = 'lotto7x7.historical_guess_watch.v0.22.1'
 STRATEGIES = ('shape_score', 'uniform')

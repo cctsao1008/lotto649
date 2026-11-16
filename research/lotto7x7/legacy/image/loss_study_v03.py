@@ -17,12 +17,12 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from lotto7x7.core import decode, encode, iid_expected, iid_images, similarity
-from lotto7x7.diagnostics import infer_logits, logit_diagnostics
-from lotto7x7.learning import (ImageSequenceLearner, autocorrelation, image_windows,
+from research.lotto7x7.core import decode, encode, iid_expected, iid_images, similarity
+from research.lotto7x7.diagnostics import infer_logits, logit_diagnostics
+from research.lotto7x7.learning import (ImageSequenceLearner, autocorrelation, image_windows,
                        shape_loss, train_model)
-from lotto7x7.legacy.image.models import diversity
-from lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
+from research.lotto7x7.legacy.image.models import diversity
+from research.lotto7x7.legacy.image.research import DATA, calendar_years, load_history, split
 
 SCHEMA = "lotto7x7.loss_study.v0.3"
 V02_BASELINE_COMMIT = "0102c561530522dd0abae4fd4aa0b8fccef81a9e"
@@ -192,7 +192,7 @@ def _train_arms(images: np.ndarray, *, train_end: int, validation_end: int,
     if device.type == "cuda":
         # The v0.2 source stays frozen; a separately implemented GPU path
         # runs its same architecture, objective, optimizer and split.
-        from lotto7x7.legacy.image.device_training import train_device_model
+        from research.lotto7x7.legacy.image.device_training import train_device_model
         models, fits = {}, {}
         for method in METHODS:
             models[method], fits[method] = train_device_model(
@@ -213,7 +213,7 @@ def _score_images(images: np.ndarray, targets: np.ndarray,
     """Score with identical per-target IID images for all three arms."""
     if baseline < 2 or any(k not in logits for k in METHODS):
         raise ValueError("missing predictions or invalid baseline")
-    from lotto7x7.diagnostics import decode_logits
+    from research.lotto7x7.diagnostics import decode_logits
     predictions = {key: decode_logits(logits[key]) for key in METHODS}
     raw = {key: [] for key in METHODS}
     residual = {key: [] for key in METHODS}
@@ -295,7 +295,7 @@ def study(path: Path = DATA, *, year: int | None = None,
     """Freeze baseline v0.2; run the same study on CPU or opt-in CUDA."""
     if baseline < 2 or bootstrap < 2 or seed < 0:
         raise ValueError("invalid loss-study configuration")
-    from lotto7x7.legacy.image.device_training import select_device
+    from research.lotto7x7.legacy.image.device_training import select_device
     resolved = select_device(device)
     path = Path(path)
     images, dates, draw_ids = load_history(path)
@@ -313,7 +313,7 @@ def study(path: Path = DATA, *, year: int | None = None,
         torch.cuda.synchronize()
     train_seconds = time.perf_counter() - started
     if resolved.type == "cuda":
-        from lotto7x7.legacy.image.device_training import infer_device_logits
+        from research.lotto7x7.legacy.image.device_training import infer_device_logits
         logits = {name: infer_device_logits(
             model, images, indices=targets, window=window,
             batch_size=batch_size, device=resolved)

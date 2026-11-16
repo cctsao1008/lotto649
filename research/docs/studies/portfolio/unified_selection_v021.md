@@ -49,7 +49,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-select-unified `
+& $py -m research.lotto7x7 shape-select-unified `
   --catalog results/v015_v016_p1_shape_catalog.npz `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --freeze research/prospective/prospective_freeze_20261108.json `

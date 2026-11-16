@@ -14,7 +14,7 @@ from math import comb
 
 import numpy as np
 
-from lotto7x7.legacy.image.shape_engine_v06 import (
+from research.lotto7x7.legacy.image.shape_engine_v06 import (
     SIDE, PIXELS, UNIVERSE_SIZE, bitmap, enumerate_placements,
     history_shape_families, parse_shape_key, validate_images,
 )

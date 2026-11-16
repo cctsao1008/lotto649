@@ -10,9 +10,9 @@ from math import sqrt
 
 import numpy as np
 
-from lotto7x7.legacy.image.bet_selection_v06 import SCHEMA as SELECTION_SCHEMA
-from lotto7x7.legacy.image.candidate_pool_v06 import pool_digest
-from lotto7x7.coverage_v06 import (SCHEMA, UNIVERSE, exact_coverage, normalized_bets,
+from research.lotto7x7.legacy.image.bet_selection_v06 import SCHEMA as SELECTION_SCHEMA
+from research.lotto7x7.legacy.image.candidate_pool_v06 import pool_digest
+from research.lotto7x7.coverage_v06 import (SCHEMA, UNIVERSE, exact_coverage, normalized_bets,
                            single_bet_anchor)
 
 

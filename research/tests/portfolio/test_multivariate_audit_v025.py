@@ -6,13 +6,13 @@ from random import Random
 import numpy as np
 import pytest
 
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.multivariate_audit_v025 import (
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.multivariate_audit_v025 import (
     DIM_NAMES, encode_features, fair_covariance, iid_tickets,
     portfolio_audit, registry, select_multivariate_portfolio,
 )
-from lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
-from lotto7x7.shape_deficit_v025 import _keys
+from research.lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
+from research.lotto7x7.shape_deficit_v025 import _keys
 
 
 def _fixture():

@@ -10,29 +10,44 @@ import sys
 import numpy as np
 import pytest
 
-from lotto7x7 import experiment_ledger as ledger
-from lotto7x7 import experiment_runner as runner
+from research.lotto7x7 import experiment_ledger as ledger
+from research.lotto7x7 import experiment_runner as runner
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / "research/experiments/configs/v031-h2-geometry-ci.json"
 
 
+def test_research_package_lives_under_research():
+    package = importlib.import_module("research.lotto7x7")
+    assert Path(package.__file__).parent == ROOT / "research/lotto7x7"
+    assert not (ROOT / "lotto7x7").is_dir()
+
+
 def test_legacy_import_is_canonical_module():
-    canonical = importlib.import_module("lotto7x7.legacy.strategy.strategy_verification_v15")
-    old = importlib.import_module("lotto7x7.strategy_verification_v15")
+    canonical = importlib.import_module("research.lotto7x7.legacy.strategy.strategy_verification_v15")
+    old = importlib.import_module("research.lotto7x7.strategy_verification_v15")
     assert old is canonical
-    assert canonical.__spec__.name == "lotto7x7.legacy.strategy.strategy_verification_v15"
+    assert canonical.__spec__.name == "research.lotto7x7.legacy.strategy.strategy_verification_v15"
     assert canonical.SOURCE_CPP.is_file()
     assert importlib.reload(old) is canonical
 
 
 def test_module_cli_aliases_forward_to_same_parser():
     args = [sys.executable, "-m"]
-    old = subprocess.check_output([*args, "lotto7x7.strategy_verification_v15", "--help"])
+    old = subprocess.check_output([*args, "research.lotto7x7.strategy_verification_v15", "--help"])
     new = subprocess.check_output([
-        *args, "lotto7x7.legacy.strategy.strategy_verification_v15", "--help",
+        *args, "research.lotto7x7.legacy.strategy.strategy_verification_v15", "--help",
     ])
     assert old == new
+
+
+def test_selection_alias_matches_public_cli():
+    args = ["select", "--date", "2026-11-17"]
+    public = subprocess.check_output([sys.executable, "-m", "lotto649", *args], cwd=ROOT)
+    research = subprocess.check_output(
+        [sys.executable, "-m", "research.lotto7x7", *args], cwd=ROOT,
+    )
+    assert research == public
 
 
 def test_registered_config_rejects_invalid_engine_parameters_and_output(tmp_path):
@@ -49,7 +64,7 @@ def test_registered_config_rejects_invalid_engine_parameters_and_output(tmp_path
 
 
 def test_registered_runner_uses_only_pinned_prefix(tmp_path, monkeypatch):
-    from lotto7x7.geometry import geometry_convergence_v029, incremental_geometry_v031
+    from research.lotto7x7.geometry import geometry_convergence_v029, incremental_geometry_v031
     from scripts.export_lotto649_csv import HEAD, HISTORY, IMAGE
     import struct
 

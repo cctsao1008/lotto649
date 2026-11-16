@@ -12,12 +12,12 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.coverage_v06 import (UNIVERSE, coverage_counts, exact_coverage,
+from research.lotto7x7.coverage_v06 import (UNIVERSE, coverage_counts, exact_coverage,
                                    normalized_bets, single_bet_anchor)
-from lotto7x7.coverage_audit_v06 import _popcount64, audit_selection, pool_coverage_estimate
-from lotto7x7.bet_selection_v06 import select_bets
-from lotto7x7.candidate_pool_v06 import create_shape_pool
-from lotto7x7.shape_engine_v06 import bitmap
+from research.lotto7x7.coverage_audit_v06 import _popcount64, audit_selection, pool_coverage_estimate
+from research.lotto7x7.bet_selection_v06 import select_bets
+from research.lotto7x7.candidate_pool_v06 import create_shape_pool
+from research.lotto7x7.shape_engine_v06 import bitmap
 
 
 class ExactCoverageTests(unittest.TestCase):
@@ -111,11 +111,11 @@ class PortfolioPipelineTests(unittest.TestCase):
             bets_file = Path(tmp) / "bets.json"
             audit_file = Path(tmp) / "audit.json"
             pool_file.write_text(json.dumps(self.pool), encoding="utf-8")
-            subprocess.run([sys.executable, "-m", "lotto7x7", "bet-select",
+            subprocess.run([sys.executable, "-m", "research.lotto7x7", "bet-select",
                             "--pool", str(pool_file), "--count", "2",
                             "--strategy", "all", "--out", str(bets_file)],
                            check=True, capture_output=True, text=True)
-            subprocess.run([sys.executable, "-m", "lotto7x7", "coverage-audit",
+            subprocess.run([sys.executable, "-m", "research.lotto7x7", "coverage-audit",
                             "--bets", str(bets_file), "--samples", "200",
                             "--out", str(audit_file)],
                            check=True, capture_output=True, text=True)

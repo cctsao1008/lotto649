@@ -7,8 +7,8 @@ import json
 import numpy as np
 import pytest
 
-from lotto7x7.shape_pre_draw_v020 import make_commitment, audit_commitment
-from lotto7x7.shape_prospective_v019 import (
+from research.lotto7x7.shape_pre_draw_v020 import make_commitment, audit_commitment
+from research.lotto7x7.shape_prospective_v019 import (
     make_freeze, check_freeze, prospective_evaluate, seal_object,
 )
 from research.tests._prospective_fixture_v019 import make_test_inputs

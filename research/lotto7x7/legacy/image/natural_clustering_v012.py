@@ -15,7 +15,7 @@ import numpy as np
 import torch
 from scipy.cluster.hierarchy import linkage, cut_tree
 
-from lotto7x7.legacy.image.image_classification_v011 import (
+from research.lotto7x7.legacy.image.image_classification_v011 import (
     _embeddings, _normalize_features, iid_legal_images, morphology, numbers, validate,
 )
 

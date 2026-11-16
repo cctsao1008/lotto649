@@ -9,8 +9,8 @@ import json
 
 import pytest
 
-from lotto7x7.distribution_repair_v027 import baseline as sum_baseline
-from lotto7x7.log_product_v027 import (
+from research.lotto7x7.distribution_repair_v027 import baseline as sum_baseline
+from research.lotto7x7.log_product_v027 import (
     DEFAULT_WIDTH, EXPECTED_FROZEN_PREFIX, SCHEMA, _grid,
     exact_log_theory, historical_baseline, main, markdown_report,
     product_bin, theoretical_log_moments,

@@ -258,7 +258,7 @@ def explain_selection(pool:list[dict],selection:list[list[int]],*,style:str='bal
 
 def verify_m0_gap(*,csv_root:Path,bin_root:Path,manifest:Path,golden:Path,
                   mip_seconds:float=0.) -> dict:
-    from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+    from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
     verified=verify_full_m0(csv_root=csv_root,bin_root=bin_root,manifest_path=manifest,
                             golden_path=golden,include_verified_pool=True)
     if verified['failed_checks'] or verified['decision']!='M0_BOUNDED_STRATEGY_REPLAY_PASS_GLOBAL_OPTIMUM_UNCERTIFIED':

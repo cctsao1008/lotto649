@@ -7,14 +7,14 @@ import tempfile
 import unittest
 import numpy as np
 
-from lotto7x7.gaussian_validation_v0141 import (
+from research.lotto7x7.gaussian_validation_v0141 import (
  SCHEMA,validate_parameters,fit_gmm_grid,embed_once,dimension_comparison,
  bandwidth_comparison,iid_distance_sample,matched_controls,classification_stability,
  analyze,csv_records,html_report,full_size_iid_controls)
-from lotto7x7.gaussian_validation_cli_v0141 import configure_parsers
-from lotto7x7.gaussian_shape_v014 import load_existing
-from lotto7x7.image_classification_v011 import iid_legal_images
-from lotto7x7.pairwise_similarity_v013 import point_coordinates
+from research.lotto7x7.gaussian_validation_cli_v0141 import configure_parsers
+from research.lotto7x7.gaussian_shape_v014 import load_existing
+from research.lotto7x7.image_classification_v011 import iid_legal_images
+from research.lotto7x7.pairwise_similarity_v013 import point_coordinates
 
 
 def euclidean_distance(n=44,seed=7):

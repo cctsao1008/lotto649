@@ -5,10 +5,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from lotto7x7.strategy_verification_v15 import (
+from research.lotto7x7.strategy_verification_v15 import (
     compile_enumerator, enumerate_exact, python_reference,
 )
-from lotto7x7.strategy_verification_v18 import (
+from research.lotto7x7.strategy_verification_v18 import (
     reduce_primary_optimal_candidates, certify_pool, EXPECTED,
 )
 

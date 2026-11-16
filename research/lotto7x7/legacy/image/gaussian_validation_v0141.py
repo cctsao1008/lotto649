@@ -18,10 +18,10 @@ from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score, s
 from sklearn.mixture import GaussianMixture
 from threadpoolctl import threadpool_limits
 
-from lotto7x7.legacy.image.gaussian_shape_v014 import (load_existing, kde_density, density_metrics,
+from research.lotto7x7.legacy.image.gaussian_shape_v014 import (load_existing, kde_density, density_metrics,
                                     density_modes, mds_embedding)
-from lotto7x7.legacy.image.image_classification_v011 import iid_legal_images
-from lotto7x7.legacy.image.pairwise_similarity_v013 import point_coordinates, pairwise_matrices
+from research.lotto7x7.legacy.image.image_classification_v011 import iid_legal_images
+from research.lotto7x7.legacy.image.pairwise_similarity_v013 import point_coordinates, pairwise_matrices
 
 SCHEMA = 'lotto7x7.gaussian_shape_validation.v0.14.1'
 DEFAULT_DIMS = (4, 8, 12, 16)

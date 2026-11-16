@@ -14,11 +14,11 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.core import decode, iid_images, similarity, validate
-from lotto7x7.legacy.image.image_structure_v05 import (
+from research.lotto7x7.core import decode, iid_images, similarity, validate
+from research.lotto7x7.legacy.image.image_structure_v05 import (
     MORPHOLOGY_NAMES, check_images, describe_images, map_images,
 )
-from lotto7x7.legacy.image.research import DATA, calendar_years, load_history
+from research.lotto7x7.legacy.image.research import DATA, calendar_years, load_history
 
 SCHEMA = "lotto7x7.visual_image_dynamics.v0.5.1"
 COMPARE_SCHEMA = "lotto7x7.image_compare.v0.5"

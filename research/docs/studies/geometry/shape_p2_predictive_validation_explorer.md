@@ -108,7 +108,7 @@ cd D:\my-github\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
-& $py -m lotto7x7 shape-p2-batch `
+& $py -m research.lotto7x7 shape-p2-batch `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
     --min-train 500 `

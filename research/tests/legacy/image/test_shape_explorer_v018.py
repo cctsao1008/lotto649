@@ -3,9 +3,9 @@ from math import comb
 import numpy as np
 import pytest
 
-from lotto7x7.shape_explorer_v018 import gallery_data,offline_shape_explorer
-from lotto7x7.shape_theory_v016 import RULE_VERSION,UNIVERSE,classification_keys
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_explorer_v018 import gallery_data,offline_shape_explorer
+from research.lotto7x7.shape_theory_v016 import RULE_VERSION,UNIVERSE,classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
 
 
 def fixture():

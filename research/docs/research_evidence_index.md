@@ -42,6 +42,6 @@ Existing [M1 Experiment Ledger](experiment_ledger_m1.md) remains the authority f
 ## Validation
 
 ```powershell
-python -m lotto7x7.research_governance verify
+python -m research.lotto7x7.research_governance verify
 python -m unittest discover -s research/tests -p 'test_research_governance.py' -v
 ```

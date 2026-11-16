@@ -16,9 +16,9 @@ import json
 from pathlib import Path
 from random import Random
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.coverage_strategy_v026 import PROFILES, portfolio_profile, overlap_summary
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.coverage_strategy_v026 import PROFILES, portfolio_profile, overlap_summary
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
 
 SCHEMA = "lotto7x7.coverage_global_research.v0.26.p1"
 

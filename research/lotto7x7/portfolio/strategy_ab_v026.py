@@ -19,13 +19,13 @@ from math import comb
 from pathlib import Path
 from random import Random
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
-from lotto7x7.portfolio.multivariate_audit_v025 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
+from research.lotto7x7.portfolio.multivariate_audit_v025 import (
     fair_covariance, portfolio_audit, select_multivariate_portfolio,
 )
-from lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, prize_tier, official_prize_coverage
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.official_prize_v026 import PRIZE_ORDER, prize_tier, official_prize_coverage
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
 
 SCHEMA = "lotto7x7.coverage_locked_hddc.v0.26.p2"
 

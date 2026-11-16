@@ -36,6 +36,7 @@ The calendar snapshots are derived from Taiwan's Central Weather Administration 
 | `tests/strategy/` | Main pipeline tests |
 | `docs/` | Architecture, data operations, and calendar sources |
 | `scripts/` | Draw archive and calendar maintenance |
+| `.github/workflows/` | Active GitHub Actions workflows |
 
 ## Data and research
 

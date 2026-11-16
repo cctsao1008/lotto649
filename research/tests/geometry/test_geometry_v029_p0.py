@@ -2,7 +2,7 @@
 from itertools import combinations
 import unittest
 
-from lotto7x7 import geometry_v029 as geo
+from research.lotto7x7 import geometry_v029 as geo
 
 
 def transforms(cells):

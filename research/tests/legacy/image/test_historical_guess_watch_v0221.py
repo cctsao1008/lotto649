@@ -8,8 +8,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.historical_guess_v022 import make_pool
-from lotto7x7.historical_guess_watch_v0221 import run_paced_experiment
+from research.lotto7x7.historical_guess_v022 import make_pool
+from research.lotto7x7.historical_guess_watch_v0221 import run_paced_experiment
 
 
 class FakeTime:
@@ -30,8 +30,8 @@ class FakeTime:
 
 
 def setup(monkeypatch, *, hits=True):
-    import lotto7x7.historical_guess_watch_v0221 as m
-    from lotto7x7.shape_predictive_v017 import _baseline_tables
+    import research.lotto7x7.historical_guess_watch_v0221 as m
+    from research.lotto7x7.shape_predictive_v017 import _baseline_tables
     fixture = json.loads((Path(__file__).resolve().parents[4] / 'data/reference/shape_class_counts.json').read_text())
     table = _baseline_tables(fixture)
     pool = make_pool(np.random.default_rng(17), 24)

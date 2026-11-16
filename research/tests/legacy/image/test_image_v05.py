@@ -6,13 +6,13 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.core import encode, decode, iid_images
-from lotto7x7.image_structure_v05 import (
+from research.lotto7x7.core import encode, decode, iid_images
+from research.lotto7x7.image_structure_v05 import (
     SCHEMA as STRUCTURE_SCHEMA, MORPHOLOGY_NAMES, SPECTRAL_NAMES,
     check_images, map_images, describe_images, temporal_null, image_study,
     image_gallery,
 )
-from lotto7x7.image_compare_v05 import (
+from research.lotto7x7.image_compare_v05 import (
     SCHEMA as COMPARE_SCHEMA, MODELS, exact_iid_expected_jaccard,
     standardized_features, prepare_windows, train_image_arm,
     infer_image_arm, score_image_logits, image_compare, image_compare_gallery,
@@ -39,7 +39,7 @@ class ImageResearchV05Tests(unittest.TestCase):
         for kind in ("sequential","snake","permuted"):
             x = map_images(original,kind=kind,seed=21)
             self.assertEqual(x.shape,original.shape)
-            from lotto7x7.core import layout
+            from research.lotto7x7.core import layout
             inverse = np.argsort(layout(kind,21).ravel())
             recovered = x.reshape(-1,49)[:,inverse].reshape(-1,7,7)
             np.testing.assert_array_equal(recovered, original)
@@ -89,7 +89,7 @@ class ImageResearchV05Tests(unittest.TestCase):
 
     def test_image_study_report_and_offline_svg_gallery(self):
         fake=(self.images,np.zeros(120,dtype=np.int64),self.ids)
-        with patch("lotto7x7.image_structure_v05.load_history",return_value=fake):
+        with patch("research.lotto7x7.image_structure_v05.load_history",return_value=fake):
             result=image_study(permutations=9,null_images=100,
                                mapping_seeds=1,seed=11,lags=(1,2))
         self.assertEqual(result["schema"],STRUCTURE_SCHEMA)
@@ -142,7 +142,7 @@ class ImageResearchV05Tests(unittest.TestCase):
 
     def test_compare_report_and_gallery_with_synthetic(self):
         fake=(self.images,np.zeros(120,dtype=np.int64),self.ids)
-        with patch("lotto7x7.image_compare_v05.load_history",return_value=fake):
+        with patch("research.lotto7x7.image_compare_v05.load_history",return_value=fake):
             result=image_compare(seeds=1,seed=21,window=3,epochs=1,
                                  patience=1,batch_size=16,embedding=8,hidden=12,
                                  bootstrap=10)

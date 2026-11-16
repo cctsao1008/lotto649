@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from lotto7x7 import prospective_evaluation_m4 as m4
+from research.lotto7x7 import prospective_evaluation_m4 as m4
 from tests._archive_fixture import pre_p5a_archive
 
 ROOT = Path(__file__).resolve().parents[2]

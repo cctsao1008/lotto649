@@ -78,7 +78,7 @@ terms and requires a global argument, not just an individual-pair proof.
 ```powershell
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
-python -m lotto7x7 coverage-global-research `
+python -m research.lotto7x7 coverage-global-research `
   --seed 649 `
   --samples 200 `
   --out results/v026_coverage_global_research.json

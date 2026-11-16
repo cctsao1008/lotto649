@@ -5,7 +5,7 @@ from itertools import combinations
 from math import comb
 import unittest
 
-from lotto7x7.astronomy_research_v24 import (
+from research.lotto7x7.astronomy_research_v24 import (
     UNIVERSE,HEX_ENCODING,COLUMNS,hex_code,exact_hexagram_universe,
     parse_cwa_calendar,join_data,
 )

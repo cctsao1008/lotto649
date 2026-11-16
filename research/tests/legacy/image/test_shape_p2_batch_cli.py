@@ -4,7 +4,7 @@ import json
 import numpy as np
 import pytest
 
-from lotto7x7.shape_p2_batch_cli import output_paths, report_html
+from research.lotto7x7.shape_p2_batch_cli import output_paths, report_html
 
 
 def test_output_paths_all_unique():

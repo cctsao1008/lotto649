@@ -39,15 +39,15 @@ from random import Random
 
 import numpy as np
 
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint, verify_p1
-from lotto7x7.portfolio.distribution_repair_v027 import LOW, TOTAL, exact_theory
-from lotto7x7.portfolio.log_product_dual_portfolio_v027 import _check_inputs
-from lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
-from lotto7x7.portfolio.log_product_joint_p3_v027 import _history_prefix
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import classification_keys, RULE_VERSION, LEVELS, category_name
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint, verify_p1
+from research.lotto7x7.portfolio.distribution_repair_v027 import LOW, TOTAL, exact_theory
+from research.lotto7x7.portfolio.log_product_dual_portfolio_v027 import _check_inputs
+from research.lotto7x7.portfolio.log_product_dual_scoring_v027 import exact_gain_numerators
+from research.lotto7x7.portfolio.log_product_joint_p3_v027 import _history_prefix
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import classification_keys, RULE_VERSION, LEVELS, category_name
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
 
 SCHEMA="lotto7x7.multiobjective.v0.28.m0"
 CUTOFF="2026-11-06"

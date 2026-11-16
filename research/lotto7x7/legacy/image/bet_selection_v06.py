@@ -11,9 +11,9 @@ import json
 
 import numpy as np
 
-from lotto7x7.legacy.image.candidate_pool_v06 import SCHEMA as POOL_SCHEMA, pool_digest
-from lotto7x7.legacy.image.shape_engine_v06 import bitmap, orientations, parse_shape_key, shape_key, shape_id
-from lotto7x7.coverage_v06 import exact_coverage, normalized_bets
+from research.lotto7x7.legacy.image.candidate_pool_v06 import SCHEMA as POOL_SCHEMA, pool_digest
+from research.lotto7x7.legacy.image.shape_engine_v06 import bitmap, orientations, parse_shape_key, shape_key, shape_id
+from research.lotto7x7.coverage_v06 import exact_coverage, normalized_bets
 
 SCHEMA = "lotto7x7.bet_selection.v0.6"
 STRATEGIES = ("random", "shape-diverse", "coverage-optimized")

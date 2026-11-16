@@ -102,7 +102,7 @@ have the same top-prize probability.
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
 
-python -m lotto7x7 coverage-exhaustive `
+python -m research.lotto7x7 coverage-exhaustive `
   --out results/v026_coverage_exhaustive.json
 
 $r = Get-Content results/v026_coverage_exhaustive.json -Raw | ConvertFrom-Json

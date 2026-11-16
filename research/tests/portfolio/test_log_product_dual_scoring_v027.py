@@ -8,10 +8,10 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.distribution_repair_v027 import baseline, squared_l2_probability
-from lotto7x7.distribution_repair_scoring_v027 import score_p0
-from lotto7x7.log_product_v027 import historical_baseline
-from lotto7x7.log_product_dual_scoring_v027 import (
+from research.lotto7x7.distribution_repair_v027 import baseline, squared_l2_probability
+from research.lotto7x7.distribution_repair_scoring_v027 import score_p0
+from research.lotto7x7.log_product_v027 import historical_baseline
+from research.lotto7x7.log_product_dual_scoring_v027 import (
     SCHEMA, dual_score, exact_gain_numerators, main, markdown_report,
     score_ticket, verify_log_p0,
 )

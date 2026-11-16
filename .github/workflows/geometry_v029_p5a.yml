@@ -25,8 +25,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check all public research evidence anchors
-        run: python -m lotto7x7.experiment_ledger verify
+        run: python -m research.lotto7x7.experiment_ledger verify
       - name: Verify future-only nine-draw P5A shadow seal
-        run: python -m lotto7x7.geometry_shadow_v029
+        run: python -m research.lotto7x7.geometry_shadow_v029
       - name: Run shadow immutability regressions
         run: python -m unittest discover -s research/tests -p 'test_geometry_shadow_v029_p5a.py' -v

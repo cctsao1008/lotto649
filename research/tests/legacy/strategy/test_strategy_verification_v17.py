@@ -11,11 +11,11 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.strategy_verification_v12 import draw_sample, LEVELS
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_theory_v016 import classification_keys
-from lotto7x7.strategy_verification_v13 import quality, validate_pool
-from lotto7x7.strategy_verification_v17 import (
+from research.lotto7x7.strategy_verification_v12 import draw_sample, LEVELS
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_theory_v016 import classification_keys
+from research.lotto7x7.strategy_verification_v13 import quality, validate_pool
+from research.lotto7x7.strategy_verification_v17 import (
     sampled_unique, score_uniform_stream, screen_pool, greedy_multistart,
     audit_policies, verify_robustness, POLICIES, QUALIFIED_COUNT,
 )

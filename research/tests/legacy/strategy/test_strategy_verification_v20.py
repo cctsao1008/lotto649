@@ -2,7 +2,7 @@
 import itertools
 import unittest
 
-from lotto7x7.strategy_verification_v20 import (
+from research.lotto7x7.strategy_verification_v20 import (
     grouped_exact_primary_slice, coupled_class_bounds,
     max_disjoint_two_class_total, disjoint_pairing_bound, certify_full_source,
 )

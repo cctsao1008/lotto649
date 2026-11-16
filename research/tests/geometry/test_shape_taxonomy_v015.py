@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from itertools import combinations
 
-from lotto7x7.shape_taxonomy_v015 import (
+from research.lotto7x7.shape_taxonomy_v015 import (
     classify_numbers,decode_partition,partition_name,edge_name,shape_key,
     exact_shape_families,sample_local_modes,nearest_mode_assignments,
     mode_stability_multiscale,pairwise_diameter_metrics,UNIVERSE)

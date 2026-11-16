@@ -8,18 +8,18 @@ from random import Random
 
 import pytest
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.log_product_v027 import _grid
-from lotto7x7.log_product_dual_portfolio_v027 import (
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.log_product_v027 import _grid
+from research.lotto7x7.log_product_dual_portfolio_v027 import (
     SCHEMA, _describe_portfolio, _exact_coverage_parity, _fallback_four,
     _ticket_mask, _witness_for_cells, enumerate_joint_counts,
     frozen_weights, pareto_frontier, score_joint_cell,
     _exact_variance_numerator, _round_ratio_over_sqrt,
     _best_greedy_from_pools, _exact_portfolio_key,
 )
-from lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
+from research.lotto7x7.official_prize_v026 import PRIZE_ORDER, official_prize_coverage
 
 
 def test_small_universe_joint_counts_and_every_mass_exact():
@@ -122,7 +122,7 @@ def test_construct_four_disjoint_witness_and_exact_certificate_bound(monkeypatch
         return {"ticket": list(numbers), "sum": sum(numbers),
                 "log_product_bin_index": 23, "dual_positive": True,
                 "sum_gain": 2e-6, "log_gain": 1e-6}
-    import lotto7x7.log_product_dual_portfolio_v027 as module
+    import research.lotto7x7.log_product_dual_portfolio_v027 as module
     monkeypatch.setattr(module,"dual_score_ticket",fake_ticket)
     ref = official_prize_coverage(REFERENCE)
     hits = exact_coverage(REFERENCE)
@@ -161,7 +161,7 @@ def test_construct_four_disjoint_witness_and_exact_certificate_bound(monkeypatch
 
 
 def test_no_fallback_without_valid_dual_positive_partition(monkeypatch):
-    import lotto7x7.log_product_dual_portfolio_v027 as module
+    import research.lotto7x7.log_product_dual_portfolio_v027 as module
     monkeypatch.setattr(module,"dual_score_ticket",
                         lambda report,ticket: {"dual_positive": False})
     candidate, details = _fallback_four({}, rng=Random(7), trials=12,

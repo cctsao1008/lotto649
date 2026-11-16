@@ -202,7 +202,7 @@ def archived_prefix(study: dict, draws: list[dict]) -> list[dict]:
 def audit_readiness(root: Path, *, expected_last_id: int | None = None,
                     expected_draws: int | None = None) -> dict:
     # These existing audited functions are mandatory; never trust only manifest fields.
-    from lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes
+    from research.lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes
     from scripts.export_lotto649_csv import generate_yearly_csv
     root = root.resolve()
     studies = [check_study(root, study) for study in STUDIES]

@@ -43,16 +43,16 @@ cd E:\lotto649
 $py = ".\.venv\Scripts\python.exe"
 
 # Print fixed region definitions
-& $py -m lotto7x7.geometry_v029 --catalog
+& $py -m research.lotto7x7.geometry_v029 --catalog
 
 # Inspect a known six-number example with the canonical mapping
-& $py -m lotto7x7.geometry_v029 --numbers 4 9 17 24 29 42
+& $py -m research.lotto7x7.geometry_v029 --numbers 4 9 17 24 29 42
 
 # Run the same six-number example under the snake control mapping
-& $py -m lotto7x7.geometry_v029 --numbers 4 9 17 24 29 42 --mapping snake
+& $py -m research.lotto7x7.geometry_v029 --numbers 4 9 17 24 29 42 --mapping snake
 
 # Create a new, non-overwriting report under gitignored results
-& $py -m lotto7x7.geometry_v029 --catalog --out results/v029_geometry_catalog.json
+& $py -m research.lotto7x7.geometry_v029 --catalog --out results/v029_geometry_catalog.json
 
 # Execute standalone no-network regression checks
 & $py -m unittest discover -s research/tests -p "test_geometry_v029_p0.py" -v

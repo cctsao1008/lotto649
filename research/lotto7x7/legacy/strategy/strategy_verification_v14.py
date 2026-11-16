@@ -21,8 +21,8 @@ import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, linprog, milp
 from scipy.sparse import csr_matrix, coo_matrix
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v13 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import (
     validate_pool, is_feasible, quality, shape_partition_bound,
 )
 

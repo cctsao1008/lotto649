@@ -8,12 +8,12 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7.unified_selection_v021 import (
+from research.lotto7x7.unified_selection_v021 import (
     SCHEMA, UNIVERSE, _digest_candidates, _objective_key, build_selection,
     coverage_select, frozen_shape_scores, selection_html, uniform_candidates
 )
-from lotto7x7.coverage_v06 import exact_coverage, normalized_bets
-from lotto7x7.shape_prospective_v019 import check_freeze
+from research.lotto7x7.coverage_v06 import exact_coverage, normalized_bets
+from research.lotto7x7.shape_prospective_v019 import check_freeze
 
 
 def test_pool_legality_and_uniqueness():

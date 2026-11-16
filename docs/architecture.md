@@ -19,14 +19,13 @@ each band before returning the requested number of combinations.
 | `research/artifacts/` | Research snapshots, USNO source data, and published results |
 | `research/docs/`, `research/replays/` | Research notes and replay entry points |
 | `research/tools/`, `research/tests/` | Research utilities and domain tests |
-| `lotto7x7/` | Compatibility imports and historical CLI entry points |
 | `tests/strategy/` | Selection, archive integration, and CLI tests |
 | `docs/operations/` | Data formats and maintenance |
 | `docs/calendar/` | Calendar data provenance for the main strategy |
 | `results/` | Ignored local output from selections and research replays |
 
 Run the main pipeline with `python -m lotto649 select --help`. Historical
-command names remain available with `python -m lotto7x7 research --help`.
+command names remain available with `python -m research.lotto7x7 research --help`.
 Run the full test suite with `python -m pytest -q tests research/tests`.
 
 ## CI and historical replays
@@ -42,7 +41,7 @@ export LEGACY_ARTIFACT_DIR="$(mktemp -d)"
 bash research/replays/coverage_burnside_v026.sh
 ```
 
-Original workflow definitions are retained under `.github/legacy-workflows/`
+Original workflow definitions are retained under `research/legacy-workflows/`
 as historical snapshots. The one-time publications and branch cleanup are
 archived there with their original scope and Git history. The dated append
 tests now run in the M2/M3 integrity workflow and the shared regression suite.
@@ -66,8 +65,8 @@ entry with the same ID, path and `git hash-object <file>` to the M1 public
 registry, then run:
 
 ```bash
-python -m lotto7x7.experiment_ledger verify
-python -m lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_replay.json
+python -m research.lotto7x7.experiment_ledger verify
+python -m research.lotto7x7.experiment_runner v031-h2-geometry-ci --out results/v031_h2_replay.json
 ```
 
 The example reuses the existing H2 engine. The runner verifies the registered

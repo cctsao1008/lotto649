@@ -14,13 +14,13 @@ from random import Random
 import numpy as np
 import pytest
 
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.shape_deficit_v025 import (
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.shape_deficit_v025 import (
     _keys, level_summary, load_exact_baseline, select_shape_portfolio,
     shape_score,
 )
-from lotto7x7.shape_theory_v016 import LEVELS, RULE_VERSION, UNIVERSE
+from research.lotto7x7.shape_theory_v016 import LEVELS, RULE_VERSION, UNIVERSE
 
 
 def history(n=48):

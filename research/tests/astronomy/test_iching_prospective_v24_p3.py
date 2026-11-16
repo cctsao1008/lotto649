@@ -10,7 +10,7 @@ import json
 import unittest
 from unittest.mock import patch
 
-from lotto7x7 import iching_prospective_v24_p3 as p3
+from research.lotto7x7 import iching_prospective_v24_p3 as p3
 
 
 class P3Tests(unittest.TestCase):

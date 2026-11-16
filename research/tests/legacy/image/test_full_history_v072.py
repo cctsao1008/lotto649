@@ -8,8 +8,8 @@ from unittest import TestCase, mock
 import numpy as np
 import torch
 
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.full_history_v072 import (NAMES, PrefixShapePool,
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.full_history_v072 import (NAMES, PrefixShapePool,
     ScenarioEngine, _disjoint_option, _theory, resolve_device, run_full_history,
     score_batch, uniform_pool)
 
@@ -53,7 +53,7 @@ class GPUFullHistoryTests(TestCase):
         self.assertTrue(np.all(matrix[1]==2))
 
     def test_uniform_pool_matches_existing_v07_sampler(self):
-        from lotto7x7.baseline_v07 import random_pool
+        from research.lotto7x7.baseline_v07 import random_pool
         actual, digest = uniform_pool(100, 777)
         old = random_pool(100, 777, 115000101)
         self.assertEqual(actual, [tuple(row['numbers']) for row in old['candidates']])
@@ -85,7 +85,7 @@ class GPUFullHistoryTests(TestCase):
                 return uniform_pool(size,seed)
         self_owner=self
         with tempfile.TemporaryDirectory() as td, mock.patch(
-                'lotto7x7.full_history_v072.PrefixShapePool', FastCatalog):
+                'research.lotto7x7.full_history_v072.PrefixShapePool', FastCatalog):
             path=Path(td)/'progress.jsonl'
             report=run_full_history(arr,ids,warmup=50,count=2,size=20,families=5,
                                     seed=649,scenarios=512,device='cpu',checkpoint=path)
@@ -113,7 +113,7 @@ class GPUFullHistoryTests(TestCase):
 
     def test_incremental_pool_matches_original_phase1_at_each_cutoff(self):
         """Run on the real repo: cached chronological library must match v0.6."""
-        from lotto7x7 import candidate_pool_v06
+        from research.lotto7x7 import candidate_pool_v06
         if not hasattr(candidate_pool_v06, 'random_sample'):
             self.skipTest('local isolated stub does not include full v0.6 implementation')
         rng = np.random.default_rng(71)
@@ -134,7 +134,7 @@ class GPUFullHistoryTests(TestCase):
 
     def test_parser_accepts_gpu_diagnostics_and_tail_targets(self):
         import argparse
-        from lotto7x7.full_history_cli_v072 import configure_parsers
+        from research.lotto7x7.full_history_cli_v072 import configure_parsers
         parser = argparse.ArgumentParser()
         sub = parser.add_subparsers(dest='command', required=True)
         configure_parsers(sub)

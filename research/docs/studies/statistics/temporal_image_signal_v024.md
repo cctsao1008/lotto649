@@ -12,7 +12,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
 
-& $py -m lotto7x7 temporal-research `
+& $py -m research.lotto7x7 temporal-research `
     --csv-root data/csv `
     --image-bin data/bin/lotto649_images_v2.bin `
     --catalog results/v015_v016_p1_shape_catalog.npz `

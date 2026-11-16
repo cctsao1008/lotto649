@@ -3,9 +3,9 @@ from random import Random
 
 import pytest
 
-import lotto7x7.strategy_ab_v026 as mod
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.official_prize_v026 import official_prize_coverage
+import research.lotto7x7.strategy_ab_v026 as mod
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.official_prize_v026 import official_prize_coverage
 
 
 def test_a_is_disjoint_and_relabeling_parity():

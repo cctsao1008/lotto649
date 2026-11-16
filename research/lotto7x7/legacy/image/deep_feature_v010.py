@@ -20,11 +20,11 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from lotto7x7.legacy.image.feature_discovery_v09 import (
+from research.lotto7x7.legacy.image.feature_discovery_v09 import (
     _scan_periods, iid_six_hot, resolve_device, shuffled_history,
     validate_images,
 )
-from lotto7x7.legacy.image.prediction_v08 import project_six
+from research.lotto7x7.legacy.image.prediction_v08 import project_six
 
 SCHEMA = "lotto7x7.deep_feature.v0.10"
 IID_PROB = 6.0 / 49.0

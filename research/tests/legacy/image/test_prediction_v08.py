@@ -9,7 +9,7 @@ from unittest import TestCase, mock
 import numpy as np
 import torch
 
-from lotto7x7.prediction_v08 import (
+from research.lotto7x7.prediction_v08 import (
     ProbabilityCNNGRU, METHODS, _baseline_curves, _top6, _validate,
     _windows, device_for, project_six, replay)
 

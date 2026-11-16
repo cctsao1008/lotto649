@@ -5,8 +5,8 @@ import csv
 import json
 from pathlib import Path
 
-from lotto7x7.legacy.image.image_classification_v011 import report, html_gallery
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.image_classification_v011 import report, html_gallery
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

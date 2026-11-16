@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.deficit_compensation_v025 import (
+from research.lotto7x7.deficit_compensation_v025 import (
     REFERENCE, LAMBDA_NUMBER, P, P2, UNIVERSE, deficit_select,
     discrepancy, frequency_audit, load_csv_history, validate_ticket,
 )

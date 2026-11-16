@@ -71,7 +71,7 @@ jobs:
       - name: Verify legacy 7x7 BIN against regenerated CSV using project parser
         run: |
           python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,<2"
-          python -m lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
+          python -m research.lotto7x7.bin_dataset --verify data/bin/lotto649_images_v2.bin
       - name: Commit exported annual CSV files
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |

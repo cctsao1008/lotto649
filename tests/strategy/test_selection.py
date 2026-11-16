@@ -71,14 +71,10 @@ def test_primary_cli_writes_exclusive_json(tmp_path):
     assert out.read_bytes() == original
 
 
-def test_public_and_compatibility_entry_points_match_from_another_directory(tmp_path):
+def test_public_cli_runs_from_another_directory(tmp_path):
     env = dict(os.environ, PYTHONPATH=str(ROOT))
     args = ["select", "--date", "2026-11-17"]
     current = subprocess.check_output(
         [sys.executable, "-m", "lotto649", *args], cwd=tmp_path, env=env,
     )
-    previous = subprocess.check_output(
-        [sys.executable, "-m", "lotto7x7", *args], cwd=tmp_path, env=env,
-    )
-    assert current == previous
     assert json.loads(current)["history"]["last_date"] < "2026-11-17"

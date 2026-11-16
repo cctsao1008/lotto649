@@ -4,10 +4,10 @@ import unittest
 from datetime import date, timedelta
 from pathlib import Path
 import numpy as np
-from lotto7x7.core import encode
-from lotto7x7.research import (load_history, normalized_signatures, research,
+from research.lotto7x7.core import encode
+from research.lotto7x7.research import (load_history, normalized_signatures, research,
                                split, temporal_audit, year_shuffle)
-from lotto7x7.__main__ import gallery
+from research.lotto7x7.__main__ import gallery
 
 
 def fixture(path, values):

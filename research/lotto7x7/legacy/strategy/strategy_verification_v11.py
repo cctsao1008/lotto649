@@ -22,8 +22,8 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.strategy.strategy_verification_v1 import verify_selection
-from lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
+from research.lotto7x7.legacy.strategy.strategy_verification_v1 import verify_selection
+from research.lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
 
 SCHEMA = 'lotto649.strategy_verification.v1.1'
 M0_SCHEMA = 'lotto7x7.multiobjective.v0.28.m0.candidate_manifest.v1'

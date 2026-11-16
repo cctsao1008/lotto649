@@ -62,10 +62,10 @@ Before the ninth result is verified, report only PENDING/descriptive outcomes. A
     $py = '.\.venv\Scripts\python.exe'
 
     # Verify all original and new public research blob anchors.
-    & $py -m lotto7x7.experiment_ledger verify
+    & $py -m research.lotto7x7.experiment_ledger verify
 
     # Validate future-only dates, both four-disjoint portfolios, original P3B/P3f evidence.
-    & $py -m lotto7x7.geometry_shadow_v029
+    & $py -m research.lotto7x7.geometry_shadow_v029
 
     # Run independent local shadow validation tests.
     & $py -m unittest discover -s research/tests -p 'test_geometry_shadow_v029_p5a.py' -v

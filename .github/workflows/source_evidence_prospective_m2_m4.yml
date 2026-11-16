@@ -37,7 +37,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from tempfile import TemporaryDirectory
-          from lotto7x7.prospective_evaluation_m4 import main
+          from research.lotto7x7.prospective_evaluation_m4 import main
           from tests._archive_fixture import pre_p5a_archive
           import sys
           with TemporaryDirectory() as folder:

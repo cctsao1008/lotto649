@@ -5,8 +5,8 @@ import json
 from html import escape
 from pathlib import Path
 
-from lotto7x7.prospective.shape_prospective_v019 import check_freeze
-from lotto7x7.prospective.shape_pre_draw_v020 import make_commitment, audit_commitment
+from research.lotto7x7.prospective.shape_prospective_v019 import check_freeze
+from research.lotto7x7.prospective.shape_pre_draw_v020 import make_commitment, audit_commitment
 
 
 def configure_parsers(action):

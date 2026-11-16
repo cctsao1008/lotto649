@@ -9,15 +9,15 @@ from pathlib import Path
 
 import pytest
 
-from lotto7x7.distribution_repair_v027 import baseline
-from lotto7x7.distribution_repair_scoring_v027 import score_p0
-from lotto7x7.log_product_v027 import historical_baseline, _grid
-from lotto7x7.log_product_dual_scoring_v027 import dual_score, exact_gain_numerators
-from lotto7x7.log_product_joint_p3_v027 import (
+from research.lotto7x7.distribution_repair_v027 import baseline
+from research.lotto7x7.distribution_repair_scoring_v027 import score_p0
+from research.lotto7x7.log_product_v027 import historical_baseline, _grid
+from research.lotto7x7.log_product_dual_scoring_v027 import dual_score, exact_gain_numerators
+from research.lotto7x7.log_product_joint_p3_v027 import (
     SCHEMA, exact_event_mass, prequential_test, analyze, markdown_report,
     _history_prefix, _observed_features, _theory_pearson_sum_log, main,
 )
-from lotto7x7.log_product_dual_portfolio_v027 import enumerate_joint_counts
+from research.lotto7x7.log_product_dual_portfolio_v027 import enumerate_joint_counts
 
 
 def test_exact_joint_event_probability_not_independence_product():
@@ -45,7 +45,7 @@ def test_joint_repair_exact_rational_vs_independent_brute_force():
     observed=[[1,0],[1,0]]
     flat=[x for row in observed for x in row]
     theory=[x for row in joint for x in row]
-    from lotto7x7.distribution_repair_v027 import squared_l2_probability
+    from research.lotto7x7.distribution_repair_v027 import squared_l2_probability
     original=squared_l2_probability(flat,theory)
     gains=exact_gain_numerators(flat,theory)
     for i,g in enumerate(gains["numerators"]):

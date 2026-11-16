@@ -15,12 +15,12 @@ from typing import Any
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v13 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import (
     validate_pool, is_feasible, quality, shape_partition_bound,
     optimization_certificate, constraints,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v14 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v14 import (
     exact_primary_optimal_reduction, exact_lp_dual_certificate, certified_mip_search,
 )
 

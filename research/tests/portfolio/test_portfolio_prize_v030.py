@@ -3,7 +3,7 @@ from itertools import combinations
 from math import comb
 import unittest
 
-from lotto7x7.portfolio_prize_v030 import exact_prize_distribution
+from research.lotto7x7.portfolio_prize_v030 import exact_prize_distribution
 
 
 class TestPortfolioPrizeV030(unittest.TestCase):

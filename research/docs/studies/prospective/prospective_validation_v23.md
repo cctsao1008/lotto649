@@ -51,7 +51,7 @@ The evaluator does **not** fetch results or download source pages, auto-place be
 cd D:\my-github\lotto649
 python -m unittest discover -s research/tests -p 'test_prospective_validation_v23.py' -v
 
-python -m lotto7x7.prospective_validation_v23 `
+python -m research.lotto7x7.prospective_validation_v23 `
   --seal research/prospective/v23_m0_global_static200_20261113_seal.json `
   --csv-root data/csv --bin-root data/bin `
   --evidence-root data/private/lotto649-source `

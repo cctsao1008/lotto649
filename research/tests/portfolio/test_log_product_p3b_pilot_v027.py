@@ -7,8 +7,8 @@ from random import Random
 
 import pytest
 
-import lotto7x7.log_product_p3b_pilot_v027 as mod
-from lotto7x7.log_product_dual_portfolio_v027 import _round_ratio_over_sqrt
+import research.lotto7x7.log_product_p3b_pilot_v027 as mod
+from research.lotto7x7.log_product_dual_portfolio_v027 import _round_ratio_over_sqrt
 
 
 TICKETS = (
@@ -95,7 +95,7 @@ def test_candidate_rank_uses_exact_positive_gains_and_order():
     hist_log=[7,2]
     outcome=mod.candidate_cells(hist_sum,hist_log,fair_sum,fair_log,joint)
     assert outcome==sorted(outcome,key=lambda x:(-x[2],x[0],x[1]))
-    from lotto7x7.log_product_dual_scoring_v027 import exact_gain_numerators
+    from research.lotto7x7.log_product_dual_scoring_v027 import exact_gain_numerators
     gs=exact_gain_numerators(hist_sum,fair_sum)
     gl=exact_gain_numerators(hist_log,fair_log)
     for s,li,key in outcome:

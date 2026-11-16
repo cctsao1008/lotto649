@@ -6,50 +6,50 @@ from html import escape
 import json
 from pathlib import Path
 
-from lotto7x7.core import decode, encode, invert_spectrum, spectrum
-from lotto7x7.legacy.image.research import DATA, load_history, research
-from lotto7x7.learning import learned_replay
-from lotto7x7.diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
-from lotto7x7.legacy.image.loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LOSS_STUDY_SCHEMA
-from lotto7x7.legacy.image.predictability_v04 import audit as predictability_audit, METHODS as PREDICTABILITY_METHODS
-from lotto7x7.legacy.image.image_structure_v05 import image_study, image_gallery as image_structure_gallery
-from lotto7x7.legacy.image.image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
-from lotto7x7.legacy.image.image_dynamics_v051 import image_dynamics, image_dynamics_gallery
-from lotto7x7.legacy.image.candidate_pool_v06 import create_shape_pool, shape_pool_gallery, POLICIES as SHAPE_POLICIES
-from lotto7x7.legacy.image.bet_selection_v06 import select_bets
-from lotto7x7.portfolio.coverage_audit_v06 import audit_selection
-from lotto7x7.legacy.image.baseline_cli_v07 import configure_parsers as configure_v07_parsers, run as run_v07
-from lotto7x7.legacy.image.robustness_cli_v071 import configure_parsers as configure_v071_parsers, run as run_v071
-from lotto7x7.legacy.image.full_history_cli_v072 import configure_parsers as configure_v072_parsers, run as run_v072
-from lotto7x7.legacy.image.full_history_audit_cli_v073 import configure_parsers as configure_v073_parsers, run as run_v073
-from lotto7x7.legacy.image.prediction_cli_v08 import configure_parsers as configure_v08_parsers, run as run_v08
-from lotto7x7.legacy.image.prediction_audit_cli_v081 import configure_parsers as configure_v081_parsers, run as run_v081
-from lotto7x7.legacy.image.feature_discovery_cli_v09 import configure_parsers as configure_v09_parsers, run as run_v09
-from lotto7x7.legacy.image.deep_feature_cli_v010 import configure_parsers as configure_v010_parsers, run as run_v010
-from lotto7x7.legacy.image.image_classification_cli_v011 import configure_parsers as configure_v011_parsers, run as run_v011
-from lotto7x7.legacy.image.natural_clustering_cli_v012 import configure_parsers as configure_v012_parsers, run as run_v012
-from lotto7x7.legacy.image.pairwise_similarity_cli_v013 import configure_parsers as configure_v013_parsers, run as run_v013
-from lotto7x7.legacy.image.gaussian_shape_cli_v014 import configure_parsers as configure_v014_parsers, run as run_v014
-from lotto7x7.legacy.image.gaussian_validation_cli_v0141 import configure_parsers as configure_p0_parsers, run as run_p0
-from lotto7x7.legacy.image.shape_catalog_batch_p1_cli import configure_parsers as configure_p1_parsers, run as run_p1
-from lotto7x7.legacy.image.shape_p2_batch_cli import configure_parsers as configure_p2_parsers, run as run_p2
-from lotto7x7.prospective.shape_prospective_cli_v019 import configure_parsers as configure_v019_parsers, run as run_v019
-from lotto7x7.prospective.shape_pre_draw_cli_v020 import configure_parsers as configure_v020_parsers, run as run_v020
-from lotto7x7.portfolio.unified_selection_cli_v021 import configure_parsers as configure_v021_parsers, run as run_v021
-from lotto7x7.legacy.image.historical_guess_cli_v022 import configure_parsers as configure_v022_parsers, run as run_v022
-from lotto7x7.legacy.image.historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
-from lotto7x7.legacy.image.early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
-from lotto7x7.legacy.image.temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
-from lotto7x7.portfolio.deficit_compensation_v025 import main as run_v025_deficit
-from lotto7x7.portfolio.shape_deficit_v025 import main as run_v025_shape
-from lotto7x7.portfolio.multivariate_audit_v025 import main as run_v025_multi
-from lotto7x7.portfolio.multivariate_robustness_v025 import main as run_v025_robust
-from lotto7x7.portfolio.official_prize_v026 import main as run_v026_prizes
-from lotto7x7.portfolio.coverage_strategy_v026 import main as run_v026_coverage
-from lotto7x7.portfolio.coverage_global_research_v026 import main as run_v026_global_research
-from lotto7x7.portfolio.coverage_exhaustive_v026 import main as run_v026_exhaustive
-from lotto7x7.portfolio.strategy_ab_v026 import main as run_v026_ab
-from lotto7x7.portfolio.strategy_ab_iid_calibration_v026 import main as run_v026_ab_iid
+from research.lotto7x7.core import decode, encode, invert_spectrum, spectrum
+from research.lotto7x7.legacy.image.research import DATA, load_history, research
+from research.lotto7x7.learning import learned_replay
+from research.lotto7x7.diagnostics import SCHEMA as DIAGNOSTICS_SCHEMA, diagnose
+from research.lotto7x7.legacy.image.loss_study_v03 import study as loss_study, synthetic_control, SCHEMA as LOSS_STUDY_SCHEMA
+from research.lotto7x7.legacy.image.predictability_v04 import audit as predictability_audit, METHODS as PREDICTABILITY_METHODS
+from research.lotto7x7.legacy.image.image_structure_v05 import image_study, image_gallery as image_structure_gallery
+from research.lotto7x7.legacy.image.image_compare_v05 import image_compare, image_compare_gallery, MODELS as IMAGE_MODELS
+from research.lotto7x7.legacy.image.image_dynamics_v051 import image_dynamics, image_dynamics_gallery
+from research.lotto7x7.legacy.image.candidate_pool_v06 import create_shape_pool, shape_pool_gallery, POLICIES as SHAPE_POLICIES
+from research.lotto7x7.legacy.image.bet_selection_v06 import select_bets
+from research.lotto7x7.portfolio.coverage_audit_v06 import audit_selection
+from research.lotto7x7.legacy.image.baseline_cli_v07 import configure_parsers as configure_v07_parsers, run as run_v07
+from research.lotto7x7.legacy.image.robustness_cli_v071 import configure_parsers as configure_v071_parsers, run as run_v071
+from research.lotto7x7.legacy.image.full_history_cli_v072 import configure_parsers as configure_v072_parsers, run as run_v072
+from research.lotto7x7.legacy.image.full_history_audit_cli_v073 import configure_parsers as configure_v073_parsers, run as run_v073
+from research.lotto7x7.legacy.image.prediction_cli_v08 import configure_parsers as configure_v08_parsers, run as run_v08
+from research.lotto7x7.legacy.image.prediction_audit_cli_v081 import configure_parsers as configure_v081_parsers, run as run_v081
+from research.lotto7x7.legacy.image.feature_discovery_cli_v09 import configure_parsers as configure_v09_parsers, run as run_v09
+from research.lotto7x7.legacy.image.deep_feature_cli_v010 import configure_parsers as configure_v010_parsers, run as run_v010
+from research.lotto7x7.legacy.image.image_classification_cli_v011 import configure_parsers as configure_v011_parsers, run as run_v011
+from research.lotto7x7.legacy.image.natural_clustering_cli_v012 import configure_parsers as configure_v012_parsers, run as run_v012
+from research.lotto7x7.legacy.image.pairwise_similarity_cli_v013 import configure_parsers as configure_v013_parsers, run as run_v013
+from research.lotto7x7.legacy.image.gaussian_shape_cli_v014 import configure_parsers as configure_v014_parsers, run as run_v014
+from research.lotto7x7.legacy.image.gaussian_validation_cli_v0141 import configure_parsers as configure_p0_parsers, run as run_p0
+from research.lotto7x7.legacy.image.shape_catalog_batch_p1_cli import configure_parsers as configure_p1_parsers, run as run_p1
+from research.lotto7x7.legacy.image.shape_p2_batch_cli import configure_parsers as configure_p2_parsers, run as run_p2
+from research.lotto7x7.prospective.shape_prospective_cli_v019 import configure_parsers as configure_v019_parsers, run as run_v019
+from research.lotto7x7.prospective.shape_pre_draw_cli_v020 import configure_parsers as configure_v020_parsers, run as run_v020
+from research.lotto7x7.portfolio.unified_selection_cli_v021 import configure_parsers as configure_v021_parsers, run as run_v021
+from research.lotto7x7.legacy.image.historical_guess_cli_v022 import configure_parsers as configure_v022_parsers, run as run_v022
+from research.lotto7x7.legacy.image.historical_guess_stream_cli_v0222 import configure_parsers as configure_v0222_parsers, run as run_v0222
+from research.lotto7x7.legacy.image.early_hit_cli_v023 import configure_parsers as configure_v023_parsers, run as run_v023
+from research.lotto7x7.legacy.image.temporal_cli_v024 import configure_parsers as configure_v024_parsers, run as run_v024
+from research.lotto7x7.portfolio.deficit_compensation_v025 import main as run_v025_deficit
+from research.lotto7x7.portfolio.shape_deficit_v025 import main as run_v025_shape
+from research.lotto7x7.portfolio.multivariate_audit_v025 import main as run_v025_multi
+from research.lotto7x7.portfolio.multivariate_robustness_v025 import main as run_v025_robust
+from research.lotto7x7.portfolio.official_prize_v026 import main as run_v026_prizes
+from research.lotto7x7.portfolio.coverage_strategy_v026 import main as run_v026_coverage
+from research.lotto7x7.portfolio.coverage_global_research_v026 import main as run_v026_global_research
+from research.lotto7x7.portfolio.coverage_exhaustive_v026 import main as run_v026_exhaustive
+from research.lotto7x7.portfolio.strategy_ab_v026 import main as run_v026_ab
+from research.lotto7x7.portfolio.strategy_ab_iid_calibration_v026 import main as run_v026_ab_iid
 import torch
 import numpy as np
 
@@ -350,7 +350,7 @@ def main(argv=None) -> None:
         for domain in ("dct", "fft"):
             if abs(invert_spectrum(spectrum(first, domain), domain)-first).max() > 1e-10:
                 raise RuntimeError("image spectral reconstruction failed")
-        from lotto7x7.legacy.image.research import calendar_years
+        from research.lotto7x7.legacy.image.research import calendar_years
         if np.any(dates):
             print(f"[PASS] Data records: {len(images)}, date range: {dates[0]}..{dates[-1]}")
         else:

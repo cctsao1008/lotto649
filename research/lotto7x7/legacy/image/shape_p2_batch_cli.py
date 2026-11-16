@@ -8,9 +8,9 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.image.shape_predictive_v017 import analyze, per_draw_rows, last_candidate_rows
-from lotto7x7.legacy.image.shape_explorer_v018 import offline_shape_explorer
-from lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE
+from research.lotto7x7.legacy.image.shape_predictive_v017 import analyze, per_draw_rows, last_candidate_rows
+from research.lotto7x7.legacy.image.shape_explorer_v018 import offline_shape_explorer
+from research.lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE
 
 
 def configure_parsers(action):
@@ -62,8 +62,8 @@ def _read_p1(catalog:Path,universe:Path):
         col=int(np.argmin(abs(bws-.55)))
         modes=z['mode_labels'].astype(np.int32)
         code_arrays={k:z[k] for k in ('component','partition','edge')}
-    from lotto7x7.geometry.shape_theory_v016 import classification_keys
-    from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+    from research.lotto7x7.geometry.shape_theory_v016 import classification_keys
+    from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
     actual=classification_keys(classify_numbers(numbers))
     if any(not np.array_equal(code_arrays[k],actual[k]) for k in actual):
         raise ValueError('P1 cached class codes fail independently recalculated taxonomy')

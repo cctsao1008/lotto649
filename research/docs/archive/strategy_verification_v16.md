@@ -46,7 +46,7 @@ For each pool:
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v16.py' -v
 if ($LASTEXITCODE -ne 0) { throw 'v1.6 tests failed' }
-& $py -m lotto7x7.strategy_verification_v16 `
+& $py -m research.lotto7x7.strategy_verification_v16 `
     --csv-root data/csv --bin-root data/bin `
     --mip-seconds 6 `
     --out results/strategy_v16_nested_pool_scaling.json

@@ -24,7 +24,7 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -v
 
 # New descriptive visualization; no model fitting is performed.
-& $py -m lotto7x7 image-dynamics `
+& $py -m research.lotto7x7 image-dynamics `
     --null-images 4096 --mapping-seeds 2 `
     --transitions 12 --matrix-count 24 --null-shape-pairs 128 `
     --out results/image_dynamics_v051.json `
@@ -33,7 +33,7 @@ $py = '.\.venv\Scripts\python.exe'
 # Optionally integrate the historical predictions already produced by v0.5.
 # Fails closed if the prior report has a different source-data SHA256,
 # mismatched draw ID, a non-six-pixel image or inconsistent stored hit counts.
-& $py -m lotto7x7 image-dynamics `
+& $py -m research.lotto7x7 image-dynamics `
     --null-images 4096 --mapping-seeds 2 `
     --compare-report results/image_compare_v05.json `
     --out results/image_dynamics_v051_with_models.json `

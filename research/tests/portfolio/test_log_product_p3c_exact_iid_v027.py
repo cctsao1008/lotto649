@@ -8,14 +8,14 @@ import json
 
 import pytest
 
-from lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.log_product_p3c_exact_iid_v027 import (
+from research.lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.log_product_p3c_exact_iid_v027 import (
     SCHEMA, exact_binomial_tail, exact_fair_probability, audit_pilot,
     markdown_report, main,
 )
-from lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
-from lotto7x7.official_prize_v026 import official_prize_coverage
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.log_product_p3b_pilot_v027 import evaluate_draw
+from research.lotto7x7.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 TICKETS_YES=((1,2,3,4,5,6),(7,8,9,10,11,12),

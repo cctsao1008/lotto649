@@ -22,7 +22,7 @@ import json
 from math import comb, fsum, log, prod, sqrt, ceil
 from pathlib import Path
 
-from lotto7x7.portfolio.distribution_repair_v027 import (
+from research.lotto7x7.portfolio.distribution_repair_v027 import (
     METRIC, TOTAL, baseline as sum_baseline, squared_l2_probability,
 )
 
@@ -202,7 +202,7 @@ def historical_baseline(csv_dir: Path, *, cutoff: str = DEFAULT_CUTOFF,
     source = sum_report["source"]
     if expected_prefix_sha256 is not None and source["analysis_input_sha256"] != expected_prefix_sha256:
         raise ValueError("frozen historical prefix SHA256 mismatch")
-    from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+    from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
     data = load_csv_history(Path(csv_dir))
     n = source["historical_draws"]
     if (int(data.ids[n - 1]) != source["last_draw_id"]
@@ -317,7 +317,7 @@ def markdown_report(result: dict) -> str:
     for q, data in theory["quantile_brackets"].items():
         lines.append(f"| {q} | {data['bin_index']} | {data['log_lower']} | {data['log_upper_exclusive']} |")
     lines.extend(["", "## Reproduction", "", "```powershell",
-                  "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_v027 "
+                  "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_v027 "
                   "--csv-dir data/csv --cutoff 2026-11-06 "
                   "--out results/v027_log_product_p0.json --md-out results/v027_log_product_p0.md",
                   "```", "",

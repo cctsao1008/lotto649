@@ -5,7 +5,7 @@ python -m pip install --disable-pip-version-check "numpy>=1.26,<3" "scipy>=1.12,
 
 python -m unittest discover -s research/tests -p 'test_geometry_repair_v029_p3b.py' -v
 
-python -m lotto7x7.geometry_repair_v029 \
+python -m research.lotto7x7.geometry_repair_v029 \
   --csv-root data/csv --bin-root data/bin \
   --pool-size 1024 --random-portfolios 256 \
   --iid-reps 99 --seed 649 \

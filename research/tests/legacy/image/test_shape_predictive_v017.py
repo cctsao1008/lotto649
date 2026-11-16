@@ -5,13 +5,13 @@ import json
 import numpy as np
 import pytest
 
-from lotto7x7.shape_predictive_v017 import (
+from research.lotto7x7.shape_predictive_v017 import (
     UNIVERSE,RARE_CODE_NAME,validate_history,_baseline_tables,_index_tags,
     _prequential_one,_iid_prequential_simulation,_fresh_uniform_tickets,
     _ticket_matches,_ticket_summary,candidate_backtest,analyze,per_draw_rows,
     last_candidate_rows)
-from lotto7x7.shape_taxonomy_v015 import classify_numbers,edge_name
-from lotto7x7.shape_theory_v016 import RULE_VERSION,classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers,edge_name
+from research.lotto7x7.shape_theory_v016 import RULE_VERSION,classification_keys
 
 
 def toy_inputs(n=32):

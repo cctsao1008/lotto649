@@ -4,7 +4,7 @@ Tracking: [Issue #31](https://github.com/cctsao1008/lotto649/issues/31). This mi
 
 ## M2: Draw ingestion correctness and provenance levels
 
-The project had 2,498 archived draws through 2026-11-10 / #115000104, comprising 23 annual flat CSVs, history BIN `L649HIS1`, 7x7 image BIN `L649IMG2`, and a source manifest. `lotto7x7.draw_ingestion_m2.audit_source()` independently replays the established BIN → annual CSV generator and insists the existing annual files match byte-for-byte (allowing Git's full LF→CRLF conversion only). It checks manifest/length/SHA, consecutive within-year issue IDs, increasing dates, six unique sorted main balls, and a distinct special ball.
+The project had 2,498 archived draws through 2026-11-10 / #115000104, comprising 23 annual flat CSVs, history BIN `L649HIS1`, 7x7 image BIN `L649IMG2`, and a source manifest. `research.lotto7x7.draw_ingestion_m2.audit_source()` independently replays the established BIN → annual CSV generator and insists the existing annual files match byte-for-byte (allowing Git's full LF→CRLF conversion only). It checks manifest/length/SHA, consecutive within-year issue IDs, increasing dates, six unique sorted main balls, and a distinct special ball.
 
 **Provenance distinction:** The source manifest for the first 2,497 draws originates from a Biga third-party historical archive. The appended #115000104 originally cited independent CNA/H8 reports; the new M2 check additionally matches a separately published CTBC Bank draw result: #115000104, Tuesday 2026-11-10, main `11 23 30 32 40 41`, special `28`. This was reviewed on 2026-11-11. It is a *frozen manually checked independent anchor*, **not** a fresh live query by the CLI. It does **not** independently certify all 2,498 historical draws.
 
@@ -20,7 +20,7 @@ The staging result explicitly says `PASS_STAGING_SCHEMA_ONLY_SOURCE_PAGES_NOT_FE
 
 ## M3: eight official prize tiers
 
-Reuses the established and independently brute-force-tested `lotto7x7.official_prize_v026.prize_tier` predicate, and verifies it against independently constructed six-number tickets. The official game defines six main balls and one special ball not among the six; the special ball contributes to **second (5+special), fourth (4+special), sixth (3+special), and seventh (2+special)** only. The other prizes are first (6), third (5), fifth (4), and regular (3). One ticket can receive at most one of the eight mutually exclusive classes.
+Reuses the established and independently brute-force-tested `research.lotto7x7.official_prize_v026.prize_tier` predicate, and verifies it against independently constructed six-number tickets. The official game defines six main balls and one special ball not among the six; the special ball contributes to **second (5+special), fourth (4+special), sixth (3+special), and seventh (2+special)** only. The other prizes are first (6), third (5), fifth (4), and regular (3). One ticket can receive at most one of the eight mutually exclusive classes.
 
 Published 2026-11-10 per-winner result reference (CTBC page, manually checked):
 
@@ -50,12 +50,12 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s tests -p 'test_prize_engine_m3.py' -v
 
 # 2. Read-only full historical archive and published-result anchor
-& $py -m lotto7x7.draw_ingestion_m2 `
+& $py -m research.lotto7x7.draw_ingestion_m2 `
     --csv-root data/csv --bin-root data/bin `
     --out results/m2_source_audit_20261111.json
 
 # 3. Eight-tier prize rules and published payout-reference fixture
-& $py -m lotto7x7.prize_engine_m3 `
+& $py -m research.lotto7x7.prize_engine_m3 `
     --csv-root data/csv --bin-root data/bin `
     --out results/m3_prize_audit_20261111.json
 

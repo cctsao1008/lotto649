@@ -13,7 +13,7 @@ from math import comb, sqrt
 from pathlib import Path
 from random import Random
 
-from lotto7x7.geometry.geometry_v029 import REGIONS, REGION_SETS, catalog
+from research.lotto7x7.geometry.geometry_v029 import REGIONS, REGION_SETS, catalog
 
 UNIVERSE = comb(49, 6)
 SCHEMA = "lotto649.geometry_exact_null.v0.29.p1.v1"

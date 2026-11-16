@@ -15,9 +15,9 @@ from typing import Callable
 
 import numpy as np
 
-from lotto7x7.legacy.image.baseline_v07 import (ARMS, SCHEMA as BASELINE_SCHEMA,
+from research.lotto7x7.legacy.image.baseline_v07 import (ARMS, SCHEMA as BASELINE_SCHEMA,
                            STRATEGIES, rolling_origin)
-from lotto7x7.coverage_v06 import exact_coverage, normalized_bets
+from research.lotto7x7.coverage_v06 import exact_coverage, normalized_bets
 
 AUDIT_SCHEMA = "lotto7x7.robustness_audit.v0.7.1"
 SWEEP_SCHEMA = "lotto7x7.robustness_sweep.v0.7.1"

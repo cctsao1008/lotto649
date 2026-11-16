@@ -3,8 +3,8 @@ from math import comb
 
 import pytest
 
-from lotto7x7 import portfolio_pareto_v025 as p
-from lotto7x7.coverage_v06 import UNIVERSE, joint_coverage_counts, single_bet_anchor
+from research.lotto7x7 import portfolio_pareto_v025 as p
+from research.lotto7x7.coverage_v06 import UNIVERSE, joint_coverage_counts, single_bet_anchor
 
 
 def test_joint_threshold_counts_preserve_mass_and_expectation():

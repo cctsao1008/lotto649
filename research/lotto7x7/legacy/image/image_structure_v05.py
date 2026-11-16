@@ -14,8 +14,8 @@ from pathlib import Path
 import numpy as np
 from scipy.fft import dctn
 
-from lotto7x7.core import decode, layout, validate, iid_images
-from lotto7x7.legacy.image.research import DATA, calendar_years, load_history
+from research.lotto7x7.core import decode, layout, validate, iid_images
+from research.lotto7x7.legacy.image.research import DATA, calendar_years, load_history
 
 SCHEMA = "lotto7x7.image_structure.v0.5"
 LAYOUTS = ("sequential", "snake", "permuted")

@@ -4,7 +4,7 @@
 
 ## M2E: archived publisher-page evidence
 
-`lotto7x7.official_draw_evidence_m2` supports two independent sources that were observed publishing the #115000104 result:
+`research.lotto7x7.official_draw_evidence_m2` supports two independent sources that were observed publishing the #115000104 result:
 
 - CTBC Bank (https://lotto.ctbcbank.com/result_all.htm): game-specific Lotto649, period, ROC date, six ascending main numbers and special ball.
 - Independent publisher (https://api.lottery.com.tw/bl): the visible Lotto649 results table with date, period, main six and special.
@@ -17,7 +17,7 @@ Published sources are allowed as *evidence* for a future draw, not as permission
 
 ## M4: preregistered P5A paired shadow evaluation
 
-`lotto7x7.prospective_evaluation_m4` checks the original P5A seal **Git blob SHA1 546c7352fd0a98a42959b333e51498ef7c56cf9d** and its source anchors before grading, rejects changed ticket numbers, missing earlier draws, duplicated draws or modified dates, and requires each future result to satisfy **both**:
+`research.lotto7x7.prospective_evaluation_m4` checks the original P5A seal **Git blob SHA1 546c7352fd0a98a42959b333e51498ef7c56cf9d** and its source anchors before grading, rejects changed ticket numbers, missing earlier draws, duplicated draws or modified dates, and requires each future result to satisfy **both**:
 
 1. Present within the verified CSV / history BIN / image BIN / manifest source archive, after strict audit.
 2. Exactly match both captured publisher-page snapshots for the same draw ID.
@@ -37,16 +37,16 @@ $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s tests -p 'test_prospective_evaluation_m4.py' -v
 
 # Generate a report for the presently empty (0/9) prospective period
-& $py -m lotto7x7.prospective_evaluation_m4 `
+& $py -m research.lotto7x7.prospective_evaluation_m4 `
     --csv-root data/csv --bin-root data/bin `
     --evidence-root data/private/lotto649-source `
     --out results/p5a_m4_pending_20261111.json
 
 # AFTER the official result has been published: explicit opt-in HTTPS snapshot capture
-# & $py -m lotto7x7.official_draw_evidence_m2 --capture-latest
+# & $py -m research.lotto7x7.official_draw_evidence_m2 --capture-latest
 
 # Later, verify immutable saved evidence (does NOT append to the archive)
-# & $py -m lotto7x7.official_draw_evidence_m2 --verify-draw 115000105
+# & $py -m research.lotto7x7.official_draw_evidence_m2 --verify-draw 115000105
 
 git status --short
 ```

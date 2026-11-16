@@ -19,9 +19,9 @@ import shutil
 import subprocess
 from tempfile import TemporaryDirectory
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, is_feasible, quality
-from lotto7x7.legacy.strategy.strategy_verification_v14 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, is_feasible, quality
+from research.lotto7x7.legacy.strategy.strategy_verification_v14 import (
     EXPECTED_POOL_SHA, SHAPE_BOUND, ORIGINAL_TOTAL, ORIGINAL_JOINT,
     exact_primary_optimal_reduction,
 )

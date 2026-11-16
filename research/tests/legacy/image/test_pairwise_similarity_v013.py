@@ -3,12 +3,12 @@ import unittest
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment
-from lotto7x7.pairwise_similarity_v013 import (
+from research.lotto7x7.pairwise_similarity_v013 import (
     SCHEMA, MODES, point_coordinates, pair_distances, pairwise_matrices,
     _d4_coordinates, _threshold_classes, _closest_pairs, iid_reference_pairs,
     distance_stats, analyze, html_gallery,
 )
-from lotto7x7.image_classification_v011 import iid_legal_images
+from research.lotto7x7.image_classification_v011 import iid_legal_images
 
 
 def images_from_points(*items):
@@ -147,7 +147,7 @@ class SimilarityV013Tests(unittest.TestCase):
         self.assertLessEqual(s['predeclared_iid_thresholds'][0]['distance'],s['predeclared_iid_thresholds'][1]['distance'])
 
     def test_shape_overlay_best_alignment_and_gallery(self):
-        from lotto7x7.pairwise_similarity_v013 import _aligned_shape_pair, _overlay_svg
+        from research.lotto7x7.pairwise_similarity_v013 import _aligned_shape_pair, _overlay_svg
         p=np.array([(0,0),(0,1),(0,2),(1,0),(1,1),(2,0)])
         q=p+4
         a=_aligned_shape_pair(p.astype(np.float32),q.astype(np.float32))

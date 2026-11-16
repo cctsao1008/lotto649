@@ -95,7 +95,7 @@ cd E:\lotto649
 $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 & $py -m unittest discover -s research/tests -p 'test_iching_gua_qi_stats_v24_p1a.py' -v
-& $py -m lotto7x7.iching_gua_qi_stats_v24_p1a `
+& $py -m research.lotto7x7.iching_gua_qi_stats_v24_p1a `
     --source research/artifacts/v24_iching/v24_p1_gua_qi_draw_context_2498.csv `
     --out-dir results/iching_v24_p1a_20261113 `
     --reps 3999 --seed 649

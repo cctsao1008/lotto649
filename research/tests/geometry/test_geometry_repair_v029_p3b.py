@@ -4,9 +4,9 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import geometry_repair_v029 as p3b
-from lotto7x7 import geometry_structure_v029 as p2b
-from lotto7x7 import geometry_v029 as p0
+from research.lotto7x7 import geometry_repair_v029 as p3b
+from research.lotto7x7 import geometry_structure_v029 as p2b
+from research.lotto7x7 import geometry_v029 as p0
 
 
 class TestGeometryRepairV029P3B(unittest.TestCase):

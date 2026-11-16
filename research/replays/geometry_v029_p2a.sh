@@ -7,7 +7,7 @@ python -m unittest discover -s research/tests -p 'test_geometry_v029_p0.py' -v
 python -m unittest discover -s research/tests -p 'test_geometry_theory_v029_p1.py' -v
 python -m unittest discover -s research/tests -p 'test_geometry_convergence_v029_p2a.py' -v
 
-python -m lotto7x7.geometry_convergence_v029 \
+python -m research.lotto7x7.geometry_convergence_v029 \
   --csv-root data/csv --bin-root data/bin \
   --iid-reps 199 --seed 649 \
   --out results/v029_p2a_ci_convergence.json

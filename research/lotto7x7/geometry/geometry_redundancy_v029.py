@@ -15,10 +15,10 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_v029 import catalog
-from lotto7x7.geometry.geometry_structure_v029 import PAIR_FEATURES, _features_and_l3, _mapping_labels
-from lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
-from lotto7x7.portfolio.log_product_v027 import _grid
+from research.lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.geometry.geometry_structure_v029 import PAIR_FEATURES, _features_and_l3, _mapping_labels
+from research.lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
+from research.lotto7x7.portfolio.log_product_v027 import _grid
 
 SCHEMA = "lotto649.geometry_conditional_ablation.v0.29.p3a.v1"
 TICKETS_CERTIFICATE = (

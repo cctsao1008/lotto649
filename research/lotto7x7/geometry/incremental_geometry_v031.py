@@ -19,14 +19,14 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.statistics.distribution_dynamics_v030 import exact_null_dynamics, _uniform_history
-from lotto7x7.statistics.distribution_prediction_v030 import feature_matrix
-from lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
-from lotto7x7.geometry.geometry_repair_v029 import P0_SHA256
-from lotto7x7.geometry.geometry_structure_v029 import _mapping_labels
-from lotto7x7.geometry.geometry_v029 import catalog
-from lotto7x7.portfolio.log_product_v027 import _grid, theoretical_log_moments
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.statistics.distribution_dynamics_v030 import exact_null_dynamics, _uniform_history
+from research.lotto7x7.statistics.distribution_prediction_v030 import feature_matrix
+from research.lotto7x7.geometry.geometry_convergence_v029 import _validate_draws, audit_repository_inputs
+from research.lotto7x7.geometry.geometry_repair_v029 import P0_SHA256
+from research.lotto7x7.geometry.geometry_structure_v029 import _mapping_labels
+from research.lotto7x7.geometry.geometry_v029 import catalog
+from research.lotto7x7.portfolio.log_product_v027 import _grid, theoretical_log_moments
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
 
 SCHEMA = "lotto649.v031.incremental_geometry.h2.v1"
 ARMS = ("iid", "m0_compressed", "geometry", "combined")

@@ -18,7 +18,7 @@ def main(argv=None):
 
         return research_main(argv)
 
-    parser = argparse.ArgumentParser(prog="python -m lotto7x7", description="Lotto649 statistics-first selection")
+    parser = argparse.ArgumentParser(prog="python -m research.lotto7x7", description="Lotto649 statistics-first selection")
     commands = parser.add_subparsers()
     commands.add_parser("select", help="Rank candidate combinations for a target date")
     commands.add_parser("research", help="Open the historical research CLI")

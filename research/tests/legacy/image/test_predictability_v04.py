@@ -8,14 +8,14 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.bin_dataset import Draw, encode_bin
-from lotto7x7.core import encode
-from lotto7x7.learning import image_windows, permute_history_windows
-from lotto7x7.predictability_v04 import (
+from research.lotto7x7.bin_dataset import Draw, encode_bin
+from research.lotto7x7.core import encode
+from research.lotto7x7.learning import image_windows, permute_history_windows
+from research.lotto7x7.predictability_v04 import (
     METHODS, SCHEMA, _predict, _score, _synthetic_images, audit,
     paired_block_interval, train_audit_model, uniform_brier,
 )
-from lotto7x7.research import split
+from research.lotto7x7.research import split
 
 
 class PredictabilityAuditTests(unittest.TestCase):

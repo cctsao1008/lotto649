@@ -10,11 +10,11 @@ import unittest
 import numpy as np
 import torch
 
-from lotto7x7.__main__ import gallery
-from lotto7x7.bin_dataset import Draw, encode_bin
-from lotto7x7.core import encode
-from lotto7x7.learning import ImageSequenceLearner, decode_image, shape_loss
-from lotto7x7.loss_study_v03 import (
+from research.lotto7x7.__main__ import gallery
+from research.lotto7x7.bin_dataset import Draw, encode_bin
+from research.lotto7x7.core import encode
+from research.lotto7x7.learning import ImageSequenceLearner, decode_image, shape_loss
+from research.lotto7x7.loss_study_v03 import (
     METHODS, SCHEMA, V02_BASELINE_COMMIT, loss_v03,
     paired_intervals, projected_six_probabilities, study,
     synthetic_control, train_treatment,

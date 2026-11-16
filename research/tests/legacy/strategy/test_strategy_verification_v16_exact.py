@@ -1,7 +1,7 @@
 """Independent mathematical sandwich-scope checks for v1.6 full qualified pool."""
 from __future__ import annotations
 import unittest
-from lotto7x7.strategy_verification_v16_exact import nested_sandwich_certificate
+from research.lotto7x7.strategy_verification_v16_exact import nested_sandwich_certificate
 
 class TestExactQualifiedSandwich(unittest.TestCase):
     def test_01_equality_proves_every_intermediate_optimum(self):

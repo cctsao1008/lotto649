@@ -36,7 +36,7 @@ future prediction.
 Reproduce from the repository root with Python and NumPy:
 
 ```bash
-OPENBLAS_NUM_THREADS=1 python -m lotto7x7.matched_covariance_v025
+OPENBLAS_NUM_THREADS=1 python -m research.lotto7x7.matched_covariance_v025
 ```
 
 ## Results — 2026-11-16

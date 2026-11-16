@@ -32,13 +32,13 @@ import json
 from math import comb
 from pathlib import Path
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.portfolio.log_product_p3b_pilot_v027 import (
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.portfolio.log_product_p3b_pilot_v027 import (
     SCHEMA as P3B_SCHEMA,
     evaluate_draw,
 )
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
 
 SCHEMA = "lotto7x7.log_product.v0.27.p3c_exact_iid"
 
@@ -258,7 +258,7 @@ def markdown_report(report:dict)->str:
         "The exact Binomial(n,p) test additionally requires a fixed checkpoint schedule and no adaptive selection failures; this report verifies all 35 checkpoints were covered.",
         "Historical pilot tests remain retrospective and do not correct all model families explored before P3b.",
         "", "## Reproduce","", "```powershell",
-        "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_p3c_exact_iid_v027 --p3b results/v027_p3b_pilot.json --out results/v027_p3c_exact_iid.json --md-out results/v027_p3c_exact_iid.md",
+        "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_p3c_exact_iid_v027 --p3b results/v027_p3b_pilot.json --out results/v027_p3c_exact_iid.json --md-out results/v027_p3c_exact_iid.md",
         "```",""
     ])
     return "\n".join(lines)

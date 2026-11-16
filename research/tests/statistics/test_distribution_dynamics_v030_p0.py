@@ -4,10 +4,10 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import distribution_dynamics_v030 as dynamics
-from lotto7x7 import geometry_repair_v029 as p3b
-from lotto7x7 import geometry_convergence_v029 as p2a
-from lotto7x7 import geometry_structure_v029 as p2b
+from research.lotto7x7 import distribution_dynamics_v030 as dynamics
+from research.lotto7x7 import geometry_repair_v029 as p3b
+from research.lotto7x7 import geometry_convergence_v029 as p2a
+from research.lotto7x7 import geometry_structure_v029 as p2b
 
 
 class TestDistributionDynamicsV030P0(unittest.TestCase):

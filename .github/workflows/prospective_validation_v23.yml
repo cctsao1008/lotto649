@@ -31,14 +31,14 @@ jobs:
           git ls-files --eol research/prospective/v23_m0_global_static200_20261113_seal.json
           python - <<'PY'
           import subprocess
-          from lotto7x7.prospective_validation_v23 import SEAL_BLOB_SHA1
+          from research.lotto7x7.prospective_validation_v23 import SEAL_BLOB_SHA1
           sha=subprocess.check_output(['git','rev-parse','HEAD:research/prospective/v23_m0_global_static200_20261113_seal.json'],text=True).strip()
           assert sha==SEAL_BLOB_SHA1,(sha,SEAL_BLOB_SHA1)
           print('V23 IMMUTABLE SEALED GIT BLOB PASS',sha)
           PY
       - name: Admit only two-source-verified future drawings; zero eligible is PENDING
         run: |
-          python -m lotto7x7.prospective_validation_v23 \
+          python -m research.lotto7x7.prospective_validation_v23 \
             --seal research/prospective/v23_m0_global_static200_20261113_seal.json \
             --csv-root data/csv --bin-root data/bin \
             --evidence-root data/private/lotto649-source \

@@ -3,8 +3,8 @@ set -euo pipefail
 
 python -m unittest discover -s research/tests -p 'test_geometry_v029_p0.py' -v
 python -m unittest discover -s research/tests -p 'test_geometry_theory_v029_p1.py' -v
-python -m lotto7x7.geometry_theory_v029 --theory-only > /tmp/p1_exact_summary.json
-python -m lotto7x7.geometry_theory_v029 --trials 20000 --seed 649 > /tmp/p1_mc_summary.json
+python -m research.lotto7x7.geometry_theory_v029 --theory-only > /tmp/p1_exact_summary.json
+python -m research.lotto7x7.geometry_theory_v029 --trials 20000 --seed 649 > /tmp/p1_mc_summary.json
 python - <<'PY'
 import json
 from pathlib import Path

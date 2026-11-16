@@ -71,7 +71,7 @@ oracle; tied fourth/fifth class cap and score/hash corruption fail closed.
 
 ```powershell
 python -m unittest discover -s research/tests -p 'test_strategy_verification_v18.py' -v
-python -m lotto7x7.strategy_verification_v18 --out results/strategy_v18_new_seed_exact.json
+python -m research.lotto7x7.strategy_verification_v18 --out results/strategy_v18_new_seed_exact.json
 ```
 
 No original history, old study, sealed report, or ticket selections are

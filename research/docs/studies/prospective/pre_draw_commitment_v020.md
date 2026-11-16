@@ -56,7 +56,7 @@ $py = '.\.venv\Scripts\python.exe'
 git pull --ff-only origin main
 
 # Only BEFORE 2026-11-10 20:30 Taipei time:
-& $py -m lotto7x7 shape-prospective-seal `
+& $py -m research.lotto7x7 shape-prospective-seal `
     --freeze research/prospective/prospective_freeze_20261108.json `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
@@ -89,7 +89,7 @@ been created before results were known.
 4. Run v0.20 audit against the original publicly committed pre-draw seal.
 
 ```powershell
-& $py -m lotto7x7 shape-prospective-update `
+& $py -m research.lotto7x7 shape-prospective-update `
     --freeze research/prospective/prospective_freeze_20261108.json `
     --catalog results/v015_v016_p1_shape_catalog.npz `
     --universe results/v015_v016_p1_shape_catalog_universe.json `
@@ -97,7 +97,7 @@ been created before results were known.
     --previous results/v019_prospective_first_check.json `
     --out results/v019_after_115000104.json
 
-& $py -m lotto7x7 shape-prospective-audit `
+& $py -m research.lotto7x7 shape-prospective-audit `
     --seal research/prospective/seals/115000104_2026-11-10.json `
     --report results/v019_after_115000104.json `
     --out results/v020_115000104_audit.json

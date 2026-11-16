@@ -6,7 +6,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7.strategy_verification_v15 import (
+from research.lotto7x7.strategy_verification_v15 import (
     compile_enumerator,enumerate_exact,input_stream,python_reference,SOURCE_CPP,
 )
 

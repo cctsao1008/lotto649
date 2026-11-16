@@ -14,8 +14,8 @@ from math import comb, log
 
 import numpy as np
 
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
-from lotto7x7.geometry.shape_theory_v016 import LEVELS, RULE_VERSION, UNIVERSE, classification_keys
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers, edge_name
+from research.lotto7x7.geometry.shape_theory_v016 import LEVELS, RULE_VERSION, UNIVERSE, classification_keys
 
 SCHEMA='lotto7x7.p2_prequential_shape.v0.17'
 RARE_CODE_NAME='P6_O1_D5'

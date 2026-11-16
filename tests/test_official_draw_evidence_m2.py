@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from lotto7x7 import official_draw_evidence_m2 as evidence
+from research.lotto7x7 import official_draw_evidence_m2 as evidence
 
 
 DRAW = {

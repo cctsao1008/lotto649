@@ -39,7 +39,7 @@ The v1.7 mandate is a falsifiable, reproducible **engineering sensitivity analys
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v17.py' -v
-& $py -m lotto7x7.strategy_verification_v17 `
+& $py -m research.lotto7x7.strategy_verification_v17 `
     --seeds 649 20261111 20261112 --raw-sizes 80000 160000 320000 `
     --pool-cap 2000 --restarts 6 `
     --out results/strategy_v17_candidate_robustness.json

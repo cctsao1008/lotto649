@@ -43,7 +43,7 @@ def shape_key(numbers: Iterable[int])->str:
     if a.shape!=(6,) or len(set(a.tolist()))!=6 or a.min()<1 or a.max()>49:
         raise ValueError('need six distinct 1..49 numbers')
     points=np.stack(((a-1)//7,(a-1)%7),axis=1)
-    from lotto7x7.legacy.image.image_classification_v011 import canonical
+    from research.lotto7x7.legacy.image.image_classification_v011 import canonical
     return canonical(points)
 
 
@@ -53,7 +53,7 @@ def exact_shape_families(numbers:np.ndarray,draw_ids:np.ndarray)->tuple[list[dic
     All unobserved families are exactly accounted for in one explicit remainder
     class; the finite fair universe size is not estimated from Monte Carlo.
     """
-    from lotto7x7.legacy.image.image_classification_v011 import orbit_size
+    from research.lotto7x7.legacy.image.image_classification_v011 import orbit_size
     a=np.asarray(numbers)
     ids=np.asarray(draw_ids)
     if ids.shape!=(len(a),) or len(set(map(int,ids)))!=len(ids):raise ValueError('draw IDs')

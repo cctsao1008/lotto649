@@ -11,7 +11,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
-from lotto7x7 import iching_hexagram_association_v24_p2a as m
+from research.lotto7x7 import iching_hexagram_association_v24_p2a as m
 
 
 class HexagramAssociationP2ATests(unittest.TestCase):

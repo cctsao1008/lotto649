@@ -49,7 +49,7 @@ CNN/GRU dimensions, or deterministic hard Top-6 decoder.
 ```powershell
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -v
-& $py -m lotto7x7 predictability --year all --seeds 5 `
+& $py -m research.lotto7x7 predictability --year all --seeds 5 `
     --epochs 45 --control-seeds 2 --control-epochs 45 `
     --baseline 32 --bootstrap 400 `
     --out results/predictability_audit_v04.json

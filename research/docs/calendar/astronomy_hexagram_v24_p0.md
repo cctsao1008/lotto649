@@ -64,7 +64,7 @@ cd E:\lotto649
 $py = '.\.venv\Scripts\python.exe'
 & $py -m pip install 'ephem>=4.2,<5'
 & $py -m unittest discover -s research/tests -p 'test_astronomy_research_v24.py' -v
-& $py -m lotto7x7.astronomy_research_v24 `
+& $py -m research.lotto7x7.astronomy_research_v24 `
     --csv-root data/csv --bin-root data/bin `
     --out-csv results/v24_astronomy_hexagram_2498.csv `
     --out-json results/v24_astronomy_hexagram_2498_report.json

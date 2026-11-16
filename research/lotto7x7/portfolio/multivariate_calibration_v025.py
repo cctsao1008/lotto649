@@ -10,13 +10,13 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.portfolio.coverage_audit_v06 import _wilson
-from lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
-from lotto7x7.portfolio.matched_covariance_v025 import (
+from research.lotto7x7.portfolio.coverage_audit_v06 import _wilson
+from research.lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
+from research.lotto7x7.portfolio.matched_covariance_v025 import (
     CUTOFF, EXACT, FIXTURE, HISTORY_DRAWS, LAST_DRAW, RIDGE, U, json_sha256, population_covariance,
 )
-from lotto7x7.portfolio.multivariate_audit_v025 import covariance_model, encode_features, registry
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.multivariate_audit_v025 import covariance_model, encode_features, registry
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
 
 NULL_REPLAYS = 1999
 NULL_SEED = 7649

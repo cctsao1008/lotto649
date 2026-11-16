@@ -7,9 +7,9 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.legacy.image.gaussian_shape_v014 import load_existing
-from lotto7x7.legacy.image.shape_catalog_batch_p1 import analyze,html_report,rows_draws,rows_theory,rows_exact_families,_filesha
-from lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE,exhaustive_class_counts
+from research.lotto7x7.legacy.image.gaussian_shape_v014 import load_existing
+from research.lotto7x7.legacy.image.shape_catalog_batch_p1 import analyze,html_report,rows_draws,rows_theory,rows_exact_families,_filesha
+from research.lotto7x7.geometry.shape_theory_v016 import RULE_VERSION,UNIVERSE,exhaustive_class_counts
 
 
 def configure_parsers(action):

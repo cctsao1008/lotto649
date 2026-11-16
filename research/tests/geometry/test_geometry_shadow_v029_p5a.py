@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7 import geometry_shadow_v029 as sealcheck
+from research.lotto7x7 import geometry_shadow_v029 as sealcheck
 
 ROOT = Path(__file__).resolve().parents[3]
 SEAL = ROOT / sealcheck.SEAL_PATH

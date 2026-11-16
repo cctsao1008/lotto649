@@ -94,7 +94,7 @@ Run from your existing local repository (stdlib only):
 cd E:\lotto649
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p test_iching_hexagram_association_v24_p2a.py -v
-& $py -m lotto7x7.iching_hexagram_association_v24_p2a `
+& $py -m research.lotto7x7.iching_hexagram_association_v24_p2a `
     --p2-source research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv `
     --p2-audit research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json `
     --out-dir results/v24_iching_p2a_local

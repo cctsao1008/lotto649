@@ -20,12 +20,12 @@ import json
 
 import numpy as np
 
-from lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
-from lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.geometry.shape_theory_v016 import RULE_VERSION, classification_keys
-from lotto7x7.portfolio.log_product_v027 import _grid
-from lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
-from lotto7x7.legacy.strategy.strategy_verification_v11 import verify_m0_frozen_manifest
+from research.lotto7x7.geometry.geometry_convergence_v029 import audit_repository_inputs
+from research.lotto7x7.geometry.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.geometry.shape_theory_v016 import RULE_VERSION, classification_keys
+from research.lotto7x7.portfolio.log_product_v027 import _grid
+from research.lotto7x7.legacy.image.temporal_dataset_v024 import load_csv_history
+from research.lotto7x7.legacy.strategy.strategy_verification_v11 import verify_m0_frozen_manifest
 
 SCHEMA = 'lotto649.strategy_verification.v1.2.m0.v1'
 SAMPLE_N = 80000

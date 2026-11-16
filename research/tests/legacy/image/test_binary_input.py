@@ -8,10 +8,10 @@ import unittest
 
 import numpy as np
 
-from lotto7x7.bin_dataset import build, decode_bin
-from lotto7x7.__main__ import gallery
-from lotto7x7.learning import learned_replay
-from lotto7x7.research import DATA, calendar_years, load_history, research
+from research.lotto7x7.bin_dataset import build, decode_bin
+from research.lotto7x7.__main__ import gallery
+from research.lotto7x7.learning import learned_replay
+from research.lotto7x7.research import DATA, calendar_years, load_history, research
 
 
 class BinaryImageInputTests(unittest.TestCase):
@@ -61,7 +61,7 @@ class BinaryImageInputTests(unittest.TestCase):
                                       self.nums[0])
 
     def test_legacy_source_can_be_compared_but_not_used_by_default(self):
-        from lotto7x7.core import encode
+        from research.lotto7x7.core import encode
         structured = np.zeros(120, dtype=np.dtype([
             ("date", "<u4"), ("draw_id", "<u4"),
             ("numbers", "u1", (6,)), ("special", "u1"),

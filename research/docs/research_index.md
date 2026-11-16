@@ -13,7 +13,7 @@ This lightweight navigation hub sits alongside the original repository README an
 
 **Research governance:** [Issue #38](https://github.com/cctsao1008/lotto649/issues/38).
 
-**Verify the registry:** `python -m lotto7x7.research_governance verify`. This does not fetch future draws, modify source data or issue lottery tickets.
+**Verify the registry:** `python -m research.lotto7x7.research_governance verify`. This does not fetch future draws, modify source data or issue lottery tickets.
 
 ## Prospective evidence readiness (v0.32)
 

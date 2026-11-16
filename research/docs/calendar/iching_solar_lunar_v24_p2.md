@@ -61,7 +61,7 @@ The six actual numbers, special, `same_draw_hexagram_code_OUTCOME_ONLY`, and `ha
 - `research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_draw_context_2498.csv`: 2,498 draws with 8-sector features and outcome columns explicitly separated.
 - `research/artifacts/v24_iching_p2/v24_p2_solar_lunar_hexagram_audit_2498.json`: mapping version, 64-code histogram, sector histograms, coverage by year, frozen input SHA-256, output SHA-256, limitations and no forecast claim.
 - `research/lotto7x7/astronomy/iching_solar_lunar_v24_p2.py`, `research/tests/astronomy/test_iching_solar_lunar_v24_p2.py`: stdlib-only implementation and exact-boundary tests.
-- [Archived CI definition](../../../.github/legacy-workflows/iching_solar_lunar_v24_p2_once.yml): one-time CI/integration archive, exact read-only regression on rerun; no recurring new-draw downloads.
+- [Archived CI definition](../../legacy-workflows/iching_solar_lunar_v24_p2_once.yml): one-time CI/integration archive, exact read-only regression on rerun; no recurring new-draw downloads.
 
 Windows PowerShell from repo root:
 
@@ -71,7 +71,7 @@ git pull --ff-only origin main
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_iching_solar_lunar_v24_p2.py' -v
 # For read-only re-generation, choose a NEW output directory; never overwrite archived P2.
-& $py -m lotto7x7.iching_solar_lunar_v24_p2 --out-dir results/v24_p2_local_recheck
+& $py -m research.lotto7x7.iching_solar_lunar_v24_p2 --out-dir results/v24_p2_local_recheck
 ```
 
 ## P2 → P2A statistical phase (separate authorization/research task)

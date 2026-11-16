@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from lotto7x7 import matched_covariance_v025 as matched
-from lotto7x7.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7 import matched_covariance_v025 as matched
+from research.lotto7x7.shape_deficit_v025 import load_exact_baseline
 
 
 def test_exact_moments_match_legacy_registry():

@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-import lotto7x7.log_product_p3d_legacy_replay_v027 as p3d
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.official_prize_v026 import official_prize_coverage
+import research.lotto7x7.log_product_p3d_legacy_replay_v027 as p3d
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.official_prize_v026 import official_prize_coverage
 
 
 EXAMPLE = (
@@ -123,7 +123,7 @@ def test_cached_comparison_refuses_unmatched_target_and_tampered_result():
 
 
 def test_original_import_identity_unchanged_and_missing_source_rejected(tmp_path):
-    from lotto7x7.log_product_dual_portfolio_v027 import optimize
+    from research.lotto7x7.log_product_dual_portfolio_v027 import optimize
     assert p3d.original_p2_optimize is optimize
     with pytest.raises((ValueError,FileNotFoundError)):
         p3d.replay(tmp_path)

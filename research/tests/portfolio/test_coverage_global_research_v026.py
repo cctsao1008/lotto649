@@ -3,11 +3,11 @@ from itertools import permutations
 
 import pytest
 
-from lotto7x7.coverage_global_research_v026 import (
+from research.lotto7x7.coverage_global_research_v026 import (
     canonical_signature, random_overlap_portfolio, research,
     two_ticket_overlap_study,
 )
-from lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
 
 
 def test_two_ticket_exhaustive_overlap_partition_and_monotonicity():

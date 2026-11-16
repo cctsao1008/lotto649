@@ -12,10 +12,10 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
-from lotto7x7.legacy.strategy.strategy_verification_v14 import exact_primary_optimal_reduction
-from lotto7x7.legacy.strategy.strategy_verification_v15 import compile_enumerator, enumerate_exact, SOURCE_CPP
-from lotto7x7.legacy.strategy.strategy_verification_v16 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import verify_full_m0
+from research.lotto7x7.legacy.strategy.strategy_verification_v14 import exact_primary_optimal_reduction
+from research.lotto7x7.legacy.strategy.strategy_verification_v15 import compile_enumerator, enumerate_exact, SOURCE_CPP
+from research.lotto7x7.legacy.strategy.strategy_verification_v16 import (
     SCHEMA as SCALING_SCHEMA, nested_pools, canonical_sha, ORIGINAL_POOL_SHA,
     ORIGINAL_SAMPLE_SHA, ORIGINAL_PREFIX_SHA, V15_REFERENCE, QUALIFIED_COUNT,
     BASELINE_MAXIMIN, BASELINE_TOTAL, BASELINE_JOINT, portfolio_audit,

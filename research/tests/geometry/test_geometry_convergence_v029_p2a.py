@@ -3,9 +3,9 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import geometry_convergence_v029 as p2
-from lotto7x7 import geometry_theory_v029 as p1
-from lotto7x7 import geometry_v029 as p0
+from research.lotto7x7 import geometry_convergence_v029 as p2
+from research.lotto7x7 import geometry_theory_v029 as p1
+from research.lotto7x7 import geometry_v029 as p0
 
 
 class TestGeometryConvergenceV029P2A(unittest.TestCase):

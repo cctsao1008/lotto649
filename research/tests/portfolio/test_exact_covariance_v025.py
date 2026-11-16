@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 import unittest
 
-from lotto7x7 import exact_covariance_v025 as m
+from research.lotto7x7 import exact_covariance_v025 as m
 
 ROOT=Path(__file__).resolve().parents[3]
 FIX=ROOT/"data/reference/shape_class_counts.json"
@@ -117,7 +117,7 @@ class ExactFullCovarianceTests(unittest.TestCase):
     def test_output_reproducible_and_overwrite_forbidden(self):
         with tempfile.TemporaryDirectory() as temp:
             p=Path(temp)/"result.json"
-            cmd=["python","-m","lotto7x7.exact_covariance_v025","--census-tsv",str(self.tsv),"--fixture",str(FIX),"--out",str(p)]
+            cmd=["python","-m","research.lotto7x7.exact_covariance_v025","--census-tsv",str(self.tsv),"--fixture",str(FIX),"--out",str(p)]
             subprocess.run(cmd,check=True,cwd=ROOT,capture_output=True)
             self.assertEqual(json.loads(p.read_text("utf-8")),self.report)
             self.assertNotEqual(subprocess.run(cmd,cwd=ROOT,capture_output=True).returncode,0)

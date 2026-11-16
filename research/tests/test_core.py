@@ -1,7 +1,7 @@
 """New 7x7 pixel and spectral mathematics tests only."""
 import unittest
 import numpy as np
-from lotto7x7.core import (decode, encode, iid_expected, iid_images, invert_spectrum,
+from research.lotto7x7.core import (decode, encode, iid_expected, iid_images, invert_spectrum,
                           layout, signature, similarity, spectrum, validate)
 
 

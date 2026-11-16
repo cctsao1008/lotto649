@@ -3,9 +3,9 @@ import unittest
 
 import numpy as np
 
-from lotto7x7 import geometry_structure_v029 as p2b
-from lotto7x7 import geometry_convergence_v029 as p2a
-from lotto7x7 import geometry_v029 as geom
+from research.lotto7x7 import geometry_structure_v029 as p2b
+from research.lotto7x7 import geometry_convergence_v029 as p2a
+from research.lotto7x7 import geometry_v029 as geom
 
 
 class TestGeometryStructureV029P2B(unittest.TestCase):

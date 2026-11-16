@@ -8,15 +8,15 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
-from lotto7x7.portfolio.matched_covariance_v025 import (
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE, load_csv_history
+from research.lotto7x7.portfolio.matched_covariance_v025 import (
     ARMS, CONSTRAINT, CUTOFF, EXACT, FIXTURE, HISTORY_DRAWS, LAST_DRAW,
     POOL_SIZE, SELECTOR_SEED, benchmark_models, json_sha256,
 )
-from lotto7x7.portfolio.multivariate_audit_v025 import candidate_pool, select_multivariate_portfolio
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
-from lotto7x7.portfolio.strategy_ab_iid_calibration_v026 import empirical_calibration, iid_full_history
-from lotto7x7.portfolio.strategy_ab_v026 import (
+from research.lotto7x7.portfolio.multivariate_audit_v025 import candidate_pool, select_multivariate_portfolio
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.strategy_ab_iid_calibration_v026 import empirical_calibration, iid_full_history
+from research.lotto7x7.portfolio.strategy_ab_v026 import (
     assert_official_coverage_parity, checked_bonus_by_draw, disjoint_portfolio, draw_awards,
 )
 

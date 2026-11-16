@@ -12,13 +12,13 @@ from unittest.mock import patch
 
 import numpy as np
 
-from lotto7x7.baseline_v07 import ARMS, SCHEMA as BASELINE_SCHEMA, STRATEGIES
-from lotto7x7.coverage_v06 import exact_coverage
-from lotto7x7.robustness_v071 import (
+from research.lotto7x7.baseline_v07 import ARMS, SCHEMA as BASELINE_SCHEMA, STRATEGIES
+from research.lotto7x7.coverage_v06 import exact_coverage
+from research.lotto7x7.robustness_v071 import (
     AUDIT_SCHEMA, SWEEP_SCHEMA, audit_rolling, holm, mcnemar_exact,
     sweep_rolling, _positive_tuple,
 )
-from lotto7x7.robustness_cli_v071 import configure_parsers, run
+from research.lotto7x7.robustness_cli_v071 import configure_parsers, run
 
 ACTUAL = (1, 2, 3, 4, 5, 6)
 # Exactly three matching numbers in SUCCESS; no matches in other tickets.
@@ -162,7 +162,7 @@ class StatisticalTests(unittest.TestCase):
             patterns = [(1, 0), (0, 1), (1, 1), (0, 0)] if seed == 649 else [
                 (0, 1), (1, 0), (0, 0), (1, 1)]
             return fake_report(count=count, seed=seed, patterns=patterns)
-        with patch("lotto7x7.robustness_v071.rolling_origin", side_effect=fake_rolling):
+        with patch("research.lotto7x7.robustness_v071.rolling_origin", side_effect=fake_rolling):
             out = sweep_rolling(np.zeros((1,)), np.zeros((1,)),
                                 seeds="649,650", counts="1,5", eval_draws=4)
         self.assertEqual(out["schema"], SWEEP_SCHEMA)
@@ -184,7 +184,7 @@ class StatisticalTests(unittest.TestCase):
             if kwargs["seed"] == 650:
                 value["targets"][1]["target_draw_id"] += 1
             return value
-        with patch("lotto7x7.robustness_v071.rolling_origin", side_effect=fake_rolling):
+        with patch("research.lotto7x7.robustness_v071.rolling_origin", side_effect=fake_rolling):
             with self.assertRaises(AssertionError):
                 sweep_rolling(None, None, seeds="649,650", counts="5", eval_draws=2)
 

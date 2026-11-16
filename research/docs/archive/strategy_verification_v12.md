@@ -35,7 +35,7 @@ The canonical v0.15 Shape taxonomy and fixed v0.27 Decimal LogBin grid are share
 cd E:\lotto649
 $py = '.\.venv\Scripts\python.exe'
 & $py -m unittest discover -s research/tests -p 'test_strategy_verification_v12.py' -v
-& $py -m lotto7x7.strategy_verification_v12 `
+& $py -m research.lotto7x7.strategy_verification_v12 `
   --csv-root data/csv --bin-root data/bin `
   --manifest research/experiments/v028_m0_four_block_candidates_20261110.json `
   --golden research/tests/fixtures/v028_m0_original_ci_golden_v12.json `

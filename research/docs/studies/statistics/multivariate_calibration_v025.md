@@ -42,7 +42,7 @@ nested features.
 ## Reproduction
 
 ```bash
-OPENBLAS_NUM_THREADS=1 python -m lotto7x7.multivariate_calibration_v025
+OPENBLAS_NUM_THREADS=1 python -m research.lotto7x7.multivariate_calibration_v025
 ```
 
 ## Results — 2026-11-16

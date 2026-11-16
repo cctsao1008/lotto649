@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 import subprocess
 
-from lotto7x7.legacy.image.baseline_v07 import rolling_origin, shadow_snapshot, score_shadow
-from lotto7x7.legacy.image.research import DATA, load_history
+from research.lotto7x7.legacy.image.baseline_v07 import rolling_origin, shadow_snapshot, score_shadow
+from research.lotto7x7.legacy.image.research import DATA, load_history
 
 
 def configure_parsers(action):

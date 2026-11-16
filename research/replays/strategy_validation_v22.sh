@@ -5,7 +5,7 @@ python -m pip install 'numpy>=1.26,<3' 'scipy>=1.12,<2'
 
 python -m unittest discover -s research/tests -p 'test_strategy_validation_v22.py' -v
 
-python -m lotto7x7.strategy_validation_v22 \
+python -m research.lotto7x7.strategy_validation_v22 \
   --csv-root data/csv --bin-root data/bin \
   --train-min 1850 --horizon 25 --stride 50 --folds 13 \
   --candidate-raw 40000 --pool-cap 1000 --restarts 6 --fair-controls 16 \

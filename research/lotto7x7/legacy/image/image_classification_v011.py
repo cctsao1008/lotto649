@@ -218,7 +218,7 @@ def _normalize_features(raw: np.ndarray, reference: np.ndarray | None = None):
 
 
 def _embeddings(images, checkpoint: Path, *, device: torch.device, batch_size: int):
-    from lotto7x7.legacy.image.deep_feature_v010 import DeepFeatureNet
+    from research.lotto7x7.legacy.image.deep_feature_v010 import DeepFeatureNet
     saved = torch.load(checkpoint, map_location="cpu", weights_only=True)
     if saved.get("schema") != "lotto7x7.deep_feature_checkpoint.v0.10":
         raise ValueError("v0.10 checkpoint required")

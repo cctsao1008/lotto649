@@ -20,10 +20,10 @@ from pathlib import Path
 
 import numpy as np
 
-from lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
-from lotto7x7.portfolio.multivariate_audit_v025 import fair_covariance
-from lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
-from lotto7x7.portfolio.strategy_ab_v026 import (
+from research.lotto7x7.portfolio.deficit_compensation_v025 import load_csv_history
+from research.lotto7x7.portfolio.multivariate_audit_v025 import fair_covariance
+from research.lotto7x7.portfolio.shape_deficit_v025 import load_exact_baseline
+from research.lotto7x7.portfolio.strategy_ab_v026 import (
     checked_bonus_by_draw, chronological_walkforward,
 )
 

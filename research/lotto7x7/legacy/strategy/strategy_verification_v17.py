@@ -20,12 +20,12 @@ from time import perf_counter
 
 import numpy as np
 
-from lotto7x7.legacy.strategy.strategy_verification_v12 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v12 import (
     verify_full_m0, classify_numbers, classification_keys, LEVELS, WEIGHTS,
     OLD_TICKETS, draw_sample, SAMPLE_N, SEED,
 )
-from lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, quality, shape_partition_bound
-from lotto7x7.legacy.strategy.strategy_verification_v16 import (
+from research.lotto7x7.legacy.strategy.strategy_verification_v13 import validate_pool, quality, shape_partition_bound
+from research.lotto7x7.legacy.strategy.strategy_verification_v16 import (
     canonical_sha, portfolio_audit, local_coordinate_ascent, BASELINE_MAXIMIN,
     BASELINE_TOTAL, BASELINE_JOINT, ORIGINAL_PREFIX_SHA, QUALIFIED_COUNT,
     V15_REFERENCE,

@@ -7,8 +7,8 @@ import unittest
 import json
 from zipfile import ZipFile
 
-from lotto7x7 import iching_gua_qi_v24_p1 as p1
-from lotto7x7 import iching_solar_lunar_v24_p2 as p2
+from research.lotto7x7 import iching_gua_qi_v24_p1 as p1
+from research.lotto7x7 import iching_solar_lunar_v24_p2 as p2
 
 TZ = timezone(timedelta(hours=8))
 

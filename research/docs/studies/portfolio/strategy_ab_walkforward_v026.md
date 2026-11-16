@@ -80,7 +80,7 @@ called a confirmed future-draw forecasting edge.
 git switch feature/v025-deficit-compensation-foundation
 git pull --ff-only
 
-python -m lotto7x7 strategy-ab-walkforward `
+python -m research.lotto7x7 strategy-ab-walkforward `
   --csv-dir data/csv `
   --universe results/v015_v016_p1_shape_catalog_universe.json `
   --cutoff 2026-11-06 `

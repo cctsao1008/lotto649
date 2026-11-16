@@ -18,7 +18,7 @@ git pull --ff-only origin main
 # Optional: only 13 NEW v0.10 tests; do not rerun 216+ old tests.
 & $py -m unittest discover -s research/tests -p 'test_deep_feature_v010.py' -v
 
-& $py -m lotto7x7 deep-feature-gpu `
+& $py -m research.lotto7x7 deep-feature-gpu `
     --device cuda `
     --train-draws 1024 `
     --holdout-draws 500 `

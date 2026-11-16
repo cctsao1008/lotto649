@@ -19,11 +19,11 @@ import json
 from math import comb, isclose, prod
 from pathlib import Path
 
-from lotto7x7.portfolio.deficit_compensation_v025 import validate_ticket
-from lotto7x7.portfolio.distribution_repair_v027 import LOW, METRIC, TOTAL
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import verify_p1
-from lotto7x7.portfolio.distribution_repair_scoring_v027 import conditional_repair
-from lotto7x7.portfolio.log_product_v027 import (
+from research.lotto7x7.portfolio.deficit_compensation_v025 import validate_ticket
+from research.lotto7x7.portfolio.distribution_repair_v027 import LOW, METRIC, TOTAL
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import verify_p1
+from research.lotto7x7.portfolio.distribution_repair_scoring_v027 import conditional_repair
+from research.lotto7x7.portfolio.log_product_v027 import (
     SCHEMA as LOG_P0_SCHEMA,
     exact_log_theory,
     product_bin,
@@ -93,7 +93,7 @@ def verify_log_p0(log_p0: dict, sum_p1: dict) -> tuple[dict, list[int]]:
             or any(type(x) is not int or x < 0 for x in counts)
             or sum(counts) != source["historical_draws"]):
         raise ValueError("Log P0 historical counts invalid")
-    from lotto7x7.portfolio.distribution_repair_v027 import squared_l2_probability
+    from research.lotto7x7.portfolio.distribution_repair_v027 import squared_l2_probability
     expected_loss = squared_l2_probability(counts, expected["counts"])
     if not isclose(expected_loss,
                    log_p0["observed"].get("squared_l2_probability", float("nan")),
@@ -146,7 +146,7 @@ def dual_score(sum_p1: dict, log_p0: dict, *, example_limit: int = 8) -> dict:
         raise ValueError("example_limit must be 1..100")
     sum_rows = verify_p1(sum_p1)
     theory, observed = verify_log_p0(log_p0, sum_p1)
-    from lotto7x7.portfolio.distribution_repair_v027 import exact_theory
+    from research.lotto7x7.portfolio.distribution_repair_v027 import exact_theory
     sum_counts = [row["observed_count"] for row in sum_rows]
     sum_theory = exact_theory()["counts"]
     sum_gains = exact_gain_numerators(sum_counts, sum_theory)
@@ -297,7 +297,7 @@ def markdown_report(report: dict) -> str:
                   "- Four-ticket feasibility, eight-tier coverage parity and optimum certification belong to P2.",
                   "- P3 must evaluate the full prespecified pipeline under chronological out-of-sample and IID control.",
                   "", "## Reproduce", "", "```powershell",
-                  "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_dual_scoring_v027 "
+                  "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_dual_scoring_v027 "
                   "--sum-p1 results/v027_p1_repair.json "
                   "--log-p0 results/v027_log_product_p0.json "
                   "--out results/v027_dual_p1.json --md-out results/v027_dual_p1.md",

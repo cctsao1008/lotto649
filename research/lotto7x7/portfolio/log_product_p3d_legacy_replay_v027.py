@@ -21,17 +21,17 @@ import json
 from pathlib import Path
 from random import Random
 
-from lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
-from lotto7x7.portfolio.distribution_repair_v027 import baseline, _prefix_sha256
-from lotto7x7.portfolio.distribution_repair_scoring_v027 import score_p0
-from lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
-from lotto7x7.portfolio.log_product_v027 import exact_log_theory, historical_baseline
-from lotto7x7.portfolio.log_product_dual_scoring_v027 import dual_score
-from lotto7x7.portfolio.log_product_dual_portfolio_v027 import optimize as original_p2_optimize
-from lotto7x7.portfolio.log_product_joint_p3_v027 import _history_prefix
-from lotto7x7.portfolio.log_product_p3b_pilot_v027 import _bonus_prefix, evaluate_draw
-from lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import exact_binomial_tail, exact_fair_probability
-from lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
+from research.lotto7x7.portfolio.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.portfolio.distribution_repair_v027 import baseline, _prefix_sha256
+from research.lotto7x7.portfolio.distribution_repair_scoring_v027 import score_p0
+from research.lotto7x7.portfolio.distribution_repair_portfolio_v027 import validate_four_disjoint
+from research.lotto7x7.portfolio.log_product_v027 import exact_log_theory, historical_baseline
+from research.lotto7x7.portfolio.log_product_dual_scoring_v027 import dual_score
+from research.lotto7x7.portfolio.log_product_dual_portfolio_v027 import optimize as original_p2_optimize
+from research.lotto7x7.portfolio.log_product_joint_p3_v027 import _history_prefix
+from research.lotto7x7.portfolio.log_product_p3b_pilot_v027 import _bonus_prefix, evaluate_draw
+from research.lotto7x7.portfolio.log_product_p3c_exact_iid_v027 import exact_binomial_tail, exact_fair_probability
+from research.lotto7x7.portfolio.official_prize_v026 import official_prize_coverage
 
 SCHEMA = "lotto7x7.log_product.v0.27.p3d_legacy_replay"
 FINAL_CUTOFF = "2026-11-06"
@@ -329,7 +329,7 @@ def markdown_report(report):
         "The other historical target dates beyond these fixed checkpoints, broader model-family "
         "corrections, and prospective sealed future evaluation remain open.","",
         "## Reproduction","", "```powershell",
-        "& .\\.venv\\Scripts\\python.exe -m lotto7x7.log_product_p3d_legacy_replay_v027 "
+        "& .\\.venv\\Scripts\\python.exe -m research.lotto7x7.log_product_p3d_legacy_replay_v027 "
         "--csv-dir data/csv --out results/v027_p3d_legacy.json --md-out results/v027_p3d_legacy.md",
         "```",""
     ])

@@ -1,6 +1,6 @@
 """Adversarial, small synthetic audits of frozen-score saturation and bounds."""
 import unittest
-from lotto7x7.strategy_verification_v19 import (
+from research.lotto7x7.strategy_verification_v19 import (
     AXES, REFERENCE_COUNT, reference_axes_summary, saturation_counts,
     class_separable_envelope,
 )

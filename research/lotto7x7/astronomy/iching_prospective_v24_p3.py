@@ -16,9 +16,9 @@ import json
 from math import comb
 from pathlib import Path
 
-from lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
-from lotto7x7.astronomy import iching_solar_lunar_v24_p2 as p2
-from lotto7x7.astronomy import iching_hexagram_association_v24_p2a as p2a
+from research.lotto7x7.astronomy import iching_gua_qi_v24_p1 as p1
+from research.lotto7x7.astronomy import iching_solar_lunar_v24_p2 as p2
+from research.lotto7x7.astronomy import iching_hexagram_association_v24_p2a as p2a
 
 SCHEMA = 'lotto649.v2.4.p3.usno_parity_eprocess.v1'
 SEAL_SCHEMA = 'lotto649.v2.4.p3.future_sky_and_model_seal.v1'
@@ -289,8 +289,8 @@ def load_seal_and_sky(*,seal_path:Path, sky_path:Path,
 
 def verified_future_100(csv_root:Path,bin_root:Path,evidence_root:Path)->tuple[list[dict],dict,list[dict]]:
     """Reuse v2.3 trusted independent evidence gate, limited to our first 100 events."""
-    from lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes, normalize_draw
-    from lotto7x7.official_draw_evidence_m2 import verify_local_evidence
+    from research.lotto7x7.draw_ingestion_m2 import audit_source, _from_csv_bytes, normalize_draw
+    from research.lotto7x7.official_draw_evidence_m2 import verify_local_evidence
     from scripts.export_lotto649_csv import generate_yearly_csv
 
     archive=audit_source(csv_root,bin_root)

@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lotto7x7 import experiment_ledger as ledger
+from research.lotto7x7 import experiment_ledger as ledger
 
 
 BASE_SHA = "d865e1d241b607488e58a00b22fb595734f804595afd9d8850718808d6e8b7f8"

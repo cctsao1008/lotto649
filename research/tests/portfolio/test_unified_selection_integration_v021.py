@@ -7,9 +7,9 @@ from math import comb
 import numpy as np
 import pytest
 
-from lotto7x7.shape_prospective_v019 import make_freeze
-from lotto7x7.unified_selection_v021 import build_selection
-from lotto7x7.unified_selection_cli_v021 import configure_parsers,run,output_paths
+from research.lotto7x7.shape_prospective_v019 import make_freeze
+from research.lotto7x7.unified_selection_v021 import build_selection
+from research.lotto7x7.unified_selection_cli_v021 import configure_parsers,run,output_paths
 from research.tests._prospective_fixture_v019 import make_test_inputs
 
 

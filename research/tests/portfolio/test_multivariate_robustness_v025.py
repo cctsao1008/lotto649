@@ -5,13 +5,13 @@ from random import Random
 import numpy as np
 import pytest
 
-from lotto7x7.deficit_compensation_v025 import REFERENCE
-from lotto7x7.multivariate_audit_v025 import iid_tickets
-from lotto7x7.multivariate_robustness_v025 import (
+from research.lotto7x7.deficit_compensation_v025 import REFERENCE
+from research.lotto7x7.multivariate_audit_v025 import iid_tickets
+from research.lotto7x7.multivariate_robustness_v025 import (
     _integer_sequence, _float_sequence, robustness_audit,
 )
-from lotto7x7.shape_deficit_v025 import _keys
-from lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
+from research.lotto7x7.shape_deficit_v025 import _keys
+from research.lotto7x7.shape_theory_v016 import LEVELS, UNIVERSE
 
 
 def fixture():

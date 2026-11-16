@@ -3,10 +3,10 @@ from math import comb
 import numpy as np
 import pytest
 
-from lotto7x7.shape_theory_v016 import UNIVERSE,RULE_VERSION,classification_keys
-from lotto7x7.shape_taxonomy_v015 import classify_numbers
-from lotto7x7.shape_catalog_batch_p1 import analyze,html_report,rows_draws,rows_theory,rows_exact_families
-from lotto7x7.shape_catalog_batch_p1_cli import output_paths
+from research.lotto7x7.shape_theory_v016 import UNIVERSE,RULE_VERSION,classification_keys
+from research.lotto7x7.shape_taxonomy_v015 import classify_numbers
+from research.lotto7x7.shape_catalog_batch_p1 import analyze,html_report,rows_draws,rows_theory,rows_exact_families
+from research.lotto7x7.shape_catalog_batch_p1_cli import output_paths
 
 
 def fixture():
