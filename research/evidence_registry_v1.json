@@ -407,6 +407,40 @@
       "evidence_as_of": "2026-11-16"
     },
     {
+      "id": "portfolio-pareto-v025-20261116",
+      "issue": 8,
+      "domain": "portfolio",
+      "evidence_stage": "DESCRIPTIVE",
+      "research_decision": "DESCRIPTIVE_COMPLETE",
+      "engineering_status": "PASS",
+      "research_question": "How do exact fair main-ball threshold coverage and historical covariance-aware repair trade off in a fixed four-ticket search?",
+      "hypothesis": "Some portfolios improve historical repair at lower coverage, while exact coverage maxima can be certified independently by overlap structure.",
+      "source_cutoff": "2026-11-06 / 115000103; 2,497 historical draws",
+      "sample_size": 2497,
+      "planned_future_draws": 0,
+      "model_version": "v0.25 joint coverage and exact covariance Pareto v1",
+      "null_model": "Uniform six-of-49 finite universe; separate exact special-ball prize calculation",
+      "multiple_testing": "Objective enumeration and descriptive ranking; no statistical hypothesis test",
+      "primary_endpoint": "Nondominated vectors across bounded historical repair searches, and exact 3+/4+/5+ coverage maxima across all 2,957 structural orbits",
+      "result_summary": "Six matched-pool strategies, 6,781 evaluated complete portfolios and 22 frontier vectors. The disjoint orbit uniquely maximizes the three main-ball coverage thresholds jointly. Independent full enumeration matched the joint DP on two generated portfolios.",
+      "method": "300-ticket seeded pool, fixed budget, deterministic one-ticket swaps, exact population covariance with ridge 0.25, and membership-mask counts checked against full-universe enumeration.",
+      "limitations": [
+        "The repair frontier covers evaluated portfolios only and uses one historical cutoff.",
+        "Exact structural maxima describe the fair mathematical model. No outcome prediction was evaluated."
+      ],
+      "next_action": "Complete remaining finite-sample descriptive calibration and retain independent prospective protocol requirements.",
+      "artifacts": [
+        {
+          "role": "report",
+          "path": "data/research/v025_exact_covariance/v025_portfolio_pareto_20261116.json",
+          "git_blob_sha1": "2482b5c8a5b8a1b15e2bcd0728b1349ecc5a9faa"
+        }
+      ],
+      "evidence_commit": "df44d3b8569ccd52cb26c54d8e9eaa1a6429f3f5",
+      "ci_run": null,
+      "evidence_as_of": "2026-11-16"
+    },
+    {
       "id": "prospective-readiness-v032-20261114",
       "issue": 32,
       "domain": "source_engineering",
